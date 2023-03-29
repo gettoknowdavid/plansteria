@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:plansteria/app/app.router.dart';
 import 'package:plansteria/ui/bottom_sheets/notice/notice_sheet.dart';
 import 'package:plansteria/ui/common/app_theme.dart';
 import 'package:plansteria/ui/dialogs/info_alert/info_alert_dialog.dart';
 import 'package:plansteria/ui/views/home/home_view.dart';
+import 'package:plansteria/ui/views/login/login_view.dart';
 import 'package:plansteria/ui/views/startup/startup_view.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:plansteria/ui/views/login/login_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -38,16 +39,26 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Plansteria',
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      initialRoute: Routes.startupView,
-      onGenerateRoute: StackedRouter().onGenerateRoute,
-      navigatorKey: StackedService.navigatorKey,
-      navigatorObservers: [
-        StackedService.routeObserver,
-      ],
+    return ScreenUtilInit(
+      designSize: const Size(360, 690),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+          child: MaterialApp(
+            title: 'Plansteria',
+            theme: lightTheme,
+            darkTheme: darkTheme,
+            initialRoute: Routes.startupView,
+            onGenerateRoute: StackedRouter().onGenerateRoute,
+            navigatorKey: StackedService.navigatorKey,
+            navigatorObservers: [
+              StackedService.routeObserver,
+            ],
+          ),
+        );
+      },
     );
   }
 }

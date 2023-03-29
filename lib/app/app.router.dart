@@ -60,7 +60,7 @@ class StackedRouter extends _i1.RouterBase {
     },
     _i4.LoginView: (data) {
       return _i5.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i4.LoginView(),
+        builder: (context) => _i4.LoginView(),
         settings: data,
         maintainState: false,
       );

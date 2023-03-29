@@ -1,28 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:plansteria/ui/common/validators.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked/stacked_annotations.dart';
 
+import 'login_view.form.dart';
 import 'login_viewmodel.dart';
 
-class LoginView extends StackedView<LoginViewModel> {
-  const LoginView({Key? key}) : super(key: key);
+@FormView(fields: [
+  FormTextField(name: 'email', validator: Validators.validateEmail),
+  FormTextField(name: 'password', validator: Validators.validateLoginPassword),
+])
+class LoginView extends StackedView<LoginViewModel> with $LoginView {
+  LoginView({super.key});
 
   @override
-  Widget builder(
-    BuildContext context,
-    LoginViewModel viewModel,
-    Widget? child,
-  ) {
+  Widget builder(context, viewModel, child) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      body: Container(
-        padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 20).r,
+        child: Form(
+          child: Column(),
+        ),
       ),
     );
   }
 
   @override
-  LoginViewModel viewModelBuilder(
-    BuildContext context,
-  ) =>
-      LoginViewModel();
+  LoginViewModel viewModelBuilder(context) => LoginViewModel();
 }
