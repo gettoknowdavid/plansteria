@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '361491201744',
     projectId: 'plansteria',
     storageBucket: 'plansteria.appspot.com',
-    iosClientId: '361491201744-89hi5mmbtt484sbps8isctnhilcrc9ig.apps.googleusercontent.com',
+    iosClientId:
+        '361491201744-89hi5mmbtt484sbps8isctnhilcrc9ig.apps.googleusercontent.com',
     iosBundleId: 'com.example.plansteria',
   );
 }
