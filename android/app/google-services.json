@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "361491201744",
+    "project_id": "plansteria",
+    "storage_bucket": "plansteria.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:361491201744:android:00a212a4639de21816e8d5",
+        "android_client_info": {
+          "package_name": "com.example.plansteria"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "361491201744-p7efkgj6dmd80hkri52k4b26n3al3vlf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTOJOYswMw9x2KOB5ZzA-FB4TTBM6OOr4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "361491201744-p7efkgj6dmd80hkri52k4b26n3al3vlf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
