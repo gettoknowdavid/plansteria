@@ -670,6 +670,15 @@ class MockAuthService extends _i1.Mock implements _i7.AuthService {
         returnValueForMissingStub: 0,
       ) as int);
   @override
+  _i5.Future<void> checkAuthenticated() => (super.noSuchMethod(
+        Invocation.method(
+          #checkAuthenticated,
+          [],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+  @override
   _i5.Future<_i2.Option<_i2.Either<_i8.AuthError, bool>>>
       checkEmailVerified() => (super.noSuchMethod(
             Invocation.method(

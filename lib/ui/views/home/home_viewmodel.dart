@@ -20,9 +20,9 @@ class HomeViewModel extends BaseViewModel {
 
   void showDialog() {
     _dialogService.showCustomDialog(
-      variant: DialogType.infoAlert,
-      title: 'Stacked Rocks!',
-      description: 'Give stacked $_counter stars on Github',
+      variant: DialogType.error,
+      title: 'Network Error',
+      description: kNoNetworkConnectionError,
     );
   }
 

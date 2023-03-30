@@ -50,7 +50,7 @@ class _AppTextFieldState extends State<AppTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final padding = const EdgeInsets.symmetric(horizontal: 24, vertical: 20).r;
+    final padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 14).r;
 
     return TextFormField(
       obscureText: widget.isPassword ? !obscure : obscure,

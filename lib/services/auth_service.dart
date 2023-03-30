@@ -27,6 +27,14 @@ class AuthService with ListenableServiceMixin {
   bool get isAuthenticated => _isAuthenticated.value;
   bool get isEmailVerified => _isEmailVerified.value;
 
+  Future<void> checkAuthenticated() async {
+    if (_firebaseAuth.currentUser == null) {
+      _isAuthenticated.value = false;
+    } else {
+      _isAuthenticated.value = true;
+    }
+  }
+
   Future<Option<Either<AuthError, bool>>> checkEmailVerified() async {
     final user = _firebaseAuth.currentUser;
     if (user == null) {

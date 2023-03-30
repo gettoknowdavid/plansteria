@@ -10,12 +10,16 @@ class AppButton extends StatefulWidget {
     this.loading = false,
     required this.onPressed,
     required this.title,
+    this.background,
+    this.foreground,
   });
 
   final bool disabled;
   final bool loading;
   final void Function() onPressed;
   final String title;
+  final Color? background;
+  final Color? foreground;
 
   @override
   State<AppButton> createState() => _AppButtonState();
@@ -26,7 +30,11 @@ class _AppButtonState extends State<AppButton> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: widget.loading || widget.disabled ? null : widget.onPressed,
-      style: ElevatedButton.styleFrom(fixedSize: Size(1.sw, 60.h)),
+      style: ElevatedButton.styleFrom(
+        fixedSize: Size(1.sw, 50.r),
+        foregroundColor: widget.foreground,
+        backgroundColor: widget.background,
+      ),
       child: widget.loading ? const AppLoadingIndicator() : Text(widget.title),
     );
   }
