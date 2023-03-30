@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:plansteria/ui/common/validators.dart';
 import 'package:plansteria/ui/views/register/register_form_widget.dart';
+import 'package:plansteria/ui/widgets/app_back_button.dart';
 import 'package:plansteria/ui/widgets/auth_redirect_button.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
@@ -14,12 +15,11 @@ import 'register_viewmodel.dart';
   FormTextField(name: 'password', validator: Validators.validatePassword),
 ])
 class RegisterView extends StackedView<RegisterViewModel> {
-  const RegisterView({Key? key}) : super(key: key);
+  const RegisterView({super.key});
 
   @override
   Widget builder(context, viewModel, child) {
     final textTheme = Theme.of(context).textTheme;
-    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -28,27 +28,9 @@ class RegisterView extends StackedView<RegisterViewModel> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             30.verticalSpace,
-            Align(
+            const Align(
               alignment: Alignment.centerLeft,
-              child: GestureDetector(
-                onTap: viewModel.navigateBack,
-                child: Container(
-                  padding: EdgeInsets.zero,
-                  width: 50.r,
-                  height: 44.r,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: colorScheme.background,
-                    border: Border.all(
-                      color: colorScheme.onBackground.withOpacity(0.3),
-                    ),
-                    borderRadius: const BorderRadius.all(Radius.circular(10)).r,
-                  ),
-                  child: Theme.of(context).platform == TargetPlatform.iOS
-                      ? Icon(Icons.chevron_left, size: 32.r)
-                      : Icon(Icons.arrow_back, size: 32.r),
-                ),
-              ),
+              child: AppBackButton(),
             ),
             50.verticalSpace,
             Text(

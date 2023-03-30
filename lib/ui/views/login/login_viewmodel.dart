@@ -24,7 +24,7 @@ class LoginViewModel extends FormViewModel {
 
   Future<void> login({required String email, required String password}) async {
     if (await _networkService.status == NetworkStatus.disconnected) {
-      _showNetworkErrorDialog();
+      _dialogService.showCustomDialog(variant: DialogType.networkError);
     } else {
       setBusy(true);
       final result = await _authService.login(email: email, password: password);
@@ -44,14 +44,6 @@ class LoginViewModel extends FormViewModel {
         (success) => _navigationService.clearStackAndShow(Routes.homeView),
       );
     }
-  }
-
-  void _showNetworkErrorDialog() {
-    _dialogService.showCustomDialog(
-      variant: DialogType.error,
-      title: 'Network Error',
-      description: kNoNetworkConnectionError,
-    );
   }
 
   void navigateToRegisterView() => _navigationService.navigateToRegisterView();
