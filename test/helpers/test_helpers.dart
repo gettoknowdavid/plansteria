@@ -2,6 +2,9 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:plansteria/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:plansteria/services/auth_service.dart';
+import 'package:plansteria/services/secure_storage_service.dart';
+import 'package:plansteria/services/network_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -10,13 +13,19 @@ import 'test_helpers.mocks.dart';
   MockSpec<NavigationService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<BottomSheetService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<DialogService>(onMissingStub: OnMissingStub.returnDefault),
-  // @stacked-mock-spec
+  MockSpec<AuthService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<SecureStorageService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<NetworkService>(onMissingStub: OnMissingStub.returnDefault),
+// @stacked-mock-spec
 ])
 void registerServices() {
   getAndRegisterNavigationService();
   getAndRegisterBottomSheetService();
   getAndRegisterDialogService();
-  // @stacked-mock-register
+  getAndRegisterAuthService();
+  getAndRegisterSecureStorageService();
+  getAndRegisterNetworkService();
+// @stacked-mock-register
 }
 
 MockNavigationService getAndRegisterNavigationService() {
@@ -69,6 +78,26 @@ MockDialogService getAndRegisterDialogService() {
   return service;
 }
 
+MockAuthService getAndRegisterAuthService() {
+  _removeRegistrationIfExists<AuthService>();
+  final service = MockAuthService();
+  locator.registerSingleton<AuthService>(service);
+  return service;
+}
+
+MockSecureStorageService getAndRegisterSecureStorageService() {
+  _removeRegistrationIfExists<SecureStorageService>();
+  final service = MockSecureStorageService();
+  locator.registerSingleton<SecureStorageService>(service);
+  return service;
+}
+
+MockNetworkService getAndRegisterNetworkService() {
+  _removeRegistrationIfExists<NetworkService>();
+  final service = MockNetworkService();
+  locator.registerSingleton<NetworkService>(service);
+  return service;
+}
 // @stacked-mock-create
 
 void _removeRegistrationIfExists<T extends Object>() {

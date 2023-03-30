@@ -133,6 +133,8 @@ abstract class UserDocumentReference
     FieldValue nameFieldValue,
     String email,
     FieldValue emailFieldValue,
+    bool emailVerified,
+    FieldValue emailVerifiedFieldValue,
     String? avatar,
     FieldValue avatarFieldValue,
   });
@@ -148,6 +150,8 @@ abstract class UserDocumentReference
     FieldValue nameFieldValue,
     String email,
     FieldValue emailFieldValue,
+    bool emailVerified,
+    FieldValue emailVerifiedFieldValue,
     String? avatar,
     FieldValue avatarFieldValue,
   });
@@ -188,6 +192,8 @@ class _$UserDocumentReference
     FieldValue? nameFieldValue,
     Object? email = _sentinel,
     FieldValue? emailFieldValue,
+    Object? emailVerified = _sentinel,
+    FieldValue? emailVerifiedFieldValue,
     Object? avatar = _sentinel,
     FieldValue? avatarFieldValue,
   }) async {
@@ -204,6 +210,10 @@ class _$UserDocumentReference
       "Cannot specify both email and emailFieldValue",
     );
     assert(
+      emailVerified == _sentinel || emailVerifiedFieldValue == null,
+      "Cannot specify both emailVerified and emailVerifiedFieldValue",
+    );
+    assert(
       avatar == _sentinel || avatarFieldValue == null,
       "Cannot specify both avatar and avatarFieldValue",
     );
@@ -214,6 +224,10 @@ class _$UserDocumentReference
       if (nameFieldValue != null) _$$_UserFieldMap['name']!: nameFieldValue,
       if (email != _sentinel) _$$_UserFieldMap['email']!: email as String,
       if (emailFieldValue != null) _$$_UserFieldMap['email']!: emailFieldValue,
+      if (emailVerified != _sentinel)
+        _$$_UserFieldMap['emailVerified']!: emailVerified as bool,
+      if (emailVerifiedFieldValue != null)
+        _$$_UserFieldMap['emailVerified']!: emailVerifiedFieldValue,
       if (avatar != _sentinel) _$$_UserFieldMap['avatar']!: avatar as String?,
       if (avatarFieldValue != null)
         _$$_UserFieldMap['avatar']!: avatarFieldValue,
@@ -230,6 +244,8 @@ class _$UserDocumentReference
     FieldValue? nameFieldValue,
     Object? email = _sentinel,
     FieldValue? emailFieldValue,
+    Object? emailVerified = _sentinel,
+    FieldValue? emailVerifiedFieldValue,
     Object? avatar = _sentinel,
     FieldValue? avatarFieldValue,
   }) {
@@ -246,6 +262,10 @@ class _$UserDocumentReference
       "Cannot specify both email and emailFieldValue",
     );
     assert(
+      emailVerified == _sentinel || emailVerifiedFieldValue == null,
+      "Cannot specify both emailVerified and emailVerifiedFieldValue",
+    );
+    assert(
       avatar == _sentinel || avatarFieldValue == null,
       "Cannot specify both avatar and avatarFieldValue",
     );
@@ -256,6 +276,10 @@ class _$UserDocumentReference
       if (nameFieldValue != null) _$$_UserFieldMap['name']!: nameFieldValue,
       if (email != _sentinel) _$$_UserFieldMap['email']!: email as String,
       if (emailFieldValue != null) _$$_UserFieldMap['email']!: emailFieldValue,
+      if (emailVerified != _sentinel)
+        _$$_UserFieldMap['emailVerified']!: emailVerified as bool,
+      if (emailVerifiedFieldValue != null)
+        _$$_UserFieldMap['emailVerified']!: emailVerifiedFieldValue,
       if (avatar != _sentinel) _$$_UserFieldMap['avatar']!: avatar as String?,
       if (avatarFieldValue != null)
         _$$_UserFieldMap['avatar']!: avatarFieldValue,
@@ -392,6 +416,17 @@ abstract class UserQuery implements QueryReference<User, UserQuerySnapshot> {
     List<String>? whereIn,
     List<String>? whereNotIn,
   });
+  UserQuery whereEmailVerified({
+    bool? isEqualTo,
+    bool? isNotEqualTo,
+    bool? isLessThan,
+    bool? isLessThanOrEqualTo,
+    bool? isGreaterThan,
+    bool? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<bool>? whereIn,
+    List<bool>? whereNotIn,
+  });
   UserQuery whereAvatar({
     String? isEqualTo,
     String? isNotEqualTo,
@@ -446,6 +481,18 @@ abstract class UserQuery implements QueryReference<User, UserQuerySnapshot> {
     String startAfter,
     String endAt,
     String endBefore,
+    UserDocumentSnapshot? startAtDocument,
+    UserDocumentSnapshot? endAtDocument,
+    UserDocumentSnapshot? endBeforeDocument,
+    UserDocumentSnapshot? startAfterDocument,
+  });
+
+  UserQuery orderByEmailVerified({
+    bool descending = false,
+    bool startAt,
+    bool startAfter,
+    bool endAt,
+    bool endBefore,
     UserDocumentSnapshot? startAtDocument,
     UserDocumentSnapshot? endAtDocument,
     UserDocumentSnapshot? endBeforeDocument,
@@ -714,6 +761,35 @@ class _$UserQuery extends QueryReference<User, UserQuerySnapshot>
       _collection,
       $referenceWithoutCursor: $referenceWithoutCursor.where(
         _$$_UserFieldMap['email']!,
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+      ),
+      $queryCursor: $queryCursor,
+    );
+  }
+
+  UserQuery whereEmailVerified({
+    bool? isEqualTo,
+    bool? isNotEqualTo,
+    bool? isLessThan,
+    bool? isLessThanOrEqualTo,
+    bool? isGreaterThan,
+    bool? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<bool>? whereIn,
+    List<bool>? whereNotIn,
+  }) {
+    return _$UserQuery(
+      _collection,
+      $referenceWithoutCursor: $referenceWithoutCursor.where(
+        _$$_UserFieldMap['emailVerified']!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -1045,6 +1121,78 @@ class _$UserQuery extends QueryReference<User, UserQuerySnapshot>
     );
   }
 
+  UserQuery orderByEmailVerified({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    UserDocumentSnapshot? startAtDocument,
+    UserDocumentSnapshot? endAtDocument,
+    UserDocumentSnapshot? endBeforeDocument,
+    UserDocumentSnapshot? startAfterDocument,
+  }) {
+    final query = $referenceWithoutCursor
+        .orderBy(_$$_UserFieldMap['emailVerified']!, descending: descending);
+    var queryCursor = $queryCursor;
+
+    if (startAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAt: const [],
+        startAtDocumentSnapshot: startAtDocument.snapshot,
+      );
+    }
+    if (startAfterDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: const [],
+        startAfterDocumentSnapshot: startAfterDocument.snapshot,
+      );
+    }
+    if (endAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endAt: const [],
+        endAtDocumentSnapshot: endAtDocument.snapshot,
+      );
+    }
+    if (endBeforeDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: const [],
+        endBeforeDocumentSnapshot: endBeforeDocument.snapshot,
+      );
+    }
+
+    if (startAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAt: [...queryCursor.startAt, startAt],
+        startAtDocumentSnapshot: null,
+      );
+    }
+    if (startAfter != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: [...queryCursor.startAfter, startAfter],
+        startAfterDocumentSnapshot: null,
+      );
+    }
+    if (endAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endAt: [...queryCursor.endAt, endAt],
+        endAtDocumentSnapshot: null,
+      );
+    }
+    if (endBefore != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: [...queryCursor.endBefore, endBefore],
+        endBeforeDocumentSnapshot: null,
+      );
+    }
+
+    return _$UserQuery(
+      _collection,
+      $referenceWithoutCursor: query,
+      $queryCursor: queryCursor,
+    );
+  }
+
   UserQuery orderByAvatar({
     bool descending = false,
     Object? startAt = _sentinel,
@@ -1217,6 +1365,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'uid': instance.uid,
       'name': instance.name,
       'email': instance.email,
+      'emailVerified': instance.emailVerified,
       'avatar': instance.avatar,
     };
 
@@ -1224,6 +1373,7 @@ _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
       uid: json['uid'] as String,
       name: json['name'] as String,
       email: json['email'] as String,
+      emailVerified: json['emailVerified'] as bool,
       avatar: json['avatar'] as String?,
     );
 
@@ -1231,5 +1381,6 @@ Map<String, dynamic> _$$_UserToJson(_$_User instance) => <String, dynamic>{
       'uid': instance.uid,
       'name': instance.name,
       'email': instance.email,
+      'emailVerified': instance.emailVerified,
       'avatar': instance.avatar,
     };

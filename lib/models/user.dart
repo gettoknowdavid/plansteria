@@ -25,6 +25,7 @@ class User with _$User {
     required String uid,
     required String name,
     required String email,
+    required bool emailVerified,
     String? avatar,
   }) = _User;
 
