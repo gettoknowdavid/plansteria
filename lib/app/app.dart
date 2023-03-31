@@ -16,6 +16,9 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:plansteria/ui/views/register/register_view.dart';
 import 'package:plansteria/ui/views/verification/verification_view.dart';
 import 'package:plansteria/ui/dialogs/network_error/network_error_dialog.dart';
+import 'package:plansteria/services/open_mail_app_service.dart';
+import 'package:plansteria/ui/dialogs/no_mail_app/no_mail_app_dialog.dart';
+import 'package:plansteria/ui/dialogs/mail_app/mail_app_dialog.dart';
 // @stacked-import
 
 @StackedApp(
@@ -35,6 +38,7 @@ import 'package:plansteria/ui/dialogs/network_error/network_error_dialog.dart';
     LazySingleton(classType: AuthService),
     LazySingleton(classType: SecureStorageService),
     LazySingleton(classType: NetworkService),
+    LazySingleton(classType: OpenMailAppService),
 // @stacked-service
   ],
   bottomsheets: [
@@ -45,6 +49,8 @@ import 'package:plansteria/ui/dialogs/network_error/network_error_dialog.dart';
     StackedDialog(classType: InfoAlertDialog),
     StackedDialog(classType: ErrorDialog),
     StackedDialog(classType: NetworkErrorDialog),
+    StackedDialog(classType: NoMailAppDialog),
+    StackedDialog(classType: MailAppDialog),
 // @stacked-dialog
   ],
 )

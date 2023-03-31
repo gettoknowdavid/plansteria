@@ -22,3 +22,12 @@ const String kEmailAlreadyInUseErrorMessage = 'Email already in use.';
 const String kNoUserFoundErrorMessage = 'No user found with this email.';
 const String kNoNetworkConnectionError =
     'Please check your internet connection or try again later.';
+
+const String kMailAppTitle = 'Your mail apps';
+const String kMailAppDescription =
+    'Please select your preferred mail application.';
+
+const String kNoMailAppTitle = 'Oops!';
+const String kNoMailAppDescription = 'No mail apps found.';
+
+const String kVerificationEmailSentSuccess = 'Verification email sent';

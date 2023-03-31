@@ -5,6 +5,7 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:plansteria/services/auth_service.dart';
 import 'package:plansteria/services/secure_storage_service.dart';
 import 'package:plansteria/services/network_service.dart';
+import 'package:plansteria/services/open_mail_app_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -16,6 +17,7 @@ import 'test_helpers.mocks.dart';
   MockSpec<AuthService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<SecureStorageService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<NetworkService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<OpenMailAppService>(onMissingStub: OnMissingStub.returnDefault),
 // @stacked-mock-spec
 ])
 void registerServices() {
@@ -25,6 +27,7 @@ void registerServices() {
   getAndRegisterAuthService();
   getAndRegisterSecureStorageService();
   getAndRegisterNetworkService();
+  getAndRegisterOpenMailAppService();
 // @stacked-mock-register
 }
 
@@ -96,6 +99,13 @@ MockNetworkService getAndRegisterNetworkService() {
   _removeRegistrationIfExists<NetworkService>();
   final service = MockNetworkService();
   locator.registerSingleton<NetworkService>(service);
+  return service;
+}
+
+MockOpenMailAppService getAndRegisterOpenMailAppService() {
+  _removeRegistrationIfExists<OpenMailAppService>();
+  final service = MockOpenMailAppService();
+  locator.registerSingleton<OpenMailAppService>(service);
   return service;
 }
 // @stacked-mock-create

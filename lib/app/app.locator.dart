@@ -14,6 +14,7 @@ import 'package:stacked_shared/stacked_shared.dart';
 
 import '../services/auth_service.dart';
 import '../services/network_service.dart';
+import '../services/open_mail_app_service.dart';
 import '../services/secure_storage_service.dart';
 
 final locator = StackedLocator.instance;
@@ -34,4 +35,5 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => AuthService());
   locator.registerLazySingleton(() => SecureStorageService());
   locator.registerLazySingleton(() => NetworkService());
+  locator.registerLazySingleton(() => OpenMailAppService());
 }
