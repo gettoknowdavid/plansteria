@@ -42,10 +42,17 @@ class AuthService with ListenableServiceMixin {
     }
 
     await user.reload();
+
     if (user.emailVerified) {
       _isEmailVerified.value = true;
 
-      await userRef.doc(user.uid).update(emailVerified: true);
+      final updatedUser = User(
+          uid: user.uid,
+          name: user.displayName!,
+          email: user.email!,
+          emailVerified: true);
+
+      await userRef.doc(user.uid).set(updatedUser);
 
       _currentUser.value = _currentUser.value?.copyWith(emailVerified: true);
 

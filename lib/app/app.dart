@@ -3,22 +3,24 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:plansteria/app/app.router.dart';
 import 'package:plansteria/services/auth_service.dart';
 import 'package:plansteria/services/network_service.dart';
+import 'package:plansteria/services/open_mail_app_service.dart';
 import 'package:plansteria/services/secure_storage_service.dart';
 import 'package:plansteria/ui/bottom_sheets/notice/notice_sheet.dart';
 import 'package:plansteria/ui/common/app_theme.dart';
 import 'package:plansteria/ui/dialogs/error/error_dialog.dart';
 import 'package:plansteria/ui/dialogs/info_alert/info_alert_dialog.dart';
+import 'package:plansteria/ui/dialogs/mail_app/mail_app_dialog.dart';
+import 'package:plansteria/ui/dialogs/network_error/network_error_dialog.dart';
+import 'package:plansteria/ui/dialogs/no_mail_app/no_mail_app_dialog.dart';
+import 'package:plansteria/ui/views/confirmation/confirmation_view.dart';
+import 'package:plansteria/ui/views/forgot_password/forgot_password_view.dart';
 import 'package:plansteria/ui/views/home/home_view.dart';
 import 'package:plansteria/ui/views/login/login_view.dart';
+import 'package:plansteria/ui/views/register/register_view.dart';
 import 'package:plansteria/ui/views/startup/startup_view.dart';
+import 'package:plansteria/ui/views/verification/verification_view.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:plansteria/ui/views/register/register_view.dart';
-import 'package:plansteria/ui/views/verification/verification_view.dart';
-import 'package:plansteria/ui/dialogs/network_error/network_error_dialog.dart';
-import 'package:plansteria/services/open_mail_app_service.dart';
-import 'package:plansteria/ui/dialogs/no_mail_app/no_mail_app_dialog.dart';
-import 'package:plansteria/ui/dialogs/mail_app/mail_app_dialog.dart';
 // @stacked-import
 
 @StackedApp(
@@ -28,6 +30,8 @@ import 'package:plansteria/ui/dialogs/mail_app/mail_app_dialog.dart';
     MaterialRoute(page: LoginView),
     MaterialRoute(page: RegisterView),
     MaterialRoute(page: VerificationView),
+    MaterialRoute(page: ForgotPasswordView),
+    MaterialRoute(page: ConfirmationView),
 // @stacked-route
   ],
   dependencies: [
@@ -68,6 +72,7 @@ class App extends StatelessWidget {
           title: 'Plansteria',
           theme: lightTheme,
           darkTheme: darkTheme,
+          debugShowCheckedModeBanner: false,
           initialRoute: Routes.startupView,
           onGenerateRoute: StackedRouter().onGenerateRoute,
           navigatorKey: StackedService.navigatorKey,

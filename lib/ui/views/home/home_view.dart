@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:stacked/stacked.dart';
 import 'package:plansteria/ui/common/app_colors.dart';
 import 'package:plansteria/ui/common/ui_helpers.dart';
+import 'package:stacked/stacked.dart';
 
 import 'home_viewmodel.dart';
 
@@ -41,6 +41,17 @@ class HomeView extends StackedView<HomeViewModel> {
                         viewModel.counterLabel,
                         style: const TextStyle(color: Colors.white),
                       ),
+                    ),
+                    verticalSpaceMedium,
+                    MaterialButton(
+                      color: kcDarkGreyColor,
+                      child: const Text(
+                        'Logout',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      onPressed: viewModel.logout,
                     ),
                   ],
                 ),

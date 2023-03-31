@@ -13,24 +13,16 @@ class AppBackButton extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final _navigationService = locator<NavigationService>();
 
-    Widget icon = Theme.of(context).platform == TargetPlatform.iOS
-        ? Icon(Icons.chevron_left, size: 32.r)
-        : Icon(Icons.arrow_back, size: 32.r);
-
-    return GestureDetector(
-      onTap: onTap ?? _navigationService.back,
-      child: Container(
-        padding: EdgeInsets.zero,
-        width: 50.r,
-        height: 44.r,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: colorScheme.background,
-          border: Border.all(color: colorScheme.onBackground.withOpacity(0.3)),
+    return IconButton(
+      onPressed: onTap ?? _navigationService.back,
+      style: IconButton.styleFrom(
+        padding: const EdgeInsets.only(left: 10).r,
+        shape: RoundedRectangleBorder(
           borderRadius: const BorderRadius.all(Radius.circular(10)).r,
+          side: BorderSide(color: colorScheme.onBackground.withOpacity(0.3)),
         ),
-        child: icon,
       ),
+      icon: const BackButtonIcon(),
     );
   }
 }

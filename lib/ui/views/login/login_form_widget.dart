@@ -38,8 +38,8 @@ class LoginFormWidget extends StackedView<LoginViewModel> with $LoginView {
           Align(
             alignment: Alignment.centerRight,
             child: TextButton(
-              onPressed: () {},
-              child: const Text('Recover Password'),
+              onPressed: viewModel.navigateToForgotPasswordView,
+              child: const Text('Forgot Password'),
             ),
           ),
           10.verticalSpace,

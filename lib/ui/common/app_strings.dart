@@ -16,6 +16,7 @@ const String passwordRegex =
 
 const String kAuthUser = '_authenticated_user__';
 
+const String kInvalidEmail = 'Invalid email.';
 const String kServerErrorMessage = 'There seems to be an error, try again.';
 const String kInvalidEmailPassword = 'Invalid email or password.';
 const String kEmailAlreadyInUseErrorMessage = 'Email already in use.';

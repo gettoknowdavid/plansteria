@@ -23,11 +23,11 @@ class RegisterView extends StackedView<RegisterViewModel> {
 
     return Scaffold(
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30).r,
+        padding: const EdgeInsets.symmetric(horizontal: 20).r,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            30.verticalSpace,
+            50.verticalSpace,
             const Align(
               alignment: Alignment.centerLeft,
               child: AppBackButton(),

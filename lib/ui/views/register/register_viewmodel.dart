@@ -27,12 +27,17 @@ class RegisterViewModel extends FormViewModel {
 
   void navigateBackToLoginView() => _navigationService.navigateToLoginView();
 
+  @override
+  List<ListenableServiceMixin> get listenableServices => [_networkService];
+
+  NetworkStatus get networkStatus => _networkService.status;
+
   Future<void> register({
     required String name,
     required String email,
     required String password,
   }) async {
-    if (await _networkService.status == NetworkStatus.disconnected) {
+    if (networkStatus == NetworkStatus.disconnected) {
       _dialogService.showCustomDialog(variant: DialogType.networkError);
     } else {
       setBusy(true);

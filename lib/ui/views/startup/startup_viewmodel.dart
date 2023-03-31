@@ -10,11 +10,13 @@ class StartupViewModel extends ReactiveViewModel {
   final _navigationService = locator<NavigationService>();
 
   bool get isAuthenticated => _authService.isAuthenticated;
+  bool get isEmailVerified => _authService.isEmailVerified;
 
   // Place anything here that needs to happen before we get into the application
   Future runStartupLogic() async {
     await Future.delayed(const Duration(seconds: 3));
     await _authService.checkAuthenticated();
+    await _authService.checkEmailVerified();
     FlutterNativeSplash.remove();
 
     // This is where you can make decisions on where your app should navigate when
@@ -22,7 +24,13 @@ class StartupViewModel extends ReactiveViewModel {
 
     if (!isAuthenticated) {
       _navigationService.replaceWithLoginView();
-    } else {
+    }
+
+    if (isAuthenticated && !isEmailVerified) {
+      _navigationService.replaceWithVerificationView();
+    }
+
+    if (isAuthenticated && isEmailVerified) {
       _navigationService.replaceWithHomeView();
     }
   }

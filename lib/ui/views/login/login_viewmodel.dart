@@ -9,7 +9,7 @@ import 'package:plansteria/ui/views/login/login_view.form.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class LoginViewModel extends FormViewModel {
+class LoginViewModel extends FormViewModel with ListenableServiceMixin {
   final _authService = locator<AuthService>();
 
   final _dialogService = locator<DialogService>();
@@ -22,8 +22,13 @@ class LoginViewModel extends FormViewModel {
 
   bool get disabled => !isFormValid || !hasEmail || !hasPassword || isBusy;
 
+  @override
+  List<ListenableServiceMixin> get listenableServices => [_networkService];
+
+  NetworkStatus get networkStatus => _networkService.status;
+
   Future<void> login({required String email, required String password}) async {
-    if (await _networkService.status == NetworkStatus.disconnected) {
+    if (networkStatus == NetworkStatus.disconnected) {
       _dialogService.showCustomDialog(variant: DialogType.networkError);
     } else {
       setBusy(true);
@@ -45,6 +50,9 @@ class LoginViewModel extends FormViewModel {
       );
     }
   }
+
+  void navigateToForgotPasswordView() =>
+      _navigationService.navigateToForgotPasswordView();
 
   void navigateToRegisterView() => _navigationService.navigateToRegisterView();
 }

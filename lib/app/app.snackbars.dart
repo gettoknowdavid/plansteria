@@ -30,7 +30,35 @@ Future<void> setupSnackbarUI() async {
       icon: _icon,
     ),
   );
+
+  snackbarService.registerCustomSnackbarConfig(
+    variant: SnackbarType.networkOnline,
+    config: SnackbarConfig(
+      backgroundColor: Colors.green,
+      textColor: Colors.white,
+      snackPosition: SnackPosition.TOP,
+      snackStyle: SnackStyle.FLOATING,
+      padding: EdgeInsets.zero,
+      borderRadius: 5.0,
+      maxWidth: 100,
+      messageTextAlign: TextAlign.center,
+    ),
+  );
+
+  snackbarService.registerCustomSnackbarConfig(
+    variant: SnackbarType.networkOffline,
+    config: SnackbarConfig(
+      backgroundColor: const Color(0xffb00020),
+      textColor: Colors.white,
+      snackPosition: SnackPosition.TOP,
+      snackStyle: SnackStyle.FLOATING,
+      padding: EdgeInsets.zero,
+      borderRadius: 5.0,
+      maxWidth: 100,
+      messageTextAlign: TextAlign.center,
+    ),
+  );
 }
 
 /// The type of snackbar to show
-enum SnackbarType { success, error }
+enum SnackbarType { success, error, networkOffline, networkOnline }
