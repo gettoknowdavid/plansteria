@@ -10,7 +10,7 @@ class StartupViewModel extends ReactiveViewModel {
   final _navigationService = locator<NavigationService>();
 
   bool get isAuthenticated => _authService.isAuthenticated;
-  bool get isEmailVerified => _authService.isEmailVerified;
+  bool? get isEmailVerified => _authService.isEmailVerified;
 
   // Place anything here that needs to happen before we get into the application
   Future runStartupLogic() async {
@@ -26,12 +26,12 @@ class StartupViewModel extends ReactiveViewModel {
       _navigationService.replaceWithLoginView();
     }
 
-    if (isAuthenticated && !isEmailVerified) {
+    if (isAuthenticated && isEmailVerified == false) {
       _navigationService.replaceWithVerificationView();
     }
 
-    if (isAuthenticated && isEmailVerified) {
-      _navigationService.replaceWithHomeView();
+    if (isAuthenticated && isEmailVerified == true) {
+      _navigationService.replaceWithLayoutView();
     }
   }
 

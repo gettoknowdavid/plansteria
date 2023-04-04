@@ -19,7 +19,7 @@ class VerificationViewModel extends ReactiveViewModel with Initialisable {
 
   bool get isAuthenticated => _authService.isAuthenticated;
 
-  bool get isEmailVerified => _authService.isEmailVerified;
+  bool? get isEmailVerified => _authService.isEmailVerified;
 
   @override
   List<ListenableServiceMixin> get listenableServices => [_authService];
@@ -33,7 +33,7 @@ class VerificationViewModel extends ReactiveViewModel with Initialisable {
       (either) {
         either.fold(
           (failure) => null,
-          (success) => _navigationService.clearStackAndShow(Routes.homeView),
+          (success) => _navigationService.clearStackAndShow(Routes.layoutView),
         );
       },
     );
@@ -47,7 +47,7 @@ class VerificationViewModel extends ReactiveViewModel with Initialisable {
 
   @override
   Future<void> initialise() async {
-    if (!isEmailVerified) {
+    if (isEmailVerified == false) {
       timer = Timer.periodic(const Duration(seconds: 3), (timer) async {
         await checkEmailVerified();
       });

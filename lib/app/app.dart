@@ -21,6 +21,11 @@ import 'package:plansteria/ui/views/startup/startup_view.dart';
 import 'package:plansteria/ui/views/verification/verification_view.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:plansteria/ui/layout/layout_view.dart';
+import 'package:plansteria/ui/views/events/events_view.dart';
+import 'package:plansteria/ui/views/chat/chat_view.dart';
+import 'package:plansteria/ui/views/profile/profile_view.dart';
+import 'package:plansteria/ui/bottom_sheets/create_event/create_event_sheet.dart';
 // @stacked-import
 
 @StackedApp(
@@ -32,6 +37,10 @@ import 'package:stacked_services/stacked_services.dart';
     MaterialRoute(page: VerificationView),
     MaterialRoute(page: ForgotPasswordView),
     MaterialRoute(page: ConfirmationView),
+    MaterialRoute(page: LayoutView),
+    MaterialRoute(page: EventsView),
+    MaterialRoute(page: ChatView),
+    MaterialRoute(page: ProfileView),
 // @stacked-route
   ],
   dependencies: [
@@ -47,7 +56,8 @@ import 'package:stacked_services/stacked_services.dart';
   ],
   bottomsheets: [
     StackedBottomsheet(classType: NoticeSheet),
-    // @stacked-bottom-sheet
+    StackedBottomsheet(classType: CreateEventSheet),
+// @stacked-bottom-sheet
   ],
   dialogs: [
     StackedDialog(classType: InfoAlertDialog),

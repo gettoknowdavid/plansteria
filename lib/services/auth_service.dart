@@ -5,17 +5,19 @@ import 'package:firebase_auth/firebase_auth.dart' as fb;
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/core/errors/auth_error.dart';
 import 'package:plansteria/models/user.dart';
+import 'package:plansteria/services/network_service.dart';
 import 'package:plansteria/services/secure_storage_service.dart';
 import 'package:plansteria/ui/common/app_strings.dart';
 import 'package:stacked/stacked.dart';
 
 class AuthService with ListenableServiceMixin {
   final fb.FirebaseAuth _firebaseAuth = fb.FirebaseAuth.instance;
+  final _networkService = locator<NetworkService>();
   final _secureStorageService = locator<SecureStorageService>();
 
   final _isAuthenticated = ReactiveValue<bool>(false);
 
-  final _isEmailVerified = ReactiveValue<bool>(false);
+  final _isEmailVerified = ReactiveValue<bool?>(null);
 
   final _currentUser = ReactiveValue<User?>(null);
 
@@ -25,34 +27,54 @@ class AuthService with ListenableServiceMixin {
 
   User? get currentUser => _currentUser.value;
   bool get isAuthenticated => _isAuthenticated.value;
-  bool get isEmailVerified => _isEmailVerified.value;
+  bool? get isEmailVerified => _isEmailVerified.value;
 
   Future<void> checkAuthenticated() async {
-    if (_firebaseAuth.currentUser == null) {
+    final firebaseUser = _firebaseAuth.currentUser;
+
+    final localUserString = await _secureStorageService.read(kAuthUser);
+
+    if (firebaseUser == null && localUserString == null) {
       _isAuthenticated.value = false;
-    } else {
+    }
+
+    if (firebaseUser != null || localUserString != null) {
       _isAuthenticated.value = true;
     }
   }
 
   Future<Option<Either<AuthError, bool>>> checkEmailVerified() async {
-    final user = _firebaseAuth.currentUser;
-    if (user == null) {
+    if (_networkService.status == NetworkStatus.disconnected) {
+      final localUserString = await _secureStorageService.read(kAuthUser);
+
+      if (localUserString == null) {
+        return optionOf(null);
+      }
+
+      final localUser = User.fromJson(jsonDecode(localUserString));
+
+      _isEmailVerified.value = localUser.emailVerified;
+      return optionOf(right(localUser.emailVerified));
+    }
+
+    final firebaseUser = _firebaseAuth.currentUser;
+
+    if (firebaseUser == null) {
       return optionOf(null);
     }
 
-    await user.reload();
+    await firebaseUser.reload();
 
-    if (user.emailVerified) {
+    if (firebaseUser.emailVerified) {
       _isEmailVerified.value = true;
 
       final updatedUser = User(
-          uid: user.uid,
-          name: user.displayName!,
-          email: user.email!,
+          uid: firebaseUser.uid,
+          name: firebaseUser.displayName!,
+          email: firebaseUser.email!,
           emailVerified: true);
 
-      await userRef.doc(user.uid).set(updatedUser);
+      await userRef.doc(firebaseUser.uid).set(updatedUser);
 
       _currentUser.value = _currentUser.value?.copyWith(emailVerified: true);
 
