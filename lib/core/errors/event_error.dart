@@ -5,4 +5,5 @@ part 'event_error.freezed.dart';
 @freezed
 class EventError with _$EventError {
   const factory EventError.serverError() = _ServerError;
+  const factory EventError.networkError() = _NetworkError;
 }
