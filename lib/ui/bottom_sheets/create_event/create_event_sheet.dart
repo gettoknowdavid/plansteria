@@ -17,11 +17,12 @@ import 'create_event_sheet_model.dart';
 
 @FormView(fields: [
   FormTextField(name: 'name', validator: Validators.validateName),
+  FormTextField(name: 'description'),
   FormTextField(name: 'address', validator: Validators.validateName),
   FormTextField(name: 'notes'),
   FormTextField(name: 'price'),
-  FormTextField(name: 'date'),
-  FormTextField(name: 'startTime'),
+  FormTextField(name: 'date', validator: Validators.validateDate),
+  FormTextField(name: 'startTime', validator: Validators.validateDate),
   FormTextField(name: 'endTime'),
 ])
 class CreateEventSheet extends StackedView<CreateEventSheetModel>

@@ -11,6 +11,7 @@ import 'package:plansteria/ui/common/validators.dart';
 import 'package:stacked/stacked.dart';
 
 const String NameValueKey = 'name';
+const String DescriptionValueKey = 'description';
 const String AddressValueKey = 'address';
 const String NotesValueKey = 'notes';
 const String PriceValueKey = 'price';
@@ -26,17 +27,20 @@ final Map<String, FocusNode> _CreateEventSheetFocusNodes = {};
 final Map<String, String? Function(String?)?> _CreateEventSheetTextValidations =
     {
   NameValueKey: Validators.validateName,
+  DescriptionValueKey: null,
   AddressValueKey: Validators.validateName,
   NotesValueKey: null,
   PriceValueKey: null,
-  DateValueKey: null,
-  StartTimeValueKey: null,
+  DateValueKey: Validators.validateDate,
+  StartTimeValueKey: Validators.validateDate,
   EndTimeValueKey: null,
 };
 
 mixin $CreateEventSheet on StatelessWidget {
   TextEditingController get nameController =>
       _getFormTextEditingController(NameValueKey);
+  TextEditingController get descriptionController =>
+      _getFormTextEditingController(DescriptionValueKey);
   TextEditingController get addressController =>
       _getFormTextEditingController(AddressValueKey);
   TextEditingController get notesController =>
@@ -50,6 +54,7 @@ mixin $CreateEventSheet on StatelessWidget {
   TextEditingController get endTimeController =>
       _getFormTextEditingController(EndTimeValueKey);
   FocusNode get nameFocusNode => _getFormFocusNode(NameValueKey);
+  FocusNode get descriptionFocusNode => _getFormFocusNode(DescriptionValueKey);
   FocusNode get addressFocusNode => _getFormFocusNode(AddressValueKey);
   FocusNode get notesFocusNode => _getFormFocusNode(NotesValueKey);
   FocusNode get priceFocusNode => _getFormFocusNode(PriceValueKey);
@@ -79,6 +84,7 @@ mixin $CreateEventSheet on StatelessWidget {
   /// with the latest textController values
   void syncFormWithViewModel(FormViewModel model) {
     nameController.addListener(() => _updateFormData(model));
+    descriptionController.addListener(() => _updateFormData(model));
     addressController.addListener(() => _updateFormData(model));
     notesController.addListener(() => _updateFormData(model));
     priceController.addListener(() => _updateFormData(model));
@@ -93,6 +99,7 @@ mixin $CreateEventSheet on StatelessWidget {
       'This feature was deprecated after 3.1.0.')
   void listenToFormUpdated(FormViewModel model) {
     nameController.addListener(() => _updateFormData(model));
+    descriptionController.addListener(() => _updateFormData(model));
     addressController.addListener(() => _updateFormData(model));
     notesController.addListener(() => _updateFormData(model));
     priceController.addListener(() => _updateFormData(model));
@@ -113,6 +120,7 @@ mixin $CreateEventSheet on StatelessWidget {
       model.formValueMap
         ..addAll({
           NameValueKey: nameController.text,
+          DescriptionValueKey: descriptionController.text,
           AddressValueKey: addressController.text,
           NotesValueKey: notesController.text,
           PriceValueKey: priceController.text,
@@ -130,6 +138,7 @@ mixin $CreateEventSheet on StatelessWidget {
   void _updateValidationData(FormViewModel model) =>
       model.setValidationMessages({
         NameValueKey: _getValidationMessage(NameValueKey),
+        DescriptionValueKey: _getValidationMessage(DescriptionValueKey),
         AddressValueKey: _getValidationMessage(AddressValueKey),
         NotesValueKey: _getValidationMessage(NotesValueKey),
         PriceValueKey: _getValidationMessage(PriceValueKey),
@@ -167,6 +176,8 @@ extension ValueProperties on FormViewModel {
   bool get isFormValid =>
       this.fieldsValidationMessages.values.every((element) => element == null);
   String? get nameValue => this.formValueMap[NameValueKey] as String?;
+  String? get descriptionValue =>
+      this.formValueMap[DescriptionValueKey] as String?;
   String? get addressValue => this.formValueMap[AddressValueKey] as String?;
   String? get notesValue => this.formValueMap[NotesValueKey] as String?;
   String? get priceValue => this.formValueMap[PriceValueKey] as String?;
@@ -184,6 +195,21 @@ extension ValueProperties on FormViewModel {
 
     if (_CreateEventSheetTextEditingControllers.containsKey(NameValueKey)) {
       _CreateEventSheetTextEditingControllers[NameValueKey]?.text = value ?? '';
+    }
+  }
+
+  set descriptionValue(String? value) {
+    this.setData(
+      this.formValueMap
+        ..addAll({
+          DescriptionValueKey: value,
+        }),
+    );
+
+    if (_CreateEventSheetTextEditingControllers.containsKey(
+        DescriptionValueKey)) {
+      _CreateEventSheetTextEditingControllers[DescriptionValueKey]?.text =
+          value ?? '';
     }
   }
 
@@ -274,6 +300,9 @@ extension ValueProperties on FormViewModel {
   bool get hasName =>
       this.formValueMap.containsKey(NameValueKey) &&
       (nameValue?.isNotEmpty ?? false);
+  bool get hasDescription =>
+      this.formValueMap.containsKey(DescriptionValueKey) &&
+      (descriptionValue?.isNotEmpty ?? false);
   bool get hasAddress =>
       this.formValueMap.containsKey(AddressValueKey) &&
       (addressValue?.isNotEmpty ?? false);
@@ -295,6 +324,8 @@ extension ValueProperties on FormViewModel {
 
   bool get hasNameValidationMessage =>
       this.fieldsValidationMessages[NameValueKey]?.isNotEmpty ?? false;
+  bool get hasDescriptionValidationMessage =>
+      this.fieldsValidationMessages[DescriptionValueKey]?.isNotEmpty ?? false;
   bool get hasAddressValidationMessage =>
       this.fieldsValidationMessages[AddressValueKey]?.isNotEmpty ?? false;
   bool get hasNotesValidationMessage =>
@@ -310,6 +341,8 @@ extension ValueProperties on FormViewModel {
 
   String? get nameValidationMessage =>
       this.fieldsValidationMessages[NameValueKey];
+  String? get descriptionValidationMessage =>
+      this.fieldsValidationMessages[DescriptionValueKey];
   String? get addressValidationMessage =>
       this.fieldsValidationMessages[AddressValueKey];
   String? get notesValidationMessage =>
@@ -324,6 +357,7 @@ extension ValueProperties on FormViewModel {
       this.fieldsValidationMessages[EndTimeValueKey];
   void clearForm() {
     nameValue = '';
+    descriptionValue = '';
     addressValue = '';
     notesValue = '';
     priceValue = '';
@@ -336,6 +370,8 @@ extension ValueProperties on FormViewModel {
 extension Methods on FormViewModel {
   setNameValidationMessage(String? validationMessage) =>
       this.fieldsValidationMessages[NameValueKey] = validationMessage;
+  setDescriptionValidationMessage(String? validationMessage) =>
+      this.fieldsValidationMessages[DescriptionValueKey] = validationMessage;
   setAddressValidationMessage(String? validationMessage) =>
       this.fieldsValidationMessages[AddressValueKey] = validationMessage;
   setNotesValidationMessage(String? validationMessage) =>
