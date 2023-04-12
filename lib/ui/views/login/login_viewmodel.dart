@@ -46,7 +46,7 @@ class LoginViewModel extends FormViewModel with ListenableServiceMixin {
             ),
           );
         },
-        (success) => _navigationService.clearStackAndShow(Routes.homeView),
+        (success) => _navigationService.clearStackAndShow(Routes.layoutView),
       );
     }
   }
