@@ -69,10 +69,11 @@ class AuthService with ListenableServiceMixin {
       _isEmailVerified.value = true;
 
       final updatedUser = User(
-          uid: firebaseUser.uid,
-          name: firebaseUser.displayName!,
-          email: firebaseUser.email!,
-          emailVerified: true);
+        uid: firebaseUser.uid,
+        name: firebaseUser.displayName!,
+        email: firebaseUser.email!,
+        emailVerified: true,
+      );
 
       await userRef.doc(firebaseUser.uid).set(updatedUser);
 

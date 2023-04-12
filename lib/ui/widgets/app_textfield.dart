@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -22,6 +23,9 @@ class AppTextField extends StatefulWidget {
     this.autofocus = false,
     this.textInputAction = TextInputAction.next,
     this.focusNode,
+    this.inputFormatters,
+    this.prefixText,
+    this.prefixIcon,
   });
 
   final String hint;
@@ -33,6 +37,7 @@ class AppTextField extends StatefulWidget {
   final String? Function(String?)? validator;
   final bool enabled;
   final String? initialValue;
+  final String? prefixText;
   final void Function()? onTap;
   final TextEditingController? controller;
   final int? maxLines;
@@ -40,6 +45,8 @@ class AppTextField extends StatefulWidget {
   final bool autofocus;
   final TextInputAction textInputAction;
   final FocusNode? focusNode;
+  final List<TextInputFormatter>? inputFormatters;
+  final Widget? prefixIcon;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -50,6 +57,8 @@ class _AppTextFieldState extends State<AppTextField> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final inputTheme = theme.inputDecorationTheme;
     final padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 14).r;
 
     return TextFormField(
@@ -67,9 +76,13 @@ class _AppTextFieldState extends State<AppTextField> {
       autofocus: widget.autofocus,
       textInputAction: widget.textInputAction,
       focusNode: widget.focusNode,
+      inputFormatters: widget.inputFormatters,
       decoration: InputDecoration(
         hintText: widget.hint,
         labelText: widget.label,
+        prefixText: widget.prefixText,
+        prefixIcon: widget.prefixIcon,
+        prefixIconColor: theme.colorScheme.onBackground.withOpacity(0.3),
         suffixIcon: !widget.isPassword ? null : _suffixIcon(),
         contentPadding: padding,
       ),

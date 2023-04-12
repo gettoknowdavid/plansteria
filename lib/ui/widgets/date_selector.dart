@@ -1,98 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:plansteria/ui/bottom_sheets/create_event/create_event_sheet.form.dart';
+import 'package:plansteria/ui/bottom_sheets/create_event/create_event_sheet_model.dart';
+import 'package:stacked/stacked.dart';
 
-class DateSelector extends StatelessWidget {
-  const DateSelector({super.key});
+class DateSelector extends StackedView<CreateEventSheetModel>
+    with $CreateEventSheet {
+  DateSelector({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget builder(context, viewModel, child) {
     final theme = Theme.of(context);
 
-    return Container(
-      height: 0.1.sh,
-      padding: const EdgeInsets.fromLTRB(8, 10, 0, 10).r,
-      decoration: BoxDecoration(
-        color: theme.colorScheme.primary.withOpacity(0.2),
-        borderRadius: const BorderRadius.all(Radius.circular(10)).r,
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Container(
+    final formattedDate = DateFormat.yMMMEd().format(viewModel.selectedDate[0]);
+    final formattedTime = viewModel.timeFormatter(viewModel.selectedDate);
+
+    return InkWell(
+      onTap: () async {
+        await viewModel.selectDateTime(context);
+        final selectedDate = viewModel.selectedDate;
+        dateController.text = selectedDate[0].toIso8601String();
+        startTimeController.text = selectedDate[0].toIso8601String();
+        endTimeController.text = selectedDate[1].toIso8601String();
+      },
+      child: SizedBox(
+        height: 70,
+        width: 1.sw,
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12).r,
               decoration: BoxDecoration(
-                color: theme.colorScheme.secondary,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(10),
-                ).r,
+                color: theme.inputDecorationTheme.fillColor,
+                borderRadius: const BorderRadius.all(Radius.circular(14)).r,
               ),
-              child: Row(
-                children: [
-                  16.horizontalSpace,
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8).r,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Dec',
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onPrimary,
-                          ),
-                        ),
-                        Text(
-                          '22',
-                          style: theme.textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: theme.colorScheme.onPrimary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  12.horizontalSpace,
-                  Container(
-                    height: 24,
-                    width: 1,
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.onPrimary,
-                    ),
-                  ),
-                  16.horizontalSpace,
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8).r,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Wednesday',
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onPrimary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          '07:00 pm - 18:00 am',
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onPrimary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  16.horizontalSpace,
-                ],
+              child: Icon(
+                PhosphorIcons.calendar,
+                color: theme.colorScheme.primaryContainer.withOpacity(0.6),
               ),
             ),
-          ),
-          10.horizontalSpace,
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(PhosphorIcons.pencilLine),
-          ),
-          10.horizontalSpace,
-        ],
+            16.horizontalSpace,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  formattedDate,
+                  style: theme.textTheme.bodyLarge,
+                ),
+                Text(
+                  formattedTime,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.textTheme.bodyMedium?.color?.withOpacity(0.6),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  @override
+  CreateEventSheetModel viewModelBuilder(BuildContext context) {
+    return CreateEventSheetModel();
   }
 }

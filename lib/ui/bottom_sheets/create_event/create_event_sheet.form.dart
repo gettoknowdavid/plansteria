@@ -15,6 +15,8 @@ const String AddressValueKey = 'address';
 const String NotesValueKey = 'notes';
 const String PriceValueKey = 'price';
 const String DateValueKey = 'date';
+const String StartTimeValueKey = 'startTime';
+const String EndTimeValueKey = 'endTime';
 
 final Map<String, TextEditingController>
     _CreateEventSheetTextEditingControllers = {};
@@ -28,6 +30,8 @@ final Map<String, String? Function(String?)?> _CreateEventSheetTextValidations =
   NotesValueKey: null,
   PriceValueKey: null,
   DateValueKey: null,
+  StartTimeValueKey: null,
+  EndTimeValueKey: null,
 };
 
 mixin $CreateEventSheet on StatelessWidget {
@@ -41,11 +45,17 @@ mixin $CreateEventSheet on StatelessWidget {
       _getFormTextEditingController(PriceValueKey);
   TextEditingController get dateController =>
       _getFormTextEditingController(DateValueKey);
+  TextEditingController get startTimeController =>
+      _getFormTextEditingController(StartTimeValueKey);
+  TextEditingController get endTimeController =>
+      _getFormTextEditingController(EndTimeValueKey);
   FocusNode get nameFocusNode => _getFormFocusNode(NameValueKey);
   FocusNode get addressFocusNode => _getFormFocusNode(AddressValueKey);
   FocusNode get notesFocusNode => _getFormFocusNode(NotesValueKey);
   FocusNode get priceFocusNode => _getFormFocusNode(PriceValueKey);
   FocusNode get dateFocusNode => _getFormFocusNode(DateValueKey);
+  FocusNode get startTimeFocusNode => _getFormFocusNode(StartTimeValueKey);
+  FocusNode get endTimeFocusNode => _getFormFocusNode(EndTimeValueKey);
 
   TextEditingController _getFormTextEditingController(String key,
       {String? initialValue}) {
@@ -73,6 +83,8 @@ mixin $CreateEventSheet on StatelessWidget {
     notesController.addListener(() => _updateFormData(model));
     priceController.addListener(() => _updateFormData(model));
     dateController.addListener(() => _updateFormData(model));
+    startTimeController.addListener(() => _updateFormData(model));
+    endTimeController.addListener(() => _updateFormData(model));
   }
 
   /// Registers a listener on every generated controller that calls [model.setData()]
@@ -85,6 +97,8 @@ mixin $CreateEventSheet on StatelessWidget {
     notesController.addListener(() => _updateFormData(model));
     priceController.addListener(() => _updateFormData(model));
     dateController.addListener(() => _updateFormData(model));
+    startTimeController.addListener(() => _updateFormData(model));
+    endTimeController.addListener(() => _updateFormData(model));
   }
 
   final bool _autoTextFieldValidation = true;
@@ -103,6 +117,8 @@ mixin $CreateEventSheet on StatelessWidget {
           NotesValueKey: notesController.text,
           PriceValueKey: priceController.text,
           DateValueKey: dateController.text,
+          StartTimeValueKey: startTimeController.text,
+          EndTimeValueKey: endTimeController.text,
         }),
     );
     if (_autoTextFieldValidation || forceValidate) {
@@ -118,6 +134,8 @@ mixin $CreateEventSheet on StatelessWidget {
         NotesValueKey: _getValidationMessage(NotesValueKey),
         PriceValueKey: _getValidationMessage(PriceValueKey),
         DateValueKey: _getValidationMessage(DateValueKey),
+        StartTimeValueKey: _getValidationMessage(StartTimeValueKey),
+        EndTimeValueKey: _getValidationMessage(EndTimeValueKey),
       });
 
   /// Returns the validation message for the given key
@@ -153,6 +171,8 @@ extension ValueProperties on FormViewModel {
   String? get notesValue => this.formValueMap[NotesValueKey] as String?;
   String? get priceValue => this.formValueMap[PriceValueKey] as String?;
   String? get dateValue => this.formValueMap[DateValueKey] as String?;
+  String? get startTimeValue => this.formValueMap[StartTimeValueKey] as String?;
+  String? get endTimeValue => this.formValueMap[EndTimeValueKey] as String?;
 
   set nameValue(String? value) {
     this.setData(
@@ -222,6 +242,35 @@ extension ValueProperties on FormViewModel {
     }
   }
 
+  set startTimeValue(String? value) {
+    this.setData(
+      this.formValueMap
+        ..addAll({
+          StartTimeValueKey: value,
+        }),
+    );
+
+    if (_CreateEventSheetTextEditingControllers.containsKey(
+        StartTimeValueKey)) {
+      _CreateEventSheetTextEditingControllers[StartTimeValueKey]?.text =
+          value ?? '';
+    }
+  }
+
+  set endTimeValue(String? value) {
+    this.setData(
+      this.formValueMap
+        ..addAll({
+          EndTimeValueKey: value,
+        }),
+    );
+
+    if (_CreateEventSheetTextEditingControllers.containsKey(EndTimeValueKey)) {
+      _CreateEventSheetTextEditingControllers[EndTimeValueKey]?.text =
+          value ?? '';
+    }
+  }
+
   bool get hasName =>
       this.formValueMap.containsKey(NameValueKey) &&
       (nameValue?.isNotEmpty ?? false);
@@ -237,6 +286,12 @@ extension ValueProperties on FormViewModel {
   bool get hasDate =>
       this.formValueMap.containsKey(DateValueKey) &&
       (dateValue?.isNotEmpty ?? false);
+  bool get hasStartTime =>
+      this.formValueMap.containsKey(StartTimeValueKey) &&
+      (startTimeValue?.isNotEmpty ?? false);
+  bool get hasEndTime =>
+      this.formValueMap.containsKey(EndTimeValueKey) &&
+      (endTimeValue?.isNotEmpty ?? false);
 
   bool get hasNameValidationMessage =>
       this.fieldsValidationMessages[NameValueKey]?.isNotEmpty ?? false;
@@ -248,6 +303,10 @@ extension ValueProperties on FormViewModel {
       this.fieldsValidationMessages[PriceValueKey]?.isNotEmpty ?? false;
   bool get hasDateValidationMessage =>
       this.fieldsValidationMessages[DateValueKey]?.isNotEmpty ?? false;
+  bool get hasStartTimeValidationMessage =>
+      this.fieldsValidationMessages[StartTimeValueKey]?.isNotEmpty ?? false;
+  bool get hasEndTimeValidationMessage =>
+      this.fieldsValidationMessages[EndTimeValueKey]?.isNotEmpty ?? false;
 
   String? get nameValidationMessage =>
       this.fieldsValidationMessages[NameValueKey];
@@ -259,12 +318,18 @@ extension ValueProperties on FormViewModel {
       this.fieldsValidationMessages[PriceValueKey];
   String? get dateValidationMessage =>
       this.fieldsValidationMessages[DateValueKey];
+  String? get startTimeValidationMessage =>
+      this.fieldsValidationMessages[StartTimeValueKey];
+  String? get endTimeValidationMessage =>
+      this.fieldsValidationMessages[EndTimeValueKey];
   void clearForm() {
     nameValue = '';
     addressValue = '';
     notesValue = '';
     priceValue = '';
     dateValue = '';
+    startTimeValue = '';
+    endTimeValue = '';
   }
 }
 
@@ -279,4 +344,8 @@ extension Methods on FormViewModel {
       this.fieldsValidationMessages[PriceValueKey] = validationMessage;
   setDateValidationMessage(String? validationMessage) =>
       this.fieldsValidationMessages[DateValueKey] = validationMessage;
+  setStartTimeValidationMessage(String? validationMessage) =>
+      this.fieldsValidationMessages[StartTimeValueKey] = validationMessage;
+  setEndTimeValidationMessage(String? validationMessage) =>
+      this.fieldsValidationMessages[EndTimeValueKey] = validationMessage;
 }

@@ -13,6 +13,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart'
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:plansteria/core/errors/auth_error.dart' as _i8;
 import 'package:plansteria/services/auth_service.dart' as _i7;
+import 'package:plansteria/services/event_service.dart' as _i13;
 import 'package:plansteria/services/network_service.dart' as _i10;
 import 'package:plansteria/services/open_mail_app_service.dart' as _i12;
 import 'package:plansteria/services/secure_storage_service.dart' as _i9;
@@ -672,12 +673,6 @@ class MockAuthService extends _i1.Mock implements _i7.AuthService {
         returnValueForMissingStub: false,
       ) as bool);
   @override
-  bool get isEmailVerified => (super.noSuchMethod(
-        Invocation.getter(#isEmailVerified),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
-  @override
   int get listenersCount => (super.noSuchMethod(
         Invocation.getter(#listenersCount),
         returnValue: 0,
@@ -1046,3 +1041,8 @@ class MockOpenMailAppService extends _i1.Mock
         returnValueForMissingStub: _i3.Future<void>.value(),
       ) as _i3.Future<void>);
 }
+
+/// A class which mocks [EventService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockEventService extends _i1.Mock implements _i13.EventService {}

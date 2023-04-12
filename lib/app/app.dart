@@ -26,6 +26,7 @@ import 'package:plansteria/ui/views/events/events_view.dart';
 import 'package:plansteria/ui/views/chat/chat_view.dart';
 import 'package:plansteria/ui/views/profile/profile_view.dart';
 import 'package:plansteria/ui/bottom_sheets/create_event/create_event_sheet.dart';
+import 'package:plansteria/services/event_service.dart';
 // @stacked-import
 
 @StackedApp(
@@ -52,6 +53,7 @@ import 'package:plansteria/ui/bottom_sheets/create_event/create_event_sheet.dart
     LazySingleton(classType: SecureStorageService),
     LazySingleton(classType: NetworkService),
     LazySingleton(classType: OpenMailAppService),
+    LazySingleton(classType: EventService),
 // @stacked-service
   ],
   bottomsheets: [
