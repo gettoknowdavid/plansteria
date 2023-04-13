@@ -12,6 +12,8 @@ import 'package:internet_connection_checker/internet_connection_checker.dart'
     as _i11;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:plansteria/core/errors/auth_error.dart' as _i8;
+import 'package:plansteria/core/errors/event_error.dart' as _i14;
+import 'package:plansteria/models/event.dart' as _i15;
 import 'package:plansteria/services/auth_service.dart' as _i7;
 import 'package:plansteria/services/event_service.dart' as _i13;
 import 'package:plansteria/services/network_service.dart' as _i10;
@@ -1045,4 +1047,31 @@ class MockOpenMailAppService extends _i1.Mock
 /// A class which mocks [EventService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockEventService extends _i1.Mock implements _i13.EventService {}
+class MockEventService extends _i1.Mock implements _i13.EventService {
+  @override
+  _i3.Future<_i2.Either<_i14.EventError, _i2.Unit>> createEvent(
+          _i15.Event? event) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #createEvent,
+          [event],
+        ),
+        returnValue: _i3.Future<_i2.Either<_i14.EventError, _i2.Unit>>.value(
+            _FakeEither_1<_i14.EventError, _i2.Unit>(
+          this,
+          Invocation.method(
+            #createEvent,
+            [event],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i3.Future<_i2.Either<_i14.EventError, _i2.Unit>>.value(
+                _FakeEither_1<_i14.EventError, _i2.Unit>(
+          this,
+          Invocation.method(
+            #createEvent,
+            [event],
+          ),
+        )),
+      ) as _i3.Future<_i2.Either<_i14.EventError, _i2.Unit>>);
+}
