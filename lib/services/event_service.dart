@@ -24,6 +24,22 @@ class EventService {
     }
   }
 
+  Future<Either<EventError, List<Event?>>> getAllEvents(Event event) async {
+    if (_networkService.status == NetworkStatus.disconnected) {
+      return left(const EventError.networkError());
+    }
+
+    try {
+      final query = await eventsRef.get();
+      final result = query.docs.map((e) => e.data).toList();
+      return right(result);
+    } on FirebaseException catch (e) {
+      return left(EventError.error(e.message));
+    } on Exception {
+      return left(const EventError.serverError());
+    }
+  }
+
   Future<Either<EventError, Unit>> removeEvent(String uid) async {
     if (_networkService.status == NetworkStatus.disconnected) {
       return left(const EventError.networkError());
@@ -47,22 +63,6 @@ class EventService {
     try {
       await eventsRef.doc(event.uid).set(event);
       return right(unit);
-    } on FirebaseException catch (e) {
-      return left(EventError.error(e.message));
-    } on Exception {
-      return left(const EventError.serverError());
-    }
-  }
-
-  Future<Either<EventError, List<Event?>>> getAllEvents(Event event) async {
-    if (_networkService.status == NetworkStatus.disconnected) {
-      return left(const EventError.networkError());
-    }
-
-    try {
-      final query = await eventsRef.get();
-      final result = query.docs.map((e) => e.data).toList();
-      return right(result);
     } on FirebaseException catch (e) {
       return left(EventError.error(e.message));
     } on Exception {
