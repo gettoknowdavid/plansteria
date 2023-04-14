@@ -209,9 +209,11 @@ class _Header extends SelectorViewModelWidget<EventDetailsViewModel, String?> {
       background: Hero(
         tag: 'event-image',
         child: Container(
-          foregroundDecoration: const BoxDecoration(color: Colors.black26),
-          decoration: BoxDecoration(image: image),
-          child: value == null ? null : const Icon(PhosphorIcons.image),
+          decoration: BoxDecoration(
+            image: image,
+            color: Theme.of(context).primaryColor.withOpacity(0.5),
+          ),
+          child: value != null ? null : const Icon(PhosphorIcons.image),
         ),
       ),
     );
