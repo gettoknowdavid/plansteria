@@ -14,6 +14,7 @@ import 'package:stacked_shared/stacked_shared.dart';
 
 import '../services/auth_service.dart';
 import '../services/event_service.dart';
+import '../services/media_service.dart';
 import '../services/network_service.dart';
 import '../services/open_mail_app_service.dart';
 import '../services/secure_storage_service.dart';
@@ -38,4 +39,5 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => NetworkService());
   locator.registerLazySingleton(() => OpenMailAppService());
   locator.registerLazySingleton(() => EventService());
+  locator.registerLazySingleton(() => MediaService());
 }

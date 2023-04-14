@@ -17,6 +17,7 @@ import 'package:plansteria/ui/dialogs/no_mail_app/no_mail_app_dialog.dart';
 import 'package:plansteria/ui/layout/layout_view.dart';
 import 'package:plansteria/ui/views/chat/chat_view.dart';
 import 'package:plansteria/ui/views/confirmation/confirmation_view.dart';
+import 'package:plansteria/ui/views/create_event/create_event_view.dart';
 import 'package:plansteria/ui/views/event_details/event_details_view.dart';
 import 'package:plansteria/ui/views/events/events_view.dart';
 import 'package:plansteria/ui/views/forgot_password/forgot_password_view.dart';
@@ -28,6 +29,7 @@ import 'package:plansteria/ui/views/startup/startup_view.dart';
 import 'package:plansteria/ui/views/verification/verification_view.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:plansteria/services/media_service.dart';
 // @stacked-import
 
 @StackedApp(
@@ -46,6 +48,7 @@ import 'package:stacked_services/stacked_services.dart';
         MaterialRoute(page: ChatView),
         MaterialRoute(page: ProfileView),
         MaterialRoute(page: EventDetailsView),
+        MaterialRoute(page: CreateEventView),
       ],
     ),
 // @stacked-route
@@ -60,6 +63,7 @@ import 'package:stacked_services/stacked_services.dart';
     LazySingleton(classType: NetworkService),
     LazySingleton(classType: OpenMailAppService),
     LazySingleton(classType: EventService),
+    LazySingleton(classType: MediaService),
 // @stacked-service
   ],
   bottomsheets: [

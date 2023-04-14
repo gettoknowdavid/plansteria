@@ -18,14 +18,13 @@ const String PriceValueKey = 'price';
 const String DateValueKey = 'date';
 const String StartTimeValueKey = 'startTime';
 const String EndTimeValueKey = 'endTime';
-const String TicketValueKey = 'ticket';
 
 final Map<String, TextEditingController>
-    _CreateEventSheetTextEditingControllers = {};
+    _CreateEventViewTextEditingControllers = {};
 
-final Map<String, FocusNode> _CreateEventSheetFocusNodes = {};
+final Map<String, FocusNode> _CreateEventViewFocusNodes = {};
 
-final Map<String, String? Function(String?)?> _CreateEventSheetTextValidations =
+final Map<String, String? Function(String?)?> _CreateEventViewTextValidations =
     {
   NameValueKey: Validators.validateName,
   DescriptionValueKey: null,
@@ -35,10 +34,9 @@ final Map<String, String? Function(String?)?> _CreateEventSheetTextValidations =
   DateValueKey: Validators.validateDate,
   StartTimeValueKey: Validators.validateDate,
   EndTimeValueKey: null,
-  TicketValueKey: null,
 };
 
-mixin $CreateEventSheet on StatelessWidget {
+mixin $CreateEventView on StatelessWidget {
   TextEditingController get nameController =>
       _getFormTextEditingController(NameValueKey);
   TextEditingController get descriptionController =>
@@ -55,8 +53,6 @@ mixin $CreateEventSheet on StatelessWidget {
       _getFormTextEditingController(StartTimeValueKey);
   TextEditingController get endTimeController =>
       _getFormTextEditingController(EndTimeValueKey);
-  TextEditingController get ticketController =>
-      _getFormTextEditingController(TicketValueKey);
   FocusNode get nameFocusNode => _getFormFocusNode(NameValueKey);
   FocusNode get descriptionFocusNode => _getFormFocusNode(DescriptionValueKey);
   FocusNode get addressFocusNode => _getFormFocusNode(AddressValueKey);
@@ -65,24 +61,23 @@ mixin $CreateEventSheet on StatelessWidget {
   FocusNode get dateFocusNode => _getFormFocusNode(DateValueKey);
   FocusNode get startTimeFocusNode => _getFormFocusNode(StartTimeValueKey);
   FocusNode get endTimeFocusNode => _getFormFocusNode(EndTimeValueKey);
-  FocusNode get ticketFocusNode => _getFormFocusNode(TicketValueKey);
 
   TextEditingController _getFormTextEditingController(String key,
       {String? initialValue}) {
-    if (_CreateEventSheetTextEditingControllers.containsKey(key)) {
-      return _CreateEventSheetTextEditingControllers[key]!;
+    if (_CreateEventViewTextEditingControllers.containsKey(key)) {
+      return _CreateEventViewTextEditingControllers[key]!;
     }
-    _CreateEventSheetTextEditingControllers[key] =
+    _CreateEventViewTextEditingControllers[key] =
         TextEditingController(text: initialValue);
-    return _CreateEventSheetTextEditingControllers[key]!;
+    return _CreateEventViewTextEditingControllers[key]!;
   }
 
   FocusNode _getFormFocusNode(String key) {
-    if (_CreateEventSheetFocusNodes.containsKey(key)) {
-      return _CreateEventSheetFocusNodes[key]!;
+    if (_CreateEventViewFocusNodes.containsKey(key)) {
+      return _CreateEventViewFocusNodes[key]!;
     }
-    _CreateEventSheetFocusNodes[key] = FocusNode();
-    return _CreateEventSheetFocusNodes[key]!;
+    _CreateEventViewFocusNodes[key] = FocusNode();
+    return _CreateEventViewFocusNodes[key]!;
   }
 
   /// Registers a listener on every generated controller that calls [model.setData()]
@@ -96,7 +91,6 @@ mixin $CreateEventSheet on StatelessWidget {
     dateController.addListener(() => _updateFormData(model));
     startTimeController.addListener(() => _updateFormData(model));
     endTimeController.addListener(() => _updateFormData(model));
-    ticketController.addListener(() => _updateFormData(model));
   }
 
   /// Registers a listener on every generated controller that calls [model.setData()]
@@ -112,7 +106,6 @@ mixin $CreateEventSheet on StatelessWidget {
     dateController.addListener(() => _updateFormData(model));
     startTimeController.addListener(() => _updateFormData(model));
     endTimeController.addListener(() => _updateFormData(model));
-    ticketController.addListener(() => _updateFormData(model));
   }
 
   final bool _autoTextFieldValidation = true;
@@ -134,7 +127,6 @@ mixin $CreateEventSheet on StatelessWidget {
           DateValueKey: dateController.text,
           StartTimeValueKey: startTimeController.text,
           EndTimeValueKey: endTimeController.text,
-          TicketValueKey: ticketController.text,
         }),
     );
     if (_autoTextFieldValidation || forceValidate) {
@@ -153,15 +145,14 @@ mixin $CreateEventSheet on StatelessWidget {
         DateValueKey: _getValidationMessage(DateValueKey),
         StartTimeValueKey: _getValidationMessage(StartTimeValueKey),
         EndTimeValueKey: _getValidationMessage(EndTimeValueKey),
-        TicketValueKey: _getValidationMessage(TicketValueKey),
       });
 
   /// Returns the validation message for the given key
   String? _getValidationMessage(String key) {
-    final validatorForKey = _CreateEventSheetTextValidations[key];
+    final validatorForKey = _CreateEventViewTextValidations[key];
     if (validatorForKey == null) return null;
     String? validationMessageForKey =
-        validatorForKey(_CreateEventSheetTextEditingControllers[key]!.text);
+        validatorForKey(_CreateEventViewTextEditingControllers[key]!.text);
     return validationMessageForKey;
   }
 
@@ -169,15 +160,15 @@ mixin $CreateEventSheet on StatelessWidget {
   void disposeForm() {
     // The dispose function for a TextEditingController sets all listeners to null
 
-    for (var controller in _CreateEventSheetTextEditingControllers.values) {
+    for (var controller in _CreateEventViewTextEditingControllers.values) {
       controller.dispose();
     }
-    for (var focusNode in _CreateEventSheetFocusNodes.values) {
+    for (var focusNode in _CreateEventViewFocusNodes.values) {
       focusNode.dispose();
     }
 
-    _CreateEventSheetTextEditingControllers.clear();
-    _CreateEventSheetFocusNodes.clear();
+    _CreateEventViewTextEditingControllers.clear();
+    _CreateEventViewFocusNodes.clear();
   }
 }
 
@@ -193,7 +184,6 @@ extension ValueProperties on FormViewModel {
   String? get dateValue => this.formValueMap[DateValueKey] as String?;
   String? get startTimeValue => this.formValueMap[StartTimeValueKey] as String?;
   String? get endTimeValue => this.formValueMap[EndTimeValueKey] as String?;
-  String? get ticketValue => this.formValueMap[TicketValueKey] as String?;
 
   set nameValue(String? value) {
     this.setData(
@@ -203,8 +193,8 @@ extension ValueProperties on FormViewModel {
         }),
     );
 
-    if (_CreateEventSheetTextEditingControllers.containsKey(NameValueKey)) {
-      _CreateEventSheetTextEditingControllers[NameValueKey]?.text = value ?? '';
+    if (_CreateEventViewTextEditingControllers.containsKey(NameValueKey)) {
+      _CreateEventViewTextEditingControllers[NameValueKey]?.text = value ?? '';
     }
   }
 
@@ -216,9 +206,9 @@ extension ValueProperties on FormViewModel {
         }),
     );
 
-    if (_CreateEventSheetTextEditingControllers.containsKey(
+    if (_CreateEventViewTextEditingControllers.containsKey(
         DescriptionValueKey)) {
-      _CreateEventSheetTextEditingControllers[DescriptionValueKey]?.text =
+      _CreateEventViewTextEditingControllers[DescriptionValueKey]?.text =
           value ?? '';
     }
   }
@@ -231,8 +221,8 @@ extension ValueProperties on FormViewModel {
         }),
     );
 
-    if (_CreateEventSheetTextEditingControllers.containsKey(AddressValueKey)) {
-      _CreateEventSheetTextEditingControllers[AddressValueKey]?.text =
+    if (_CreateEventViewTextEditingControllers.containsKey(AddressValueKey)) {
+      _CreateEventViewTextEditingControllers[AddressValueKey]?.text =
           value ?? '';
     }
   }
@@ -245,9 +235,8 @@ extension ValueProperties on FormViewModel {
         }),
     );
 
-    if (_CreateEventSheetTextEditingControllers.containsKey(NotesValueKey)) {
-      _CreateEventSheetTextEditingControllers[NotesValueKey]?.text =
-          value ?? '';
+    if (_CreateEventViewTextEditingControllers.containsKey(NotesValueKey)) {
+      _CreateEventViewTextEditingControllers[NotesValueKey]?.text = value ?? '';
     }
   }
 
@@ -259,9 +248,8 @@ extension ValueProperties on FormViewModel {
         }),
     );
 
-    if (_CreateEventSheetTextEditingControllers.containsKey(PriceValueKey)) {
-      _CreateEventSheetTextEditingControllers[PriceValueKey]?.text =
-          value ?? '';
+    if (_CreateEventViewTextEditingControllers.containsKey(PriceValueKey)) {
+      _CreateEventViewTextEditingControllers[PriceValueKey]?.text = value ?? '';
     }
   }
 
@@ -273,8 +261,8 @@ extension ValueProperties on FormViewModel {
         }),
     );
 
-    if (_CreateEventSheetTextEditingControllers.containsKey(DateValueKey)) {
-      _CreateEventSheetTextEditingControllers[DateValueKey]?.text = value ?? '';
+    if (_CreateEventViewTextEditingControllers.containsKey(DateValueKey)) {
+      _CreateEventViewTextEditingControllers[DateValueKey]?.text = value ?? '';
     }
   }
 
@@ -286,9 +274,8 @@ extension ValueProperties on FormViewModel {
         }),
     );
 
-    if (_CreateEventSheetTextEditingControllers.containsKey(
-        StartTimeValueKey)) {
-      _CreateEventSheetTextEditingControllers[StartTimeValueKey]?.text =
+    if (_CreateEventViewTextEditingControllers.containsKey(StartTimeValueKey)) {
+      _CreateEventViewTextEditingControllers[StartTimeValueKey]?.text =
           value ?? '';
     }
   }
@@ -301,22 +288,8 @@ extension ValueProperties on FormViewModel {
         }),
     );
 
-    if (_CreateEventSheetTextEditingControllers.containsKey(EndTimeValueKey)) {
-      _CreateEventSheetTextEditingControllers[EndTimeValueKey]?.text =
-          value ?? '';
-    }
-  }
-
-  set ticketValue(String? value) {
-    this.setData(
-      this.formValueMap
-        ..addAll({
-          TicketValueKey: value,
-        }),
-    );
-
-    if (_CreateEventSheetTextEditingControllers.containsKey(TicketValueKey)) {
-      _CreateEventSheetTextEditingControllers[TicketValueKey]?.text =
+    if (_CreateEventViewTextEditingControllers.containsKey(EndTimeValueKey)) {
+      _CreateEventViewTextEditingControllers[EndTimeValueKey]?.text =
           value ?? '';
     }
   }
@@ -345,9 +318,6 @@ extension ValueProperties on FormViewModel {
   bool get hasEndTime =>
       this.formValueMap.containsKey(EndTimeValueKey) &&
       (endTimeValue?.isNotEmpty ?? false);
-  bool get hasTicket =>
-      this.formValueMap.containsKey(TicketValueKey) &&
-      (ticketValue?.isNotEmpty ?? false);
 
   bool get hasNameValidationMessage =>
       this.fieldsValidationMessages[NameValueKey]?.isNotEmpty ?? false;
@@ -365,8 +335,6 @@ extension ValueProperties on FormViewModel {
       this.fieldsValidationMessages[StartTimeValueKey]?.isNotEmpty ?? false;
   bool get hasEndTimeValidationMessage =>
       this.fieldsValidationMessages[EndTimeValueKey]?.isNotEmpty ?? false;
-  bool get hasTicketValidationMessage =>
-      this.fieldsValidationMessages[TicketValueKey]?.isNotEmpty ?? false;
 
   String? get nameValidationMessage =>
       this.fieldsValidationMessages[NameValueKey];
@@ -384,8 +352,6 @@ extension ValueProperties on FormViewModel {
       this.fieldsValidationMessages[StartTimeValueKey];
   String? get endTimeValidationMessage =>
       this.fieldsValidationMessages[EndTimeValueKey];
-  String? get ticketValidationMessage =>
-      this.fieldsValidationMessages[TicketValueKey];
   void clearForm() {
     nameValue = '';
     descriptionValue = '';
@@ -395,7 +361,6 @@ extension ValueProperties on FormViewModel {
     dateValue = '';
     startTimeValue = '';
     endTimeValue = '';
-    ticketValue = '';
   }
 }
 
@@ -416,6 +381,4 @@ extension Methods on FormViewModel {
       this.fieldsValidationMessages[StartTimeValueKey] = validationMessage;
   setEndTimeValidationMessage(String? validationMessage) =>
       this.fieldsValidationMessages[EndTimeValueKey] = validationMessage;
-  setTicketValidationMessage(String? validationMessage) =>
-      this.fieldsValidationMessages[TicketValueKey] = validationMessage;
 }

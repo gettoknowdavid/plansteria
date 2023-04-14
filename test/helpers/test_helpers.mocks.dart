@@ -4,22 +4,25 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i3;
-import 'dart:ui' as _i6;
+import 'dart:ui' as _i7;
 
 import 'package:dartz/dartz.dart' as _i2;
-import 'package:flutter/material.dart' as _i5;
+import 'package:firebase_storage/firebase_storage.dart' as _i4;
+import 'package:flutter/material.dart' as _i6;
+import 'package:image_picker/image_picker.dart' as _i18;
 import 'package:internet_connection_checker/internet_connection_checker.dart'
-    as _i11;
+    as _i12;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:plansteria/core/errors/auth_error.dart' as _i8;
-import 'package:plansteria/core/errors/event_error.dart' as _i15;
-import 'package:plansteria/models/event.dart' as _i14;
-import 'package:plansteria/services/auth_service.dart' as _i7;
-import 'package:plansteria/services/event_service.dart' as _i13;
-import 'package:plansteria/services/network_service.dart' as _i10;
-import 'package:plansteria/services/open_mail_app_service.dart' as _i12;
-import 'package:plansteria/services/secure_storage_service.dart' as _i9;
-import 'package:stacked_services/stacked_services.dart' as _i4;
+import 'package:plansteria/core/errors/auth_error.dart' as _i9;
+import 'package:plansteria/core/errors/event_error.dart' as _i16;
+import 'package:plansteria/models/event.dart' as _i15;
+import 'package:plansteria/services/auth_service.dart' as _i8;
+import 'package:plansteria/services/event_service.dart' as _i14;
+import 'package:plansteria/services/media_service.dart' as _i17;
+import 'package:plansteria/services/network_service.dart' as _i11;
+import 'package:plansteria/services/open_mail_app_service.dart' as _i13;
+import 'package:plansteria/services/secure_storage_service.dart' as _i10;
+import 'package:stacked_services/stacked_services.dart' as _i5;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -63,10 +66,20 @@ class _FakeStreamSubscription_2<T> extends _i1.SmartFake
         );
 }
 
+class _FakeReference_3 extends _i1.SmartFake implements _i4.Reference {
+  _FakeReference_3(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [NavigationService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNavigationService extends _i1.Mock implements _i4.NavigationService {
+class MockNavigationService extends _i1.Mock implements _i5.NavigationService {
   @override
   String get previousRoute => (super.noSuchMethod(
         Invocation.getter(#previousRoute),
@@ -80,14 +93,14 @@ class MockNavigationService extends _i1.Mock implements _i4.NavigationService {
         returnValueForMissingStub: '',
       ) as String);
   @override
-  _i5.GlobalKey<_i5.NavigatorState>? nestedNavigationKey(int? index) =>
+  _i6.GlobalKey<_i6.NavigatorState>? nestedNavigationKey(int? index) =>
       (super.noSuchMethod(
         Invocation.method(
           #nestedNavigationKey,
           [index],
         ),
         returnValueForMissingStub: null,
-      ) as _i5.GlobalKey<_i5.NavigatorState>?);
+      ) as _i6.GlobalKey<_i6.NavigatorState>?);
   @override
   void config({
     bool? enableLog,
@@ -95,7 +108,7 @@ class MockNavigationService extends _i1.Mock implements _i4.NavigationService {
     bool? defaultOpaqueRoute,
     Duration? defaultDurationTransition,
     bool? defaultGlobalState,
-    _i4.Transition? defaultTransitionStyle,
+    _i5.Transition? defaultTransitionStyle,
     String? defaultTransition,
   }) =>
       super.noSuchMethod(
@@ -116,17 +129,17 @@ class MockNavigationService extends _i1.Mock implements _i4.NavigationService {
       );
   @override
   _i3.Future<T?>? navigateWithTransition<T>(
-    _i5.Widget? page, {
+    _i6.Widget? page, {
     bool? opaque,
     String? transition = r'',
     Duration? duration,
     bool? popGesture,
     int? id,
-    _i5.Curve? curve,
+    _i6.Curve? curve,
     bool? fullscreenDialog = false,
     bool? preventDuplicates = true,
-    _i4.Transition? transitionClass,
-    _i4.Transition? transitionStyle,
+    _i5.Transition? transitionClass,
+    _i5.Transition? transitionStyle,
     String? routeName,
   }) =>
       (super.noSuchMethod(
@@ -151,17 +164,17 @@ class MockNavigationService extends _i1.Mock implements _i4.NavigationService {
       ) as _i3.Future<T?>?);
   @override
   _i3.Future<T?>? replaceWithTransition<T>(
-    _i5.Widget? page, {
+    _i6.Widget? page, {
     bool? opaque,
     String? transition = r'',
     Duration? duration,
     bool? popGesture,
     int? id,
-    _i5.Curve? curve,
+    _i6.Curve? curve,
     bool? fullscreenDialog = false,
     bool? preventDuplicates = true,
-    _i4.Transition? transitionClass,
-    _i4.Transition? transitionStyle,
+    _i5.Transition? transitionClass,
+    _i5.Transition? transitionStyle,
     String? routeName,
   }) =>
       (super.noSuchMethod(
@@ -203,7 +216,7 @@ class MockNavigationService extends _i1.Mock implements _i4.NavigationService {
       ) as bool);
   @override
   void popUntil(
-    _i5.RoutePredicate? predicate, {
+    _i6.RoutePredicate? predicate, {
     int? id,
   }) =>
       super.noSuchMethod(
@@ -229,7 +242,7 @@ class MockNavigationService extends _i1.Mock implements _i4.NavigationService {
     int? id,
     bool? preventDuplicates = true,
     Map<String, String>? parameters,
-    _i5.RouteTransitionsBuilder? transition,
+    _i6.RouteTransitionsBuilder? transition,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -247,17 +260,17 @@ class MockNavigationService extends _i1.Mock implements _i4.NavigationService {
       ) as _i3.Future<T?>?);
   @override
   _i3.Future<T?>? navigateToView<T>(
-    _i5.Widget? view, {
+    _i6.Widget? view, {
     dynamic arguments,
     int? id,
     bool? opaque,
-    _i5.Curve? curve,
+    _i6.Curve? curve,
     Duration? duration,
     bool? fullscreenDialog = false,
     bool? popGesture,
     bool? preventDuplicates = true,
-    _i4.Transition? transition,
-    _i4.Transition? transitionStyle,
+    _i5.Transition? transition,
+    _i5.Transition? transitionStyle,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -285,7 +298,7 @@ class MockNavigationService extends _i1.Mock implements _i4.NavigationService {
     int? id,
     bool? preventDuplicates = true,
     Map<String, String>? parameters,
-    _i5.RouteTransitionsBuilder? transition,
+    _i6.RouteTransitionsBuilder? transition,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -322,7 +335,7 @@ class MockNavigationService extends _i1.Mock implements _i4.NavigationService {
       ) as _i3.Future<T?>?);
   @override
   _i3.Future<T?>? clearStackAndShowView<T>(
-    _i5.Widget? view, {
+    _i6.Widget? view, {
     dynamic arguments,
     int? id,
   }) =>
@@ -360,7 +373,7 @@ class MockNavigationService extends _i1.Mock implements _i4.NavigationService {
       ) as _i3.Future<T?>?);
   @override
   _i3.Future<T?>? clearTillFirstAndShowView<T>(
-    _i5.Widget? view, {
+    _i6.Widget? view, {
     dynamic arguments,
     int? id,
   }) =>
@@ -378,7 +391,7 @@ class MockNavigationService extends _i1.Mock implements _i4.NavigationService {
   @override
   _i3.Future<T?>? pushNamedAndRemoveUntil<T>(
     String? routeName, {
-    _i5.RoutePredicate? predicate,
+    _i6.RoutePredicate? predicate,
     dynamic arguments,
     int? id,
   }) =>
@@ -400,9 +413,9 @@ class MockNavigationService extends _i1.Mock implements _i4.NavigationService {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockBottomSheetService extends _i1.Mock
-    implements _i4.BottomSheetService {
+    implements _i5.BottomSheetService {
   @override
-  void setCustomSheetBuilders(Map<dynamic, _i4.SheetBuilder>? builders) =>
+  void setCustomSheetBuilders(Map<dynamic, _i5.SheetBuilder>? builders) =>
       super.noSuchMethod(
         Invocation.method(
           #setCustomSheetBuilders,
@@ -411,7 +424,7 @@ class MockBottomSheetService extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  _i3.Future<_i4.SheetResponse<dynamic>?> showBottomSheet({
+  _i3.Future<_i5.SheetResponse<dynamic>?> showBottomSheet({
     required String? title,
     String? description,
     String? confirmButtonTitle = r'Ok',
@@ -442,12 +455,12 @@ class MockBottomSheetService extends _i1.Mock
             #useRootNavigator: useRootNavigator,
           },
         ),
-        returnValue: _i3.Future<_i4.SheetResponse<dynamic>?>.value(),
+        returnValue: _i3.Future<_i5.SheetResponse<dynamic>?>.value(),
         returnValueForMissingStub:
-            _i3.Future<_i4.SheetResponse<dynamic>?>.value(),
-      ) as _i3.Future<_i4.SheetResponse<dynamic>?>);
+            _i3.Future<_i5.SheetResponse<dynamic>?>.value(),
+      ) as _i3.Future<_i5.SheetResponse<dynamic>?>);
   @override
-  _i3.Future<_i4.SheetResponse<T>?> showCustomSheet<T, R>({
+  _i3.Future<_i5.SheetResponse<T>?> showCustomSheet<T, R>({
     dynamic variant,
     String? title,
     String? description,
@@ -460,7 +473,7 @@ class MockBottomSheetService extends _i1.Mock
     bool? showIconInAdditionalButton = false,
     String? additionalButtonTitle,
     bool? takesInput = false,
-    _i6.Color? barrierColor = const _i6.Color(2315255808),
+    _i7.Color? barrierColor = const _i7.Color(2315255808),
     bool? barrierDismissible = true,
     bool? isScrollControlled = false,
     String? barrierLabel = r'',
@@ -502,11 +515,11 @@ class MockBottomSheetService extends _i1.Mock
             #useRootNavigator: useRootNavigator,
           },
         ),
-        returnValue: _i3.Future<_i4.SheetResponse<T>?>.value(),
-        returnValueForMissingStub: _i3.Future<_i4.SheetResponse<T>?>.value(),
-      ) as _i3.Future<_i4.SheetResponse<T>?>);
+        returnValue: _i3.Future<_i5.SheetResponse<T>?>.value(),
+        returnValueForMissingStub: _i3.Future<_i5.SheetResponse<T>?>.value(),
+      ) as _i3.Future<_i5.SheetResponse<T>?>);
   @override
-  void completeSheet(_i4.SheetResponse<dynamic>? response) =>
+  void completeSheet(_i5.SheetResponse<dynamic>? response) =>
       super.noSuchMethod(
         Invocation.method(
           #completeSheet,
@@ -519,10 +532,10 @@ class MockBottomSheetService extends _i1.Mock
 /// A class which mocks [DialogService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockDialogService extends _i1.Mock implements _i4.DialogService {
+class MockDialogService extends _i1.Mock implements _i5.DialogService {
   @override
   void registerCustomDialogBuilders(
-          Map<dynamic, _i4.DialogBuilder>? builders) =>
+          Map<dynamic, _i5.DialogBuilder>? builders) =>
       super.noSuchMethod(
         Invocation.method(
           #registerCustomDialogBuilders,
@@ -533,10 +546,10 @@ class MockDialogService extends _i1.Mock implements _i4.DialogService {
   @override
   void registerCustomDialogBuilder({
     required dynamic variant,
-    required _i5.Widget Function(
-      _i5.BuildContext,
-      _i4.DialogRequest<dynamic>,
-      dynamic Function(_i4.DialogResponse<dynamic>),
+    required _i6.Widget Function(
+      _i6.BuildContext,
+      _i5.DialogRequest<dynamic>,
+      dynamic Function(_i5.DialogResponse<dynamic>),
     )? builder,
   }) =>
       super.noSuchMethod(
@@ -551,15 +564,15 @@ class MockDialogService extends _i1.Mock implements _i4.DialogService {
         returnValueForMissingStub: null,
       );
   @override
-  _i3.Future<_i4.DialogResponse<dynamic>?> showDialog({
+  _i3.Future<_i5.DialogResponse<dynamic>?> showDialog({
     String? title,
     String? description,
     String? cancelTitle,
-    _i6.Color? cancelTitleColor,
+    _i7.Color? cancelTitleColor,
     String? buttonTitle = r'Ok',
-    _i6.Color? buttonTitleColor,
+    _i7.Color? buttonTitleColor,
     bool? barrierDismissible = false,
-    _i4.DialogPlatform? dialogPlatform,
+    _i5.DialogPlatform? dialogPlatform,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -576,12 +589,12 @@ class MockDialogService extends _i1.Mock implements _i4.DialogService {
             #dialogPlatform: dialogPlatform,
           },
         ),
-        returnValue: _i3.Future<_i4.DialogResponse<dynamic>?>.value(),
+        returnValue: _i3.Future<_i5.DialogResponse<dynamic>?>.value(),
         returnValueForMissingStub:
-            _i3.Future<_i4.DialogResponse<dynamic>?>.value(),
-      ) as _i3.Future<_i4.DialogResponse<dynamic>?>);
+            _i3.Future<_i5.DialogResponse<dynamic>?>.value(),
+      ) as _i3.Future<_i5.DialogResponse<dynamic>?>);
   @override
-  _i3.Future<_i4.DialogResponse<T>?> showCustomDialog<T, R>({
+  _i3.Future<_i5.DialogResponse<T>?> showCustomDialog<T, R>({
     dynamic variant,
     String? title,
     String? description,
@@ -594,7 +607,7 @@ class MockDialogService extends _i1.Mock implements _i4.DialogService {
     bool? showIconInAdditionalButton = false,
     String? additionalButtonTitle,
     bool? takesInput = false,
-    _i6.Color? barrierColor = const _i6.Color(2315255808),
+    _i7.Color? barrierColor = const _i7.Color(2315255808),
     bool? barrierDismissible = false,
     String? barrierLabel = r'',
     dynamic customData,
@@ -624,17 +637,17 @@ class MockDialogService extends _i1.Mock implements _i4.DialogService {
             #data: data,
           },
         ),
-        returnValue: _i3.Future<_i4.DialogResponse<T>?>.value(),
-        returnValueForMissingStub: _i3.Future<_i4.DialogResponse<T>?>.value(),
-      ) as _i3.Future<_i4.DialogResponse<T>?>);
+        returnValue: _i3.Future<_i5.DialogResponse<T>?>.value(),
+        returnValueForMissingStub: _i3.Future<_i5.DialogResponse<T>?>.value(),
+      ) as _i3.Future<_i5.DialogResponse<T>?>);
   @override
-  _i3.Future<_i4.DialogResponse<dynamic>?> showConfirmationDialog({
+  _i3.Future<_i5.DialogResponse<dynamic>?> showConfirmationDialog({
     String? title,
     String? description,
     String? cancelTitle = r'Cancel',
     String? confirmationTitle = r'Ok',
     bool? barrierDismissible = false,
-    _i4.DialogPlatform? dialogPlatform,
+    _i5.DialogPlatform? dialogPlatform,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -649,12 +662,12 @@ class MockDialogService extends _i1.Mock implements _i4.DialogService {
             #dialogPlatform: dialogPlatform,
           },
         ),
-        returnValue: _i3.Future<_i4.DialogResponse<dynamic>?>.value(),
+        returnValue: _i3.Future<_i5.DialogResponse<dynamic>?>.value(),
         returnValueForMissingStub:
-            _i3.Future<_i4.DialogResponse<dynamic>?>.value(),
-      ) as _i3.Future<_i4.DialogResponse<dynamic>?>);
+            _i3.Future<_i5.DialogResponse<dynamic>?>.value(),
+      ) as _i3.Future<_i5.DialogResponse<dynamic>?>);
   @override
-  void completeDialog(_i4.DialogResponse<dynamic>? response) =>
+  void completeDialog(_i5.DialogResponse<dynamic>? response) =>
       super.noSuchMethod(
         Invocation.method(
           #completeDialog,
@@ -667,7 +680,7 @@ class MockDialogService extends _i1.Mock implements _i4.DialogService {
 /// A class which mocks [AuthService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAuthService extends _i1.Mock implements _i7.AuthService {
+class MockAuthService extends _i1.Mock implements _i8.AuthService {
   @override
   bool get isAuthenticated => (super.noSuchMethod(
         Invocation.getter(#isAuthenticated),
@@ -690,15 +703,15 @@ class MockAuthService extends _i1.Mock implements _i7.AuthService {
         returnValueForMissingStub: _i3.Future<void>.value(),
       ) as _i3.Future<void>);
   @override
-  _i3.Future<_i2.Option<_i2.Either<_i8.AuthError, bool>>>
+  _i3.Future<_i2.Option<_i2.Either<_i9.AuthError, bool>>>
       checkEmailVerified() => (super.noSuchMethod(
             Invocation.method(
               #checkEmailVerified,
               [],
             ),
             returnValue:
-                _i3.Future<_i2.Option<_i2.Either<_i8.AuthError, bool>>>.value(
-                    _FakeOption_0<_i2.Either<_i8.AuthError, bool>>(
+                _i3.Future<_i2.Option<_i2.Either<_i9.AuthError, bool>>>.value(
+                    _FakeOption_0<_i2.Either<_i9.AuthError, bool>>(
               this,
               Invocation.method(
                 #checkEmailVerified,
@@ -706,25 +719,25 @@ class MockAuthService extends _i1.Mock implements _i7.AuthService {
               ),
             )),
             returnValueForMissingStub:
-                _i3.Future<_i2.Option<_i2.Either<_i8.AuthError, bool>>>.value(
-                    _FakeOption_0<_i2.Either<_i8.AuthError, bool>>(
+                _i3.Future<_i2.Option<_i2.Either<_i9.AuthError, bool>>>.value(
+                    _FakeOption_0<_i2.Either<_i9.AuthError, bool>>(
               this,
               Invocation.method(
                 #checkEmailVerified,
                 [],
               ),
             )),
-          ) as _i3.Future<_i2.Option<_i2.Either<_i8.AuthError, bool>>>);
+          ) as _i3.Future<_i2.Option<_i2.Either<_i9.AuthError, bool>>>);
   @override
-  _i3.Future<_i2.Either<_i8.AuthError, _i2.Unit>> forgotPassword(
+  _i3.Future<_i2.Either<_i9.AuthError, _i2.Unit>> forgotPassword(
           String? email) =>
       (super.noSuchMethod(
         Invocation.method(
           #forgotPassword,
           [email],
         ),
-        returnValue: _i3.Future<_i2.Either<_i8.AuthError, _i2.Unit>>.value(
-            _FakeEither_1<_i8.AuthError, _i2.Unit>(
+        returnValue: _i3.Future<_i2.Either<_i9.AuthError, _i2.Unit>>.value(
+            _FakeEither_1<_i9.AuthError, _i2.Unit>(
           this,
           Invocation.method(
             #forgotPassword,
@@ -732,17 +745,17 @@ class MockAuthService extends _i1.Mock implements _i7.AuthService {
           ),
         )),
         returnValueForMissingStub:
-            _i3.Future<_i2.Either<_i8.AuthError, _i2.Unit>>.value(
-                _FakeEither_1<_i8.AuthError, _i2.Unit>(
+            _i3.Future<_i2.Either<_i9.AuthError, _i2.Unit>>.value(
+                _FakeEither_1<_i9.AuthError, _i2.Unit>(
           this,
           Invocation.method(
             #forgotPassword,
             [email],
           ),
         )),
-      ) as _i3.Future<_i2.Either<_i8.AuthError, _i2.Unit>>);
+      ) as _i3.Future<_i2.Either<_i9.AuthError, _i2.Unit>>);
   @override
-  _i3.Future<_i2.Either<_i8.AuthError, _i2.Unit>> login({
+  _i3.Future<_i2.Either<_i9.AuthError, _i2.Unit>> login({
     required String? email,
     required String? password,
   }) =>
@@ -755,8 +768,8 @@ class MockAuthService extends _i1.Mock implements _i7.AuthService {
             #password: password,
           },
         ),
-        returnValue: _i3.Future<_i2.Either<_i8.AuthError, _i2.Unit>>.value(
-            _FakeEither_1<_i8.AuthError, _i2.Unit>(
+        returnValue: _i3.Future<_i2.Either<_i9.AuthError, _i2.Unit>>.value(
+            _FakeEither_1<_i9.AuthError, _i2.Unit>(
           this,
           Invocation.method(
             #login,
@@ -768,8 +781,8 @@ class MockAuthService extends _i1.Mock implements _i7.AuthService {
           ),
         )),
         returnValueForMissingStub:
-            _i3.Future<_i2.Either<_i8.AuthError, _i2.Unit>>.value(
-                _FakeEither_1<_i8.AuthError, _i2.Unit>(
+            _i3.Future<_i2.Either<_i9.AuthError, _i2.Unit>>.value(
+                _FakeEither_1<_i9.AuthError, _i2.Unit>(
           this,
           Invocation.method(
             #login,
@@ -780,7 +793,7 @@ class MockAuthService extends _i1.Mock implements _i7.AuthService {
             },
           ),
         )),
-      ) as _i3.Future<_i2.Either<_i8.AuthError, _i2.Unit>>);
+      ) as _i3.Future<_i2.Either<_i9.AuthError, _i2.Unit>>);
   @override
   _i3.Future<void> logout() => (super.noSuchMethod(
         Invocation.method(
@@ -791,7 +804,7 @@ class MockAuthService extends _i1.Mock implements _i7.AuthService {
         returnValueForMissingStub: _i3.Future<void>.value(),
       ) as _i3.Future<void>);
   @override
-  _i3.Future<_i2.Either<_i8.AuthError, _i2.Unit>> register({
+  _i3.Future<_i2.Either<_i9.AuthError, _i2.Unit>> register({
     required String? name,
     required String? email,
     required String? password,
@@ -806,8 +819,8 @@ class MockAuthService extends _i1.Mock implements _i7.AuthService {
             #password: password,
           },
         ),
-        returnValue: _i3.Future<_i2.Either<_i8.AuthError, _i2.Unit>>.value(
-            _FakeEither_1<_i8.AuthError, _i2.Unit>(
+        returnValue: _i3.Future<_i2.Either<_i9.AuthError, _i2.Unit>>.value(
+            _FakeEither_1<_i9.AuthError, _i2.Unit>(
           this,
           Invocation.method(
             #register,
@@ -820,8 +833,8 @@ class MockAuthService extends _i1.Mock implements _i7.AuthService {
           ),
         )),
         returnValueForMissingStub:
-            _i3.Future<_i2.Either<_i8.AuthError, _i2.Unit>>.value(
-                _FakeEither_1<_i8.AuthError, _i2.Unit>(
+            _i3.Future<_i2.Either<_i9.AuthError, _i2.Unit>>.value(
+                _FakeEither_1<_i9.AuthError, _i2.Unit>(
           this,
           Invocation.method(
             #register,
@@ -833,16 +846,16 @@ class MockAuthService extends _i1.Mock implements _i7.AuthService {
             },
           ),
         )),
-      ) as _i3.Future<_i2.Either<_i8.AuthError, _i2.Unit>>);
+      ) as _i3.Future<_i2.Either<_i9.AuthError, _i2.Unit>>);
   @override
-  _i3.Future<_i2.Either<_i8.AuthError, _i2.Unit>> sendVerificationEmail() =>
+  _i3.Future<_i2.Either<_i9.AuthError, _i2.Unit>> sendVerificationEmail() =>
       (super.noSuchMethod(
         Invocation.method(
           #sendVerificationEmail,
           [],
         ),
-        returnValue: _i3.Future<_i2.Either<_i8.AuthError, _i2.Unit>>.value(
-            _FakeEither_1<_i8.AuthError, _i2.Unit>(
+        returnValue: _i3.Future<_i2.Either<_i9.AuthError, _i2.Unit>>.value(
+            _FakeEither_1<_i9.AuthError, _i2.Unit>(
           this,
           Invocation.method(
             #sendVerificationEmail,
@@ -850,15 +863,15 @@ class MockAuthService extends _i1.Mock implements _i7.AuthService {
           ),
         )),
         returnValueForMissingStub:
-            _i3.Future<_i2.Either<_i8.AuthError, _i2.Unit>>.value(
-                _FakeEither_1<_i8.AuthError, _i2.Unit>(
+            _i3.Future<_i2.Either<_i9.AuthError, _i2.Unit>>.value(
+                _FakeEither_1<_i9.AuthError, _i2.Unit>(
           this,
           Invocation.method(
             #sendVerificationEmail,
             [],
           ),
         )),
-      ) as _i3.Future<_i2.Either<_i8.AuthError, _i2.Unit>>);
+      ) as _i3.Future<_i2.Either<_i9.AuthError, _i2.Unit>>);
   @override
   void listenToReactiveValues(List<dynamic>? reactiveValues) =>
       super.noSuchMethod(
@@ -898,7 +911,7 @@ class MockAuthService extends _i1.Mock implements _i7.AuthService {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSecureStorageService extends _i1.Mock
-    implements _i9.SecureStorageService {
+    implements _i10.SecureStorageService {
   @override
   _i3.Future<void> delete(String? key) => (super.noSuchMethod(
         Invocation.method(
@@ -948,13 +961,13 @@ class MockSecureStorageService extends _i1.Mock
 /// A class which mocks [NetworkService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNetworkService extends _i1.Mock implements _i10.NetworkService {
+class MockNetworkService extends _i1.Mock implements _i11.NetworkService {
   @override
-  _i10.NetworkStatus get status => (super.noSuchMethod(
+  _i11.NetworkStatus get status => (super.noSuchMethod(
         Invocation.getter(#status),
-        returnValue: _i10.NetworkStatus.connected,
-        returnValueForMissingStub: _i10.NetworkStatus.connected,
-      ) as _i10.NetworkStatus);
+        returnValue: _i11.NetworkStatus.connected,
+        returnValueForMissingStub: _i11.NetworkStatus.connected,
+      ) as _i11.NetworkStatus);
   @override
   int get listenersCount => (super.noSuchMethod(
         Invocation.getter(#listenersCount),
@@ -971,13 +984,13 @@ class MockNetworkService extends _i1.Mock implements _i10.NetworkService {
         returnValueForMissingStub: _i3.Future<void>.value(),
       ) as _i3.Future<void>);
   @override
-  _i3.StreamSubscription<_i11.InternetConnectionStatus> listenForChange() =>
+  _i3.StreamSubscription<_i12.InternetConnectionStatus> listenForChange() =>
       (super.noSuchMethod(
         Invocation.method(
           #listenForChange,
           [],
         ),
-        returnValue: _FakeStreamSubscription_2<_i11.InternetConnectionStatus>(
+        returnValue: _FakeStreamSubscription_2<_i12.InternetConnectionStatus>(
           this,
           Invocation.method(
             #listenForChange,
@@ -985,14 +998,14 @@ class MockNetworkService extends _i1.Mock implements _i10.NetworkService {
           ),
         ),
         returnValueForMissingStub:
-            _FakeStreamSubscription_2<_i11.InternetConnectionStatus>(
+            _FakeStreamSubscription_2<_i12.InternetConnectionStatus>(
           this,
           Invocation.method(
             #listenForChange,
             [],
           ),
         ),
-      ) as _i3.StreamSubscription<_i11.InternetConnectionStatus>);
+      ) as _i3.StreamSubscription<_i12.InternetConnectionStatus>);
   @override
   void listenToReactiveValues(List<dynamic>? reactiveValues) =>
       super.noSuchMethod(
@@ -1032,7 +1045,7 @@ class MockNetworkService extends _i1.Mock implements _i10.NetworkService {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockOpenMailAppService extends _i1.Mock
-    implements _i12.OpenMailAppService {
+    implements _i13.OpenMailAppService {
   @override
   _i3.Future<void> openMailApp() => (super.noSuchMethod(
         Invocation.method(
@@ -1047,13 +1060,19 @@ class MockOpenMailAppService extends _i1.Mock
 /// A class which mocks [EventService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockEventService extends _i1.Mock implements _i13.EventService {
+class MockEventService extends _i1.Mock implements _i14.EventService {
   @override
-  List<_i14.Event?> get events => (super.noSuchMethod(
+  List<_i15.Event?> get events => (super.noSuchMethod(
         Invocation.getter(#events),
-        returnValue: <_i14.Event?>[],
-        returnValueForMissingStub: <_i14.Event?>[],
-      ) as List<_i14.Event?>);
+        returnValue: <_i15.Event?>[],
+        returnValueForMissingStub: <_i15.Event?>[],
+      ) as List<_i15.Event?>);
+  @override
+  _i3.Stream<List<_i15.Event?>> get eventsStream => (super.noSuchMethod(
+        Invocation.getter(#eventsStream),
+        returnValue: _i3.Stream<List<_i15.Event?>>.empty(),
+        returnValueForMissingStub: _i3.Stream<List<_i15.Event?>>.empty(),
+      ) as _i3.Stream<List<_i15.Event?>>);
   @override
   int get listenersCount => (super.noSuchMethod(
         Invocation.getter(#listenersCount),
@@ -1061,15 +1080,15 @@ class MockEventService extends _i1.Mock implements _i13.EventService {
         returnValueForMissingStub: 0,
       ) as int);
   @override
-  _i3.Future<_i2.Either<_i15.EventError, _i2.Unit>> createEvent(
-          _i14.Event? event) =>
+  _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>> createEvent(
+          _i15.Event? event) =>
       (super.noSuchMethod(
         Invocation.method(
           #createEvent,
           [event],
         ),
-        returnValue: _i3.Future<_i2.Either<_i15.EventError, _i2.Unit>>.value(
-            _FakeEither_1<_i15.EventError, _i2.Unit>(
+        returnValue: _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>>.value(
+            _FakeEither_1<_i16.EventError, _i2.Unit>(
           this,
           Invocation.method(
             #createEvent,
@@ -1077,25 +1096,25 @@ class MockEventService extends _i1.Mock implements _i13.EventService {
           ),
         )),
         returnValueForMissingStub:
-            _i3.Future<_i2.Either<_i15.EventError, _i2.Unit>>.value(
-                _FakeEither_1<_i15.EventError, _i2.Unit>(
+            _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>>.value(
+                _FakeEither_1<_i16.EventError, _i2.Unit>(
           this,
           Invocation.method(
             #createEvent,
             [event],
           ),
         )),
-      ) as _i3.Future<_i2.Either<_i15.EventError, _i2.Unit>>);
+      ) as _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>>);
   @override
-  _i3.Future<_i2.Either<_i15.EventError, List<_i14.Event?>>> getAllEvents() =>
+  _i3.Future<_i2.Either<_i16.EventError, List<_i15.Event?>>> getAllEvents() =>
       (super.noSuchMethod(
         Invocation.method(
           #getAllEvents,
           [],
         ),
         returnValue:
-            _i3.Future<_i2.Either<_i15.EventError, List<_i14.Event?>>>.value(
-                _FakeEither_1<_i15.EventError, List<_i14.Event?>>(
+            _i3.Future<_i2.Either<_i16.EventError, List<_i15.Event?>>>.value(
+                _FakeEither_1<_i16.EventError, List<_i15.Event?>>(
           this,
           Invocation.method(
             #getAllEvents,
@@ -1103,24 +1122,24 @@ class MockEventService extends _i1.Mock implements _i13.EventService {
           ),
         )),
         returnValueForMissingStub:
-            _i3.Future<_i2.Either<_i15.EventError, List<_i14.Event?>>>.value(
-                _FakeEither_1<_i15.EventError, List<_i14.Event?>>(
+            _i3.Future<_i2.Either<_i16.EventError, List<_i15.Event?>>>.value(
+                _FakeEither_1<_i16.EventError, List<_i15.Event?>>(
           this,
           Invocation.method(
             #getAllEvents,
             [],
           ),
         )),
-      ) as _i3.Future<_i2.Either<_i15.EventError, List<_i14.Event?>>>);
+      ) as _i3.Future<_i2.Either<_i16.EventError, List<_i15.Event?>>>);
   @override
-  _i3.Future<_i2.Either<_i15.EventError, _i2.Unit>> removeEvent(String? uid) =>
+  _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>> removeEvent(String? uid) =>
       (super.noSuchMethod(
         Invocation.method(
           #removeEvent,
           [uid],
         ),
-        returnValue: _i3.Future<_i2.Either<_i15.EventError, _i2.Unit>>.value(
-            _FakeEither_1<_i15.EventError, _i2.Unit>(
+        returnValue: _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>>.value(
+            _FakeEither_1<_i16.EventError, _i2.Unit>(
           this,
           Invocation.method(
             #removeEvent,
@@ -1128,25 +1147,25 @@ class MockEventService extends _i1.Mock implements _i13.EventService {
           ),
         )),
         returnValueForMissingStub:
-            _i3.Future<_i2.Either<_i15.EventError, _i2.Unit>>.value(
-                _FakeEither_1<_i15.EventError, _i2.Unit>(
+            _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>>.value(
+                _FakeEither_1<_i16.EventError, _i2.Unit>(
           this,
           Invocation.method(
             #removeEvent,
             [uid],
           ),
         )),
-      ) as _i3.Future<_i2.Either<_i15.EventError, _i2.Unit>>);
+      ) as _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>>);
   @override
-  _i3.Future<_i2.Either<_i15.EventError, _i2.Unit>> updateEvent(
-          _i14.Event? event) =>
+  _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>> updateEvent(
+          _i15.Event? event) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateEvent,
           [event],
         ),
-        returnValue: _i3.Future<_i2.Either<_i15.EventError, _i2.Unit>>.value(
-            _FakeEither_1<_i15.EventError, _i2.Unit>(
+        returnValue: _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>>.value(
+            _FakeEither_1<_i16.EventError, _i2.Unit>(
           this,
           Invocation.method(
             #updateEvent,
@@ -1154,15 +1173,108 @@ class MockEventService extends _i1.Mock implements _i13.EventService {
           ),
         )),
         returnValueForMissingStub:
-            _i3.Future<_i2.Either<_i15.EventError, _i2.Unit>>.value(
-                _FakeEither_1<_i15.EventError, _i2.Unit>(
+            _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>>.value(
+                _FakeEither_1<_i16.EventError, _i2.Unit>(
           this,
           Invocation.method(
             #updateEvent,
             [event],
           ),
         )),
-      ) as _i3.Future<_i2.Either<_i15.EventError, _i2.Unit>>);
+      ) as _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>>);
+  @override
+  void listenToReactiveValues(List<dynamic>? reactiveValues) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #listenToReactiveValues,
+          [reactiveValues],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void addListener(void Function()? listener) => super.noSuchMethod(
+        Invocation.method(
+          #addListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void removeListener(void Function()? listener) => super.noSuchMethod(
+        Invocation.method(
+          #removeListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void notifyListeners() => super.noSuchMethod(
+        Invocation.method(
+          #notifyListeners,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+}
+
+/// A class which mocks [MediaService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMediaService extends _i1.Mock implements _i17.MediaService {
+  @override
+  _i4.Reference get storageRef => (super.noSuchMethod(
+        Invocation.getter(#storageRef),
+        returnValue: _FakeReference_3(
+          this,
+          Invocation.getter(#storageRef),
+        ),
+        returnValueForMissingStub: _FakeReference_3(
+          this,
+          Invocation.getter(#storageRef),
+        ),
+      ) as _i4.Reference);
+  @override
+  int get listenersCount => (super.noSuchMethod(
+        Invocation.getter(#listenersCount),
+        returnValue: 0,
+        returnValueForMissingStub: 0,
+      ) as int);
+  @override
+  dynamic getFileFromCloud(_i4.Reference? ref) => super.noSuchMethod(
+        Invocation.method(
+          #getFileFromCloud,
+          [ref],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  _i3.Future<_i18.XFile?> getImage({required bool? fromGallery}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getImage,
+          [],
+          {#fromGallery: fromGallery},
+        ),
+        returnValue: _i3.Future<_i18.XFile?>.value(),
+        returnValueForMissingStub: _i3.Future<_i18.XFile?>.value(),
+      ) as _i3.Future<_i18.XFile?>);
+  @override
+  dynamic uploadFileToCloud(
+    String? path,
+    String? name,
+    _i4.Reference? ref,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #uploadFileToCloud,
+          [
+            path,
+            name,
+            ref,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
   @override
   void listenToReactiveValues(List<dynamic>? reactiveValues) =>
       super.noSuchMethod(

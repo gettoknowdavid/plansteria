@@ -59,7 +59,7 @@ class HomeView extends StackedView<HomeViewModel> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: viewModel.showCreateEventBottomSheet,
+        onPressed: viewModel.navigateToCreateEvent,
         child: const Icon(Icons.add),
       ),
     );

@@ -2,8 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:plansteria/models/event.dart';
-import 'package:plansteria/ui/common/app_constants.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
@@ -17,10 +17,12 @@ class EventCard extends StatelessWidget {
     final textTheme = theme.textTheme;
     final isDark = theme.brightness == Brightness.dark;
 
-    final containerHeight = 0.24.sw;
+    final containerHeight = 0.22.sw;
 
     final date = DateFormat.MMMEd().format(event.date);
     final time = TimeOfDay.fromDateTime(event.startTime).format(context);
+
+    final hasImageUrl = event.eventImageUrl != null;
 
     return GestureDetector(
       onTap: onTap,
@@ -34,14 +36,17 @@ class EventCard extends StatelessWidget {
           children: [
             Container(
               height: containerHeight,
-              width: 56.r,
+              width: 54.r,
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(10)).r,
-                image: const DecorationImage(
-                  image: AssetImage(kPlaceHolerImageAsset),
-                  fit: BoxFit.cover,
-                ),
+                image: hasImageUrl
+                    ? DecorationImage(
+                        image: NetworkImage(event.eventImageUrl!),
+                        fit: BoxFit.cover,
+                      )
+                    : null,
               ),
+              child: hasImageUrl ? null : const Icon(PhosphorIcons.image),
             ),
             12.horizontalSpace,
             Expanded(
@@ -52,7 +57,7 @@ class EventCard extends StatelessWidget {
                   AutoSizeText(
                     event.eventName,
                     maxLines: 2,
-                    minFontSize: 16,
+                    minFontSize: 14,
                     maxFontSize: 18,
                     overflow: TextOverflow.ellipsis,
                     style: textTheme.titleSmall?.copyWith(

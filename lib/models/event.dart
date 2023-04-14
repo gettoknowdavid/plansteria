@@ -41,8 +41,6 @@ class Event with _$Event {
     DateTime? endTime,
     String? eventImageUrl,
     required String creatorId,
-    required String createdName,
-    String? creatorAvatar,
   }) = _Event;
 
   factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);

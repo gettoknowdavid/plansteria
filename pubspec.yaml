@@ -65,6 +65,7 @@ dependencies:
   uuid: ^3.0.7
   auto_size_text: ^3.0.0
   readmore: ^2.2.0
+  image_picker: ^0.8.7+2
 
 dev_dependencies:
   flutter_test:

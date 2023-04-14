@@ -48,6 +48,12 @@ class HomeViewModel extends StreamViewModel<List<Event?>> {
     );
   }
 
+  void navigateToCreateEvent() {
+    _navigationService.navigateToNestedCreateEventViewInLayoutViewRouter(
+      routerId: 1,
+    );
+  }
+
   // @override
   // void onError(error) {
   //   _snackbarService.showCustomSnackBar(

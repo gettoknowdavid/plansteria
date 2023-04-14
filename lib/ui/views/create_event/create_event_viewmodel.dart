@@ -1,30 +1,42 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:plansteria/app/app.locator.dart';
+import 'package:plansteria/app/app.router.dart';
 import 'package:plansteria/app/app.snackbars.dart';
 import 'package:plansteria/models/event.dart';
 import 'package:plansteria/models/user.dart';
 import 'package:plansteria/services/auth_service.dart';
 import 'package:plansteria/services/event_service.dart';
-import 'package:plansteria/ui/bottom_sheets/create_event/create_event_sheet.form.dart';
+import 'package:plansteria/services/media_service.dart';
 import 'package:plansteria/ui/common/app_strings.dart';
+import 'package:plansteria/ui/views/create_event/create_event_view.form.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:uuid/uuid.dart';
 
-class CreateEventSheetModel extends FormViewModel with ListenableServiceMixin {
+class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
   final _authService = locator<AuthService>();
-  final _bottomSheetService = locator<BottomSheetService>();
-
   final _eventService = locator<EventService>();
   final _navigationService = locator<NavigationService>();
   final _snackbarService = locator<SnackbarService>();
+  final _mediaService = locator<MediaService>();
 
-  final _selectedDate = ReactiveValue<List<DateTime>>(
-      [DateTime.now(), DateTime.now().add(const Duration(hours: 1))]);
+  final _selectedDate = ReactiveValue<List<DateTime>>([
+    DateTime.now(),
+    DateTime.now().add(const Duration(hours: 1)),
+  ]);
+  List<DateTime> get selectedDate => _selectedDate.value;
 
-  CreateEventSheetModel() {
-    listenToReactiveValues([_selectedDate]);
+  final ReactiveValue<File?> _image = ReactiveValue<File?>(null);
+  File? get image => _image.value;
+
+  final ReactiveValue<String?> _photoUrl = ReactiveValue<String?>(null);
+  String? get photoUrl => _photoUrl.value;
+
+  CreateEventViewModel() {
+    listenToReactiveValues([_selectedDate, _image, _photoUrl]);
   }
 
   User get currentUser => _authService.currentUser!;
@@ -37,16 +49,33 @@ class CreateEventSheetModel extends FormViewModel with ListenableServiceMixin {
       !isFormValid ||
       isBusy;
 
-  List<DateTime> get selectedDate => _selectedDate.value;
+  void getImage() async {
+    final _pickedFile = await _mediaService.getImage(fromGallery: true);
 
-  @override
-  void listenToReactiveValues(List reactiveValues) => [_authService];
+    if (_pickedFile != null) {
+      _image.value = File(_pickedFile.path);
+    }
 
-  Future<void> onEventCreate(SheetResponse<dynamic> response) async {
+    notifyListeners();
+  }
+
+  Future<void> onEventCreate() async {
     setBusy(true);
 
+    final uid = const Uuid().v4();
+
+    final fileName = "$uid.jpg";
+
+    if (_image.value != null) {
+      final ref = _mediaService.storageRef.child("images/avatar/$fileName");
+
+      await _mediaService.uploadFileToCloud(_image.value!.path, fileName, ref);
+
+      _photoUrl.value = await _mediaService.getFileFromCloud(ref);
+    }
+
     final event = Event(
-      uid: const Uuid().v4(),
+      uid: uid,
       eventName: nameValue!,
       description: descriptionValue,
       eventAddress: addressValue!,
@@ -56,6 +85,7 @@ class CreateEventSheetModel extends FormViewModel with ListenableServiceMixin {
       startTime: DateTime.parse(startTimeValue!),
       endTime: endTimeValue == null ? null : DateTime.parse(endTimeValue!),
       creatorId: currentUser.uid,
+      eventImageUrl: _photoUrl.value,
     );
 
     final result = await _eventService.createEvent(event);
@@ -74,8 +104,8 @@ class CreateEventSheetModel extends FormViewModel with ListenableServiceMixin {
         );
       },
       (success) {
+        _navigationService.replaceWithNestedHomeViewInLayoutViewRouter(1);
         setBusy(false);
-        _bottomSheetService.completeSheet(response);
       },
     );
   }
@@ -132,9 +162,11 @@ class CreateEventSheetModel extends FormViewModel with ListenableServiceMixin {
       );
 
       _selectedDate.value = [startDateTime, newEndDateTime];
+
       return [startDateTime, newEndDateTime];
     } else {
       _selectedDate.value = [startDateTime, endDateTime];
+
       return [startDateTime, endDateTime];
     }
   }

@@ -20,6 +20,4 @@ class EventDetailsViewModel extends BaseViewModel {
     final snapshot = await userRef.doc(event.creatorId).get();
     return snapshot.data!;
   }
-
-  
 }

@@ -149,10 +149,6 @@ abstract class EventDocumentReference
     FieldValue eventImageUrlFieldValue,
     String creatorId,
     FieldValue creatorIdFieldValue,
-    String createdName,
-    FieldValue createdNameFieldValue,
-    String? creatorAvatar,
-    FieldValue creatorAvatarFieldValue,
   });
 
   /// Updates fields in the current document using the transaction API.
@@ -182,10 +178,6 @@ abstract class EventDocumentReference
     FieldValue eventImageUrlFieldValue,
     String creatorId,
     FieldValue creatorIdFieldValue,
-    String createdName,
-    FieldValue createdNameFieldValue,
-    String? creatorAvatar,
-    FieldValue creatorAvatarFieldValue,
   });
 }
 
@@ -240,10 +232,6 @@ class _$EventDocumentReference
     FieldValue? eventImageUrlFieldValue,
     Object? creatorId = _sentinel,
     FieldValue? creatorIdFieldValue,
-    Object? createdName = _sentinel,
-    FieldValue? createdNameFieldValue,
-    Object? creatorAvatar = _sentinel,
-    FieldValue? creatorAvatarFieldValue,
   }) async {
     assert(
       uid == _sentinel || uidFieldValue == null,
@@ -289,14 +277,6 @@ class _$EventDocumentReference
       creatorId == _sentinel || creatorIdFieldValue == null,
       "Cannot specify both creatorId and creatorIdFieldValue",
     );
-    assert(
-      createdName == _sentinel || createdNameFieldValue == null,
-      "Cannot specify both createdName and createdNameFieldValue",
-    );
-    assert(
-      creatorAvatar == _sentinel || creatorAvatarFieldValue == null,
-      "Cannot specify both creatorAvatar and creatorAvatarFieldValue",
-    );
     final json = {
       if (uid != _sentinel) _$$_EventFieldMap['uid']!: uid as String,
       if (uidFieldValue != null) _$$_EventFieldMap['uid']!: uidFieldValue,
@@ -334,14 +314,6 @@ class _$EventDocumentReference
         _$$_EventFieldMap['creatorId']!: creatorId as String,
       if (creatorIdFieldValue != null)
         _$$_EventFieldMap['creatorId']!: creatorIdFieldValue,
-      if (createdName != _sentinel)
-        _$$_EventFieldMap['createdName']!: createdName as String,
-      if (createdNameFieldValue != null)
-        _$$_EventFieldMap['createdName']!: createdNameFieldValue,
-      if (creatorAvatar != _sentinel)
-        _$$_EventFieldMap['creatorAvatar']!: creatorAvatar as String?,
-      if (creatorAvatarFieldValue != null)
-        _$$_EventFieldMap['creatorAvatar']!: creatorAvatarFieldValue,
     };
 
     return reference.update(json);
@@ -371,10 +343,6 @@ class _$EventDocumentReference
     FieldValue? eventImageUrlFieldValue,
     Object? creatorId = _sentinel,
     FieldValue? creatorIdFieldValue,
-    Object? createdName = _sentinel,
-    FieldValue? createdNameFieldValue,
-    Object? creatorAvatar = _sentinel,
-    FieldValue? creatorAvatarFieldValue,
   }) {
     assert(
       uid == _sentinel || uidFieldValue == null,
@@ -420,14 +388,6 @@ class _$EventDocumentReference
       creatorId == _sentinel || creatorIdFieldValue == null,
       "Cannot specify both creatorId and creatorIdFieldValue",
     );
-    assert(
-      createdName == _sentinel || createdNameFieldValue == null,
-      "Cannot specify both createdName and createdNameFieldValue",
-    );
-    assert(
-      creatorAvatar == _sentinel || creatorAvatarFieldValue == null,
-      "Cannot specify both creatorAvatar and creatorAvatarFieldValue",
-    );
     final json = {
       if (uid != _sentinel) _$$_EventFieldMap['uid']!: uid as String,
       if (uidFieldValue != null) _$$_EventFieldMap['uid']!: uidFieldValue,
@@ -465,14 +425,6 @@ class _$EventDocumentReference
         _$$_EventFieldMap['creatorId']!: creatorId as String,
       if (creatorIdFieldValue != null)
         _$$_EventFieldMap['creatorId']!: creatorIdFieldValue,
-      if (createdName != _sentinel)
-        _$$_EventFieldMap['createdName']!: createdName as String,
-      if (createdNameFieldValue != null)
-        _$$_EventFieldMap['createdName']!: createdNameFieldValue,
-      if (creatorAvatar != _sentinel)
-        _$$_EventFieldMap['creatorAvatar']!: creatorAvatar as String?,
-      if (creatorAvatarFieldValue != null)
-        _$$_EventFieldMap['creatorAvatar']!: creatorAvatarFieldValue,
     };
 
     transaction.update(reference, json);
@@ -694,28 +646,6 @@ abstract class EventQuery implements QueryReference<Event, EventQuerySnapshot> {
     List<String>? whereIn,
     List<String>? whereNotIn,
   });
-  EventQuery whereCreatedName({
-    String? isEqualTo,
-    String? isNotEqualTo,
-    String? isLessThan,
-    String? isLessThanOrEqualTo,
-    String? isGreaterThan,
-    String? isGreaterThanOrEqualTo,
-    bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
-  });
-  EventQuery whereCreatorAvatar({
-    String? isEqualTo,
-    String? isNotEqualTo,
-    String? isLessThan,
-    String? isLessThanOrEqualTo,
-    String? isGreaterThan,
-    String? isGreaterThanOrEqualTo,
-    bool? isNull,
-    List<String?>? whereIn,
-    List<String?>? whereNotIn,
-  });
 
   EventQuery orderByDocumentId({
     bool descending = false,
@@ -855,30 +785,6 @@ abstract class EventQuery implements QueryReference<Event, EventQuerySnapshot> {
     String startAfter,
     String endAt,
     String endBefore,
-    EventDocumentSnapshot? startAtDocument,
-    EventDocumentSnapshot? endAtDocument,
-    EventDocumentSnapshot? endBeforeDocument,
-    EventDocumentSnapshot? startAfterDocument,
-  });
-
-  EventQuery orderByCreatedName({
-    bool descending = false,
-    String startAt,
-    String startAfter,
-    String endAt,
-    String endBefore,
-    EventDocumentSnapshot? startAtDocument,
-    EventDocumentSnapshot? endAtDocument,
-    EventDocumentSnapshot? endBeforeDocument,
-    EventDocumentSnapshot? startAfterDocument,
-  });
-
-  EventQuery orderByCreatorAvatar({
-    bool descending = false,
-    String? startAt,
-    String? startAfter,
-    String? endAt,
-    String? endBefore,
     EventDocumentSnapshot? startAtDocument,
     EventDocumentSnapshot? endAtDocument,
     EventDocumentSnapshot? endBeforeDocument,
@@ -1367,64 +1273,6 @@ class _$EventQuery extends QueryReference<Event, EventQuerySnapshot>
       _collection,
       $referenceWithoutCursor: $referenceWithoutCursor.where(
         _$$_EventFieldMap['creatorId']!,
-        isEqualTo: isEqualTo,
-        isNotEqualTo: isNotEqualTo,
-        isLessThan: isLessThan,
-        isLessThanOrEqualTo: isLessThanOrEqualTo,
-        isGreaterThan: isGreaterThan,
-        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
-        isNull: isNull,
-        whereIn: whereIn,
-        whereNotIn: whereNotIn,
-      ),
-      $queryCursor: $queryCursor,
-    );
-  }
-
-  EventQuery whereCreatedName({
-    String? isEqualTo,
-    String? isNotEqualTo,
-    String? isLessThan,
-    String? isLessThanOrEqualTo,
-    String? isGreaterThan,
-    String? isGreaterThanOrEqualTo,
-    bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
-  }) {
-    return _$EventQuery(
-      _collection,
-      $referenceWithoutCursor: $referenceWithoutCursor.where(
-        _$$_EventFieldMap['createdName']!,
-        isEqualTo: isEqualTo,
-        isNotEqualTo: isNotEqualTo,
-        isLessThan: isLessThan,
-        isLessThanOrEqualTo: isLessThanOrEqualTo,
-        isGreaterThan: isGreaterThan,
-        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
-        isNull: isNull,
-        whereIn: whereIn,
-        whereNotIn: whereNotIn,
-      ),
-      $queryCursor: $queryCursor,
-    );
-  }
-
-  EventQuery whereCreatorAvatar({
-    String? isEqualTo,
-    String? isNotEqualTo,
-    String? isLessThan,
-    String? isLessThanOrEqualTo,
-    String? isGreaterThan,
-    String? isGreaterThanOrEqualTo,
-    bool? isNull,
-    List<String?>? whereIn,
-    List<String?>? whereNotIn,
-  }) {
-    return _$EventQuery(
-      _collection,
-      $referenceWithoutCursor: $referenceWithoutCursor.where(
-        _$$_EventFieldMap['creatorAvatar']!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -2303,150 +2151,6 @@ class _$EventQuery extends QueryReference<Event, EventQuerySnapshot>
     );
   }
 
-  EventQuery orderByCreatedName({
-    bool descending = false,
-    Object? startAt = _sentinel,
-    Object? startAfter = _sentinel,
-    Object? endAt = _sentinel,
-    Object? endBefore = _sentinel,
-    EventDocumentSnapshot? startAtDocument,
-    EventDocumentSnapshot? endAtDocument,
-    EventDocumentSnapshot? endBeforeDocument,
-    EventDocumentSnapshot? startAfterDocument,
-  }) {
-    final query = $referenceWithoutCursor
-        .orderBy(_$$_EventFieldMap['createdName']!, descending: descending);
-    var queryCursor = $queryCursor;
-
-    if (startAtDocument != null) {
-      queryCursor = queryCursor.copyWith(
-        startAt: const [],
-        startAtDocumentSnapshot: startAtDocument.snapshot,
-      );
-    }
-    if (startAfterDocument != null) {
-      queryCursor = queryCursor.copyWith(
-        startAfter: const [],
-        startAfterDocumentSnapshot: startAfterDocument.snapshot,
-      );
-    }
-    if (endAtDocument != null) {
-      queryCursor = queryCursor.copyWith(
-        endAt: const [],
-        endAtDocumentSnapshot: endAtDocument.snapshot,
-      );
-    }
-    if (endBeforeDocument != null) {
-      queryCursor = queryCursor.copyWith(
-        endBefore: const [],
-        endBeforeDocumentSnapshot: endBeforeDocument.snapshot,
-      );
-    }
-
-    if (startAt != _sentinel) {
-      queryCursor = queryCursor.copyWith(
-        startAt: [...queryCursor.startAt, startAt],
-        startAtDocumentSnapshot: null,
-      );
-    }
-    if (startAfter != _sentinel) {
-      queryCursor = queryCursor.copyWith(
-        startAfter: [...queryCursor.startAfter, startAfter],
-        startAfterDocumentSnapshot: null,
-      );
-    }
-    if (endAt != _sentinel) {
-      queryCursor = queryCursor.copyWith(
-        endAt: [...queryCursor.endAt, endAt],
-        endAtDocumentSnapshot: null,
-      );
-    }
-    if (endBefore != _sentinel) {
-      queryCursor = queryCursor.copyWith(
-        endBefore: [...queryCursor.endBefore, endBefore],
-        endBeforeDocumentSnapshot: null,
-      );
-    }
-
-    return _$EventQuery(
-      _collection,
-      $referenceWithoutCursor: query,
-      $queryCursor: queryCursor,
-    );
-  }
-
-  EventQuery orderByCreatorAvatar({
-    bool descending = false,
-    Object? startAt = _sentinel,
-    Object? startAfter = _sentinel,
-    Object? endAt = _sentinel,
-    Object? endBefore = _sentinel,
-    EventDocumentSnapshot? startAtDocument,
-    EventDocumentSnapshot? endAtDocument,
-    EventDocumentSnapshot? endBeforeDocument,
-    EventDocumentSnapshot? startAfterDocument,
-  }) {
-    final query = $referenceWithoutCursor
-        .orderBy(_$$_EventFieldMap['creatorAvatar']!, descending: descending);
-    var queryCursor = $queryCursor;
-
-    if (startAtDocument != null) {
-      queryCursor = queryCursor.copyWith(
-        startAt: const [],
-        startAtDocumentSnapshot: startAtDocument.snapshot,
-      );
-    }
-    if (startAfterDocument != null) {
-      queryCursor = queryCursor.copyWith(
-        startAfter: const [],
-        startAfterDocumentSnapshot: startAfterDocument.snapshot,
-      );
-    }
-    if (endAtDocument != null) {
-      queryCursor = queryCursor.copyWith(
-        endAt: const [],
-        endAtDocumentSnapshot: endAtDocument.snapshot,
-      );
-    }
-    if (endBeforeDocument != null) {
-      queryCursor = queryCursor.copyWith(
-        endBefore: const [],
-        endBeforeDocumentSnapshot: endBeforeDocument.snapshot,
-      );
-    }
-
-    if (startAt != _sentinel) {
-      queryCursor = queryCursor.copyWith(
-        startAt: [...queryCursor.startAt, startAt],
-        startAtDocumentSnapshot: null,
-      );
-    }
-    if (startAfter != _sentinel) {
-      queryCursor = queryCursor.copyWith(
-        startAfter: [...queryCursor.startAfter, startAfter],
-        startAfterDocumentSnapshot: null,
-      );
-    }
-    if (endAt != _sentinel) {
-      queryCursor = queryCursor.copyWith(
-        endAt: [...queryCursor.endAt, endAt],
-        endAtDocumentSnapshot: null,
-      );
-    }
-    if (endBefore != _sentinel) {
-      queryCursor = queryCursor.copyWith(
-        endBefore: [...queryCursor.endBefore, endBefore],
-        endBeforeDocumentSnapshot: null,
-      );
-    }
-
-    return _$EventQuery(
-      _collection,
-      $referenceWithoutCursor: query,
-      $queryCursor: queryCursor,
-    );
-  }
-
   @override
   bool operator ==(Object other) {
     return other is _$EventQuery &&
@@ -2556,8 +2260,6 @@ Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
       'endTime': instance.endTime?.toIso8601String(),
       'eventImageUrl': instance.eventImageUrl,
       'creatorId': instance.creatorId,
-      'createdName': instance.createdName,
-      'creatorAvatar': instance.creatorAvatar,
     };
 
 _$_Event _$$_EventFromJson(Map<String, dynamic> json) => _$_Event(
@@ -2574,8 +2276,6 @@ _$_Event _$$_EventFromJson(Map<String, dynamic> json) => _$_Event(
           : DateTime.parse(json['endTime'] as String),
       eventImageUrl: json['eventImageUrl'] as String?,
       creatorId: json['creatorId'] as String,
-      createdName: json['createdName'] as String,
-      creatorAvatar: json['creatorAvatar'] as String?,
     );
 
 Map<String, dynamic> _$$_EventToJson(_$_Event instance) => <String, dynamic>{
@@ -2590,6 +2290,4 @@ Map<String, dynamic> _$$_EventToJson(_$_Event instance) => <String, dynamic>{
       'endTime': instance.endTime?.toIso8601String(),
       'eventImageUrl': instance.eventImageUrl,
       'creatorId': instance.creatorId,
-      'createdName': instance.createdName,
-      'creatorAvatar': instance.creatorAvatar,
     };

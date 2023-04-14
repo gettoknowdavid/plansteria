@@ -7,7 +7,6 @@ final kGlobalHorizontalPadding = const EdgeInsets.symmetric(
   horizontal: kGlobalPadding,
 ).r;
 
-
 final kEventDetailsHorPadding = const EdgeInsets.symmetric(
   horizontal: 20,
 ).r;

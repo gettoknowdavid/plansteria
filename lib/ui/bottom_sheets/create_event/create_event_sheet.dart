@@ -24,6 +24,7 @@ import 'create_event_sheet_model.dart';
   FormTextField(name: 'date', validator: Validators.validateDate),
   FormTextField(name: 'startTime', validator: Validators.validateDate),
   FormTextField(name: 'endTime'),
+  FormTextField(name: 'ticket'),
 ])
 class CreateEventSheet extends StackedView<CreateEventSheetModel>
     with $CreateEventSheet {

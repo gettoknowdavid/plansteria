@@ -22,7 +22,6 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
     final scrollController = ScrollController();
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
-    final isDark = theme.brightness == Brightness.dark;
 
     final date = DateFormat.yMMMEd().format(event.date);
     final time = eventDetailsTimeFormatter(event.startTime, event.endTime);
@@ -39,7 +38,9 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              10.verticalSpace,
+              20.verticalSpace,
+              const CreatorSection(),
+              24.verticalSpace,
               Text(
                 event.eventName,
                 style: textTheme.titleMedium?.copyWith(
@@ -59,7 +60,7 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
                 subtitle: 'View on Map',
               ),
               20.verticalSpace,
-              if (event.description != null) ...[
+              if (event.description?.isNotEmpty == true) ...[
                 Text(
                   'About this event',
                   style: textTheme.bodySmall?.copyWith(
@@ -80,7 +81,7 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
                 ),
                 10.verticalSpace
               ],
-              if (event.notes != null) ...[
+              if (event.notes?.isNotEmpty == true) ...[
                 Text(
                   'Please note',
                   style: textTheme.bodySmall?.copyWith(
@@ -101,7 +102,7 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
                 ),
                 10.verticalSpace,
               ],
-              if (event.price == null) ...[
+              if (event.price != null) ...[
                 Text(
                   'Ticket Price',
                   style: textTheme.bodySmall?.copyWith(
@@ -109,7 +110,7 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
                   ),
                 ),
                 Text(
-                  '${currency.format(20000)} per person',
+                  '${currency.format(event.price)} per person',
                   style: textTheme.bodyMedium,
                 ),
                 10.verticalSpace,
@@ -128,10 +129,6 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
               iconTheme: theme.iconTheme.copyWith(color: Colors.white),
               actionsIconTheme: theme.iconTheme.copyWith(color: Colors.white),
               flexibleSpace: const _Header(),
-              bottom: const PreferredSize(
-                preferredSize: Size.fromHeight(90),
-                child: CreatorSection(),
-              ),
             ),
           ];
         },
@@ -204,19 +201,17 @@ class _Header extends SelectorViewModelWidget<EventDetailsViewModel, String?> {
 
   @override
   Widget build(BuildContext context, String? value) {
+    final image = value != null
+        ? DecorationImage(fit: BoxFit.cover, image: NetworkImage(value))
+        : null;
+
     return FlexibleSpaceBar(
       background: Hero(
         tag: 'event-image',
         child: Container(
-          foregroundDecoration: const BoxDecoration(
-            color: Colors.black26,
-          ),
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: AssetImage('assets/tec-conference.jpg'),
-            ),
-          ),
+          foregroundDecoration: const BoxDecoration(color: Colors.black26),
+          decoration: BoxDecoration(image: image),
+          child: value == null ? null : const Icon(PhosphorIcons.image),
         ),
       ),
     );

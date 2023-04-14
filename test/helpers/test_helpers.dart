@@ -7,6 +7,7 @@ import 'package:plansteria/services/secure_storage_service.dart';
 import 'package:plansteria/services/network_service.dart';
 import 'package:plansteria/services/open_mail_app_service.dart';
 import 'package:plansteria/services/event_service.dart';
+import 'package:plansteria/services/media_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -20,6 +21,7 @@ import 'test_helpers.mocks.dart';
   MockSpec<NetworkService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<OpenMailAppService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<EventService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<MediaService>(onMissingStub: OnMissingStub.returnDefault),
 // @stacked-mock-spec
 ])
 void registerServices() {
@@ -31,6 +33,7 @@ void registerServices() {
   getAndRegisterNetworkService();
   getAndRegisterOpenMailAppService();
   getAndRegisterEventService();
+  getAndRegisterMediaService();
 // @stacked-mock-register
 }
 
@@ -116,6 +119,13 @@ MockEventService getAndRegisterEventService() {
   _removeRegistrationIfExists<EventService>();
   final service = MockEventService();
   locator.registerSingleton<EventService>(service);
+  return service;
+}
+
+MockMediaService getAndRegisterMediaService() {
+  _removeRegistrationIfExists<MediaService>();
+  final service = MockMediaService();
+  locator.registerSingleton<MediaService>(service);
   return service;
 }
 // @stacked-mock-create
