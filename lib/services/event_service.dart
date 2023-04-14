@@ -3,11 +3,24 @@ import 'package:dartz/dartz.dart';
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/core/errors/event_error.dart';
 import 'package:plansteria/models/event.dart';
+import 'package:stacked/stacked.dart';
 
 import 'network_service.dart';
 
-class EventService {
+class EventService with ListenableServiceMixin {
+  final _events = ReactiveValue<List<Event?>>([]);
+
   final _networkService = locator<NetworkService>();
+
+  EventService() {
+    listenToReactiveValues([_events]);
+  }
+
+  List<Event?> get events => _events.value;
+
+  Stream<List<Event?>> get eventsStream {
+    return eventsRef.snapshots().map((e) => e.docs.map((d) => d.data).toList());
+  }
 
   Future<Either<EventError, Unit>> createEvent(Event event) async {
     if (_networkService.status == NetworkStatus.disconnected) {
@@ -24,7 +37,7 @@ class EventService {
     }
   }
 
-  Future<Either<EventError, List<Event?>>> getAllEvents(Event event) async {
+  Future<Either<EventError, List<Event?>>> getAllEvents() async {
     if (_networkService.status == NetworkStatus.disconnected) {
       return left(const EventError.networkError());
     }
@@ -32,6 +45,7 @@ class EventService {
     try {
       final query = await eventsRef.get();
       final result = query.docs.map((e) => e.data).toList();
+      _events.value = result;
       return right(result);
     } on FirebaseException catch (e) {
       return left(EventError.error(e.message));

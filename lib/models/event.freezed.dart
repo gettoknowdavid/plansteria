@@ -30,6 +30,9 @@ mixin _$Event {
   DateTime get startTime => throw _privateConstructorUsedError;
   DateTime? get endTime => throw _privateConstructorUsedError;
   String? get eventImageUrl => throw _privateConstructorUsedError;
+  String get creatorId => throw _privateConstructorUsedError;
+  String get createdName => throw _privateConstructorUsedError;
+  String? get creatorAvatar => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -51,7 +54,10 @@ abstract class $EventCopyWith<$Res> {
       DateTime date,
       DateTime startTime,
       DateTime? endTime,
-      String? eventImageUrl});
+      String? eventImageUrl,
+      String creatorId,
+      String createdName,
+      String? creatorAvatar});
 }
 
 /// @nodoc
@@ -77,6 +83,9 @@ class _$EventCopyWithImpl<$Res, $Val extends Event>
     Object? startTime = null,
     Object? endTime = freezed,
     Object? eventImageUrl = freezed,
+    Object? creatorId = null,
+    Object? createdName = null,
+    Object? creatorAvatar = freezed,
   }) {
     return _then(_value.copyWith(
       uid: null == uid
@@ -119,6 +128,18 @@ class _$EventCopyWithImpl<$Res, $Val extends Event>
           ? _value.eventImageUrl
           : eventImageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      creatorId: null == creatorId
+          ? _value.creatorId
+          : creatorId // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdName: null == createdName
+          ? _value.createdName
+          : createdName // ignore: cast_nullable_to_non_nullable
+              as String,
+      creatorAvatar: freezed == creatorAvatar
+          ? _value.creatorAvatar
+          : creatorAvatar // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -139,7 +160,10 @@ abstract class _$$_EventCopyWith<$Res> implements $EventCopyWith<$Res> {
       DateTime date,
       DateTime startTime,
       DateTime? endTime,
-      String? eventImageUrl});
+      String? eventImageUrl,
+      String creatorId,
+      String createdName,
+      String? creatorAvatar});
 }
 
 /// @nodoc
@@ -161,6 +185,9 @@ class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
     Object? startTime = null,
     Object? endTime = freezed,
     Object? eventImageUrl = freezed,
+    Object? creatorId = null,
+    Object? createdName = null,
+    Object? creatorAvatar = freezed,
   }) {
     return _then(_$_Event(
       uid: null == uid
@@ -203,6 +230,18 @@ class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
           ? _value.eventImageUrl
           : eventImageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      creatorId: null == creatorId
+          ? _value.creatorId
+          : creatorId // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdName: null == createdName
+          ? _value.createdName
+          : createdName // ignore: cast_nullable_to_non_nullable
+              as String,
+      creatorAvatar: freezed == creatorAvatar
+          ? _value.creatorAvatar
+          : creatorAvatar // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -220,7 +259,10 @@ class _$_Event implements _Event {
       required this.date,
       required this.startTime,
       this.endTime,
-      this.eventImageUrl});
+      this.eventImageUrl,
+      required this.creatorId,
+      required this.createdName,
+      this.creatorAvatar});
 
   factory _$_Event.fromJson(Map<String, dynamic> json) =>
       _$$_EventFromJson(json);
@@ -245,10 +287,16 @@ class _$_Event implements _Event {
   final DateTime? endTime;
   @override
   final String? eventImageUrl;
+  @override
+  final String creatorId;
+  @override
+  final String createdName;
+  @override
+  final String? creatorAvatar;
 
   @override
   String toString() {
-    return 'Event(uid: $uid, eventName: $eventName, description: $description, eventAddress: $eventAddress, notes: $notes, price: $price, date: $date, startTime: $startTime, endTime: $endTime, eventImageUrl: $eventImageUrl)';
+    return 'Event(uid: $uid, eventName: $eventName, description: $description, eventAddress: $eventAddress, notes: $notes, price: $price, date: $date, startTime: $startTime, endTime: $endTime, eventImageUrl: $eventImageUrl, creatorId: $creatorId, createdName: $createdName, creatorAvatar: $creatorAvatar)';
   }
 
   @override
@@ -270,13 +318,32 @@ class _$_Event implements _Event {
                 other.startTime == startTime) &&
             (identical(other.endTime, endTime) || other.endTime == endTime) &&
             (identical(other.eventImageUrl, eventImageUrl) ||
-                other.eventImageUrl == eventImageUrl));
+                other.eventImageUrl == eventImageUrl) &&
+            (identical(other.creatorId, creatorId) ||
+                other.creatorId == creatorId) &&
+            (identical(other.createdName, createdName) ||
+                other.createdName == createdName) &&
+            (identical(other.creatorAvatar, creatorAvatar) ||
+                other.creatorAvatar == creatorAvatar));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, uid, eventName, description,
-      eventAddress, notes, price, date, startTime, endTime, eventImageUrl);
+  int get hashCode => Object.hash(
+      runtimeType,
+      uid,
+      eventName,
+      description,
+      eventAddress,
+      notes,
+      price,
+      date,
+      startTime,
+      endTime,
+      eventImageUrl,
+      creatorId,
+      createdName,
+      creatorAvatar);
 
   @JsonKey(ignore: true)
   @override
@@ -303,7 +370,10 @@ abstract class _Event implements Event {
       required final DateTime date,
       required final DateTime startTime,
       final DateTime? endTime,
-      final String? eventImageUrl}) = _$_Event;
+      final String? eventImageUrl,
+      required final String creatorId,
+      required final String createdName,
+      final String? creatorAvatar}) = _$_Event;
 
   factory _Event.fromJson(Map<String, dynamic> json) = _$_Event.fromJson;
 
@@ -327,6 +397,12 @@ abstract class _Event implements Event {
   DateTime? get endTime;
   @override
   String? get eventImageUrl;
+  @override
+  String get creatorId;
+  @override
+  String get createdName;
+  @override
+  String? get creatorAvatar;
   @override
   @JsonKey(ignore: true)
   _$$_EventCopyWith<_$_Event> get copyWith =>

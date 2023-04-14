@@ -22,7 +22,7 @@ class AuthService with ListenableServiceMixin {
   final _currentUser = ReactiveValue<User?>(null);
 
   AuthService() {
-    listenToReactiveValues([_isAuthenticated, _isEmailVerified]);
+    listenToReactiveValues([_isAuthenticated, _isEmailVerified, _currentUser]);
   }
 
   User? get currentUser => _currentUser.value;
@@ -40,6 +40,8 @@ class AuthService with ListenableServiceMixin {
 
     if (firebaseUser != null || localUserString != null) {
       _isAuthenticated.value = true;
+      final snapshot = await userRef.doc(firebaseUser!.uid).get();
+      _currentUser.value = snapshot.data;
     }
   }
 

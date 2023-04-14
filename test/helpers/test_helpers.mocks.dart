@@ -12,8 +12,8 @@ import 'package:internet_connection_checker/internet_connection_checker.dart'
     as _i11;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:plansteria/core/errors/auth_error.dart' as _i8;
-import 'package:plansteria/core/errors/event_error.dart' as _i14;
-import 'package:plansteria/models/event.dart' as _i15;
+import 'package:plansteria/core/errors/event_error.dart' as _i15;
+import 'package:plansteria/models/event.dart' as _i14;
 import 'package:plansteria/services/auth_service.dart' as _i7;
 import 'package:plansteria/services/event_service.dart' as _i13;
 import 'package:plansteria/services/network_service.dart' as _i10;
@@ -1049,15 +1049,27 @@ class MockOpenMailAppService extends _i1.Mock
 /// See the documentation for Mockito's code generation for more information.
 class MockEventService extends _i1.Mock implements _i13.EventService {
   @override
-  _i3.Future<_i2.Either<_i14.EventError, _i2.Unit>> createEvent(
-          _i15.Event? event) =>
+  List<_i14.Event?> get events => (super.noSuchMethod(
+        Invocation.getter(#events),
+        returnValue: <_i14.Event?>[],
+        returnValueForMissingStub: <_i14.Event?>[],
+      ) as List<_i14.Event?>);
+  @override
+  int get listenersCount => (super.noSuchMethod(
+        Invocation.getter(#listenersCount),
+        returnValue: 0,
+        returnValueForMissingStub: 0,
+      ) as int);
+  @override
+  _i3.Future<_i2.Either<_i15.EventError, _i2.Unit>> createEvent(
+          _i14.Event? event) =>
       (super.noSuchMethod(
         Invocation.method(
           #createEvent,
           [event],
         ),
-        returnValue: _i3.Future<_i2.Either<_i14.EventError, _i2.Unit>>.value(
-            _FakeEither_1<_i14.EventError, _i2.Unit>(
+        returnValue: _i3.Future<_i2.Either<_i15.EventError, _i2.Unit>>.value(
+            _FakeEither_1<_i15.EventError, _i2.Unit>(
           this,
           Invocation.method(
             #createEvent,
@@ -1065,13 +1077,123 @@ class MockEventService extends _i1.Mock implements _i13.EventService {
           ),
         )),
         returnValueForMissingStub:
-            _i3.Future<_i2.Either<_i14.EventError, _i2.Unit>>.value(
-                _FakeEither_1<_i14.EventError, _i2.Unit>(
+            _i3.Future<_i2.Either<_i15.EventError, _i2.Unit>>.value(
+                _FakeEither_1<_i15.EventError, _i2.Unit>(
           this,
           Invocation.method(
             #createEvent,
             [event],
           ),
         )),
-      ) as _i3.Future<_i2.Either<_i14.EventError, _i2.Unit>>);
+      ) as _i3.Future<_i2.Either<_i15.EventError, _i2.Unit>>);
+  @override
+  _i3.Future<_i2.Either<_i15.EventError, List<_i14.Event?>>> getAllEvents() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAllEvents,
+          [],
+        ),
+        returnValue:
+            _i3.Future<_i2.Either<_i15.EventError, List<_i14.Event?>>>.value(
+                _FakeEither_1<_i15.EventError, List<_i14.Event?>>(
+          this,
+          Invocation.method(
+            #getAllEvents,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i3.Future<_i2.Either<_i15.EventError, List<_i14.Event?>>>.value(
+                _FakeEither_1<_i15.EventError, List<_i14.Event?>>(
+          this,
+          Invocation.method(
+            #getAllEvents,
+            [],
+          ),
+        )),
+      ) as _i3.Future<_i2.Either<_i15.EventError, List<_i14.Event?>>>);
+  @override
+  _i3.Future<_i2.Either<_i15.EventError, _i2.Unit>> removeEvent(String? uid) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #removeEvent,
+          [uid],
+        ),
+        returnValue: _i3.Future<_i2.Either<_i15.EventError, _i2.Unit>>.value(
+            _FakeEither_1<_i15.EventError, _i2.Unit>(
+          this,
+          Invocation.method(
+            #removeEvent,
+            [uid],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i3.Future<_i2.Either<_i15.EventError, _i2.Unit>>.value(
+                _FakeEither_1<_i15.EventError, _i2.Unit>(
+          this,
+          Invocation.method(
+            #removeEvent,
+            [uid],
+          ),
+        )),
+      ) as _i3.Future<_i2.Either<_i15.EventError, _i2.Unit>>);
+  @override
+  _i3.Future<_i2.Either<_i15.EventError, _i2.Unit>> updateEvent(
+          _i14.Event? event) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateEvent,
+          [event],
+        ),
+        returnValue: _i3.Future<_i2.Either<_i15.EventError, _i2.Unit>>.value(
+            _FakeEither_1<_i15.EventError, _i2.Unit>(
+          this,
+          Invocation.method(
+            #updateEvent,
+            [event],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i3.Future<_i2.Either<_i15.EventError, _i2.Unit>>.value(
+                _FakeEither_1<_i15.EventError, _i2.Unit>(
+          this,
+          Invocation.method(
+            #updateEvent,
+            [event],
+          ),
+        )),
+      ) as _i3.Future<_i2.Either<_i15.EventError, _i2.Unit>>);
+  @override
+  void listenToReactiveValues(List<dynamic>? reactiveValues) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #listenToReactiveValues,
+          [reactiveValues],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void addListener(void Function()? listener) => super.noSuchMethod(
+        Invocation.method(
+          #addListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void removeListener(void Function()? listener) => super.noSuchMethod(
+        Invocation.method(
+          #removeListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void notifyListeners() => super.noSuchMethod(
+        Invocation.method(
+          #notifyListeners,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
 }

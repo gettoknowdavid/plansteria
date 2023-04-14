@@ -26,18 +26,15 @@ const items = [
   ),
 ];
 
-class AppBottomNavigationBar extends StackedView<LayoutViewModel> {
+class AppBottomNavigationBar extends ViewModelWidget<LayoutViewModel> {
   const AppBottomNavigationBar({super.key});
 
   @override
-  Widget builder(context, viewModel, child) {
+  Widget build(BuildContext context, LayoutViewModel viewModel) {
     return BottomNavigationBar(
       currentIndex: viewModel.currentIndex,
-      onTap: viewModel.setIndex,
+      onTap: viewModel.handleNavigation,
       items: items,
     );
   }
-
-  @override
-  LayoutViewModel viewModelBuilder(context) => LayoutViewModel();
 }

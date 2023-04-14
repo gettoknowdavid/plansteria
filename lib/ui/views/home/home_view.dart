@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:plansteria/ui/common/app_colors.dart';
-import 'package:plansteria/ui/common/ui_helpers.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:plansteria/ui/common/app_constants.dart';
+import 'package:plansteria/ui/widgets/app_loading_indicator.dart';
+import 'package:plansteria/ui/widgets/event_card.dart';
+import 'package:plansteria/ui/widgets/layout_app_bar.dart';
 import 'package:stacked/stacked.dart';
 
 import 'home_viewmodel.dart';
@@ -9,88 +12,59 @@ class HomeView extends StackedView<HomeViewModel> {
   const HomeView({Key? key}) : super(key: key);
 
   @override
-  Widget builder(
-    BuildContext context,
-    HomeViewModel viewModel,
-    Widget? child,
-  ) {
+  Widget builder(context, viewModel, child) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+
     return Scaffold(
+      appBar: LayoutAppBar(
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(3.r),
+          child: const AppLoadingIndicator<HomeViewModel>(
+            addBottomSpace: false,
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25.0),
+          padding: kGlobalHorizontalPadding,
           child: Center(
             child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                verticalSpaceLarge,
-                Column(
-                  children: [
-                    const Text(
-                      'Hello, STACKED!',
-                      style: TextStyle(
-                        fontSize: 35,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                    verticalSpaceMedium,
-                    MaterialButton(
-                      color: Colors.black,
-                      onPressed: viewModel.incrementCounter,
-                      child: Text(
-                        viewModel.counterLabel,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    verticalSpaceMedium,
-                    MaterialButton(
-                      color: kcDarkGreyColor,
-                      child: const Text(
-                        'Logout',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                      onPressed: viewModel.logout,
-                    ),
-                  ],
+                Text(
+                  'Upcoming Events',
+                  style: textTheme.titleMedium?.copyWith(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    MaterialButton(
-                      color: kcDarkGreyColor,
-                      child: const Text(
-                        'Show Dialog',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                      onPressed: viewModel.showDialog,
-                    ),
-                    MaterialButton(
-                      color: kcDarkGreyColor,
-                      child: const Text(
-                        'Show Bottom Sheet',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                      onPressed: viewModel.showBottomSheet,
-                    ),
-                  ],
-                )
+                10.verticalSpace,
+                if (viewModel.dataReady)
+                  ListView.separated(
+                    shrinkWrap: true,
+                    separatorBuilder: (context, index) => 16.verticalSpace,
+                    itemCount: viewModel.data!.length,
+                    itemBuilder: (context, index) {
+                      final event = viewModel.data![index]!;
+                      return EventCard(
+                        event: event,
+                        onTap: () => viewModel.navigateToDetails(event),
+                      );
+                    },
+                  ),
               ],
             ),
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: viewModel.showCreateEventBottomSheet,
+        child: const Icon(Icons.add),
+      ),
     );
   }
 
   @override
-  HomeViewModel viewModelBuilder(
-    BuildContext context,
-  ) =>
-      HomeViewModel();
+  HomeViewModel viewModelBuilder(context) => HomeViewModel();
 }

@@ -33,7 +33,7 @@ class DateSelector extends StackedView<CreateEventSheetModel>
             Container(
               padding: const EdgeInsets.all(12).r,
               decoration: BoxDecoration(
-                color: theme.inputDecorationTheme.fillColor,
+                color: theme.inputDecorationTheme.focusColor,
                 borderRadius: const BorderRadius.all(Radius.circular(14)).r,
               ),
               child: Icon(

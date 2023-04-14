@@ -18,6 +18,9 @@ const _$$_EventFieldMap = <String, String>{
   'startTime': 'startTime',
   'endTime': 'endTime',
   'eventImageUrl': 'eventImageUrl',
+  'creatorId': 'creatorId',
+  'createdName': 'createdName',
+  'creatorAvatar': 'creatorAvatar',
 };
 
 final eventsRef = EventCollectionReference();
@@ -37,6 +40,9 @@ class Event with _$Event {
     required DateTime startTime,
     DateTime? endTime,
     String? eventImageUrl,
+    required String creatorId,
+    required String createdName,
+    String? creatorAvatar,
   }) = _Event;
 
   factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);

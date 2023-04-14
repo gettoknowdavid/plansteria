@@ -1,32 +1,86 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:plansteria/app/app.locator.dart';
+import 'package:plansteria/app/app.snackbars.dart';
+import 'package:plansteria/models/event.dart';
+import 'package:plansteria/models/user.dart';
+import 'package:plansteria/services/auth_service.dart';
 import 'package:plansteria/services/event_service.dart';
 import 'package:plansteria/ui/bottom_sheets/create_event/create_event_sheet.form.dart';
+import 'package:plansteria/ui/common/app_strings.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:uuid/uuid.dart';
 
 class CreateEventSheetModel extends FormViewModel with ListenableServiceMixin {
+  final _authService = locator<AuthService>();
+  final _bottomSheetService = locator<BottomSheetService>();
+
+  final _eventService = locator<EventService>();
+  final _navigationService = locator<NavigationService>();
+  final _snackbarService = locator<SnackbarService>();
+
+  final _selectedDate = ReactiveValue<List<DateTime>>(
+      [DateTime.now(), DateTime.now().add(const Duration(hours: 1))]);
+
   CreateEventSheetModel() {
     listenToReactiveValues([_selectedDate]);
   }
 
-  final _eventService = locator<EventService>();
-  final _navigationService = locator<NavigationService>();
+  User get currentUser => _authService.currentUser!;
 
-  Future<void> onEventCreate() async {
-    print(nameValue);
-    print(addressValue);
-    print(notesValue);
-    print(priceValue);
-    print(dateValue);
-    print(startTimeValue);
-    print(endTimeValue);
-  }
+  bool get disabled =>
+      !hasName ||
+      !hasAddress ||
+      !hasDate ||
+      !hasStartTime ||
+      !isFormValid ||
+      isBusy;
 
-  final _selectedDate = ReactiveValue<List<DateTime>>(
-      [DateTime.now(), DateTime.now().add(const Duration(hours: 1))]);
   List<DateTime> get selectedDate => _selectedDate.value;
+
+  @override
+  void listenToReactiveValues(List reactiveValues) => [_authService];
+
+  Future<void> onEventCreate(SheetResponse<dynamic> response) async {
+    setBusy(true);
+
+    final event = Event(
+      uid: const Uuid().v4(),
+      eventName: nameValue!,
+      description: descriptionValue,
+      eventAddress: addressValue!,
+      notes: notesValue,
+      price: priceValue == null ? null : double.tryParse(priceValue!),
+      date: DateTime.parse(dateValue!),
+      startTime: DateTime.parse(startTimeValue!),
+      endTime: endTimeValue == null ? null : DateTime.parse(endTimeValue!),
+      createdName: currentUser.name,
+      creatorId: currentUser.uid,
+      creatorAvatar: currentUser.avatar,
+    );
+
+    final result = await _eventService.createEvent(event);
+
+    result.fold(
+      (failure) {
+        setBusy(false);
+        _snackbarService.showCustomSnackBar(
+          duration: const Duration(seconds: 6),
+          variant: SnackbarType.error,
+          message: failure.maybeMap(
+            orElse: () => '',
+            serverError: (_) => kServerErrorMessage,
+            networkError: (_) => kNoNetworkConnectionError,
+          ),
+        );
+      },
+      (success) {
+        setBusy(false);
+        _bottomSheetService.completeSheet(response);
+      },
+    );
+  }
 
   Future<List<DateTime>?> selectDateTime(BuildContext context) async {
     // Show the date picker and wait for a selected date
