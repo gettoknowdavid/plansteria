@@ -9,7 +9,10 @@ import 'package:plansteria/ui/common/app_strings.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class HomeViewModel extends StreamViewModel<List<Event?>> {
+const String featuredEventKey = 'featuredEventKey';
+const String allEventsKey = 'allEventsKey';
+
+class HomeViewModel extends MultipleFutureViewModel {
   final _authService = locator<AuthService>();
   final _bottomSheetService = locator<BottomSheetService>();
   final _dialogService = locator<DialogService>();
@@ -17,8 +20,11 @@ class HomeViewModel extends StreamViewModel<List<Event?>> {
   final _navigationService = locator<NavigationService>();
   final _snackbarService = locator<SnackbarService>();
 
-  // @override
-  // Future<List<Event?>> futureToRun() => getAllEvents();
+  List<Event?> get fetchedList => dataMap?[allEventsKey];
+  Event get fetchedEvent => dataMap?[featuredEventKey];
+
+  bool get fetchingList => busy(allEventsKey);
+  bool get fetchingFeaturedEvent => busy(featuredEventKey);
 
   Future<List<Event?>> getAllEvents() async {
     final result = await _eventService.getAllEvents();
@@ -34,6 +40,10 @@ class HomeViewModel extends StreamViewModel<List<Event?>> {
       },
       (success) => success,
     );
+  }
+
+  Future<List<Guest?>> getGuests(String eventId) async {
+    return await _eventService.allGuests(eventId);
   }
 
   Future<void> logout() async {
@@ -91,4 +101,13 @@ class HomeViewModel extends StreamViewModel<List<Event?>> {
 
   @override
   Stream<List<Event?>> get stream => _eventService.eventsStream;
+
+  @override
+  Future<List<Event?>> futureToRun() => _eventService.getEvents();
+
+  @override
+  Map<String, Future Function()> get futuresMap => {
+        allEventsKey: _eventService.getEvents,
+        featuredEventKey: _eventService.getFeaturedEvent,
+      };
 }

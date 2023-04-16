@@ -10,13 +10,16 @@ class AppBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     final _navigationService = locator<NavigationService>();
+
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final isIos = theme.platform == TargetPlatform.iOS;
 
     return IconButton(
       onPressed: onTap ?? _navigationService.back,
       style: IconButton.styleFrom(
-        padding: const EdgeInsets.only(left: 10).r,
+        padding: isIos ? const EdgeInsets.only(left: 10).r : null,
         shape: RoundedRectangleBorder(
           borderRadius: const BorderRadius.all(Radius.circular(10)).r,
           side: BorderSide(color: colorScheme.onBackground.withOpacity(0.3)),

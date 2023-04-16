@@ -113,6 +113,10 @@ abstract class EventDocumentReference
     return _$EventCollectionReference(reference.firestore);
   }
 
+  late final GuestCollectionReference guests = _$GuestCollectionReference(
+    reference,
+  );
+
   @override
   Stream<EventDocumentSnapshot> snapshots();
 
@@ -149,6 +153,10 @@ abstract class EventDocumentReference
     FieldValue eventImageUrlFieldValue,
     String creatorId,
     FieldValue creatorIdFieldValue,
+    int numberOfGuests,
+    FieldValue numberOfGuestsFieldValue,
+    bool? featured,
+    FieldValue featuredFieldValue,
   });
 
   /// Updates fields in the current document using the transaction API.
@@ -178,6 +186,10 @@ abstract class EventDocumentReference
     FieldValue eventImageUrlFieldValue,
     String creatorId,
     FieldValue creatorIdFieldValue,
+    int numberOfGuests,
+    FieldValue numberOfGuestsFieldValue,
+    bool? featured,
+    FieldValue featuredFieldValue,
   });
 }
 
@@ -193,6 +205,10 @@ class _$EventDocumentReference
   EventCollectionReference get parent {
     return _$EventCollectionReference(reference.firestore);
   }
+
+  late final GuestCollectionReference guests = _$GuestCollectionReference(
+    reference,
+  );
 
   @override
   Stream<EventDocumentSnapshot> snapshots() {
@@ -232,6 +248,10 @@ class _$EventDocumentReference
     FieldValue? eventImageUrlFieldValue,
     Object? creatorId = _sentinel,
     FieldValue? creatorIdFieldValue,
+    Object? numberOfGuests = _sentinel,
+    FieldValue? numberOfGuestsFieldValue,
+    Object? featured = _sentinel,
+    FieldValue? featuredFieldValue,
   }) async {
     assert(
       uid == _sentinel || uidFieldValue == null,
@@ -277,6 +297,14 @@ class _$EventDocumentReference
       creatorId == _sentinel || creatorIdFieldValue == null,
       "Cannot specify both creatorId and creatorIdFieldValue",
     );
+    assert(
+      numberOfGuests == _sentinel || numberOfGuestsFieldValue == null,
+      "Cannot specify both numberOfGuests and numberOfGuestsFieldValue",
+    );
+    assert(
+      featured == _sentinel || featuredFieldValue == null,
+      "Cannot specify both featured and featuredFieldValue",
+    );
     final json = {
       if (uid != _sentinel) _$$_EventFieldMap['uid']!: uid as String,
       if (uidFieldValue != null) _$$_EventFieldMap['uid']!: uidFieldValue,
@@ -314,6 +342,14 @@ class _$EventDocumentReference
         _$$_EventFieldMap['creatorId']!: creatorId as String,
       if (creatorIdFieldValue != null)
         _$$_EventFieldMap['creatorId']!: creatorIdFieldValue,
+      if (numberOfGuests != _sentinel)
+        _$$_EventFieldMap['numberOfGuests']!: numberOfGuests as int,
+      if (numberOfGuestsFieldValue != null)
+        _$$_EventFieldMap['numberOfGuests']!: numberOfGuestsFieldValue,
+      if (featured != _sentinel)
+        _$$_EventFieldMap['featured']!: featured as bool?,
+      if (featuredFieldValue != null)
+        _$$_EventFieldMap['featured']!: featuredFieldValue,
     };
 
     return reference.update(json);
@@ -343,6 +379,10 @@ class _$EventDocumentReference
     FieldValue? eventImageUrlFieldValue,
     Object? creatorId = _sentinel,
     FieldValue? creatorIdFieldValue,
+    Object? numberOfGuests = _sentinel,
+    FieldValue? numberOfGuestsFieldValue,
+    Object? featured = _sentinel,
+    FieldValue? featuredFieldValue,
   }) {
     assert(
       uid == _sentinel || uidFieldValue == null,
@@ -388,6 +428,14 @@ class _$EventDocumentReference
       creatorId == _sentinel || creatorIdFieldValue == null,
       "Cannot specify both creatorId and creatorIdFieldValue",
     );
+    assert(
+      numberOfGuests == _sentinel || numberOfGuestsFieldValue == null,
+      "Cannot specify both numberOfGuests and numberOfGuestsFieldValue",
+    );
+    assert(
+      featured == _sentinel || featuredFieldValue == null,
+      "Cannot specify both featured and featuredFieldValue",
+    );
     final json = {
       if (uid != _sentinel) _$$_EventFieldMap['uid']!: uid as String,
       if (uidFieldValue != null) _$$_EventFieldMap['uid']!: uidFieldValue,
@@ -425,6 +473,14 @@ class _$EventDocumentReference
         _$$_EventFieldMap['creatorId']!: creatorId as String,
       if (creatorIdFieldValue != null)
         _$$_EventFieldMap['creatorId']!: creatorIdFieldValue,
+      if (numberOfGuests != _sentinel)
+        _$$_EventFieldMap['numberOfGuests']!: numberOfGuests as int,
+      if (numberOfGuestsFieldValue != null)
+        _$$_EventFieldMap['numberOfGuests']!: numberOfGuestsFieldValue,
+      if (featured != _sentinel)
+        _$$_EventFieldMap['featured']!: featured as bool?,
+      if (featuredFieldValue != null)
+        _$$_EventFieldMap['featured']!: featuredFieldValue,
     };
 
     transaction.update(reference, json);
@@ -646,6 +702,28 @@ abstract class EventQuery implements QueryReference<Event, EventQuerySnapshot> {
     List<String>? whereIn,
     List<String>? whereNotIn,
   });
+  EventQuery whereNumberOfGuests({
+    int? isEqualTo,
+    int? isNotEqualTo,
+    int? isLessThan,
+    int? isLessThanOrEqualTo,
+    int? isGreaterThan,
+    int? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<int>? whereIn,
+    List<int>? whereNotIn,
+  });
+  EventQuery whereFeatured({
+    bool? isEqualTo,
+    bool? isNotEqualTo,
+    bool? isLessThan,
+    bool? isLessThanOrEqualTo,
+    bool? isGreaterThan,
+    bool? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<bool?>? whereIn,
+    List<bool?>? whereNotIn,
+  });
 
   EventQuery orderByDocumentId({
     bool descending = false,
@@ -785,6 +863,30 @@ abstract class EventQuery implements QueryReference<Event, EventQuerySnapshot> {
     String startAfter,
     String endAt,
     String endBefore,
+    EventDocumentSnapshot? startAtDocument,
+    EventDocumentSnapshot? endAtDocument,
+    EventDocumentSnapshot? endBeforeDocument,
+    EventDocumentSnapshot? startAfterDocument,
+  });
+
+  EventQuery orderByNumberOfGuests({
+    bool descending = false,
+    int startAt,
+    int startAfter,
+    int endAt,
+    int endBefore,
+    EventDocumentSnapshot? startAtDocument,
+    EventDocumentSnapshot? endAtDocument,
+    EventDocumentSnapshot? endBeforeDocument,
+    EventDocumentSnapshot? startAfterDocument,
+  });
+
+  EventQuery orderByFeatured({
+    bool descending = false,
+    bool? startAt,
+    bool? startAfter,
+    bool? endAt,
+    bool? endBefore,
     EventDocumentSnapshot? startAtDocument,
     EventDocumentSnapshot? endAtDocument,
     EventDocumentSnapshot? endBeforeDocument,
@@ -1273,6 +1375,64 @@ class _$EventQuery extends QueryReference<Event, EventQuerySnapshot>
       _collection,
       $referenceWithoutCursor: $referenceWithoutCursor.where(
         _$$_EventFieldMap['creatorId']!,
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+      ),
+      $queryCursor: $queryCursor,
+    );
+  }
+
+  EventQuery whereNumberOfGuests({
+    int? isEqualTo,
+    int? isNotEqualTo,
+    int? isLessThan,
+    int? isLessThanOrEqualTo,
+    int? isGreaterThan,
+    int? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<int>? whereIn,
+    List<int>? whereNotIn,
+  }) {
+    return _$EventQuery(
+      _collection,
+      $referenceWithoutCursor: $referenceWithoutCursor.where(
+        _$$_EventFieldMap['numberOfGuests']!,
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+      ),
+      $queryCursor: $queryCursor,
+    );
+  }
+
+  EventQuery whereFeatured({
+    bool? isEqualTo,
+    bool? isNotEqualTo,
+    bool? isLessThan,
+    bool? isLessThanOrEqualTo,
+    bool? isGreaterThan,
+    bool? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<bool?>? whereIn,
+    List<bool?>? whereNotIn,
+  }) {
+    return _$EventQuery(
+      _collection,
+      $referenceWithoutCursor: $referenceWithoutCursor.where(
+        _$$_EventFieldMap['featured']!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -2151,6 +2311,150 @@ class _$EventQuery extends QueryReference<Event, EventQuerySnapshot>
     );
   }
 
+  EventQuery orderByNumberOfGuests({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    EventDocumentSnapshot? startAtDocument,
+    EventDocumentSnapshot? endAtDocument,
+    EventDocumentSnapshot? endBeforeDocument,
+    EventDocumentSnapshot? startAfterDocument,
+  }) {
+    final query = $referenceWithoutCursor
+        .orderBy(_$$_EventFieldMap['numberOfGuests']!, descending: descending);
+    var queryCursor = $queryCursor;
+
+    if (startAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAt: const [],
+        startAtDocumentSnapshot: startAtDocument.snapshot,
+      );
+    }
+    if (startAfterDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: const [],
+        startAfterDocumentSnapshot: startAfterDocument.snapshot,
+      );
+    }
+    if (endAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endAt: const [],
+        endAtDocumentSnapshot: endAtDocument.snapshot,
+      );
+    }
+    if (endBeforeDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: const [],
+        endBeforeDocumentSnapshot: endBeforeDocument.snapshot,
+      );
+    }
+
+    if (startAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAt: [...queryCursor.startAt, startAt],
+        startAtDocumentSnapshot: null,
+      );
+    }
+    if (startAfter != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: [...queryCursor.startAfter, startAfter],
+        startAfterDocumentSnapshot: null,
+      );
+    }
+    if (endAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endAt: [...queryCursor.endAt, endAt],
+        endAtDocumentSnapshot: null,
+      );
+    }
+    if (endBefore != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: [...queryCursor.endBefore, endBefore],
+        endBeforeDocumentSnapshot: null,
+      );
+    }
+
+    return _$EventQuery(
+      _collection,
+      $referenceWithoutCursor: query,
+      $queryCursor: queryCursor,
+    );
+  }
+
+  EventQuery orderByFeatured({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    EventDocumentSnapshot? startAtDocument,
+    EventDocumentSnapshot? endAtDocument,
+    EventDocumentSnapshot? endBeforeDocument,
+    EventDocumentSnapshot? startAfterDocument,
+  }) {
+    final query = $referenceWithoutCursor
+        .orderBy(_$$_EventFieldMap['featured']!, descending: descending);
+    var queryCursor = $queryCursor;
+
+    if (startAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAt: const [],
+        startAtDocumentSnapshot: startAtDocument.snapshot,
+      );
+    }
+    if (startAfterDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: const [],
+        startAfterDocumentSnapshot: startAfterDocument.snapshot,
+      );
+    }
+    if (endAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endAt: const [],
+        endAtDocumentSnapshot: endAtDocument.snapshot,
+      );
+    }
+    if (endBeforeDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: const [],
+        endBeforeDocumentSnapshot: endBeforeDocument.snapshot,
+      );
+    }
+
+    if (startAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAt: [...queryCursor.startAt, startAt],
+        startAtDocumentSnapshot: null,
+      );
+    }
+    if (startAfter != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: [...queryCursor.startAfter, startAfter],
+        startAfterDocumentSnapshot: null,
+      );
+    }
+    if (endAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endAt: [...queryCursor.endAt, endAt],
+        endAtDocumentSnapshot: null,
+      );
+    }
+    if (endBefore != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: [...queryCursor.endBefore, endBefore],
+        endBeforeDocumentSnapshot: null,
+      );
+    }
+
+    return _$EventQuery(
+      _collection,
+      $referenceWithoutCursor: query,
+      $queryCursor: queryCursor,
+    );
+  }
+
   @override
   bool operator ==(Object other) {
     return other is _$EventQuery &&
@@ -2244,6 +2548,1075 @@ class EventQueryDocumentSnapshot extends FirestoreQueryDocumentSnapshot<Event>
   }
 }
 
+/// A collection reference object can be used for adding documents,
+/// getting document references, and querying for documents
+/// (using the methods inherited from Query).
+abstract class GuestCollectionReference
+    implements
+        GuestQuery,
+        FirestoreCollectionReference<Guest, GuestQuerySnapshot> {
+  factory GuestCollectionReference(
+    DocumentReference<Event> parent,
+  ) = _$GuestCollectionReference;
+
+  static Guest fromFirestore(
+    DocumentSnapshot<Map<String, Object?>> snapshot,
+    SnapshotOptions? options,
+  ) {
+    return Guest.fromJson(snapshot.data()!);
+  }
+
+  static Map<String, Object?> toFirestore(
+    Guest value,
+    SetOptions? options,
+  ) {
+    return value.toJson();
+  }
+
+  @override
+  CollectionReference<Guest> get reference;
+
+  /// A reference to the containing [EventDocumentReference] if this is a subcollection.
+  EventDocumentReference get parent;
+
+  @override
+  GuestDocumentReference doc([String? id]);
+
+  /// Add a new document to this collection with the specified data,
+  /// assigning it a document ID automatically.
+  Future<GuestDocumentReference> add(Guest value);
+}
+
+class _$GuestCollectionReference extends _$GuestQuery
+    implements GuestCollectionReference {
+  factory _$GuestCollectionReference(
+    DocumentReference<Event> parent,
+  ) {
+    return _$GuestCollectionReference._(
+      EventDocumentReference(parent),
+      parent.collection('guests').withConverter(
+            fromFirestore: GuestCollectionReference.fromFirestore,
+            toFirestore: GuestCollectionReference.toFirestore,
+          ),
+    );
+  }
+
+  _$GuestCollectionReference._(
+    this.parent,
+    CollectionReference<Guest> reference,
+  ) : super(reference, $referenceWithoutCursor: reference);
+
+  @override
+  final EventDocumentReference parent;
+
+  String get path => reference.path;
+
+  @override
+  CollectionReference<Guest> get reference =>
+      super.reference as CollectionReference<Guest>;
+
+  @override
+  GuestDocumentReference doc([String? id]) {
+    assert(
+      id == null || id.split('/').length == 1,
+      'The document ID cannot be from a different collection',
+    );
+    return GuestDocumentReference(
+      reference.doc(id),
+    );
+  }
+
+  @override
+  Future<GuestDocumentReference> add(Guest value) {
+    return reference.add(value).then((ref) => GuestDocumentReference(ref));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is _$GuestCollectionReference &&
+        other.runtimeType == runtimeType &&
+        other.reference == reference;
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, reference);
+}
+
+abstract class GuestDocumentReference
+    extends FirestoreDocumentReference<Guest, GuestDocumentSnapshot> {
+  factory GuestDocumentReference(DocumentReference<Guest> reference) =
+      _$GuestDocumentReference;
+
+  DocumentReference<Guest> get reference;
+
+  /// A reference to the [GuestCollectionReference] containing this document.
+  GuestCollectionReference get parent {
+    return _$GuestCollectionReference(
+      reference.parent.parent!.withConverter<Event>(
+        fromFirestore: EventCollectionReference.fromFirestore,
+        toFirestore: EventCollectionReference.toFirestore,
+      ),
+    );
+  }
+
+  @override
+  Stream<GuestDocumentSnapshot> snapshots();
+
+  @override
+  Future<GuestDocumentSnapshot> get([GetOptions? options]);
+
+  @override
+  Future<void> delete();
+
+  /// Updates data on the document. Data will be merged with any existing
+  /// document data.
+  ///
+  /// If no document exists yet, the update will fail.
+  Future<void> update({
+    String uid,
+    FieldValue uidFieldValue,
+    String name,
+    FieldValue nameFieldValue,
+    String? avatar,
+    FieldValue avatarFieldValue,
+  });
+
+  /// Updates fields in the current document using the transaction API.
+  ///
+  /// The update will fail if applied to a document that does not exist.
+  void transactionUpdate(
+    Transaction transaction, {
+    String uid,
+    FieldValue uidFieldValue,
+    String name,
+    FieldValue nameFieldValue,
+    String? avatar,
+    FieldValue avatarFieldValue,
+  });
+}
+
+class _$GuestDocumentReference
+    extends FirestoreDocumentReference<Guest, GuestDocumentSnapshot>
+    implements GuestDocumentReference {
+  _$GuestDocumentReference(this.reference);
+
+  @override
+  final DocumentReference<Guest> reference;
+
+  /// A reference to the [GuestCollectionReference] containing this document.
+  GuestCollectionReference get parent {
+    return _$GuestCollectionReference(
+      reference.parent.parent!.withConverter<Event>(
+        fromFirestore: EventCollectionReference.fromFirestore,
+        toFirestore: EventCollectionReference.toFirestore,
+      ),
+    );
+  }
+
+  @override
+  Stream<GuestDocumentSnapshot> snapshots() {
+    return reference.snapshots().map(GuestDocumentSnapshot._);
+  }
+
+  @override
+  Future<GuestDocumentSnapshot> get([GetOptions? options]) {
+    return reference.get(options).then(GuestDocumentSnapshot._);
+  }
+
+  @override
+  Future<GuestDocumentSnapshot> transactionGet(Transaction transaction) {
+    return transaction.get(reference).then(GuestDocumentSnapshot._);
+  }
+
+  Future<void> update({
+    Object? uid = _sentinel,
+    FieldValue? uidFieldValue,
+    Object? name = _sentinel,
+    FieldValue? nameFieldValue,
+    Object? avatar = _sentinel,
+    FieldValue? avatarFieldValue,
+  }) async {
+    assert(
+      uid == _sentinel || uidFieldValue == null,
+      "Cannot specify both uid and uidFieldValue",
+    );
+    assert(
+      name == _sentinel || nameFieldValue == null,
+      "Cannot specify both name and nameFieldValue",
+    );
+    assert(
+      avatar == _sentinel || avatarFieldValue == null,
+      "Cannot specify both avatar and avatarFieldValue",
+    );
+    final json = {
+      if (uid != _sentinel) _$$_GuestFieldMap['uid']!: uid as String,
+      if (uidFieldValue != null) _$$_GuestFieldMap['uid']!: uidFieldValue,
+      if (name != _sentinel) _$$_GuestFieldMap['name']!: name as String,
+      if (nameFieldValue != null) _$$_GuestFieldMap['name']!: nameFieldValue,
+      if (avatar != _sentinel) _$$_GuestFieldMap['avatar']!: avatar as String?,
+      if (avatarFieldValue != null)
+        _$$_GuestFieldMap['avatar']!: avatarFieldValue,
+    };
+
+    return reference.update(json);
+  }
+
+  void transactionUpdate(
+    Transaction transaction, {
+    Object? uid = _sentinel,
+    FieldValue? uidFieldValue,
+    Object? name = _sentinel,
+    FieldValue? nameFieldValue,
+    Object? avatar = _sentinel,
+    FieldValue? avatarFieldValue,
+  }) {
+    assert(
+      uid == _sentinel || uidFieldValue == null,
+      "Cannot specify both uid and uidFieldValue",
+    );
+    assert(
+      name == _sentinel || nameFieldValue == null,
+      "Cannot specify both name and nameFieldValue",
+    );
+    assert(
+      avatar == _sentinel || avatarFieldValue == null,
+      "Cannot specify both avatar and avatarFieldValue",
+    );
+    final json = {
+      if (uid != _sentinel) _$$_GuestFieldMap['uid']!: uid as String,
+      if (uidFieldValue != null) _$$_GuestFieldMap['uid']!: uidFieldValue,
+      if (name != _sentinel) _$$_GuestFieldMap['name']!: name as String,
+      if (nameFieldValue != null) _$$_GuestFieldMap['name']!: nameFieldValue,
+      if (avatar != _sentinel) _$$_GuestFieldMap['avatar']!: avatar as String?,
+      if (avatarFieldValue != null)
+        _$$_GuestFieldMap['avatar']!: avatarFieldValue,
+    };
+
+    transaction.update(reference, json);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GuestDocumentReference &&
+        other.runtimeType == runtimeType &&
+        other.parent == parent &&
+        other.id == id;
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, parent, id);
+}
+
+abstract class GuestQuery implements QueryReference<Guest, GuestQuerySnapshot> {
+  @override
+  GuestQuery limit(int limit);
+
+  @override
+  GuestQuery limitToLast(int limit);
+
+  /// Perform an order query based on a [FieldPath].
+  ///
+  /// This method is considered unsafe as it does check that the field path
+  /// maps to a valid property or that parameters such as [isEqualTo] receive
+  /// a value of the correct type.
+  ///
+  /// If possible, instead use the more explicit variant of order queries:
+  ///
+  /// **AVOID**:
+  /// ```dart
+  /// collection.orderByFieldPath(
+  ///   FieldPath.fromString('title'),
+  ///   startAt: 'title',
+  /// );
+  /// ```
+  ///
+  /// **PREFER**:
+  /// ```dart
+  /// collection.orderByTitle(startAt: 'title');
+  /// ```
+  GuestQuery orderByFieldPath(
+    FieldPath fieldPath, {
+    bool descending = false,
+    Object? startAt,
+    Object? startAfter,
+    Object? endAt,
+    Object? endBefore,
+    GuestDocumentSnapshot? startAtDocument,
+    GuestDocumentSnapshot? endAtDocument,
+    GuestDocumentSnapshot? endBeforeDocument,
+    GuestDocumentSnapshot? startAfterDocument,
+  });
+
+  /// Perform a where query based on a [FieldPath].
+  ///
+  /// This method is considered unsafe as it does check that the field path
+  /// maps to a valid property or that parameters such as [isEqualTo] receive
+  /// a value of the correct type.
+  ///
+  /// If possible, instead use the more explicit variant of where queries:
+  ///
+  /// **AVOID**:
+  /// ```dart
+  /// collection.whereFieldPath(FieldPath.fromString('title'), isEqualTo: 'title');
+  /// ```
+  ///
+  /// **PREFER**:
+  /// ```dart
+  /// collection.whereTitle(isEqualTo: 'title');
+  /// ```
+  GuestQuery whereFieldPath(
+    FieldPath fieldPath, {
+    Object? isEqualTo,
+    Object? isNotEqualTo,
+    Object? isLessThan,
+    Object? isLessThanOrEqualTo,
+    Object? isGreaterThan,
+    Object? isGreaterThanOrEqualTo,
+    Object? arrayContains,
+    List<Object?>? arrayContainsAny,
+    List<Object?>? whereIn,
+    List<Object?>? whereNotIn,
+    bool? isNull,
+  });
+
+  GuestQuery whereDocumentId({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  });
+  GuestQuery whereUid({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  });
+  GuestQuery whereName({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  });
+  GuestQuery whereAvatar({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String?>? whereIn,
+    List<String?>? whereNotIn,
+  });
+
+  GuestQuery orderByDocumentId({
+    bool descending = false,
+    String startAt,
+    String startAfter,
+    String endAt,
+    String endBefore,
+    GuestDocumentSnapshot? startAtDocument,
+    GuestDocumentSnapshot? endAtDocument,
+    GuestDocumentSnapshot? endBeforeDocument,
+    GuestDocumentSnapshot? startAfterDocument,
+  });
+
+  GuestQuery orderByUid({
+    bool descending = false,
+    String startAt,
+    String startAfter,
+    String endAt,
+    String endBefore,
+    GuestDocumentSnapshot? startAtDocument,
+    GuestDocumentSnapshot? endAtDocument,
+    GuestDocumentSnapshot? endBeforeDocument,
+    GuestDocumentSnapshot? startAfterDocument,
+  });
+
+  GuestQuery orderByName({
+    bool descending = false,
+    String startAt,
+    String startAfter,
+    String endAt,
+    String endBefore,
+    GuestDocumentSnapshot? startAtDocument,
+    GuestDocumentSnapshot? endAtDocument,
+    GuestDocumentSnapshot? endBeforeDocument,
+    GuestDocumentSnapshot? startAfterDocument,
+  });
+
+  GuestQuery orderByAvatar({
+    bool descending = false,
+    String? startAt,
+    String? startAfter,
+    String? endAt,
+    String? endBefore,
+    GuestDocumentSnapshot? startAtDocument,
+    GuestDocumentSnapshot? endAtDocument,
+    GuestDocumentSnapshot? endBeforeDocument,
+    GuestDocumentSnapshot? startAfterDocument,
+  });
+}
+
+class _$GuestQuery extends QueryReference<Guest, GuestQuerySnapshot>
+    implements GuestQuery {
+  _$GuestQuery(
+    this._collection, {
+    required Query<Guest> $referenceWithoutCursor,
+    $QueryCursor $queryCursor = const $QueryCursor(),
+  }) : super(
+          $referenceWithoutCursor: $referenceWithoutCursor,
+          $queryCursor: $queryCursor,
+        );
+
+  final CollectionReference<Object?> _collection;
+
+  @override
+  Stream<GuestQuerySnapshot> snapshots([SnapshotOptions? options]) {
+    return reference.snapshots().map(GuestQuerySnapshot._fromQuerySnapshot);
+  }
+
+  @override
+  Future<GuestQuerySnapshot> get([GetOptions? options]) {
+    return reference.get(options).then(GuestQuerySnapshot._fromQuerySnapshot);
+  }
+
+  @override
+  GuestQuery limit(int limit) {
+    return _$GuestQuery(
+      _collection,
+      $referenceWithoutCursor: $referenceWithoutCursor.limit(limit),
+      $queryCursor: $queryCursor,
+    );
+  }
+
+  @override
+  GuestQuery limitToLast(int limit) {
+    return _$GuestQuery(
+      _collection,
+      $referenceWithoutCursor: $referenceWithoutCursor.limitToLast(limit),
+      $queryCursor: $queryCursor,
+    );
+  }
+
+  GuestQuery orderByFieldPath(
+    FieldPath fieldPath, {
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    GuestDocumentSnapshot? startAtDocument,
+    GuestDocumentSnapshot? endAtDocument,
+    GuestDocumentSnapshot? endBeforeDocument,
+    GuestDocumentSnapshot? startAfterDocument,
+  }) {
+    final query =
+        $referenceWithoutCursor.orderBy(fieldPath, descending: descending);
+    var queryCursor = $queryCursor;
+
+    if (startAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAt: const [],
+        startAtDocumentSnapshot: startAtDocument.snapshot,
+      );
+    }
+    if (startAfterDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: const [],
+        startAfterDocumentSnapshot: startAfterDocument.snapshot,
+      );
+    }
+    if (endAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endAt: const [],
+        endAtDocumentSnapshot: endAtDocument.snapshot,
+      );
+    }
+    if (endBeforeDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: const [],
+        endBeforeDocumentSnapshot: endBeforeDocument.snapshot,
+      );
+    }
+
+    if (startAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAt: [...queryCursor.startAt, startAt],
+        startAtDocumentSnapshot: null,
+      );
+    }
+    if (startAfter != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: [...queryCursor.startAfter, startAfter],
+        startAfterDocumentSnapshot: null,
+      );
+    }
+    if (endAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endAt: [...queryCursor.endAt, endAt],
+        endAtDocumentSnapshot: null,
+      );
+    }
+    if (endBefore != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: [...queryCursor.endBefore, endBefore],
+        endBeforeDocumentSnapshot: null,
+      );
+    }
+    return _$GuestQuery(
+      _collection,
+      $referenceWithoutCursor: query,
+      $queryCursor: queryCursor,
+    );
+  }
+
+  GuestQuery whereFieldPath(
+    FieldPath fieldPath, {
+    Object? isEqualTo,
+    Object? isNotEqualTo,
+    Object? isLessThan,
+    Object? isLessThanOrEqualTo,
+    Object? isGreaterThan,
+    Object? isGreaterThanOrEqualTo,
+    Object? arrayContains,
+    List<Object?>? arrayContainsAny,
+    List<Object?>? whereIn,
+    List<Object?>? whereNotIn,
+    bool? isNull,
+  }) {
+    return _$GuestQuery(
+      _collection,
+      $referenceWithoutCursor: $referenceWithoutCursor.where(
+        fieldPath,
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        arrayContains: arrayContains,
+        arrayContainsAny: arrayContainsAny,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+        isNull: isNull,
+      ),
+      $queryCursor: $queryCursor,
+    );
+  }
+
+  GuestQuery whereDocumentId({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  }) {
+    return _$GuestQuery(
+      _collection,
+      $referenceWithoutCursor: $referenceWithoutCursor.where(
+        FieldPath.documentId,
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+      ),
+      $queryCursor: $queryCursor,
+    );
+  }
+
+  GuestQuery whereUid({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  }) {
+    return _$GuestQuery(
+      _collection,
+      $referenceWithoutCursor: $referenceWithoutCursor.where(
+        _$$_GuestFieldMap['uid']!,
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+      ),
+      $queryCursor: $queryCursor,
+    );
+  }
+
+  GuestQuery whereName({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  }) {
+    return _$GuestQuery(
+      _collection,
+      $referenceWithoutCursor: $referenceWithoutCursor.where(
+        _$$_GuestFieldMap['name']!,
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+      ),
+      $queryCursor: $queryCursor,
+    );
+  }
+
+  GuestQuery whereAvatar({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String?>? whereIn,
+    List<String?>? whereNotIn,
+  }) {
+    return _$GuestQuery(
+      _collection,
+      $referenceWithoutCursor: $referenceWithoutCursor.where(
+        _$$_GuestFieldMap['avatar']!,
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+      ),
+      $queryCursor: $queryCursor,
+    );
+  }
+
+  GuestQuery orderByDocumentId({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    GuestDocumentSnapshot? startAtDocument,
+    GuestDocumentSnapshot? endAtDocument,
+    GuestDocumentSnapshot? endBeforeDocument,
+    GuestDocumentSnapshot? startAfterDocument,
+  }) {
+    final query = $referenceWithoutCursor.orderBy(FieldPath.documentId,
+        descending: descending);
+    var queryCursor = $queryCursor;
+
+    if (startAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAt: const [],
+        startAtDocumentSnapshot: startAtDocument.snapshot,
+      );
+    }
+    if (startAfterDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: const [],
+        startAfterDocumentSnapshot: startAfterDocument.snapshot,
+      );
+    }
+    if (endAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endAt: const [],
+        endAtDocumentSnapshot: endAtDocument.snapshot,
+      );
+    }
+    if (endBeforeDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: const [],
+        endBeforeDocumentSnapshot: endBeforeDocument.snapshot,
+      );
+    }
+
+    if (startAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAt: [...queryCursor.startAt, startAt],
+        startAtDocumentSnapshot: null,
+      );
+    }
+    if (startAfter != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: [...queryCursor.startAfter, startAfter],
+        startAfterDocumentSnapshot: null,
+      );
+    }
+    if (endAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endAt: [...queryCursor.endAt, endAt],
+        endAtDocumentSnapshot: null,
+      );
+    }
+    if (endBefore != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: [...queryCursor.endBefore, endBefore],
+        endBeforeDocumentSnapshot: null,
+      );
+    }
+
+    return _$GuestQuery(
+      _collection,
+      $referenceWithoutCursor: query,
+      $queryCursor: queryCursor,
+    );
+  }
+
+  GuestQuery orderByUid({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    GuestDocumentSnapshot? startAtDocument,
+    GuestDocumentSnapshot? endAtDocument,
+    GuestDocumentSnapshot? endBeforeDocument,
+    GuestDocumentSnapshot? startAfterDocument,
+  }) {
+    final query = $referenceWithoutCursor.orderBy(_$$_GuestFieldMap['uid']!,
+        descending: descending);
+    var queryCursor = $queryCursor;
+
+    if (startAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAt: const [],
+        startAtDocumentSnapshot: startAtDocument.snapshot,
+      );
+    }
+    if (startAfterDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: const [],
+        startAfterDocumentSnapshot: startAfterDocument.snapshot,
+      );
+    }
+    if (endAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endAt: const [],
+        endAtDocumentSnapshot: endAtDocument.snapshot,
+      );
+    }
+    if (endBeforeDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: const [],
+        endBeforeDocumentSnapshot: endBeforeDocument.snapshot,
+      );
+    }
+
+    if (startAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAt: [...queryCursor.startAt, startAt],
+        startAtDocumentSnapshot: null,
+      );
+    }
+    if (startAfter != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: [...queryCursor.startAfter, startAfter],
+        startAfterDocumentSnapshot: null,
+      );
+    }
+    if (endAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endAt: [...queryCursor.endAt, endAt],
+        endAtDocumentSnapshot: null,
+      );
+    }
+    if (endBefore != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: [...queryCursor.endBefore, endBefore],
+        endBeforeDocumentSnapshot: null,
+      );
+    }
+
+    return _$GuestQuery(
+      _collection,
+      $referenceWithoutCursor: query,
+      $queryCursor: queryCursor,
+    );
+  }
+
+  GuestQuery orderByName({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    GuestDocumentSnapshot? startAtDocument,
+    GuestDocumentSnapshot? endAtDocument,
+    GuestDocumentSnapshot? endBeforeDocument,
+    GuestDocumentSnapshot? startAfterDocument,
+  }) {
+    final query = $referenceWithoutCursor.orderBy(_$$_GuestFieldMap['name']!,
+        descending: descending);
+    var queryCursor = $queryCursor;
+
+    if (startAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAt: const [],
+        startAtDocumentSnapshot: startAtDocument.snapshot,
+      );
+    }
+    if (startAfterDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: const [],
+        startAfterDocumentSnapshot: startAfterDocument.snapshot,
+      );
+    }
+    if (endAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endAt: const [],
+        endAtDocumentSnapshot: endAtDocument.snapshot,
+      );
+    }
+    if (endBeforeDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: const [],
+        endBeforeDocumentSnapshot: endBeforeDocument.snapshot,
+      );
+    }
+
+    if (startAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAt: [...queryCursor.startAt, startAt],
+        startAtDocumentSnapshot: null,
+      );
+    }
+    if (startAfter != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: [...queryCursor.startAfter, startAfter],
+        startAfterDocumentSnapshot: null,
+      );
+    }
+    if (endAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endAt: [...queryCursor.endAt, endAt],
+        endAtDocumentSnapshot: null,
+      );
+    }
+    if (endBefore != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: [...queryCursor.endBefore, endBefore],
+        endBeforeDocumentSnapshot: null,
+      );
+    }
+
+    return _$GuestQuery(
+      _collection,
+      $referenceWithoutCursor: query,
+      $queryCursor: queryCursor,
+    );
+  }
+
+  GuestQuery orderByAvatar({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    GuestDocumentSnapshot? startAtDocument,
+    GuestDocumentSnapshot? endAtDocument,
+    GuestDocumentSnapshot? endBeforeDocument,
+    GuestDocumentSnapshot? startAfterDocument,
+  }) {
+    final query = $referenceWithoutCursor.orderBy(_$$_GuestFieldMap['avatar']!,
+        descending: descending);
+    var queryCursor = $queryCursor;
+
+    if (startAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAt: const [],
+        startAtDocumentSnapshot: startAtDocument.snapshot,
+      );
+    }
+    if (startAfterDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: const [],
+        startAfterDocumentSnapshot: startAfterDocument.snapshot,
+      );
+    }
+    if (endAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endAt: const [],
+        endAtDocumentSnapshot: endAtDocument.snapshot,
+      );
+    }
+    if (endBeforeDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: const [],
+        endBeforeDocumentSnapshot: endBeforeDocument.snapshot,
+      );
+    }
+
+    if (startAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAt: [...queryCursor.startAt, startAt],
+        startAtDocumentSnapshot: null,
+      );
+    }
+    if (startAfter != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: [...queryCursor.startAfter, startAfter],
+        startAfterDocumentSnapshot: null,
+      );
+    }
+    if (endAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endAt: [...queryCursor.endAt, endAt],
+        endAtDocumentSnapshot: null,
+      );
+    }
+    if (endBefore != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: [...queryCursor.endBefore, endBefore],
+        endBeforeDocumentSnapshot: null,
+      );
+    }
+
+    return _$GuestQuery(
+      _collection,
+      $referenceWithoutCursor: query,
+      $queryCursor: queryCursor,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is _$GuestQuery &&
+        other.runtimeType == runtimeType &&
+        other.reference == reference;
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, reference);
+}
+
+class GuestDocumentSnapshot extends FirestoreDocumentSnapshot<Guest> {
+  GuestDocumentSnapshot._(this.snapshot) : data = snapshot.data();
+
+  @override
+  final DocumentSnapshot<Guest> snapshot;
+
+  @override
+  GuestDocumentReference get reference {
+    return GuestDocumentReference(
+      snapshot.reference,
+    );
+  }
+
+  @override
+  final Guest? data;
+}
+
+class GuestQuerySnapshot
+    extends FirestoreQuerySnapshot<Guest, GuestQueryDocumentSnapshot> {
+  GuestQuerySnapshot._(
+    this.snapshot,
+    this.docs,
+    this.docChanges,
+  );
+
+  factory GuestQuerySnapshot._fromQuerySnapshot(
+    QuerySnapshot<Guest> snapshot,
+  ) {
+    final docs = snapshot.docs.map(GuestQueryDocumentSnapshot._).toList();
+
+    final docChanges = snapshot.docChanges.map((change) {
+      return _decodeDocumentChange(
+        change,
+        GuestDocumentSnapshot._,
+      );
+    }).toList();
+
+    return GuestQuerySnapshot._(
+      snapshot,
+      docs,
+      docChanges,
+    );
+  }
+
+  static FirestoreDocumentChange<GuestDocumentSnapshot>
+      _decodeDocumentChange<T>(
+    DocumentChange<T> docChange,
+    GuestDocumentSnapshot Function(DocumentSnapshot<T> doc) decodeDoc,
+  ) {
+    return FirestoreDocumentChange<GuestDocumentSnapshot>(
+      type: docChange.type,
+      oldIndex: docChange.oldIndex,
+      newIndex: docChange.newIndex,
+      doc: decodeDoc(docChange.doc),
+    );
+  }
+
+  final QuerySnapshot<Guest> snapshot;
+
+  @override
+  final List<GuestQueryDocumentSnapshot> docs;
+
+  @override
+  final List<FirestoreDocumentChange<GuestDocumentSnapshot>> docChanges;
+}
+
+class GuestQueryDocumentSnapshot extends FirestoreQueryDocumentSnapshot<Guest>
+    implements GuestDocumentSnapshot {
+  GuestQueryDocumentSnapshot._(this.snapshot) : data = snapshot.data();
+
+  @override
+  final QueryDocumentSnapshot<Guest> snapshot;
+
+  @override
+  final Guest data;
+
+  @override
+  GuestDocumentReference get reference {
+    return GuestDocumentReference(snapshot.reference);
+  }
+}
+
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
@@ -2260,6 +3633,14 @@ Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
       'endTime': instance.endTime?.toIso8601String(),
       'eventImageUrl': instance.eventImageUrl,
       'creatorId': instance.creatorId,
+      'numberOfGuests': instance.numberOfGuests,
+      'featured': instance.featured,
+    };
+
+Map<String, dynamic> _$GuestToJson(Guest instance) => <String, dynamic>{
+      'uid': instance.uid,
+      'name': instance.name,
+      'avatar': instance.avatar,
     };
 
 _$_Event _$$_EventFromJson(Map<String, dynamic> json) => _$_Event(
@@ -2276,6 +3657,8 @@ _$_Event _$$_EventFromJson(Map<String, dynamic> json) => _$_Event(
           : DateTime.parse(json['endTime'] as String),
       eventImageUrl: json['eventImageUrl'] as String?,
       creatorId: json['creatorId'] as String,
+      numberOfGuests: json['numberOfGuests'] as int,
+      featured: json['featured'] as bool?,
     );
 
 Map<String, dynamic> _$$_EventToJson(_$_Event instance) => <String, dynamic>{
@@ -2290,4 +3673,18 @@ Map<String, dynamic> _$$_EventToJson(_$_Event instance) => <String, dynamic>{
       'endTime': instance.endTime?.toIso8601String(),
       'eventImageUrl': instance.eventImageUrl,
       'creatorId': instance.creatorId,
+      'numberOfGuests': instance.numberOfGuests,
+      'featured': instance.featured,
+    };
+
+_$_Guest _$$_GuestFromJson(Map<String, dynamic> json) => _$_Guest(
+      uid: json['uid'] as String,
+      name: json['name'] as String,
+      avatar: json['avatar'] as String?,
+    );
+
+Map<String, dynamic> _$$_GuestToJson(_$_Guest instance) => <String, dynamic>{
+      'uid': instance.uid,
+      'name': instance.name,
+      'avatar': instance.avatar,
     };

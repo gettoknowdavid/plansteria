@@ -56,6 +56,7 @@ class CreateEventSheetModel extends FormViewModel with ListenableServiceMixin {
       startTime: DateTime.parse(startTimeValue!),
       endTime: endTimeValue == null ? null : DateTime.parse(endTimeValue!),
       creatorId: currentUser.uid,
+      numberOfGuests: 1,
     );
 
     final result = await _eventService.createEvent(event);

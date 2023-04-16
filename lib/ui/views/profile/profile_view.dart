@@ -15,8 +15,12 @@ class ProfileView extends StackedView<ProfileViewModel> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Container(
+        alignment: Alignment.center,
         padding: const EdgeInsets.only(left: 25.0, right: 25.0),
-        child: const Text('gvhjcfxjfg'),
+        child: FilledButton(
+          onPressed: viewModel.logout,
+          child: const Text('LOGOUT'),
+        ),
       ),
     );
   }

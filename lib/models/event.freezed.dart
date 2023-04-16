@@ -31,6 +31,8 @@ mixin _$Event {
   DateTime? get endTime => throw _privateConstructorUsedError;
   String? get eventImageUrl => throw _privateConstructorUsedError;
   String get creatorId => throw _privateConstructorUsedError;
+  int get numberOfGuests => throw _privateConstructorUsedError;
+  bool? get featured => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -53,7 +55,9 @@ abstract class $EventCopyWith<$Res> {
       DateTime startTime,
       DateTime? endTime,
       String? eventImageUrl,
-      String creatorId});
+      String creatorId,
+      int numberOfGuests,
+      bool? featured});
 }
 
 /// @nodoc
@@ -80,6 +84,8 @@ class _$EventCopyWithImpl<$Res, $Val extends Event>
     Object? endTime = freezed,
     Object? eventImageUrl = freezed,
     Object? creatorId = null,
+    Object? numberOfGuests = null,
+    Object? featured = freezed,
   }) {
     return _then(_value.copyWith(
       uid: null == uid
@@ -126,6 +132,14 @@ class _$EventCopyWithImpl<$Res, $Val extends Event>
           ? _value.creatorId
           : creatorId // ignore: cast_nullable_to_non_nullable
               as String,
+      numberOfGuests: null == numberOfGuests
+          ? _value.numberOfGuests
+          : numberOfGuests // ignore: cast_nullable_to_non_nullable
+              as int,
+      featured: freezed == featured
+          ? _value.featured
+          : featured // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -147,7 +161,9 @@ abstract class _$$_EventCopyWith<$Res> implements $EventCopyWith<$Res> {
       DateTime startTime,
       DateTime? endTime,
       String? eventImageUrl,
-      String creatorId});
+      String creatorId,
+      int numberOfGuests,
+      bool? featured});
 }
 
 /// @nodoc
@@ -170,6 +186,8 @@ class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
     Object? endTime = freezed,
     Object? eventImageUrl = freezed,
     Object? creatorId = null,
+    Object? numberOfGuests = null,
+    Object? featured = freezed,
   }) {
     return _then(_$_Event(
       uid: null == uid
@@ -216,6 +234,14 @@ class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
           ? _value.creatorId
           : creatorId // ignore: cast_nullable_to_non_nullable
               as String,
+      numberOfGuests: null == numberOfGuests
+          ? _value.numberOfGuests
+          : numberOfGuests // ignore: cast_nullable_to_non_nullable
+              as int,
+      featured: freezed == featured
+          ? _value.featured
+          : featured // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -234,7 +260,9 @@ class _$_Event implements _Event {
       required this.startTime,
       this.endTime,
       this.eventImageUrl,
-      required this.creatorId});
+      required this.creatorId,
+      required this.numberOfGuests,
+      this.featured});
 
   factory _$_Event.fromJson(Map<String, dynamic> json) =>
       _$$_EventFromJson(json);
@@ -261,10 +289,14 @@ class _$_Event implements _Event {
   final String? eventImageUrl;
   @override
   final String creatorId;
+  @override
+  final int numberOfGuests;
+  @override
+  final bool? featured;
 
   @override
   String toString() {
-    return 'Event(uid: $uid, eventName: $eventName, description: $description, eventAddress: $eventAddress, notes: $notes, price: $price, date: $date, startTime: $startTime, endTime: $endTime, eventImageUrl: $eventImageUrl, creatorId: $creatorId)';
+    return 'Event(uid: $uid, eventName: $eventName, description: $description, eventAddress: $eventAddress, notes: $notes, price: $price, date: $date, startTime: $startTime, endTime: $endTime, eventImageUrl: $eventImageUrl, creatorId: $creatorId, numberOfGuests: $numberOfGuests, featured: $featured)';
   }
 
   @override
@@ -288,7 +320,11 @@ class _$_Event implements _Event {
             (identical(other.eventImageUrl, eventImageUrl) ||
                 other.eventImageUrl == eventImageUrl) &&
             (identical(other.creatorId, creatorId) ||
-                other.creatorId == creatorId));
+                other.creatorId == creatorId) &&
+            (identical(other.numberOfGuests, numberOfGuests) ||
+                other.numberOfGuests == numberOfGuests) &&
+            (identical(other.featured, featured) ||
+                other.featured == featured));
   }
 
   @JsonKey(ignore: true)
@@ -305,7 +341,9 @@ class _$_Event implements _Event {
       startTime,
       endTime,
       eventImageUrl,
-      creatorId);
+      creatorId,
+      numberOfGuests,
+      featured);
 
   @JsonKey(ignore: true)
   @override
@@ -333,7 +371,9 @@ abstract class _Event implements Event {
       required final DateTime startTime,
       final DateTime? endTime,
       final String? eventImageUrl,
-      required final String creatorId}) = _$_Event;
+      required final String creatorId,
+      required final int numberOfGuests,
+      final bool? featured}) = _$_Event;
 
   factory _Event.fromJson(Map<String, dynamic> json) = _$_Event.fromJson;
 
@@ -360,7 +400,175 @@ abstract class _Event implements Event {
   @override
   String get creatorId;
   @override
+  int get numberOfGuests;
+  @override
+  bool? get featured;
+  @override
   @JsonKey(ignore: true)
   _$$_EventCopyWith<_$_Event> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Guest _$GuestFromJson(Map<String, dynamic> json) {
+  return _Guest.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Guest {
+  String get uid => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  String? get avatar => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GuestCopyWith<Guest> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GuestCopyWith<$Res> {
+  factory $GuestCopyWith(Guest value, $Res Function(Guest) then) =
+      _$GuestCopyWithImpl<$Res, Guest>;
+  @useResult
+  $Res call({String uid, String name, String? avatar});
+}
+
+/// @nodoc
+class _$GuestCopyWithImpl<$Res, $Val extends Guest>
+    implements $GuestCopyWith<$Res> {
+  _$GuestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? uid = null,
+    Object? name = null,
+    Object? avatar = freezed,
+  }) {
+    return _then(_value.copyWith(
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      avatar: freezed == avatar
+          ? _value.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_GuestCopyWith<$Res> implements $GuestCopyWith<$Res> {
+  factory _$$_GuestCopyWith(_$_Guest value, $Res Function(_$_Guest) then) =
+      __$$_GuestCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String uid, String name, String? avatar});
+}
+
+/// @nodoc
+class __$$_GuestCopyWithImpl<$Res> extends _$GuestCopyWithImpl<$Res, _$_Guest>
+    implements _$$_GuestCopyWith<$Res> {
+  __$$_GuestCopyWithImpl(_$_Guest _value, $Res Function(_$_Guest) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? uid = null,
+    Object? name = null,
+    Object? avatar = freezed,
+  }) {
+    return _then(_$_Guest(
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      avatar: freezed == avatar
+          ? _value.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_Guest implements _Guest {
+  _$_Guest({required this.uid, required this.name, this.avatar});
+
+  factory _$_Guest.fromJson(Map<String, dynamic> json) =>
+      _$$_GuestFromJson(json);
+
+  @override
+  final String uid;
+  @override
+  final String name;
+  @override
+  final String? avatar;
+
+  @override
+  String toString() {
+    return 'Guest(uid: $uid, name: $name, avatar: $avatar)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_Guest &&
+            (identical(other.uid, uid) || other.uid == uid) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.avatar, avatar) || other.avatar == avatar));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, uid, name, avatar);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_GuestCopyWith<_$_Guest> get copyWith =>
+      __$$_GuestCopyWithImpl<_$_Guest>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_GuestToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Guest implements Guest {
+  factory _Guest(
+      {required final String uid,
+      required final String name,
+      final String? avatar}) = _$_Guest;
+
+  factory _Guest.fromJson(Map<String, dynamic> json) = _$_Guest.fromJson;
+
+  @override
+  String get uid;
+  @override
+  String get name;
+  @override
+  String? get avatar;
+  @override
+  @JsonKey(ignore: true)
+  _$$_GuestCopyWith<_$_Guest> get copyWith =>
       throw _privateConstructorUsedError;
 }

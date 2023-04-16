@@ -19,13 +19,19 @@ const _$$_EventFieldMap = <String, String>{
   'endTime': 'endTime',
   'eventImageUrl': 'eventImageUrl',
   'creatorId': 'creatorId',
-  'createdName': 'createdName',
-  'creatorAvatar': 'creatorAvatar',
+  'numberOfGuests': 'numberOfGuests',
+};
+
+const _$$_GuestFieldMap = <String, String>{
+  'uid': 'uid',
+  'name': 'name',
+  'avatar': 'avatar',
 };
 
 final eventsRef = EventCollectionReference();
 
 @Collection<Event>('events')
+@Collection<Guest>('events/*/guests')
 @freezed
 @JsonSerializable(createFactory: false)
 class Event with _$Event {
@@ -41,10 +47,27 @@ class Event with _$Event {
     DateTime? endTime,
     String? eventImageUrl,
     required String creatorId,
+    required int numberOfGuests,
+    bool? featured,
   }) = _Event;
 
   factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$EventToJson(this);
+}
+
+@freezed
+@JsonSerializable(createFactory: false)
+class Guest with _$Guest {
+  factory Guest({
+    required String uid,
+    required String name,
+    String? avatar,
+  }) = _Guest;
+
+  factory Guest.fromJson(Map<String, dynamic> json) => _$GuestFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$GuestToJson(this);
 }

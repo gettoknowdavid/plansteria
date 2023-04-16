@@ -33,6 +33,8 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
       body: NestedScrollView(
         controller: scrollController,
         body: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
+          primary: false,
           controller: scrollController,
           padding: kEventDetailsHorPadding,
           child: Column(
@@ -116,7 +118,10 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
                 10.verticalSpace,
               ],
               10.verticalSpace,
-              AppButton(onPressed: () {}, title: 'Get Tickets')
+              AppButton(
+                onPressed: viewModel.addGuest,
+                title: viewModel.isAttending ? 'I am attending' : 'Get Tickets',
+              ),
             ],
           ),
         ),

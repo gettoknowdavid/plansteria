@@ -86,6 +86,7 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
       endTime: endTimeValue == null ? null : DateTime.parse(endTimeValue!),
       creatorId: currentUser.uid,
       eventImageUrl: _photoUrl.value,
+      numberOfGuests: 0,
     );
 
     final result = await _eventService.createEvent(event);

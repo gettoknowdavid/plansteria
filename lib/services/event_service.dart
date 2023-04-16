@@ -16,10 +16,44 @@ class EventService with ListenableServiceMixin {
     listenToReactiveValues([_events]);
   }
 
+  Future<bool> addGuest(String eventId, Guest guest) async {
+    try {
+      GuestCollectionReference guestsRef = eventsRef.doc(eventId).guests;
+      await guestsRef.doc(guest.uid).set(guest);
+      return true;
+    } catch (e) {
+      // print('object');
+      return false;
+    }
+  }
+
+  Future<List<Guest?>> allGuests(String eventId) async {
+    try {
+      GuestCollectionReference guestsRef = eventsRef.doc(eventId).guests;
+      final query = await guestsRef.get();
+      return query.docs.map((e) => e.data).toList();
+    } catch (e) {
+      // print('object');
+      return [];
+    }
+  }
+
   List<Event?> get events => _events.value;
 
   Stream<List<Event?>> get eventsStream {
     return eventsRef.snapshots().map((e) => e.docs.map((d) => d.data).toList());
+  }
+
+  Future<Event> getFeaturedEvent() async {
+    final query = await eventsRef.orderByNumberOfGuests(descending: true).get();
+    return query.docs.map((e) => e.data).first;
+  }
+
+  Future<List<Event?>> getEvents() async {
+    final s = await eventsRef.get();
+    final newS = s.docs.map((e) => e.data).toList();
+    print(newS);
+    return newS;
   }
 
   Future<Either<EventError, Unit>> createEvent(Event event) async {
@@ -46,6 +80,7 @@ class EventService with ListenableServiceMixin {
       final query = await eventsRef.get();
       final result = query.docs.map((e) => e.data).toList();
       _events.value = result;
+      print(_events.value);
       return right(result);
     } on FirebaseException catch (e) {
       return left(EventError.error(e.message));
