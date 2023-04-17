@@ -21,7 +21,7 @@ class HomeViewModel extends MultipleFutureViewModel {
   final _snackbarService = locator<SnackbarService>();
 
   List<Event?> get fetchedList => dataMap?[allEventsKey];
-  Event get fetchedEvent => dataMap?[featuredEventKey];
+  Event? get fetchedEvent => dataMap?[featuredEventKey];
 
   bool get fetchingList => busy(allEventsKey);
   bool get fetchingFeaturedEvent => busy(featuredEventKey);
@@ -42,8 +42,12 @@ class HomeViewModel extends MultipleFutureViewModel {
     );
   }
 
-  Future<List<Guest?>> getGuests(String eventId) async {
-    return await _eventService.allGuests(eventId);
+  Future<List<Guest?>> get getGuests async {
+    if (fetchedEvent != null) {
+      return await _eventService.allGuests(fetchedEvent!.uid);
+    } else {
+      return [];
+    }
   }
 
   Future<void> logout() async {
@@ -98,12 +102,6 @@ class HomeViewModel extends MultipleFutureViewModel {
       description: kNoNetworkConnectionError,
     );
   }
-
-  @override
-  Stream<List<Event?>> get stream => _eventService.eventsStream;
-
-  @override
-  Future<List<Event?>> futureToRun() => _eventService.getEvents();
 
   @override
   Map<String, Future Function()> get futuresMap => {

@@ -1090,6 +1090,33 @@ class MockEventService extends _i1.Mock implements _i15.EventService {
         returnValueForMissingStub: 0,
       ) as int);
   @override
+  _i3.Future<bool> addGuest(
+    String? eventId,
+    _i4.Guest? guest,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #addGuest,
+          [
+            eventId,
+            guest,
+          ],
+        ),
+        returnValue: _i3.Future<bool>.value(false),
+        returnValueForMissingStub: _i3.Future<bool>.value(false),
+      ) as _i3.Future<bool>);
+  @override
+  _i3.Future<List<_i4.Guest?>> allGuests(String? eventId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #allGuests,
+          [eventId],
+        ),
+        returnValue: _i3.Future<List<_i4.Guest?>>.value(<_i4.Guest?>[]),
+        returnValueForMissingStub:
+            _i3.Future<List<_i4.Guest?>>.value(<_i4.Guest?>[]),
+      ) as _i3.Future<List<_i4.Guest?>>);
+  @override
   _i3.Future<_i4.Event> getFeaturedEvent() => (super.noSuchMethod(
         Invocation.method(
           #getFeaturedEvent,

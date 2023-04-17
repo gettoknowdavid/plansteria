@@ -46,7 +46,10 @@ class EventService with ListenableServiceMixin {
 
   Future<Event> getFeaturedEvent() async {
     final query = await eventsRef.orderByNumberOfGuests(descending: true).get();
-    return query.docs.map((e) => e.data).first;
+    return query.docs
+        .map((e) => e.data)
+        .where((e) => e.eventImageUrl != null)
+        .first;
   }
 
   Future<List<Event?>> getEvents() async {
