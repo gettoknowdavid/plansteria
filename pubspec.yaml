@@ -66,6 +66,9 @@ dependencies:
   auto_size_text: ^3.0.0
   readmore: ^2.2.0
   image_picker: ^0.8.7+2
+  dio: ^5.1.1
+  retrofit: ^4.0.1
+  envied: ^0.3.0
 
 dev_dependencies:
   flutter_test:
@@ -86,6 +89,8 @@ dev_dependencies:
   objectbox_generator: ^2.0.0
   cloud_firestore_odm_generator: ^1.0.0-dev.52
   flutter_launcher_icons: ^0.12.0
+  retrofit_generator: ^6.0.0+2
+  envied_generator: ^0.3.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

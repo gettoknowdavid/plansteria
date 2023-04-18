@@ -22,7 +22,6 @@ class LayoutAppBar extends ViewModelWidget<LayoutViewModel>
   Widget build(BuildContext context, LayoutViewModel viewModel) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
-    final leadingStyle = textTheme.titleMedium?.copyWith(fontSize: 14.r);
 
     // If th current view is the ProfileView show nothing
     if (viewModel.currentIndex == 3) {
@@ -37,9 +36,9 @@ class LayoutAppBar extends ViewModelWidget<LayoutViewModel>
         padding: kGlobalHorizontalPadding,
         child: AutoSizeText(
           title ?? 'Hi, ${viewModel.firstName}',
-          maxFontSize: 22,
-          minFontSize: 18,
-          style: leadingStyle?.copyWith(fontWeight: FontWeight.w500),
+          maxFontSize: 20,
+          minFontSize: 16,
+          style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w500),
         ),
       ),
       actions: [
