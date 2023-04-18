@@ -13,6 +13,10 @@ class ProfileView extends StackedView<ProfileViewModel> {
   Widget builder(context, viewModel, child) {
     final theme = Theme.of(context);
 
+    if (viewModel.isBusy) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
     return Scaffold(
       body: SingleChildScrollView(
         padding: kGlobalHorizontalPadding,

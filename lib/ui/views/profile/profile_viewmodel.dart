@@ -13,10 +13,8 @@ class ProfileViewModel extends ReactiveViewModel {
 
   Future<void> logout() async {
     setBusy(true);
-    await _authService.logout().then((_) {
-      setBusy(false);
-      _navigationService.clearStackAndShow(Routes.loginView);
-    });
+    await _authService.logout();
+    _navigationService.clearStackAndShow(Routes.loginView);
   }
 
   @override

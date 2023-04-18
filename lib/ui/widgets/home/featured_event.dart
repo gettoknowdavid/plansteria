@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:plansteria/models/user.dart';
 import 'package:plansteria/ui/common/app_constants.dart';
 import 'package:plansteria/ui/views/home/home_viewmodel.dart';
 import 'package:plansteria/ui/widgets/home/stacked_avatar_widget.dart';
@@ -31,41 +32,47 @@ class FeaturedEvent extends ViewModelWidget<HomeViewModel> {
           ),
         ),
         10.verticalSpace,
-        Container(
-          height: _containerHeight,
-          width: 1.sw,
-          decoration: BoxDecoration(
-            color: isBusy ? Colors.white12 : Colors.white,
-            borderRadius: const BorderRadius.all(Radius.circular(24)).r,
-            boxShadow: [
-              BoxShadow(
-                color: theme.colorScheme.onBackground.withOpacity(0.1),
-                blurRadius: 10,
-                spreadRadius: 4,
-                offset: const Offset(0, 6),
-              ),
-            ],
-          ),
-          child: Stack(
-            children: [
-              const _EventImage(),
-              Positioned(
-                top: _imageHeight + 5.r,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const _EventName(),
-                    const _CreatorName(),
-                    8.verticalSpace,
-                    SizedBox(
-                      width: 1.sw,
-                      child: const StackedAvatarWidget(),
-                    ),
-                    2.verticalSpace,
-                  ],
+        GestureDetector(
+          onTap: () => viewModel.navigateToDetails(viewModel.fetchedEvent!),
+          child: Container(
+            height: _containerHeight,
+            width: 1.sw,
+            decoration: BoxDecoration(
+              color: isBusy ? Colors.white12 : Colors.white,
+              borderRadius: const BorderRadius.all(Radius.circular(24)).r,
+              boxShadow: [
+                BoxShadow(
+                  color: theme.colorScheme.onBackground.withOpacity(0.1),
+                  blurRadius: 10,
+                  spreadRadius: 4,
+                  offset: const Offset(0, 6),
                 ),
-              ),
-            ],
+              ],
+            ),
+            child: Stack(
+              children: [
+                SkeletonLoader(
+                  loading: isBusy,
+                  child: const _EventImage(),
+                ),
+                Positioned(
+                  top: _imageHeight + 5.r,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const _EventName(),
+                      const _CreatorName(),
+                      5.verticalSpace,
+                      SizedBox(
+                        width: 1.sw,
+                        child: const StackedAvatarWidget(),
+                      ),
+                      5.verticalSpace,
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ],
@@ -73,22 +80,29 @@ class FeaturedEvent extends ViewModelWidget<HomeViewModel> {
   }
 }
 
-class _CreatorName extends StatelessWidget {
+class _CreatorName extends ViewModelWidget<HomeViewModel> {
   const _CreatorName();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, HomeViewModel viewModel) {
     final textTheme = Theme.of(context).textTheme;
 
-    return Padding(
-      padding: kGlobalHorizontalPadding,
-      child: Text(
-        'Three Mils Island',
-        style: textTheme.bodySmall?.copyWith(
-          color: Colors.grey,
-        ),
-      ),
-    );
+    return FutureBuilder<User?>(
+        future: viewModel.getCreatorById,
+        builder: (context, snapshot) {
+          return Padding(
+            padding: kGlobalHorizontalPadding,
+            child: SkeletonLoader(
+              loading: viewModel.fetchingFeaturedEvent,
+              child: Text(
+                'Three Mils Island',
+                style: textTheme.bodySmall?.copyWith(
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+          );
+        });
   }
 }
 
@@ -172,29 +186,29 @@ class _EventImage extends SelectorViewModelWidget<HomeViewModel, String?> {
   String? selector(viewModel) => viewModel.fetchedEvent!.eventImageUrl;
 }
 
-class _EventName extends SelectorViewModelWidget<HomeViewModel, String> {
+class _EventName extends ViewModelWidget<HomeViewModel> {
   const _EventName();
 
   @override
-  Widget build(BuildContext context, String value) {
+  Widget build(BuildContext context, HomeViewModel viewModel) {
     final textTheme = Theme.of(context).textTheme;
 
     return Padding(
       padding: kGlobalHorizontalPadding,
-      child: Text(
-        value,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: textTheme.titleMedium?.copyWith(
-          color: Colors.black,
-          fontWeight: FontWeight.w600,
+      child: SkeletonLoader(
+        loading: viewModel.fetchingFeaturedEvent,
+        child: Text(
+          viewModel.fetchedEvent!.eventName,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: textTheme.titleMedium?.copyWith(
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
     );
   }
-
-  @override
-  String selector(viewModel) => viewModel.fetchedEvent!.eventName;
 }
 
 class _FeatureTag extends StatelessWidget {
@@ -209,7 +223,7 @@ class _FeatureTag extends StatelessWidget {
       margin: const EdgeInsets.only(right: 30).r,
       padding: const EdgeInsets.fromLTRB(4, 0, 4, 8).r,
       decoration: BoxDecoration(
-        color: Colors.orange,
+        color: Colors.orange[700],
         borderRadius: const BorderRadius.vertical(bottom: Radius.circular(6)).r,
       ),
       child: Icon(
