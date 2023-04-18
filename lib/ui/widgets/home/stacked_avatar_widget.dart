@@ -9,7 +9,7 @@ import 'package:stacked/stacked.dart';
 
 final radius = 11.r;
 final diameter = (radius * 2).r;
-final offsetWidth = (diameter * 0.75).r;
+final offsetWidth = (diameter * 0.6).r;
 
 class StackedAvatarWidget extends ViewModelWidget<HomeViewModel> {
   const StackedAvatarWidget({super.key});

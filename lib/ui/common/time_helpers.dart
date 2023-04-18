@@ -5,7 +5,7 @@ String eventDetailsTimeFormatter(DateTime startTime, [DateTime? endTime]) {
 
   final String startTimeString = formatter.format(startTime);
   if (endTime != null) {
-    final String endTimeString = formatter.format(endTime!);
+    final String endTimeString = formatter.format(endTime);
     return '$startTimeString to $endTimeString';
   } else {
     return startTimeString;
