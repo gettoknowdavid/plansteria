@@ -13,7 +13,7 @@ class Usage with _$Usage {
   }) = _Usage;
 
   factory Usage.fromJson(Map<String, dynamic> json) => _$UsageFromJson(json);
-  
+
   @override
   Map<String, dynamic> toJson() => _$UsageToJson(this);
 }

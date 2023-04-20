@@ -1,30 +1,30 @@
 import 'package:plansteria/app/app.bottomsheets.dart';
 import 'package:plansteria/app/app.locator.dart';
-import 'package:plansteria/app/app.router.dart';
 import 'package:plansteria/models/user.dart';
 import 'package:plansteria/services/auth_service.dart';
+import 'package:plansteria/services/media_service.dart';
+import 'package:plansteria/ui/bottom_sheets/create_event/create_event_sheet.form.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class ProfileViewModel extends ReactiveViewModel {
+class EditProfileSheetModel extends FormViewModel with ListenableServiceMixin {
   final _authService = locator<AuthService>();
   final _bottomSheetService = locator<BottomSheetService>();
-  final _navigationService = locator<NavigationService>();
+  final _mediaService = locator<MediaService>();
 
   User? get user => _authService.currentUser;
 
-  Future<void> logout() async {
-    setBusy(true);
-    await _authService.logout();
-    _navigationService.clearStackAndShow(Routes.loginView);
-  }
+  bool get disabled => !hasName;
 
-  Future<void> showEditProfileBottomSheet() async {
+  Future<void> showImageSourceBottomSheet() async {
     _bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.editProfile,
+      variant: BottomSheetType.imageSource,
       isScrollControlled: true,
+      enterBottomSheetDuration: const Duration(milliseconds: 100),
     );
   }
+
+  void close() => _bottomSheetService.completeSheet(SheetResponse());
 
   @override
   List<ListenableServiceMixin> get listenableServices => [_authService];

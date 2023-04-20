@@ -7,6 +7,7 @@
 import 'package:stacked_services/stacked_services.dart';
 
 import 'app.locator.dart';
+import '../ui/dialogs/about_app/about_app_dialog.dart';
 import '../ui/dialogs/error/error_dialog.dart';
 import '../ui/dialogs/info_alert/info_alert_dialog.dart';
 import '../ui/dialogs/mail_app/mail_app_dialog.dart';
@@ -19,6 +20,7 @@ enum DialogType {
   networkError,
   noMailApp,
   mailApp,
+  aboutApp,
 }
 
 void setupDialogUi() {
@@ -35,6 +37,8 @@ void setupDialogUi() {
         NoMailAppDialog(request: request, completer: completer),
     DialogType.mailApp: (context, request, completer) =>
         MailAppDialog(request: request, completer: completer),
+    DialogType.aboutApp: (context, request, completer) =>
+        AboutAppDialog(request: request, completer: completer),
   };
 
   dialogService.registerCustomDialogBuilders(builders);

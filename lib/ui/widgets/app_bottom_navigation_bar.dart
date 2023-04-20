@@ -10,7 +10,7 @@ const items = [
     activeIcon: Icon(PhosphorIcons.houseSimpleBold),
   ),
   BottomNavigationBarItem(
-    label: 'Events',
+    label: 'My Events',
     icon: Icon(PhosphorIcons.ticket),
     activeIcon: Icon(PhosphorIcons.ticketBold),
   ),

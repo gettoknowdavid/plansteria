@@ -10,19 +10,22 @@ class ProfileAvatar extends ViewModelWidget<ProfileViewModel> {
   @override
   Widget build(BuildContext context, ProfileViewModel viewModel) {
     final theme = Theme.of(context);
-    final outerRadius = 0.24.r;
-    final innerRadius = 0.23.r;
+    final outerRadius = 0.15.sw;
+    final innerRadius = 0.145.sw;
+    final iconSize = innerRadius * 0.6;
+
+    final iconColor = theme.colorScheme.onPrimary;
 
     return CircleAvatar(
       radius: outerRadius,
-      backgroundColor: theme.primaryColor,
+      backgroundColor: theme.colorScheme.onBackground,
       child: CircleAvatar(
         radius: innerRadius,
         foregroundImage: viewModel.user?.avatar != null
             ? NetworkImage(viewModel.user!.avatar!)
             : null,
         child: viewModel.user?.avatar == null
-            ? Icon(PhosphorIcons.user, size: innerRadius * 0.3)
+            ? Icon(PhosphorIcons.user, size: iconSize, color: iconColor)
             : null,
       ),
     );

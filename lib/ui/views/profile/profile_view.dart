@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:plansteria/ui/common/app_constants.dart';
 import 'package:plansteria/ui/widgets/profile/profile_avatar.dart';
+import 'package:plansteria/ui/widgets/profile/profile_item.dart';
+import 'package:plansteria/ui/widgets/profile/profile_stat_item.dart';
 import 'package:stacked/stacked.dart';
 
 import 'profile_viewmodel.dart';
@@ -12,6 +15,7 @@ class ProfileView extends StackedView<ProfileViewModel> {
   @override
   Widget builder(context, viewModel, child) {
     final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
 
     if (viewModel.isBusy) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
@@ -23,25 +27,34 @@ class ProfileView extends StackedView<ProfileViewModel> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            20.verticalSpace,
+            (kToolbarHeight * 1.2).verticalSpace,
             const ProfileAvatar(),
             20.verticalSpace,
-            Text(
-              viewModel.user!.name,
-              style: theme.textTheme.titleLarge,
-              textAlign: TextAlign.center,
+            const _Name(),
+            const _Location(),
+            30.verticalSpace,
+            const _Stats(),
+            30.verticalSpace,
+            ProfileItem(
+              'Edit Profile',
+              onTap: viewModel.showEditProfileBottomSheet,
+              leadingIcon: PhosphorIcons.pencil,
             ),
-            Text(
-              'Lagos, NG',
-              textAlign: TextAlign.center,
-              style: theme.textTheme.bodyLarge?.copyWith(
-                color: theme.textTheme.bodyLarge?.color?.withOpacity(0.5),
-              ),
+            10.verticalSpace,
+            const ProfileItem(
+              'Account',
+              leadingIcon: PhosphorIcons.userCircle,
             ),
-            20.verticalSpace,
-            FilledButton(
-              onPressed: viewModel.logout,
-              child: const Text('LOGOUT'),
+            10.verticalSpace,
+            const ProfileItem(
+              'About Plansteria',
+              leadingIcon: PhosphorIcons.info,
+            ),
+            10.verticalSpace,
+            ProfileItem(
+              'Logout',
+              onTap: viewModel.logout,
+              leadingIcon: PhosphorIcons.signOut,
             ),
           ],
         ),
@@ -51,4 +64,55 @@ class ProfileView extends StackedView<ProfileViewModel> {
 
   @override
   ProfileViewModel viewModelBuilder(context) => ProfileViewModel();
+}
+
+class _Location extends StatelessWidget {
+  const _Location();
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    return Text(
+      'Lagos, NG',
+      textAlign: TextAlign.center,
+      style: textTheme.bodyMedium?.copyWith(
+        color: textTheme.bodyLarge?.color?.withOpacity(0.5),
+      ),
+    );
+  }
+}
+
+class _Name extends SelectorViewModelWidget<ProfileViewModel, String> {
+  const _Name();
+
+  @override
+  Widget build(BuildContext context, String value) {
+    final textTheme = Theme.of(context).textTheme;
+
+    return Text(
+      value,
+      style: textTheme.titleLarge,
+      maxLines: 1,
+      textAlign: TextAlign.center,
+    );
+  }
+
+  @override
+  String selector(ProfileViewModel viewModel) => viewModel.user!.name;
+}
+
+class _Stats extends StatelessWidget {
+  const _Stats();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: const [
+        ProfileStatItem(count: 24, label: 'Events'),
+        ProfileStatItem(count: 3000, label: 'Total Guests'),
+        ProfileStatItem(count: 24, label: 'Attended'),
+      ],
+    );
+  }
 }
