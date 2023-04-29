@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:plansteria/models/event.dart';
+import 'package:plansteria/models/user.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
@@ -22,7 +23,7 @@ class EventCard extends StatelessWidget {
     final date = DateFormat.MMMEd().format(event.date);
     final time = TimeOfDay.fromDateTime(event.startTime).format(context);
 
-    final hasImageUrl = event.eventImageUrl != null;
+    final hasImageUrl = event.photoUrls.isNotEmpty;
 
     return GestureDetector(
       onTap: onTap,
@@ -36,12 +37,15 @@ class EventCard extends StatelessWidget {
           children: [
             Container(
               height: containerHeight,
-              width: 54.r,
+              width: containerHeight,
               decoration: BoxDecoration(
+                border: !hasImageUrl
+                    ? Border.all(color: theme.colorScheme.primary)
+                    : null,
                 borderRadius: const BorderRadius.all(Radius.circular(10)).r,
                 image: hasImageUrl
                     ? DecorationImage(
-                        image: NetworkImage(event.eventImageUrl!),
+                        image: NetworkImage(event.photoUrls[0]!),
                         fit: BoxFit.cover,
                       )
                     : null,
@@ -55,8 +59,8 @@ class EventCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AutoSizeText(
-                    event.eventName,
-                    maxLines: 2,
+                    event.name,
+                    maxLines: 1,
                     minFontSize: 14,
                     maxFontSize: 18,
                     overflow: TextOverflow.ellipsis,
@@ -68,18 +72,32 @@ class EventCard extends StatelessWidget {
                   Text(
                     '$date at $time',
                     style: textTheme.bodySmall?.copyWith(
-                      color: isDark
-                          ? theme.colorScheme.primary
-                          : theme.colorScheme.secondary,
+                      color: theme.colorScheme.secondaryContainer,
                     ),
                   ),
-                  5.verticalSpace,
                   AutoSizeText(
-                    event.eventAddress.toUpperCase(),
+                    event.address,
                     maxLines: 1,
                     minFontSize: 12,
                     overflow: TextOverflow.ellipsis,
                     style: textTheme.bodySmall,
+                  ),
+                  5.verticalSpace,
+                  FutureBuilder<User>(
+                    future: getCreatorById(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const SizedBox(height: 16);
+                      }
+
+                      return AutoSizeText(
+                        'by ${snapshot.data!.name}',
+                        maxLines: 1,
+                        minFontSize: 12,
+                        overflow: TextOverflow.ellipsis,
+                        style: textTheme.bodySmall,
+                      );
+                    },
                   ),
                 ],
               ),
@@ -89,5 +107,10 @@ class EventCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<User> getCreatorById() async {
+    final snapshot = await userRef.doc(event.creatorId).get();
+    return snapshot.data!;
   }
 }

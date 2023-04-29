@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:plansteria/app/app.bottomsheets.dart';
 import 'package:plansteria/app/app.locator.dart';
-import 'package:plansteria/app/app.router.dart';
 import 'package:plansteria/app/app.snackbars.dart';
 import 'package:plansteria/models/event.dart';
 import 'package:plansteria/models/user.dart';
@@ -18,6 +18,7 @@ import 'package:uuid/uuid.dart';
 
 class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
   final _authService = locator<AuthService>();
+  final _bottomSheetService = locator<BottomSheetService>();
   final _eventService = locator<EventService>();
   final _navigationService = locator<NavigationService>();
   final _snackbarService = locator<SnackbarService>();
@@ -27,17 +28,26 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
     DateTime.now(),
     DateTime.now().add(const Duration(hours: 1)),
   ]);
-  List<DateTime> get selectedDate => _selectedDate.value;
 
-  final ReactiveValue<File?> _image = ReactiveValue<File?>(null);
-  File? get image => _image.value;
-
-  final ReactiveValue<String?> _photoUrl = ReactiveValue<String?>(null);
-  String? get photoUrl => _photoUrl.value;
+  final _editing = ReactiveValue<bool>(false);
+  final _images = ReactiveValue<List<File>?>(null);
+  final _photoUrl = ReactiveValue<String?>(null);
+  final _photoUrls = ReactiveValue<List<String?>>([]);
+  final _currentIndex = ReactiveValue<int>(0);
 
   CreateEventViewModel() {
-    listenToReactiveValues([_selectedDate, _image, _photoUrl]);
+    listenToReactiveValues([
+      _selectedDate,
+      _images,
+      _photoUrl,
+      _photoUrls,
+      _currentIndex,
+      _editing,
+    ]);
   }
+
+  int get currentIndex => _currentIndex.value;
+  bool get editing => _editing.value;
 
   User get currentUser => _authService.currentUser!;
 
@@ -49,13 +59,89 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
       !isFormValid ||
       isBusy;
 
-  void getImage() async {
-    final _pickedFile = await _mediaService.getImage(fromGallery: true);
+  List<File>? get images => _images.value;
 
-    if (_pickedFile != null) {
-      _image.value = File(_pickedFile.path);
+  String? get photoUrl => _photoUrl.value;
+
+  List<String?> get photoUrls => _photoUrls.value;
+
+  List<DateTime> get selectedDate => _selectedDate.value;
+
+  late TextEditingController _dateController;
+  late TextEditingController _startTimeController;
+  late TextEditingController _endTimeController;
+
+  void getImages() async {
+    final _pickedFiles = await _mediaService.getMultiImages();
+
+    if (_pickedFiles != null || _pickedFiles?.isNotEmpty == true) {
+      _images.value = _pickedFiles!.map((e) => File(e.path)).toList();
     }
 
+    notifyListeners();
+  }
+
+  Future<void> onEditEvent(Event e) async {
+    setBusy(true);
+
+    if (_images.value != null) {
+      for (var i = 0; i < _images.value!.length; i++) {
+        final fileName = "${e.uid}+$i.jpg";
+
+        final ref = _mediaService.storageRef.child("images/avatar/$fileName");
+
+        await _mediaService.uploadFileToCloud(
+            _images.value![i].path, fileName, ref);
+
+        final url = await _mediaService.getFileFromCloud(ref);
+        _photoUrls.value.add(url);
+      }
+    }
+
+    final updatedEvent = e.copyWith(
+      name: nameValue ?? e.name,
+      description: descriptionValue ?? e.description,
+      address: addressValue ?? e.address,
+      state: stateValue ?? e.state,
+      city: cityValue ?? e.city,
+      notes: notesValue ?? e.notes,
+      price: priceValue == null ? e.price : double.tryParse(priceValue!),
+      date: dateValue == null || dateValue == ''
+          ? e.date
+          : DateTime.parse(dateValue!),
+      startTime: startTimeValue == null || startTimeValue == ''
+          ? e.startTime
+          : DateTime.parse(startTimeValue!),
+      endTime: endTimeValue == null || endTimeValue == ''
+          ? e.endTime
+          : DateTime.parse(endTimeValue!),
+      creatorId: currentUser.uid,
+      eventImageUrl: _photoUrl.value,
+      email: emailValue ?? e.email,
+      phone: phoneValue ?? e.phone,
+      photoUrls: _photoUrls.value.isEmpty ? e.photoUrls : _photoUrls.value,
+    );
+
+    final result = await _eventService.createEvent(updatedEvent);
+
+    result.fold(
+      (failure) {
+        setBusy(false);
+        _snackbarService.showCustomSnackBar(
+          duration: const Duration(seconds: 6),
+          variant: SnackbarType.error,
+          message: failure.maybeMap(
+            orElse: () => '',
+            serverError: (_) => kServerErrorMessage,
+            networkError: (_) => kNoNetworkConnectionError,
+          ),
+        );
+      },
+      (success) {
+        _navigationService.popRepeated(1);
+        setBusy(false);
+      },
+    );
     notifyListeners();
   }
 
@@ -64,21 +150,27 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
 
     final uid = const Uuid().v4();
 
-    final fileName = "$uid.jpg";
+    if (_images.value != null) {
+      for (var i = 0; i < _images.value!.length; i++) {
+        final fileName = "$uid+$i.jpg";
 
-    if (_image.value != null) {
-      final ref = _mediaService.storageRef.child("images/avatar/$fileName");
+        final ref = _mediaService.storageRef.child("images/avatar/$fileName");
 
-      await _mediaService.uploadFileToCloud(_image.value!.path, fileName, ref);
+        await _mediaService.uploadFileToCloud(
+            _images.value![i].path, fileName, ref);
 
-      _photoUrl.value = await _mediaService.getFileFromCloud(ref);
+        final url = await _mediaService.getFileFromCloud(ref);
+        _photoUrls.value.add(url);
+      }
     }
 
     final event = Event(
       uid: uid,
-      eventName: nameValue!,
+      name: nameValue!,
       description: descriptionValue,
-      eventAddress: addressValue!,
+      address: addressValue!,
+      state: stateValue!,
+      city: cityValue!,
       notes: notesValue,
       price: priceValue == null ? null : double.tryParse(priceValue!),
       date: DateTime.parse(dateValue!),
@@ -86,7 +178,13 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
       endTime: endTimeValue == null ? null : DateTime.parse(endTimeValue!),
       creatorId: currentUser.uid,
       eventImageUrl: _photoUrl.value,
-      numberOfGuests: 0,
+      numberOfGuests:
+          numberOfGuestsValue == null || numberOfGuestsValue!.isEmpty
+              ? null
+              : int.parse(numberOfGuestsValue!),
+      email: emailValue!,
+      phone: phoneValue!,
+      photoUrls: _photoUrls.value,
     );
 
     final result = await _eventService.createEvent(event);
@@ -105,13 +203,13 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
         );
       },
       (success) {
-        _navigationService.replaceWithNestedHomeViewInLayoutViewRouter(1);
+        _navigationService.back();
         setBusy(false);
       },
     );
   }
 
-  Future<List<DateTime>?> selectDateTime(BuildContext context) async {
+  Future<void> selectDateTime(BuildContext context) async {
     // Show the date picker and wait for a selected date
     final DateTime? date = await showDatePicker(
       context: context,
@@ -120,7 +218,7 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
       lastDate: DateTime.now().add(const Duration(days: 365 * 2)),
     );
 
-    if (date == null) return null;
+    if (date == null) return;
 
     // Show the time picker and wait for a selected time
     TimeOfDay? startTime = await showTimePicker(
@@ -129,7 +227,7 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
       initialTime: const TimeOfDay(hour: 9, minute: 0),
     );
 
-    if (startTime == null) return null;
+    if (startTime == null) return;
 
     // Show the end time picker and wait for a selected time
     TimeOfDay? endTime = await showTimePicker(
@@ -163,13 +261,42 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
       );
 
       _selectedDate.value = [startDateTime, newEndDateTime];
-
-      return [startDateTime, newEndDateTime];
     } else {
       _selectedDate.value = [startDateTime, endDateTime];
-
-      return [startDateTime, endDateTime];
     }
+
+    _dateController.text = selectedDate[0].toIso8601String();
+    _startTimeController.text = selectedDate[0].toIso8601String();
+    _endTimeController.text = selectedDate[1].toIso8601String();
+  }
+
+  void setPhotoIndex(int index) {
+    _currentIndex.value = index;
+  }
+
+  Future<void> showMapBottomSheet() async {
+    await _bottomSheetService.showCustomSheet(
+      variant: BottomSheetType.map,
+      isScrollControlled: true,
+      barrierDismissible: false,
+    );
+  }
+
+  Future<void> initialiseEdit(Event e) async {
+    _editing.value = true;
+    _photoUrls.value = e.photoUrls;
+
+    _selectedDate.value = [e.startTime, e.endTime!];
+  }
+
+  Future<void> initialise({
+    required TextEditingController dateController,
+    required TextEditingController startTimeController,
+    required TextEditingController endTimeController,
+  }) async {
+    _dateController = dateController;
+    _startTimeController = startTimeController;
+    _endTimeController = endTimeController;
   }
 
   String timeFormatter(List<DateTime>? selectedDate) {

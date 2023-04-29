@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:plansteria/core/utils/currency_input_formater.dart';
+import 'package:plansteria/core/utils/currency_input_formatter.dart';
+import 'package:plansteria/models/event.dart';
 import 'package:plansteria/ui/common/app_constants.dart';
 import 'package:plansteria/ui/common/validators.dart';
 import 'package:plansteria/ui/views/create_event/create_event_view.form.dart';
 import 'package:plansteria/ui/widgets/app_button.dart';
 import 'package:plansteria/ui/widgets/app_textfield.dart';
+import 'package:plansteria/ui/widgets/create_event/create_event_image_widget.dart';
 import 'package:plansteria/ui/widgets/date_selector.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
@@ -14,32 +16,55 @@ import 'package:stacked/stacked_annotations.dart';
 import 'create_event_viewmodel.dart';
 
 @FormView(fields: [
+  // Basic Information
   FormTextField(name: 'name', validator: Validators.validateName),
   FormTextField(name: 'description'),
-  FormTextField(name: 'address', validator: Validators.validateName),
-  FormTextField(name: 'notes'),
-  FormTextField(name: 'price'),
   FormTextField(name: 'date', validator: Validators.validateDate),
   FormTextField(name: 'startTime', validator: Validators.validateDate),
   FormTextField(name: 'endTime'),
+
+  // Location
+  FormTextField(name: 'address', validator: Validators.validateName),
+  FormTextField(name: 'state', validator: Validators.validateName),
+  FormTextField(name: 'city', validator: Validators.validateName),
+
+  // Guests
+  FormTextField(name: 'numberOfGuests'),
+  FormTextField(name: 'notes'),
+
+  // Pricing
+  FormTextField(name: 'price'),
+
+  // Contact
+  FormTextField(name: 'email', validator: Validators.validateEmail),
+  FormTextField(name: 'phone'),
 ])
 class CreateEventView extends StackedView<CreateEventViewModel>
     with $CreateEventView {
-  CreateEventView({super.key});
+  final bool editing;
+  final Event? event;
+  CreateEventView({super.key, this.editing = false, this.event});
 
   @override
   Widget builder(context, viewModel, child) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
 
+    final labelStyle = textTheme.titleSmall?.copyWith(
+      color: textTheme.titleSmall?.color?.withOpacity(0.6),
+    );
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Create Event')),
+      appBar: AppBar(title: Text(viewModel.editing ? 'Edit' : 'Create Event')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(kGlobalPadding).r,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const _ImageWidget(),
-            30.verticalSpace,
+            Text('Basic Information', style: labelStyle),
+            5.verticalSpace,
+            const CreateEventImageWidget(),
+            10.verticalSpace,
             AppTextField(
               label: 'Name of Event',
               hint: 'Event Name',
@@ -48,7 +73,7 @@ class CreateEventView extends StackedView<CreateEventViewModel>
               enabled: !viewModel.isBusy,
               validator: Validators.validateName,
             ),
-            20.verticalSpace,
+            10.verticalSpace,
             AppTextField(
               label: 'Description',
               hint: 'What is your event about?',
@@ -59,17 +84,74 @@ class CreateEventView extends StackedView<CreateEventViewModel>
               enabled: !viewModel.isBusy,
               prefixIcon: const Icon(PhosphorIcons.houseSimple),
             ),
+            const DateSelector(),
             20.verticalSpace,
+            Text('Location', style: labelStyle),
+            5.verticalSpace,
+            Row(
+              children: [
+                Expanded(
+                  child: AppTextField(
+                    label: 'Address',
+                    hint: 'Taking place at...',
+                    focusNode: addressFocusNode,
+                    controller: addressController,
+                    enabled: !viewModel.isBusy,
+                    validator: Validators.validateName,
+                    prefixIcon: const Icon(PhosphorIcons.houseSimple),
+                  ),
+                ),
+                10.horizontalSpace,
+                IconButton(
+                  onPressed: viewModel.showMapBottomSheet,
+                  color: theme.primaryColor,
+                  style: IconButton.styleFrom(
+                    backgroundColor: theme.inputDecorationTheme.fillColor,
+                    padding: const EdgeInsets.all(14).r,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(10),
+                      ).r,
+                      side: BorderSide(color: theme.primaryColor),
+                    ),
+                  ),
+                  icon: const Icon(PhosphorIcons.mapPin),
+                ),
+              ],
+            ),
+            10.verticalSpace,
             AppTextField(
-              label: 'Address',
-              hint: 'Taking place at...',
-              focusNode: addressFocusNode,
-              controller: addressController,
+              label: 'State',
+              hint: 'Select State',
+              focusNode: stateFocusNode,
+              controller: stateController,
               enabled: !viewModel.isBusy,
               validator: Validators.validateName,
-              prefixIcon: const Icon(PhosphorIcons.houseSimple),
+              prefixIcon: const Icon(PhosphorIcons.flag),
+            ),
+            10.verticalSpace,
+            AppTextField(
+              label: 'City',
+              hint: 'Select city',
+              focusNode: cityFocusNode,
+              controller: cityController,
+              enabled: !viewModel.isBusy,
+              validator: Validators.validateName,
+              prefixIcon: const Icon(PhosphorIcons.buildings),
             ),
             20.verticalSpace,
+            Text('Guests', style: labelStyle),
+            5.verticalSpace,
+            AppTextField(
+              label: 'Number of Guests',
+              hint: 'How many guests are you expecting?',
+              focusNode: numberOfGuestsFocusNode,
+              controller: numberOfGuestsController,
+              keyboardType: TextInputType.number,
+              enabled: !viewModel.isBusy,
+              prefixIcon: const Icon(PhosphorIcons.hash),
+            ),
+            10.verticalSpace,
             AppTextField(
               label: 'Notes for guests',
               hint: 'Any notes?',
@@ -79,6 +161,8 @@ class CreateEventView extends StackedView<CreateEventViewModel>
               prefixIcon: const Icon(PhosphorIcons.note),
             ),
             20.verticalSpace,
+            Text('Pricing', style: labelStyle),
+            5.verticalSpace,
             AppTextField(
               label: 'Price',
               hint: 'Set ticket price',
@@ -89,14 +173,37 @@ class CreateEventView extends StackedView<CreateEventViewModel>
               inputFormatters: [CurrencyFormatter()],
               prefixIcon: const Icon(PhosphorIcons.currencyNgn),
             ),
-            12.verticalSpace,
-            DateSelector(),
             20.verticalSpace,
+            Text('Contact', style: labelStyle),
+            5.verticalSpace,
+            AppTextField(
+              label: 'Email',
+              hint: 'Your contact email address',
+              focusNode: emailFocusNode,
+              controller: emailController,
+              enabled: !viewModel.isBusy,
+              keyboardType: TextInputType.emailAddress,
+              prefixIcon: const Icon(PhosphorIcons.at),
+            ),
+            10.verticalSpace,
+            AppTextField(
+              label: 'Phone Number',
+              hint: 'Contact phone number',
+              focusNode: phoneFocusNode,
+              controller: phoneController,
+              enabled: !viewModel.isBusy,
+              keyboardType: TextInputType.number,
+              prefixIcon: const Icon(PhosphorIcons.phone),
+              prefixText: '+234 ',
+            ),
+            30.verticalSpace,
             AppButton(
-              onPressed: viewModel.onEventCreate,
-              disabled: viewModel.disabled,
+              title: viewModel.editing ? 'Looks good' : 'Create',
+              disabled: viewModel.editing ? false : viewModel.disabled,
               loading: viewModel.isBusy,
-              title: 'Create',
+              onPressed: viewModel.editing
+                  ? () => viewModel.onEditEvent(event!)
+                  : () => viewModel.onEventCreate(),
             ),
             10.verticalSpace,
           ],
@@ -112,85 +219,35 @@ class CreateEventView extends StackedView<CreateEventViewModel>
   }
 
   @override
-  void onViewModelReady(CreateEventViewModel viewModel) {
-    final defaultStartDate = DateTime.now();
-    final defaultEndDate = defaultStartDate.add(const Duration(hours: 2));
-    dateController.text = defaultStartDate.toIso8601String();
-    startTimeController.text = defaultStartDate.toIso8601String();
-    endTimeController.text = defaultEndDate.toIso8601String();
+  void onViewModelReady(CreateEventViewModel viewModel) async {
+    if (editing && event != null) {
+      await viewModel.initialiseEdit(event!);
+      nameController.text = event!.name;
+      descriptionController.text = event?.description ?? '';
+      addressController.text = event!.address;
+      stateController.text = event!.state;
+      cityController.text = event!.city;
+      numberOfGuestsController.text = event?.numberOfGuests?.toString() ?? '';
+      notesController.text = event?.notes ?? '';
+      priceController.text = event?.price?.toString() ?? '';
+      emailController.text = event!.email;
+      phoneController.text = event!.phone;
+    } else {
+      final defaultStartDate = DateTime.now();
+      final defaultEndDate = defaultStartDate.add(const Duration(hours: 2));
+      dateController.text = defaultStartDate.toIso8601String();
+      startTimeController.text = defaultStartDate.toIso8601String();
+      endTimeController.text = defaultEndDate.toIso8601String();
+    }
+
+    await viewModel.initialise(
+      dateController: dateController,
+      endTimeController: endTimeController,
+      startTimeController: startTimeController,
+    );
     syncFormWithViewModel(viewModel);
   }
 
   @override
   CreateEventViewModel viewModelBuilder(context) => CreateEventViewModel();
-}
-
-class _ImageWidget extends ViewModelWidget<CreateEventViewModel> {
-  const _ImageWidget();
-
-  @override
-  Widget build(BuildContext context, CreateEventViewModel viewModel) {
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
-
-    final padding = const EdgeInsets.fromLTRB(10, 8, 10, 8).r;
-    final borderRadius = const BorderRadius.all(Radius.circular(20)).r;
-
-    return InkWell(
-      onTap: viewModel.getImage,
-      child: Container(
-        height: 0.26.sh,
-        width: 1.sw,
-        decoration: BoxDecoration(
-          color: theme.colorScheme.primary.withOpacity(0.15),
-          borderRadius: borderRadius,
-        ),
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Container(
-              padding: padding,
-              decoration: BoxDecoration(
-                borderRadius: borderRadius,
-                image: viewModel.image != null
-                    ? DecorationImage(
-                        image: FileImage(viewModel.image!),
-                        fit: BoxFit.cover,
-                      )
-                    : null,
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Container(
-                padding: padding,
-                margin: const EdgeInsets.all(kGlobalPadding).r,
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.primary.withOpacity(0.8),
-                  borderRadius: const BorderRadius.all(Radius.circular(10)).r,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      PhosphorIcons.camera,
-                      size: 18.sp,
-                      color: theme.colorScheme.onPrimary,
-                    ),
-                    6.horizontalSpace,
-                    Text(
-                      viewModel.image != null ? 'Change Image' : 'Select Image',
-                      style: textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onPrimary,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }

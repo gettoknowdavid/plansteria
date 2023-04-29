@@ -1200,6 +1200,33 @@ class MockEventService extends _i1.Mock implements _i15.EventService {
         )),
       ) as _i3.Future<_i2.Either<_i16.EventError, List<_i4.Event?>>>);
   @override
+  _i3.Future<_i2.Either<_i16.EventError, List<_i4.Event?>>> getMyEvents(
+          String? creatorId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getMyEvents,
+          [creatorId],
+        ),
+        returnValue:
+            _i3.Future<_i2.Either<_i16.EventError, List<_i4.Event?>>>.value(
+                _FakeEither_1<_i16.EventError, List<_i4.Event?>>(
+          this,
+          Invocation.method(
+            #getMyEvents,
+            [creatorId],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i3.Future<_i2.Either<_i16.EventError, List<_i4.Event?>>>.value(
+                _FakeEither_1<_i16.EventError, List<_i4.Event?>>(
+          this,
+          Invocation.method(
+            #getMyEvents,
+            [creatorId],
+          ),
+        )),
+      ) as _i3.Future<_i2.Either<_i16.EventError, List<_i4.Event?>>>);
+  @override
   _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>> removeEvent(String? uid) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1326,6 +1353,24 @@ class MockMediaService extends _i1.Mock implements _i17.MediaService {
         returnValue: _i3.Future<_i18.XFile?>.value(),
         returnValueForMissingStub: _i3.Future<_i18.XFile?>.value(),
       ) as _i3.Future<_i18.XFile?>);
+  @override
+  _i3.Future<List<_i18.XFile>?> retrieveLostData() => (super.noSuchMethod(
+        Invocation.method(
+          #retrieveLostData,
+          [],
+        ),
+        returnValue: _i3.Future<List<_i18.XFile>?>.value(),
+        returnValueForMissingStub: _i3.Future<List<_i18.XFile>?>.value(),
+      ) as _i3.Future<List<_i18.XFile>?>);
+  @override
+  _i3.Future<List<_i18.XFile>?> getMultiImages() => (super.noSuchMethod(
+        Invocation.method(
+          #getMultiImages,
+          [],
+        ),
+        returnValue: _i3.Future<List<_i18.XFile>?>.value(),
+        returnValueForMissingStub: _i3.Future<List<_i18.XFile>?>.value(),
+      ) as _i3.Future<List<_i18.XFile>?>);
   @override
   dynamic uploadFileToCloud(
     String? path,

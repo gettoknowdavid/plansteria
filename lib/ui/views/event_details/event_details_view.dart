@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -6,8 +5,11 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:plansteria/models/event.dart';
 import 'package:plansteria/ui/common/app_constants.dart';
 import 'package:plansteria/ui/common/time_helpers.dart';
+import 'package:plansteria/ui/widgets/app_back_button.dart';
 import 'package:plansteria/ui/widgets/app_button.dart';
 import 'package:plansteria/ui/widgets/event_details/creator_section.dart';
+import 'package:plansteria/ui/widgets/event_details/event_details_header.dart';
+import 'package:plansteria/ui/widgets/event_details/event_details_item.dart';
 import 'package:readmore/readmore.dart';
 import 'package:stacked/stacked.dart';
 
@@ -19,12 +21,18 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
 
   @override
   Widget builder(context, viewModel, child) {
+    if (viewModel.isBusy || !viewModel.dataReady) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
+    final data = viewModel.data!;
+
     final scrollController = ScrollController();
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
 
-    final date = DateFormat.yMMMEd().format(event.date);
-    final time = eventDetailsTimeFormatter(event.startTime, event.endTime);
+    final date = DateFormat.yMMMEd().format(data.date);
+    final time = eventDetailsTimeFormatter(data.startTime, data.endTime);
 
     final currency = NumberFormat.currency(locale: 'en_NG', symbol: '₦');
 
@@ -41,28 +49,53 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               20.verticalSpace,
-              const CreatorSection(),
+              if (!viewModel.isAuthUser)
+                const CreatorSection()
+              else
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton.icon(
+                      onPressed: viewModel.onEditPressed,
+                      icon: const Icon(PhosphorIcons.pencil),
+                      label: const Text('Edit'),
+                    ),
+                    20.horizontalSpace,
+                    TextButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(PhosphorIcons.share),
+                      label: const Text('Share'),
+                    ),
+                    20.horizontalSpace,
+                    TextButton.icon(
+                      onPressed: () => viewModel.onDeletePressed(event.uid),
+                      icon: const Icon(PhosphorIcons.trash),
+                      style: TextButton.styleFrom(foregroundColor: Colors.red),
+                      label: const Text('Delete'),
+                    )
+                  ],
+                ),
               24.verticalSpace,
               Text(
-                event.eventName,
+                data.name,
                 style: textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               16.verticalSpace,
-              _DetailItem(
+              EventDetailsItem(
                 icon: PhosphorIcons.calendar,
                 title: date,
                 subtitle: time,
               ),
               16.verticalSpace,
-              _DetailItem(
+              EventDetailsItem(
                 icon: PhosphorIcons.mapPin,
-                title: event.eventAddress,
+                title: data.address,
                 subtitle: 'View on Map',
               ),
               20.verticalSpace,
-              if (event.description?.isNotEmpty == true) ...[
+              if (data.description?.isNotEmpty == true) ...[
                 Text(
                   'About this event',
                   style: textTheme.bodySmall?.copyWith(
@@ -70,7 +103,7 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
                   ),
                 ),
                 ReadMoreText(
-                  event.description!,
+                  data.description!,
                   trimLines: 3,
                   colorClickableText: Colors.pink,
                   trimMode: TrimMode.Line,
@@ -83,7 +116,7 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
                 ),
                 10.verticalSpace
               ],
-              if (event.notes?.isNotEmpty == true) ...[
+              if (data.notes?.isNotEmpty == true) ...[
                 Text(
                   'Please note',
                   style: textTheme.bodySmall?.copyWith(
@@ -91,7 +124,7 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
                   ),
                 ),
                 ReadMoreText(
-                  event.notes!,
+                  data.notes!,
                   trimLines: 3,
                   colorClickableText: Colors.pink,
                   trimMode: TrimMode.Line,
@@ -104,7 +137,7 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
                 ),
                 10.verticalSpace,
               ],
-              if (event.price != null) ...[
+              if (data.price != null) ...[
                 Text(
                   'Ticket Price',
                   style: textTheme.bodySmall?.copyWith(
@@ -112,118 +145,42 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
                   ),
                 ),
                 Text(
-                  '${currency.format(event.price)} per person',
+                  '${currency.format(data.price)} per person',
                   style: textTheme.bodyMedium,
                 ),
                 10.verticalSpace,
               ],
               10.verticalSpace,
-              AppButton(
-                onPressed: viewModel.addGuest,
-                title: viewModel.isAttending ? 'I am attending' : 'Get Tickets',
-              ),
+              if (!viewModel.isAuthUser)
+                AppButton(
+                  onPressed: viewModel.addGuest,
+                  title:
+                      viewModel.isAttending ? 'I am attending' : 'Get Tickets',
+                )
             ],
           ),
         ),
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return [
-            SliverAppBar(
-              floating: true,
-              expandedHeight: 0.32.sh,
-              forceElevated: innerBoxIsScrolled,
-              iconTheme: theme.iconTheme.copyWith(color: Colors.white),
-              actionsIconTheme: theme.iconTheme.copyWith(color: Colors.white),
-              flexibleSpace: const _Header(),
-            ),
-          ];
-        },
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          SliverAppBar(
+            floating: true,
+            leadingWidth: 70.w,
+            expandedHeight: 0.32.sh,
+            forceElevated: innerBoxIsScrolled,
+            flexibleSpace: const EventDetailsHeader(),
+            leading: const Center(child: AppBackButton(addColor: true)),
+            iconTheme: theme.iconTheme.copyWith(color: Colors.white),
+            actionsIconTheme: theme.iconTheme.copyWith(color: Colors.white),
+          ),
+        ],
       ),
     );
   }
 
   @override
-  void onViewModelReady(EventDetailsViewModel viewModel) {
-    viewModel.init(event);
+  void onViewModelReady(EventDetailsViewModel viewModel) async {
+    await viewModel.initialise();
   }
 
   @override
   EventDetailsViewModel viewModelBuilder(context) => EventDetailsViewModel();
-}
-
-class _DetailItem extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String subtitle;
-
-  const _DetailItem({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
-
-    return Row(
-      children: [
-        Container(
-          height: 40.r,
-          width: 40.r,
-          decoration: BoxDecoration(
-            color: theme.primaryColor.withOpacity(0.2),
-            borderRadius: const BorderRadius.all(Radius.circular(14)),
-          ),
-          child: Icon(
-            icon,
-            color: theme.iconTheme.color?.withOpacity(0.5),
-          ),
-        ),
-        12.horizontalSpace,
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AutoSizeText(
-              title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              minFontSize: 13,
-              style: textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(subtitle, style: textTheme.bodySmall),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class _Header extends SelectorViewModelWidget<EventDetailsViewModel, String?> {
-  const _Header();
-
-  @override
-  Widget build(BuildContext context, String? value) {
-    final image = value != null
-        ? DecorationImage(fit: BoxFit.cover, image: NetworkImage(value))
-        : null;
-
-    return FlexibleSpaceBar(
-      background: Hero(
-        tag: 'event-image',
-        child: Container(
-          decoration: BoxDecoration(
-            image: image,
-            color: Theme.of(context).primaryColor.withOpacity(0.5),
-          ),
-          child: value != null ? null : const Icon(PhosphorIcons.image),
-        ),
-      ),
-    );
-  }
-
-  @override
-  String? selector(viewModel) => viewModel.event.eventImageUrl;
 }

@@ -51,48 +51,19 @@ class HomeViewModel extends MultipleFutureViewModel {
     }
   }
 
-  Future<void> logout() async {
-    _authService.logout();
-    _navigationService.clearStackAndShow(Routes.loginView);
-  }
-
   void navigateToDetails(Event event) {
-    _navigationService.navigateToNestedEventDetailsViewInLayoutViewRouter(
-      event: event,
-      routerId: 1,
-    );
+    _navigationService.navigateToEventDetailsView(event: event);
   }
 
   void navigateToCreateEvent() {
-    _navigationService.navigateToNestedCreateEventViewInLayoutViewRouter(
-      routerId: 1,
-    );
+    _navigationService.navigateToCreateEventView();
   }
-
-  // @override
-  // void onError(error) {
-  //   _snackbarService.showCustomSnackBar(
-  //     duration: const Duration(seconds: 6),
-  //     variant: SnackbarType.error,
-  //     message: error,
-  //   );
-  // }
 
   void showBottomSheet() {
     _bottomSheetService.showCustomSheet(
       variant: BottomSheetType.notice,
       title: ksHomeBottomSheetTitle,
       description: ksHomeBottomSheetDescription,
-    );
-  }
-
-  void showCreateEventBottomSheet() {
-    _bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.createEvent,
-      title: 'Create Event',
-      isScrollControlled: true,
-      takesInput: true,
-      useRootNavigator: true,
     );
   }
 

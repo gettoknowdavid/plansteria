@@ -21,18 +21,23 @@ Event _$EventFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Event {
   String get uid => throw _privateConstructorUsedError;
-  String get eventName => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
-  String get eventAddress => throw _privateConstructorUsedError;
+  String get address => throw _privateConstructorUsedError;
+  String get state => throw _privateConstructorUsedError;
+  String get city => throw _privateConstructorUsedError;
+  int? get numberOfGuests => throw _privateConstructorUsedError;
   String? get notes => throw _privateConstructorUsedError;
   double? get price => throw _privateConstructorUsedError;
   DateTime get date => throw _privateConstructorUsedError;
   DateTime get startTime => throw _privateConstructorUsedError;
   DateTime? get endTime => throw _privateConstructorUsedError;
   String? get eventImageUrl => throw _privateConstructorUsedError;
+  List<String?> get photoUrls => throw _privateConstructorUsedError;
   String get creatorId => throw _privateConstructorUsedError;
-  int get numberOfGuests => throw _privateConstructorUsedError;
   bool? get featured => throw _privateConstructorUsedError;
+  String get email => throw _privateConstructorUsedError;
+  String get phone => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -46,18 +51,23 @@ abstract class $EventCopyWith<$Res> {
   @useResult
   $Res call(
       {String uid,
-      String eventName,
+      String name,
       String? description,
-      String eventAddress,
+      String address,
+      String state,
+      String city,
+      int? numberOfGuests,
       String? notes,
       double? price,
       DateTime date,
       DateTime startTime,
       DateTime? endTime,
       String? eventImageUrl,
+      List<String?> photoUrls,
       String creatorId,
-      int numberOfGuests,
-      bool? featured});
+      bool? featured,
+      String email,
+      String phone});
 }
 
 /// @nodoc
@@ -74,36 +84,53 @@ class _$EventCopyWithImpl<$Res, $Val extends Event>
   @override
   $Res call({
     Object? uid = null,
-    Object? eventName = null,
+    Object? name = null,
     Object? description = freezed,
-    Object? eventAddress = null,
+    Object? address = null,
+    Object? state = null,
+    Object? city = null,
+    Object? numberOfGuests = freezed,
     Object? notes = freezed,
     Object? price = freezed,
     Object? date = null,
     Object? startTime = null,
     Object? endTime = freezed,
     Object? eventImageUrl = freezed,
+    Object? photoUrls = null,
     Object? creatorId = null,
-    Object? numberOfGuests = null,
     Object? featured = freezed,
+    Object? email = null,
+    Object? phone = null,
   }) {
     return _then(_value.copyWith(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String,
-      eventName: null == eventName
-          ? _value.eventName
-          : eventName // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      eventAddress: null == eventAddress
-          ? _value.eventAddress
-          : eventAddress // ignore: cast_nullable_to_non_nullable
+      address: null == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
               as String,
+      state: null == state
+          ? _value.state
+          : state // ignore: cast_nullable_to_non_nullable
+              as String,
+      city: null == city
+          ? _value.city
+          : city // ignore: cast_nullable_to_non_nullable
+              as String,
+      numberOfGuests: freezed == numberOfGuests
+          ? _value.numberOfGuests
+          : numberOfGuests // ignore: cast_nullable_to_non_nullable
+              as int?,
       notes: freezed == notes
           ? _value.notes
           : notes // ignore: cast_nullable_to_non_nullable
@@ -128,18 +155,26 @@ class _$EventCopyWithImpl<$Res, $Val extends Event>
           ? _value.eventImageUrl
           : eventImageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      photoUrls: null == photoUrls
+          ? _value.photoUrls
+          : photoUrls // ignore: cast_nullable_to_non_nullable
+              as List<String?>,
       creatorId: null == creatorId
           ? _value.creatorId
           : creatorId // ignore: cast_nullable_to_non_nullable
               as String,
-      numberOfGuests: null == numberOfGuests
-          ? _value.numberOfGuests
-          : numberOfGuests // ignore: cast_nullable_to_non_nullable
-              as int,
       featured: freezed == featured
           ? _value.featured
           : featured // ignore: cast_nullable_to_non_nullable
               as bool?,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      phone: null == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -152,18 +187,23 @@ abstract class _$$_EventCopyWith<$Res> implements $EventCopyWith<$Res> {
   @useResult
   $Res call(
       {String uid,
-      String eventName,
+      String name,
       String? description,
-      String eventAddress,
+      String address,
+      String state,
+      String city,
+      int? numberOfGuests,
       String? notes,
       double? price,
       DateTime date,
       DateTime startTime,
       DateTime? endTime,
       String? eventImageUrl,
+      List<String?> photoUrls,
       String creatorId,
-      int numberOfGuests,
-      bool? featured});
+      bool? featured,
+      String email,
+      String phone});
 }
 
 /// @nodoc
@@ -176,36 +216,53 @@ class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
   @override
   $Res call({
     Object? uid = null,
-    Object? eventName = null,
+    Object? name = null,
     Object? description = freezed,
-    Object? eventAddress = null,
+    Object? address = null,
+    Object? state = null,
+    Object? city = null,
+    Object? numberOfGuests = freezed,
     Object? notes = freezed,
     Object? price = freezed,
     Object? date = null,
     Object? startTime = null,
     Object? endTime = freezed,
     Object? eventImageUrl = freezed,
+    Object? photoUrls = null,
     Object? creatorId = null,
-    Object? numberOfGuests = null,
     Object? featured = freezed,
+    Object? email = null,
+    Object? phone = null,
   }) {
     return _then(_$_Event(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String,
-      eventName: null == eventName
-          ? _value.eventName
-          : eventName // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      eventAddress: null == eventAddress
-          ? _value.eventAddress
-          : eventAddress // ignore: cast_nullable_to_non_nullable
+      address: null == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
               as String,
+      state: null == state
+          ? _value.state
+          : state // ignore: cast_nullable_to_non_nullable
+              as String,
+      city: null == city
+          ? _value.city
+          : city // ignore: cast_nullable_to_non_nullable
+              as String,
+      numberOfGuests: freezed == numberOfGuests
+          ? _value.numberOfGuests
+          : numberOfGuests // ignore: cast_nullable_to_non_nullable
+              as int?,
       notes: freezed == notes
           ? _value.notes
           : notes // ignore: cast_nullable_to_non_nullable
@@ -230,18 +287,26 @@ class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
           ? _value.eventImageUrl
           : eventImageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      photoUrls: null == photoUrls
+          ? _value._photoUrls
+          : photoUrls // ignore: cast_nullable_to_non_nullable
+              as List<String?>,
       creatorId: null == creatorId
           ? _value.creatorId
           : creatorId // ignore: cast_nullable_to_non_nullable
               as String,
-      numberOfGuests: null == numberOfGuests
-          ? _value.numberOfGuests
-          : numberOfGuests // ignore: cast_nullable_to_non_nullable
-              as int,
       featured: freezed == featured
           ? _value.featured
           : featured // ignore: cast_nullable_to_non_nullable
               as bool?,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      phone: null == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -251,18 +316,24 @@ class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
 class _$_Event implements _Event {
   _$_Event(
       {required this.uid,
-      required this.eventName,
+      required this.name,
       this.description,
-      required this.eventAddress,
+      required this.address,
+      required this.state,
+      required this.city,
+      this.numberOfGuests,
       this.notes,
       this.price,
       required this.date,
       required this.startTime,
       this.endTime,
       this.eventImageUrl,
+      required final List<String?> photoUrls,
       required this.creatorId,
-      required this.numberOfGuests,
-      this.featured});
+      this.featured,
+      required this.email,
+      required this.phone})
+      : _photoUrls = photoUrls;
 
   factory _$_Event.fromJson(Map<String, dynamic> json) =>
       _$$_EventFromJson(json);
@@ -270,11 +341,17 @@ class _$_Event implements _Event {
   @override
   final String uid;
   @override
-  final String eventName;
+  final String name;
   @override
   final String? description;
   @override
-  final String eventAddress;
+  final String address;
+  @override
+  final String state;
+  @override
+  final String city;
+  @override
+  final int? numberOfGuests;
   @override
   final String? notes;
   @override
@@ -287,16 +364,26 @@ class _$_Event implements _Event {
   final DateTime? endTime;
   @override
   final String? eventImageUrl;
+  final List<String?> _photoUrls;
+  @override
+  List<String?> get photoUrls {
+    if (_photoUrls is EqualUnmodifiableListView) return _photoUrls;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_photoUrls);
+  }
+
   @override
   final String creatorId;
   @override
-  final int numberOfGuests;
-  @override
   final bool? featured;
+  @override
+  final String email;
+  @override
+  final String phone;
 
   @override
   String toString() {
-    return 'Event(uid: $uid, eventName: $eventName, description: $description, eventAddress: $eventAddress, notes: $notes, price: $price, date: $date, startTime: $startTime, endTime: $endTime, eventImageUrl: $eventImageUrl, creatorId: $creatorId, numberOfGuests: $numberOfGuests, featured: $featured)';
+    return 'Event(uid: $uid, name: $name, description: $description, address: $address, state: $state, city: $city, numberOfGuests: $numberOfGuests, notes: $notes, price: $price, date: $date, startTime: $startTime, endTime: $endTime, eventImageUrl: $eventImageUrl, photoUrls: $photoUrls, creatorId: $creatorId, featured: $featured, email: $email, phone: $phone)';
   }
 
   @override
@@ -305,12 +392,14 @@ class _$_Event implements _Event {
         (other.runtimeType == runtimeType &&
             other is _$_Event &&
             (identical(other.uid, uid) || other.uid == uid) &&
-            (identical(other.eventName, eventName) ||
-                other.eventName == eventName) &&
+            (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.eventAddress, eventAddress) ||
-                other.eventAddress == eventAddress) &&
+            (identical(other.address, address) || other.address == address) &&
+            (identical(other.state, state) || other.state == state) &&
+            (identical(other.city, city) || other.city == city) &&
+            (identical(other.numberOfGuests, numberOfGuests) ||
+                other.numberOfGuests == numberOfGuests) &&
             (identical(other.notes, notes) || other.notes == notes) &&
             (identical(other.price, price) || other.price == price) &&
             (identical(other.date, date) || other.date == date) &&
@@ -319,12 +408,14 @@ class _$_Event implements _Event {
             (identical(other.endTime, endTime) || other.endTime == endTime) &&
             (identical(other.eventImageUrl, eventImageUrl) ||
                 other.eventImageUrl == eventImageUrl) &&
+            const DeepCollectionEquality()
+                .equals(other._photoUrls, _photoUrls) &&
             (identical(other.creatorId, creatorId) ||
                 other.creatorId == creatorId) &&
-            (identical(other.numberOfGuests, numberOfGuests) ||
-                other.numberOfGuests == numberOfGuests) &&
             (identical(other.featured, featured) ||
-                other.featured == featured));
+                other.featured == featured) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.phone, phone) || other.phone == phone));
   }
 
   @JsonKey(ignore: true)
@@ -332,18 +423,23 @@ class _$_Event implements _Event {
   int get hashCode => Object.hash(
       runtimeType,
       uid,
-      eventName,
+      name,
       description,
-      eventAddress,
+      address,
+      state,
+      city,
+      numberOfGuests,
       notes,
       price,
       date,
       startTime,
       endTime,
       eventImageUrl,
+      const DeepCollectionEquality().hash(_photoUrls),
       creatorId,
-      numberOfGuests,
-      featured);
+      featured,
+      email,
+      phone);
 
   @JsonKey(ignore: true)
   @override
@@ -362,29 +458,40 @@ class _$_Event implements _Event {
 abstract class _Event implements Event {
   factory _Event(
       {required final String uid,
-      required final String eventName,
+      required final String name,
       final String? description,
-      required final String eventAddress,
+      required final String address,
+      required final String state,
+      required final String city,
+      final int? numberOfGuests,
       final String? notes,
       final double? price,
       required final DateTime date,
       required final DateTime startTime,
       final DateTime? endTime,
       final String? eventImageUrl,
+      required final List<String?> photoUrls,
       required final String creatorId,
-      required final int numberOfGuests,
-      final bool? featured}) = _$_Event;
+      final bool? featured,
+      required final String email,
+      required final String phone}) = _$_Event;
 
   factory _Event.fromJson(Map<String, dynamic> json) = _$_Event.fromJson;
 
   @override
   String get uid;
   @override
-  String get eventName;
+  String get name;
   @override
   String? get description;
   @override
-  String get eventAddress;
+  String get address;
+  @override
+  String get state;
+  @override
+  String get city;
+  @override
+  int? get numberOfGuests;
   @override
   String? get notes;
   @override
@@ -398,11 +505,15 @@ abstract class _Event implements Event {
   @override
   String? get eventImageUrl;
   @override
+  List<String?> get photoUrls;
+  @override
   String get creatorId;
   @override
-  int get numberOfGuests;
-  @override
   bool? get featured;
+  @override
+  String get email;
+  @override
+  String get phone;
   @override
   @JsonKey(ignore: true)
   _$$_EventCopyWith<_$_Event> get copyWith =>

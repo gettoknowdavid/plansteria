@@ -69,6 +69,10 @@ dependencies:
   dio: ^5.1.1
   retrofit: ^4.0.1
   envied: ^0.3.0
+  google_maps_flutter: ^2.2.5
+  carousel_slider: ^4.2.1
+  geolocator: ^9.0.2
+  geocoding: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -91,6 +95,31 @@ dev_dependencies:
   flutter_launcher_icons: ^0.12.0
   retrofit_generator: ^6.0.0+2
   envied_generator: ^0.3.0
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/launcher_icon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+
+flutter_native_splash:
+  image: assets/splash_icon.png
+  color: "#ffffff"
+
+  color_dark: "#000000"
+  image_dark: assets/splash_icon.png
+
+  android_12:
+    image: assets/splash_icon.png
+    color: "#ffffff"
+
+    image_dark: assets/splash_icon.png
+    color_dark: "#000000"
+
+  android: true
+  ios: true
+  web: false
+  fullscreen: true
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

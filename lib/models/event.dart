@@ -9,9 +9,12 @@ part 'event.g.dart';
 
 const _$$_EventFieldMap = <String, String>{
   'uid': 'uid',
-  'eventName': 'eventName',
+  'name': 'name',
   'description': 'description',
-  'eventAddress': 'eventAddress',
+  'address': 'address',
+  'state': 'state',
+  'city': 'city',
+  'numberOfGuests': 'numberOfGuests',
   'notes': 'notes',
   'price': 'price',
   'date': 'date',
@@ -19,7 +22,9 @@ const _$$_EventFieldMap = <String, String>{
   'endTime': 'endTime',
   'eventImageUrl': 'eventImageUrl',
   'creatorId': 'creatorId',
-  'numberOfGuests': 'numberOfGuests',
+  'email': 'email',
+  'phone': 'phone',
+  'photoUrls': 'photoUrls',
 };
 
 const _$$_GuestFieldMap = <String, String>{
@@ -37,18 +42,23 @@ final eventsRef = EventCollectionReference();
 class Event with _$Event {
   factory Event({
     required String uid,
-    required String eventName,
+    required String name,
     String? description,
-    required String eventAddress,
+    required String address,
+    required String state,
+    required String city,
+    int? numberOfGuests,
     String? notes,
     double? price,
     required DateTime date,
     required DateTime startTime,
     DateTime? endTime,
     String? eventImageUrl,
+    required List<String?> photoUrls,
     required String creatorId,
-    required int numberOfGuests,
     bool? featured,
+    required String email,
+    required String phone,
   }) = _Event;
 
   factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);

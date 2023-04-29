@@ -26,6 +26,7 @@ class AppTextField extends StatefulWidget {
     this.inputFormatters,
     this.prefixText,
     this.prefixIcon,
+    this.prefix,
   });
 
   final String hint;
@@ -47,6 +48,7 @@ class AppTextField extends StatefulWidget {
   final FocusNode? focusNode;
   final List<TextInputFormatter>? inputFormatters;
   final Widget? prefixIcon;
+  final Widget? prefix;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -92,6 +94,7 @@ class _AppTextFieldState extends State<AppTextField> {
         labelText: widget.label,
         prefixText: widget.prefixText,
         prefixIcon: prefixIcon,
+        prefix: widget.prefix,
         prefixIconColor: theme.colorScheme.onBackground.withOpacity(0.3),
         suffixIcon: !widget.isPassword ? null : _suffixIcon(),
         contentPadding: padding,

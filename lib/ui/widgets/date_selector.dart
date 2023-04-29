@@ -2,29 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:plansteria/ui/bottom_sheets/create_event/create_event_sheet.form.dart';
-import 'package:plansteria/ui/bottom_sheets/create_event/create_event_sheet_model.dart';
+import 'package:plansteria/ui/views/create_event/create_event_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
-class DateSelector extends StackedView<CreateEventSheetModel>
-    with $CreateEventSheet {
-  DateSelector({super.key});
+class DateSelector extends ViewModelWidget<CreateEventViewModel> {
+  const DateSelector({super.key});
 
   @override
-  Widget builder(context, viewModel, child) {
+  Widget build(context, viewModel) {
     final theme = Theme.of(context);
 
     final formattedDate = DateFormat.yMMMEd().format(viewModel.selectedDate[0]);
     final formattedTime = viewModel.timeFormatter(viewModel.selectedDate);
 
     return InkWell(
-      onTap: () async {
-        await viewModel.selectDateTime(context);
-        final selectedDate = viewModel.selectedDate;
-        dateController.text = selectedDate[0].toIso8601String();
-        startTimeController.text = selectedDate[0].toIso8601String();
-        endTimeController.text = selectedDate[1].toIso8601String();
-      },
+      onTap: () async => await viewModel.selectDateTime(context),
       child: SizedBox(
         height: 70,
         width: 1.sw,
@@ -62,10 +54,5 @@ class DateSelector extends StackedView<CreateEventSheetModel>
         ),
       ),
     );
-  }
-
-  @override
-  CreateEventSheetModel viewModelBuilder(BuildContext context) {
-    return CreateEventSheetModel();
   }
 }

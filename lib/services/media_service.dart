@@ -20,6 +20,24 @@ class MediaService with ListenableServiceMixin {
     );
   }
 
+  Future<List<XFile>?> retrieveLostData() async {
+    final LostDataResponse response = await _picker.retrieveLostData();
+    if (response.isEmpty) {
+      return null;
+    }
+    final List<XFile>? files = response.files;
+    if (files != null) {
+      return files;
+    } else {
+      print(response.file);
+      return null;
+    }
+  }
+
+  Future<List<XFile>?> getMultiImages() async {
+    return await _picker.pickMultiImage();
+  }
+
   dynamic uploadFileToCloud(String path, String name, Reference ref) async {
     File file = File(path);
     try {

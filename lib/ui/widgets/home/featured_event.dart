@@ -198,7 +198,7 @@ class _EventName extends ViewModelWidget<HomeViewModel> {
       child: SkeletonLoader(
         loading: viewModel.fetchingFeaturedEvent,
         child: Text(
-          viewModel.fetchedEvent!.eventName,
+          viewModel.fetchedEvent!.name,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: textTheme.titleMedium?.copyWith(

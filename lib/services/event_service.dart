@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/core/errors/event_error.dart';
 import 'package:plansteria/models/event.dart';
+import 'package:plansteria/ui/common/app_strings.dart';
 import 'package:stacked/stacked.dart';
 
 import 'network_service.dart';
@@ -14,6 +15,12 @@ class EventService with ListenableServiceMixin {
 
   EventService() {
     listenToReactiveValues([_events]);
+  }
+
+  List<Event?> get events => _events.value;
+
+  Stream<List<Event?>> get eventsStream {
+    return eventsRef.snapshots().map((e) => e.docs.map((d) => d.data).toList());
   }
 
   Future<bool> addGuest(String eventId, Guest guest) async {
@@ -38,27 +45,6 @@ class EventService with ListenableServiceMixin {
     }
   }
 
-  List<Event?> get events => _events.value;
-
-  Stream<List<Event?>> get eventsStream {
-    return eventsRef.snapshots().map((e) => e.docs.map((d) => d.data).toList());
-  }
-
-  Future<Event> getFeaturedEvent() async {
-    final query = await eventsRef.orderByNumberOfGuests(descending: true).get();
-    return query.docs
-        .map((e) => e.data)
-        .where((e) => e.eventImageUrl != null)
-        .first;
-  }
-
-  Future<List<Event?>> getEvents() async {
-    final s = await eventsRef.get();
-    final newS = s.docs.map((e) => e.data).toList();
-    print(newS);
-    return newS;
-  }
-
   Future<Either<EventError, Unit>> createEvent(Event event) async {
     if (_networkService.status == NetworkStatus.disconnected) {
       return left(const EventError.networkError());
@@ -66,6 +52,21 @@ class EventService with ListenableServiceMixin {
 
     try {
       await eventsRef.doc(event.uid).set(event);
+      return right(unit);
+    } on FirebaseException catch (e) {
+      return left(EventError.error(e.message));
+    } on Exception {
+      return left(const EventError.serverError());
+    }
+  }
+
+  Future<Either<EventError, Unit>> deleteEvent(String eventId) async {
+    if (_networkService.status == NetworkStatus.disconnected) {
+      return left(const EventError.networkError());
+    }
+
+    try {
+      await eventsRef.doc(eventId).delete();
       return right(unit);
     } on FirebaseException catch (e) {
       return left(EventError.error(e.message));
@@ -83,7 +84,51 @@ class EventService with ListenableServiceMixin {
       final query = await eventsRef.get();
       final result = query.docs.map((e) => e.data).toList();
       _events.value = result;
-      print(_events.value);
+      return right(result);
+    } on FirebaseException catch (e) {
+      return left(EventError.error(e.message));
+    } on Exception {
+      return left(const EventError.serverError());
+    }
+  }
+
+  Future<Event> getEvent(String eventId) async {
+    if (_networkService.status == NetworkStatus.disconnected) {
+      return throw Exception(kNoNetworkConnectionError);
+    }
+
+    try {
+      final query = await eventsRef.doc(eventId).get();
+      final result = query.snapshot.data();
+      return result!;
+    } on FirebaseException catch (e) {
+      throw Exception(e.message);
+    }
+  }
+
+  Future<List<Event?>> getEvents() async {
+    final s = await eventsRef.get();
+    final newS = s.docs.map((e) => e.data).toList();
+    return newS;
+  }
+
+  Future<Event> getFeaturedEvent() async {
+    final query = await eventsRef.orderByNumberOfGuests(descending: true).get();
+    return query.docs
+        .map((e) => e.data)
+        .where((e) => e.eventImageUrl != null)
+        .first;
+  }
+
+  Future<Either<EventError, List<Event?>>> getMyEvents(String creatorId) async {
+    if (_networkService.status == NetworkStatus.disconnected) {
+      return left(const EventError.networkError());
+    }
+
+    try {
+      final query = await eventsRef.whereCreatorId(isEqualTo: creatorId).get();
+      final result = query.docs.map((e) => e.data).toList();
+      _events.value = result;
       return right(result);
     } on FirebaseException catch (e) {
       return left(EventError.error(e.message));

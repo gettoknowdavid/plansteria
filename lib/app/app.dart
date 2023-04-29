@@ -7,8 +7,9 @@ import 'package:plansteria/services/media_service.dart';
 import 'package:plansteria/services/network_service.dart';
 import 'package:plansteria/services/open_mail_app_service.dart';
 import 'package:plansteria/services/secure_storage_service.dart';
-import 'package:plansteria/ui/bottom_sheets/create_event/create_event_sheet.dart';
 import 'package:plansteria/ui/bottom_sheets/edit_profile/edit_profile_sheet.dart';
+import 'package:plansteria/ui/bottom_sheets/image_source/image_source_sheet.dart';
+import 'package:plansteria/ui/bottom_sheets/map/map_sheet.dart';
 import 'package:plansteria/ui/bottom_sheets/notice/notice_sheet.dart';
 import 'package:plansteria/ui/common/app_theme.dart';
 import 'package:plansteria/ui/dialogs/about_app/about_app_dialog.dart';
@@ -27,14 +28,13 @@ import 'package:plansteria/ui/views/events/events_view.dart';
 import 'package:plansteria/ui/views/forgot_password/forgot_password_view.dart';
 import 'package:plansteria/ui/views/home/home_view.dart';
 import 'package:plansteria/ui/views/login/login_view.dart';
+import 'package:plansteria/ui/views/map/map_view.dart';
 import 'package:plansteria/ui/views/profile/profile_view.dart';
 import 'package:plansteria/ui/views/register/register_view.dart';
 import 'package:plansteria/ui/views/startup/startup_view.dart';
 import 'package:plansteria/ui/views/verification/verification_view.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
-
-import 'package:plansteria/ui/bottom_sheets/image_source/image_source_sheet.dart';
 // @stacked-import
 
 @StackedApp(
@@ -52,11 +52,12 @@ import 'package:plansteria/ui/bottom_sheets/image_source/image_source_sheet.dart
         MaterialRoute(page: EventsView),
         MaterialRoute(page: ChatView),
         MaterialRoute(page: ProfileView),
-        MaterialRoute(page: EventDetailsView),
-        MaterialRoute(page: CreateEventView),
         MaterialRoute(page: AccountView),
       ],
     ),
+    MaterialRoute(page: EventDetailsView),
+    MaterialRoute(page: CreateEventView),
+    MaterialRoute(page: MapView),
 // @stacked-route
   ],
   dependencies: [
@@ -74,9 +75,9 @@ import 'package:plansteria/ui/bottom_sheets/image_source/image_source_sheet.dart
   ],
   bottomsheets: [
     StackedBottomsheet(classType: NoticeSheet),
-    StackedBottomsheet(classType: CreateEventSheet),
     StackedBottomsheet(classType: EditProfileSheet),
     StackedBottomsheet(classType: ImageSourceSheet),
+    StackedBottomsheet(classType: MapSheet),
 // @stacked-bottom-sheet
   ],
   dialogs: [

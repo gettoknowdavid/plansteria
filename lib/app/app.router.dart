@@ -5,28 +5,29 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter/material.dart' as _i9;
+import 'package:flutter/material.dart' as _i12;
 import 'package:flutter/material.dart';
-import 'package:plansteria/models/event.dart' as _i17;
+import 'package:plansteria/models/event.dart' as _i13;
 import 'package:plansteria/ui/layout/layout_view.dart' as _i8;
-import 'package:plansteria/ui/views/account/account_view.dart' as _i16;
-import 'package:plansteria/ui/views/chat/chat_view.dart' as _i12;
+import 'package:plansteria/ui/views/account/account_view.dart' as _i18;
+import 'package:plansteria/ui/views/chat/chat_view.dart' as _i16;
 import 'package:plansteria/ui/views/confirmation/confirmation_view.dart' as _i7;
 import 'package:plansteria/ui/views/create_event/create_event_view.dart'
-    as _i15;
+    as _i10;
 import 'package:plansteria/ui/views/event_details/event_details_view.dart'
-    as _i14;
-import 'package:plansteria/ui/views/events/events_view.dart' as _i11;
+    as _i9;
+import 'package:plansteria/ui/views/events/events_view.dart' as _i15;
 import 'package:plansteria/ui/views/forgot_password/forgot_password_view.dart'
     as _i6;
-import 'package:plansteria/ui/views/home/home_view.dart' as _i10;
+import 'package:plansteria/ui/views/home/home_view.dart' as _i14;
 import 'package:plansteria/ui/views/login/login_view.dart' as _i3;
-import 'package:plansteria/ui/views/profile/profile_view.dart' as _i13;
+import 'package:plansteria/ui/views/map/map_view.dart' as _i11;
+import 'package:plansteria/ui/views/profile/profile_view.dart' as _i17;
 import 'package:plansteria/ui/views/register/register_view.dart' as _i4;
 import 'package:plansteria/ui/views/startup/startup_view.dart' as _i2;
 import 'package:plansteria/ui/views/verification/verification_view.dart' as _i5;
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i18;
+import 'package:stacked_services/stacked_services.dart' as _i19;
 
 class Routes {
   static const startupView = '/startup-view';
@@ -43,6 +44,12 @@ class Routes {
 
   static const layoutView = '/layout-view';
 
+  static const eventDetailsView = '/event-details-view';
+
+  static const createEventView = '/create-event-view';
+
+  static const mapView = '/map-view';
+
   static const all = <String>{
     startupView,
     loginView,
@@ -51,6 +58,9 @@ class Routes {
     forgotPasswordView,
     confirmationView,
     layoutView,
+    eventDetailsView,
+    createEventView,
+    mapView,
   };
 }
 
@@ -84,32 +94,44 @@ class StackedRouter extends _i1.RouterBase {
       Routes.layoutView,
       page: _i8.LayoutView,
     ),
+    _i1.RouteDef(
+      Routes.eventDetailsView,
+      page: _i9.EventDetailsView,
+    ),
+    _i1.RouteDef(
+      Routes.createEventView,
+      page: _i10.CreateEventView,
+    ),
+    _i1.RouteDef(
+      Routes.mapView,
+      page: _i11.MapView,
+    ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
     _i2.StartupView: (data) {
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i12.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.StartupView(),
         settings: data,
         maintainState: false,
       );
     },
     _i3.LoginView: (data) {
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i12.MaterialPageRoute<dynamic>(
         builder: (context) => const _i3.LoginView(),
         settings: data,
         maintainState: false,
       );
     },
     _i4.RegisterView: (data) {
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i12.MaterialPageRoute<dynamic>(
         builder: (context) => const _i4.RegisterView(),
         settings: data,
         maintainState: false,
       );
     },
     _i5.VerificationView: (data) {
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i12.MaterialPageRoute<dynamic>(
         builder: (context) => const _i5.VerificationView(),
         settings: data,
         maintainState: false,
@@ -119,22 +141,49 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<ForgotPasswordViewArguments>(
         orElse: () => const ForgotPasswordViewArguments(),
       );
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i12.MaterialPageRoute<dynamic>(
         builder: (context) => _i6.ForgotPasswordView(key: args.key),
         settings: data,
         maintainState: false,
       );
     },
     _i7.ConfirmationView: (data) {
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i12.MaterialPageRoute<dynamic>(
         builder: (context) => const _i7.ConfirmationView(),
         settings: data,
         maintainState: false,
       );
     },
     _i8.LayoutView: (data) {
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i12.MaterialPageRoute<dynamic>(
         builder: (context) => const _i8.LayoutView(),
+        settings: data,
+        maintainState: false,
+      );
+    },
+    _i9.EventDetailsView: (data) {
+      final args = data.getArgs<EventDetailsViewArguments>(nullOk: false);
+      return _i12.MaterialPageRoute<dynamic>(
+        builder: (context) =>
+            _i9.EventDetailsView(key: args.key, event: args.event),
+        settings: data,
+        maintainState: false,
+      );
+    },
+    _i10.CreateEventView: (data) {
+      final args = data.getArgs<CreateEventViewArguments>(
+        orElse: () => const CreateEventViewArguments(),
+      );
+      return _i12.MaterialPageRoute<dynamic>(
+        builder: (context) => _i10.CreateEventView(
+            key: args.key, editing: args.editing, event: args.event),
+        settings: data,
+        maintainState: false,
+      );
+    },
+    _i11.MapView: (data) {
+      return _i12.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i11.MapView(),
         settings: data,
         maintainState: false,
       );
@@ -150,11 +199,46 @@ class StackedRouter extends _i1.RouterBase {
 class ForgotPasswordViewArguments {
   const ForgotPasswordViewArguments({this.key});
 
-  final _i9.Key? key;
+  final _i12.Key? key;
 
   @override
   String toString() {
     return '{"key": "$key"}';
+  }
+}
+
+class EventDetailsViewArguments {
+  const EventDetailsViewArguments({
+    this.key,
+    required this.event,
+  });
+
+  final _i12.Key? key;
+
+  final _i13.Event event;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "event": "$event"}';
+  }
+}
+
+class CreateEventViewArguments {
+  const CreateEventViewArguments({
+    this.key,
+    this.editing = false,
+    this.event,
+  });
+
+  final _i12.Key? key;
+
+  final bool editing;
+
+  final _i13.Event? event;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "editing": "$editing", "event": "$event"}';
   }
 }
 
@@ -167,10 +251,6 @@ class LayoutViewRoutes {
 
   static const profileView = 'profile-view';
 
-  static const eventDetailsView = 'event-details-view';
-
-  static const createEventView = 'create-event-view';
-
   static const accountView = 'account-view';
 
   static const all = <String>{
@@ -178,8 +258,6 @@ class LayoutViewRoutes {
     eventsView,
     chatView,
     profileView,
-    eventDetailsView,
-    createEventView,
     accountView,
   };
 }
@@ -188,85 +266,58 @@ class LayoutViewRouter extends _i1.RouterBase {
   final _routes = <_i1.RouteDef>[
     _i1.RouteDef(
       LayoutViewRoutes.homeView,
-      page: _i10.HomeView,
+      page: _i14.HomeView,
     ),
     _i1.RouteDef(
       LayoutViewRoutes.eventsView,
-      page: _i11.EventsView,
+      page: _i15.EventsView,
     ),
     _i1.RouteDef(
       LayoutViewRoutes.chatView,
-      page: _i12.ChatView,
+      page: _i16.ChatView,
     ),
     _i1.RouteDef(
       LayoutViewRoutes.profileView,
-      page: _i13.ProfileView,
-    ),
-    _i1.RouteDef(
-      LayoutViewRoutes.eventDetailsView,
-      page: _i14.EventDetailsView,
-    ),
-    _i1.RouteDef(
-      LayoutViewRoutes.createEventView,
-      page: _i15.CreateEventView,
+      page: _i17.ProfileView,
     ),
     _i1.RouteDef(
       LayoutViewRoutes.accountView,
-      page: _i16.AccountView,
+      page: _i18.AccountView,
     ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
-    _i10.HomeView: (data) {
-      return _i9.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i10.HomeView(),
+    _i14.HomeView: (data) {
+      return _i12.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i14.HomeView(),
         settings: data,
         maintainState: false,
       );
     },
-    _i11.EventsView: (data) {
-      return _i9.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i11.EventsView(),
+    _i15.EventsView: (data) {
+      return _i12.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i15.EventsView(),
         settings: data,
         maintainState: false,
       );
     },
-    _i12.ChatView: (data) {
-      return _i9.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i12.ChatView(),
+    _i16.ChatView: (data) {
+      return _i12.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i16.ChatView(),
         settings: data,
         maintainState: false,
       );
     },
-    _i13.ProfileView: (data) {
-      return _i9.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i13.ProfileView(),
+    _i17.ProfileView: (data) {
+      return _i12.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i17.ProfileView(),
         settings: data,
         maintainState: false,
       );
     },
-    _i14.EventDetailsView: (data) {
-      final args = data.getArgs<NestedEventDetailsViewArguments>(nullOk: false);
-      return _i9.MaterialPageRoute<dynamic>(
-        builder: (context) =>
-            _i14.EventDetailsView(key: args.key, event: args.event),
-        settings: data,
-        maintainState: false,
-      );
-    },
-    _i15.CreateEventView: (data) {
-      final args = data.getArgs<NestedCreateEventViewArguments>(
-        orElse: () => const NestedCreateEventViewArguments(),
-      );
-      return _i9.MaterialPageRoute<dynamic>(
-        builder: (context) => _i15.CreateEventView(key: args.key),
-        settings: data,
-        maintainState: false,
-      );
-    },
-    _i16.AccountView: (data) {
-      return _i9.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i16.AccountView(),
+    _i18.AccountView: (data) {
+      return _i12.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i18.AccountView(),
         settings: data,
         maintainState: false,
       );
@@ -279,34 +330,7 @@ class LayoutViewRouter extends _i1.RouterBase {
   Map<Type, _i1.StackedRouteFactory> get pagesMap => _pagesMap;
 }
 
-class NestedEventDetailsViewArguments {
-  const NestedEventDetailsViewArguments({
-    this.key,
-    required this.event,
-  });
-
-  final _i9.Key? key;
-
-  final _i17.Event event;
-
-  @override
-  String toString() {
-    return '{"key": "$key", "event": "$event"}';
-  }
-}
-
-class NestedCreateEventViewArguments {
-  const NestedCreateEventViewArguments({this.key});
-
-  final _i9.Key? key;
-
-  @override
-  String toString() {
-    return '{"key": "$key"}';
-  }
-}
-
-extension NavigatorStateExtension on _i18.NavigationService {
+extension NavigatorStateExtension on _i19.NavigationService {
   Future<dynamic> navigateToStartupView([
     int? routerId,
     bool preventDuplicates = true,
@@ -364,7 +388,7 @@ extension NavigatorStateExtension on _i18.NavigationService {
   }
 
   Future<dynamic> navigateToForgotPasswordView({
-    _i9.Key? key,
+    _i12.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -401,6 +425,56 @@ extension NavigatorStateExtension on _i18.NavigationService {
         transition,
   ]) async {
     return navigateTo<dynamic>(Routes.layoutView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToEventDetailsView({
+    _i12.Key? key,
+    required _i13.Event event,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return navigateTo<dynamic>(Routes.eventDetailsView,
+        arguments: EventDetailsViewArguments(key: key, event: event),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToCreateEventView({
+    _i12.Key? key,
+    bool editing = false,
+    _i13.Event? event,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return navigateTo<dynamic>(Routes.createEventView,
+        arguments:
+            CreateEventViewArguments(key: key, editing: editing, event: event),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToMapView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.mapView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -457,39 +531,6 @@ extension NavigatorStateExtension on _i18.NavigationService {
         transition,
   ]) async {
     return navigateTo<dynamic>(LayoutViewRoutes.profileView,
-        id: routerId,
-        preventDuplicates: preventDuplicates,
-        parameters: parameters,
-        transition: transition);
-  }
-
-  Future<dynamic> navigateToNestedEventDetailsViewInLayoutViewRouter({
-    _i9.Key? key,
-    required _i17.Event event,
-    int? routerId,
-    bool preventDuplicates = true,
-    Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
-        transition,
-  }) async {
-    return navigateTo<dynamic>(LayoutViewRoutes.eventDetailsView,
-        arguments: NestedEventDetailsViewArguments(key: key, event: event),
-        id: routerId,
-        preventDuplicates: preventDuplicates,
-        parameters: parameters,
-        transition: transition);
-  }
-
-  Future<dynamic> navigateToNestedCreateEventViewInLayoutViewRouter({
-    _i9.Key? key,
-    int? routerId,
-    bool preventDuplicates = true,
-    Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
-        transition,
-  }) async {
-    return navigateTo<dynamic>(LayoutViewRoutes.createEventView,
-        arguments: NestedCreateEventViewArguments(key: key),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -567,7 +608,7 @@ extension NavigatorStateExtension on _i18.NavigationService {
   }
 
   Future<dynamic> replaceWithForgotPasswordView({
-    _i9.Key? key,
+    _i12.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -604,6 +645,56 @@ extension NavigatorStateExtension on _i18.NavigationService {
         transition,
   ]) async {
     return replaceWith<dynamic>(Routes.layoutView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithEventDetailsView({
+    _i12.Key? key,
+    required _i13.Event event,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return replaceWith<dynamic>(Routes.eventDetailsView,
+        arguments: EventDetailsViewArguments(key: key, event: event),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithCreateEventView({
+    _i12.Key? key,
+    bool editing = false,
+    _i13.Event? event,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return replaceWith<dynamic>(Routes.createEventView,
+        arguments:
+            CreateEventViewArguments(key: key, editing: editing, event: event),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithMapView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.mapView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -660,39 +751,6 @@ extension NavigatorStateExtension on _i18.NavigationService {
         transition,
   ]) async {
     return replaceWith<dynamic>(LayoutViewRoutes.profileView,
-        id: routerId,
-        preventDuplicates: preventDuplicates,
-        parameters: parameters,
-        transition: transition);
-  }
-
-  Future<dynamic> replaceWithNestedEventDetailsViewInLayoutViewRouter({
-    _i9.Key? key,
-    required _i17.Event event,
-    int? routerId,
-    bool preventDuplicates = true,
-    Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
-        transition,
-  }) async {
-    return replaceWith<dynamic>(LayoutViewRoutes.eventDetailsView,
-        arguments: NestedEventDetailsViewArguments(key: key, event: event),
-        id: routerId,
-        preventDuplicates: preventDuplicates,
-        parameters: parameters,
-        transition: transition);
-  }
-
-  Future<dynamic> replaceWithNestedCreateEventViewInLayoutViewRouter({
-    _i9.Key? key,
-    int? routerId,
-    bool preventDuplicates = true,
-    Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
-        transition,
-  }) async {
-    return replaceWith<dynamic>(LayoutViewRoutes.createEventView,
-        arguments: NestedCreateEventViewArguments(key: key),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

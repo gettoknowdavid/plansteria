@@ -3,7 +3,7 @@ import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/models/user.dart';
 import 'package:plansteria/services/auth_service.dart';
 import 'package:plansteria/services/media_service.dart';
-import 'package:plansteria/ui/bottom_sheets/create_event/create_event_sheet.form.dart';
+import 'package:plansteria/ui/bottom_sheets/edit_profile/edit_profile_sheet.form.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
