@@ -23,14 +23,38 @@ class EventService with ListenableServiceMixin {
     return eventsRef.snapshots().map((e) => e.docs.map((d) => d.data).toList());
   }
 
-  Future<bool> addGuest(String eventId, Guest guest) async {
+  Future<Either<EventError, Unit>> addGuest(String eventId, Guest guest) async {
+    if (_networkService.status == NetworkStatus.disconnected) {
+      return left(const EventError.networkError());
+    }
+
     try {
       GuestCollectionReference guestsRef = eventsRef.doc(eventId).guests;
       await guestsRef.doc(guest.uid).set(guest);
-      return true;
-    } catch (e) {
-      // print('object');
-      return false;
+      return right(unit);
+    } on FirebaseException catch (e) {
+      return left(EventError.error(e.message));
+    } on Exception {
+      return left(const EventError.serverError());
+    }
+  }
+
+  Future<Either<EventError, Unit>> removeGuest(
+    String eventId,
+    String guestId,
+  ) async {
+    if (_networkService.status == NetworkStatus.disconnected) {
+      return left(const EventError.networkError());
+    }
+
+    try {
+      GuestCollectionReference guestsRef = eventsRef.doc(eventId).guests;
+      await guestsRef.doc(guestId).delete();
+      return right(unit);
+    } on FirebaseException catch (e) {
+      return left(EventError.error(e.message));
+    } on Exception {
+      return left(const EventError.serverError());
     }
   }
 
@@ -42,6 +66,17 @@ class EventService with ListenableServiceMixin {
     } catch (e) {
       // print('object');
       return [];
+    }
+  }
+
+  Future<int> getNumberOfGuests(String eventId) async {
+    try {
+      GuestCollectionReference guestsRef = eventsRef.doc(eventId).guests;
+      final query = await guestsRef.get();
+      return query.docs.length;
+    } catch (e) {
+      // print('object');
+      return 0;
     }
   }
 
@@ -110,6 +145,18 @@ class EventService with ListenableServiceMixin {
     final s = await eventsRef.get();
     final newS = s.docs.map((e) => e.data).toList();
     return newS;
+  }
+
+  Future<List<Guest?>> getEventGuests(String eventId) async {
+    GuestCollectionReference guestsRef = eventsRef.doc(eventId).guests;
+    final resultSnapshot = await guestsRef.get();
+    return resultSnapshot.docs.map((e) => e.data).toList();
+  }
+
+  Future<bool> isAttending(String eventId, String guestId) async {
+    GuestCollectionReference guestsRef = eventsRef.doc(eventId).guests;
+    final resultSnapshot = await guestsRef.doc(guestId).get();
+    return resultSnapshot.exists;
   }
 
   Future<Event> getFeaturedEvent() async {

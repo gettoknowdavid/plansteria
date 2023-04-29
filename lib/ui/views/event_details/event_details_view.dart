@@ -21,11 +21,13 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
 
   @override
   Widget builder(context, viewModel, child) {
-    if (viewModel.isBusy || !viewModel.dataReady) {
+    if (viewModel.isBusy ||
+        viewModel.fetchingEvent ||
+        viewModel.fetchingIsAttending) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
-    final data = viewModel.data!;
+    final data = viewModel.event;
 
     final scrollController = ScrollController();
     final theme = Theme.of(context);
@@ -35,6 +37,8 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
     final time = eventDetailsTimeFormatter(data.startTime, data.endTime);
 
     final currency = NumberFormat.currency(locale: 'en_NG', symbol: '₦');
+
+    final isAttending = viewModel.isAttending;
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -93,6 +97,18 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
                 icon: PhosphorIcons.mapPin,
                 title: data.address,
                 subtitle: 'View on Map',
+              ),
+              16.verticalSpace,
+              EventDetailsItem(
+                icon: PhosphorIcons.ticket,
+                title: viewModel.isPaid ? event.price!.toString() : 'Free',
+                subtitle: 'Gate/Ticket Fee',
+              ),
+              16.verticalSpace,
+              const EventDetailsItem(
+                icon: PhosphorIcons.usersThree,
+                title: "1",
+                subtitle: 'Number of guests',
               ),
               20.verticalSpace,
               if (data.description?.isNotEmpty == true) ...[
@@ -153,9 +169,12 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
               10.verticalSpace,
               if (!viewModel.isAuthUser)
                 AppButton(
-                  onPressed: viewModel.addGuest,
-                  title:
-                      viewModel.isAttending ? 'I am attending' : 'Get Tickets',
+                  onPressed: isAttending
+                      ? viewModel.onLeavePressed
+                      : viewModel.onAttendPressed,
+                  background: isAttending ? Colors.red : null,
+                  foreground: isAttending ? Colors.white : null,
+                  title: isAttending ? 'Leave' : 'Join',
                 )
             ],
           ),
@@ -178,7 +197,7 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
 
   @override
   void onViewModelReady(EventDetailsViewModel viewModel) async {
-    await viewModel.initialise();
+    await viewModel.init();
   }
 
   @override

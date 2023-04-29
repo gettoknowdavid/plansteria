@@ -9,71 +9,121 @@ import 'package:plansteria/ui/common/app_strings.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class EventDetailsViewModel extends FutureViewModel<Event>
+const String eventKey = 'eventKey';
+const String isAttendingKey = 'isAttendingKey';
+
+class EventDetailsViewModel extends MultipleFutureViewModel
     with ListenableServiceMixin {
-  // late Event event;
   final _authService = locator<AuthService>();
   final _eventService = locator<EventService>();
   final _dialogService = locator<DialogService>();
   final _navigationService = locator<NavigationService>();
   final _snackbarService = locator<SnackbarService>();
-  final _isAttending = ReactiveValue<bool>(false);
+  final _isAttendingReactive = ReactiveValue<bool>(false);
   final _currentIndex = ReactiveValue<int>(0);
 
   EventDetailsViewModel() {
-    listenToReactiveValues([_isAttending, _currentIndex]);
+    listenToReactiveValues([_isAttendingReactive, _currentIndex]);
   }
 
+  Event get event => dataMap?[eventKey];
+  bool get isAttending => dataMap?[isAttendingKey];
+
+  bool get fetchingEvent => busy(eventKey);
+  bool get fetchingIsAttending => busy(isAttendingKey);
+
   int get currentIndex => _currentIndex.value;
+  bool get isAttendingReactive => _isAttendingReactive.value;
 
   User? get currentUser => _authService.currentUser;
 
   String get eventId => _navigationService.currentArguments.event.uid;
 
   Future<User> get getCreatorById async {
-    final snapshot = await userRef.doc(data?.creatorId).get();
+    final snapshot = await userRef.doc(event.creatorId).get();
     return snapshot.data!;
   }
 
-  bool get isAttending => _isAttending.value;
+  // bool get isAttending => _isAttending.value;
 
-  bool get isAuthUser => data?.creatorId == currentUser?.uid;
+  bool get isAuthUser => event.creatorId == currentUser?.uid;
+
+  bool get isPaid => event.price != null;
 
   @override
   List<ListenableServiceMixin> get listenableServices => [_authService];
 
-  void addGuest() async {
+  Future<void> onAttendPressed() async {
     setBusy(true);
     final result = await _eventService.addGuest(
-      data!.uid,
+      event.uid,
       Guest(
         uid: currentUser!.uid,
         name: currentUser!.name,
         avatar: currentUser?.avatar,
       ),
     );
-    if (result) {
-      _isAttending.value = true;
-      setBusy(false);
-    } else {
-      setBusy(false);
-      _snackbarService.showCustomSnackBar(
-        message: kServerErrorMessage,
-        variant: SnackbarType.error,
-      );
-    }
+
+    result.fold(
+      (failure) {
+        setBusy(false);
+        _snackbarService.showCustomSnackBar(
+          variant: SnackbarType.error,
+          message: failure.maybeMap(
+            orElse: () => '',
+            serverError: (_) => kServerErrorMessage,
+            networkError: (_) => kNoNetworkConnectionError,
+          ),
+        );
+      },
+      (success) {
+        _isAttendingReactive.value = true;
+        initialise();
+        setBusy(false);
+      },
+    );
     notifyListeners();
   }
 
-  @override
-  Future<Event> futureToRun() async => await _eventService.getEvent(eventId);
+  Future<void> onLeavePressed() async {
+    setBusy(true);
+    final result = await _eventService.removeGuest(event.uid, currentUser!.uid);
+
+    result.fold(
+      (failure) {
+        setBusy(false);
+        _snackbarService.showCustomSnackBar(
+          variant: SnackbarType.error,
+          message: failure.maybeMap(
+            orElse: () => '',
+            serverError: (_) => kServerErrorMessage,
+            networkError: (_) => kNoNetworkConnectionError,
+          ),
+        );
+      },
+      (success) {
+        _isAttendingReactive.value = false;
+        initialise();
+        setBusy(false);
+      },
+    );
+    notifyListeners();
+  }
+
+  Future<Event> getEvent() async => await _eventService.getEvent(eventId);
+  Future<bool> getIsAttending() async => await _eventService.isAttending(
+        eventId,
+        currentUser!.uid,
+      );
 
   void onEditPressed() async {
     await _navigationService.navigateToCreateEventView(
       editing: true,
-      event: data,
+      event: event,
     );
   }
+
+  Future init() async {}
 
   Future<void> onDeletePressed(String eventId) async {
     final response = await _dialogService.showConfirmationDialog(
@@ -94,4 +144,10 @@ class EventDetailsViewModel extends FutureViewModel<Event>
   void setPhotoIndex(int index) {
     _currentIndex.value = index;
   }
+
+  @override
+  Map<String, Future Function()> get futuresMap => {
+        eventKey: getEvent,
+        isAttendingKey: getIsAttending,
+      };
 }
