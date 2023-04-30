@@ -34,20 +34,23 @@ class EventDetailsItem extends StatelessWidget {
           ),
         ),
         12.horizontalSpace,
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AutoSizeText(
-              title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              minFontSize: 13,
-              style: textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.bold,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AutoSizeText(
+                title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                minFontSize: 10,
+                maxFontSize: 13,
+                style: textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            Text(subtitle, style: textTheme.bodySmall),
-          ],
+              Text(subtitle, style: textTheme.bodySmall),
+            ],
+          ),
         ),
       ],
     );

@@ -29,8 +29,11 @@ mixin _$Event {
   int? get numberOfGuests => throw _privateConstructorUsedError;
   String? get notes => throw _privateConstructorUsedError;
   double? get price => throw _privateConstructorUsedError;
+  @FirestoreDateTimeConverter()
   DateTime get date => throw _privateConstructorUsedError;
+  @FirestoreDateTimeConverter()
   DateTime get startTime => throw _privateConstructorUsedError;
+  @FirestoreDateTimeConverter()
   DateTime? get endTime => throw _privateConstructorUsedError;
   String? get eventImageUrl => throw _privateConstructorUsedError;
   List<String?> get photoUrls => throw _privateConstructorUsedError;
@@ -59,9 +62,9 @@ abstract class $EventCopyWith<$Res> {
       int? numberOfGuests,
       String? notes,
       double? price,
-      DateTime date,
-      DateTime startTime,
-      DateTime? endTime,
+      @FirestoreDateTimeConverter() DateTime date,
+      @FirestoreDateTimeConverter() DateTime startTime,
+      @FirestoreDateTimeConverter() DateTime? endTime,
       String? eventImageUrl,
       List<String?> photoUrls,
       String creatorId,
@@ -195,9 +198,9 @@ abstract class _$$_EventCopyWith<$Res> implements $EventCopyWith<$Res> {
       int? numberOfGuests,
       String? notes,
       double? price,
-      DateTime date,
-      DateTime startTime,
-      DateTime? endTime,
+      @FirestoreDateTimeConverter() DateTime date,
+      @FirestoreDateTimeConverter() DateTime startTime,
+      @FirestoreDateTimeConverter() DateTime? endTime,
       String? eventImageUrl,
       List<String?> photoUrls,
       String creatorId,
@@ -324,9 +327,9 @@ class _$_Event implements _Event {
       this.numberOfGuests,
       this.notes,
       this.price,
-      required this.date,
-      required this.startTime,
-      this.endTime,
+      @FirestoreDateTimeConverter() required this.date,
+      @FirestoreDateTimeConverter() required this.startTime,
+      @FirestoreDateTimeConverter() this.endTime,
       this.eventImageUrl,
       required final List<String?> photoUrls,
       required this.creatorId,
@@ -357,10 +360,13 @@ class _$_Event implements _Event {
   @override
   final double? price;
   @override
+  @FirestoreDateTimeConverter()
   final DateTime date;
   @override
+  @FirestoreDateTimeConverter()
   final DateTime startTime;
   @override
+  @FirestoreDateTimeConverter()
   final DateTime? endTime;
   @override
   final String? eventImageUrl;
@@ -466,9 +472,9 @@ abstract class _Event implements Event {
       final int? numberOfGuests,
       final String? notes,
       final double? price,
-      required final DateTime date,
-      required final DateTime startTime,
-      final DateTime? endTime,
+      @FirestoreDateTimeConverter() required final DateTime date,
+      @FirestoreDateTimeConverter() required final DateTime startTime,
+      @FirestoreDateTimeConverter() final DateTime? endTime,
       final String? eventImageUrl,
       required final List<String?> photoUrls,
       required final String creatorId,
@@ -497,10 +503,13 @@ abstract class _Event implements Event {
   @override
   double? get price;
   @override
+  @FirestoreDateTimeConverter()
   DateTime get date;
   @override
+  @FirestoreDateTimeConverter()
   DateTime get startTime;
   @override
+  @FirestoreDateTimeConverter()
   DateTime? get endTime;
   @override
   String? get eventImageUrl;

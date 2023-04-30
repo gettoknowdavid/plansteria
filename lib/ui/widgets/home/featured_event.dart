@@ -33,7 +33,7 @@ class FeaturedEvent extends ViewModelWidget<HomeViewModel> {
         ),
         10.verticalSpace,
         GestureDetector(
-          onTap: () => viewModel.navigateToDetails(viewModel.fetchedEvent!),
+          onTap: () => viewModel.navigateToDetails(viewModel.featuredEvent!),
           child: Container(
             height: _containerHeight,
             width: 1.sw,
@@ -146,14 +146,15 @@ class _EventDate extends SelectorViewModelWidget<HomeViewModel, DateTime> {
   }
 
   @override
-  DateTime selector(HomeViewModel viewModel) => viewModel.fetchedEvent!.date;
+  DateTime selector(HomeViewModel viewModel) => viewModel.featuredEvent!.date;
 }
 
-class _EventImage extends SelectorViewModelWidget<HomeViewModel, String?> {
+class _EventImage
+    extends SelectorViewModelWidget<HomeViewModel, List<String?>?> {
   const _EventImage();
 
   @override
-  Widget build(BuildContext context, String? value) {
+  Widget build(BuildContext context, List<String?>? value) {
     return Container(
       height: _imageHeight,
       width: 1.sw,
@@ -164,7 +165,7 @@ class _EventImage extends SelectorViewModelWidget<HomeViewModel, String?> {
         color: Colors.white,
         borderRadius: const BorderRadius.all(Radius.circular(24)).r,
         image: value != null
-            ? DecorationImage(image: NetworkImage(value), fit: BoxFit.cover)
+            ? DecorationImage(image: NetworkImage(value[0]!), fit: BoxFit.cover)
             : null,
       ),
       child: Stack(
@@ -183,7 +184,7 @@ class _EventImage extends SelectorViewModelWidget<HomeViewModel, String?> {
   }
 
   @override
-  String? selector(viewModel) => viewModel.fetchedEvent!.eventImageUrl;
+  List<String?>? selector(viewModel) => viewModel.featuredEvent!.photoUrls;
 }
 
 class _EventName extends ViewModelWidget<HomeViewModel> {
@@ -198,7 +199,7 @@ class _EventName extends ViewModelWidget<HomeViewModel> {
       child: SkeletonLoader(
         loading: viewModel.fetchingFeaturedEvent,
         child: Text(
-          viewModel.fetchedEvent!.name,
+          viewModel.featuredEvent!.name,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: textTheme.titleMedium?.copyWith(

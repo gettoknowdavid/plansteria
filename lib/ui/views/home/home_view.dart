@@ -21,7 +21,7 @@ class HomeView extends StackedView<HomeViewModel> {
         child: Column(
           children: [
             20.verticalSpace,
-            if (viewModel.fetchedEvent != null) const FeaturedEvent(),
+            if (viewModel.featuredEvent != null) const FeaturedEvent(),
             20.verticalSpace,
             const UpcomingEvents(),
             20.verticalSpace,

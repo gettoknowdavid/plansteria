@@ -21,27 +21,23 @@ class EventsView extends StackedView<EventsViewModel> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              'My Events',
-              style: textTheme.titleMedium?.copyWith(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            10.verticalSpace,
-            if (viewModel.dataReady)
-              ListView.separated(
-                shrinkWrap: true,
-                primary: false,
-                separatorBuilder: (context, index) => 16.verticalSpace,
-                itemCount: viewModel.data.length,
-                itemBuilder: (context, index) {
-                  final event = viewModel.data[index]!;
-                  return EventCard(
-                    event: event,
-                    onTap: () => viewModel.navigateToDetails(event),
-                  );
-                },
+            if (viewModel.dataReady && viewModel.data?.isNotEmpty == true)
+              SectionTitle(
+                title: 'My Events',
+                onTap: () {},
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  primary: false,
+                  separatorBuilder: (context, index) => 16.verticalSpace,
+                  itemCount: viewModel.data!.length,
+                  itemBuilder: (context, index) {
+                    final event = viewModel.data![index]!;
+                    return EventCard(
+                      event: event,
+                      onTap: () => viewModel.navigateToDetails(event),
+                    );
+                  },
+                ),
               ),
             20.verticalSpace,
           ],
@@ -52,4 +48,46 @@ class EventsView extends StackedView<EventsViewModel> {
 
   @override
   EventsViewModel viewModelBuilder(BuildContext context) => EventsViewModel();
+}
+
+class SectionTitle extends StatelessWidget {
+  const SectionTitle({
+    super.key,
+    required this.title,
+    required this.onTap,
+    this.child,
+  });
+
+  final String title;
+  final void Function() onTap;
+  final Widget? child;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
+    return Column(
+      children: [
+        Row(
+          children: [
+            Text(
+              title,
+              style: textTheme.bodyLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Spacer(),
+            TextButton(
+              onPressed: onTap,
+              child: Text(
+                'See all',
+                style: textTheme.bodySmall?.copyWith(),
+              ),
+            )
+          ],
+        ),
+        child ?? const SizedBox(),
+      ],
+    );
+  }
 }

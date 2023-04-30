@@ -8,7 +8,8 @@ import 'package:plansteria/ui/common/app_strings.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class EventsViewModel extends FutureViewModel with ListenableServiceMixin {
+class EventsViewModel extends FutureViewModel<List<Event?>>
+    with ListenableServiceMixin {
   final _authService = locator<AuthService>();
   final _bottomSheetService = locator<BottomSheetService>();
   final _dialogService = locator<DialogService>();
@@ -39,7 +40,7 @@ class EventsViewModel extends FutureViewModel with ListenableServiceMixin {
   }
 
   @override
-  Future futureToRun() => getMyEvents();
+  Future<List<Event?>> futureToRun() => getMyEvents();
 
   @override
   List<ListenableServiceMixin> get listenableServices => [_authService];

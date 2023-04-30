@@ -11,9 +11,9 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 const String featuredEventKey = 'featuredEventKey';
-const String allEventsKey = 'allEventsKey';
+const String upcomingEventsKey = 'upcomingEventsKey';
 
-class HomeViewModel extends MultipleFutureViewModel {
+class HomeViewModel extends MultipleStreamViewModel {
   final _authService = locator<AuthService>();
   final _bottomSheetService = locator<BottomSheetService>();
   final _dialogService = locator<DialogService>();
@@ -21,10 +21,10 @@ class HomeViewModel extends MultipleFutureViewModel {
   final _navigationService = locator<NavigationService>();
   final _snackbarService = locator<SnackbarService>();
 
-  List<Event?> get fetchedList => dataMap?[allEventsKey];
-  Event? get fetchedEvent => dataMap?[featuredEventKey];
+  List<Event?> get upcomingEvents => dataMap?[upcomingEventsKey];
+  Event? get featuredEvent => dataMap?[featuredEventKey];
 
-  bool get fetchingList => busy(allEventsKey);
+  bool get fetchingUpcomingEvents => busy(upcomingEventsKey);
   bool get fetchingFeaturedEvent => busy(featuredEventKey);
 
   Future<List<Event?>> getAllEvents() async {
@@ -44,8 +44,8 @@ class HomeViewModel extends MultipleFutureViewModel {
   }
 
   Future<List<Guest?>> get getGuests async {
-    if (fetchedEvent != null) {
-      return await _eventService.allGuests(fetchedEvent!.uid);
+    if (featuredEvent != null) {
+      return await _eventService.allGuests(featuredEvent!.uid);
     } else {
       return [];
     }
@@ -76,8 +76,8 @@ class HomeViewModel extends MultipleFutureViewModel {
   }
 
   Future<User?> get getCreatorById async {
-    if (fetchedEvent != null) {
-      final snapshot = await userRef.doc(fetchedEvent!.creatorId).get();
+    if (featuredEvent != null) {
+      final snapshot = await userRef.doc(featuredEvent!.creatorId).get();
       return snapshot.data!;
     } else {
       return null;
@@ -85,8 +85,9 @@ class HomeViewModel extends MultipleFutureViewModel {
   }
 
   @override
-  Map<String, Future Function()> get futuresMap => {
-        allEventsKey: _eventService.getEvents,
-        featuredEventKey: _eventService.getFeaturedEvent,
+  Map<String, StreamData> get streamsMap => {
+        upcomingEventsKey:
+            StreamData<List<Event?>>(_eventService.upcomingEventsStream),
+        featuredEventKey: StreamData<Event?>(_eventService.featuredEventStream),
       };
 }

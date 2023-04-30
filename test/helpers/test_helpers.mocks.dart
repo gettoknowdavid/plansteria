@@ -1090,7 +1090,7 @@ class MockEventService extends _i1.Mock implements _i15.EventService {
         returnValueForMissingStub: 0,
       ) as int);
   @override
-  _i3.Future<bool> addGuest(
+  _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>> addGuest(
     String? eventId,
     _i4.Guest? guest,
   ) =>
@@ -1102,9 +1102,67 @@ class MockEventService extends _i1.Mock implements _i15.EventService {
             guest,
           ],
         ),
-        returnValue: _i3.Future<bool>.value(false),
-        returnValueForMissingStub: _i3.Future<bool>.value(false),
-      ) as _i3.Future<bool>);
+        returnValue: _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>>.value(
+            _FakeEither_1<_i16.EventError, _i2.Unit>(
+          this,
+          Invocation.method(
+            #addGuest,
+            [
+              eventId,
+              guest,
+            ],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>>.value(
+                _FakeEither_1<_i16.EventError, _i2.Unit>(
+          this,
+          Invocation.method(
+            #addGuest,
+            [
+              eventId,
+              guest,
+            ],
+          ),
+        )),
+      ) as _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>>);
+  @override
+  _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>> removeGuest(
+    String? eventId,
+    String? guestId,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #removeGuest,
+          [
+            eventId,
+            guestId,
+          ],
+        ),
+        returnValue: _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>>.value(
+            _FakeEither_1<_i16.EventError, _i2.Unit>(
+          this,
+          Invocation.method(
+            #removeGuest,
+            [
+              eventId,
+              guestId,
+            ],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>>.value(
+                _FakeEither_1<_i16.EventError, _i2.Unit>(
+          this,
+          Invocation.method(
+            #removeGuest,
+            [
+              eventId,
+              guestId,
+            ],
+          ),
+        )),
+      ) as _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>>);
   @override
   _i3.Future<List<_i4.Guest?>> allGuests(String? eventId) =>
       (super.noSuchMethod(
@@ -1117,36 +1175,14 @@ class MockEventService extends _i1.Mock implements _i15.EventService {
             _i3.Future<List<_i4.Guest?>>.value(<_i4.Guest?>[]),
       ) as _i3.Future<List<_i4.Guest?>>);
   @override
-  _i3.Future<_i4.Event> getFeaturedEvent() => (super.noSuchMethod(
+  _i3.Future<int> getNumberOfGuests(String? eventId) => (super.noSuchMethod(
         Invocation.method(
-          #getFeaturedEvent,
-          [],
+          #getNumberOfGuests,
+          [eventId],
         ),
-        returnValue: _i3.Future<_i4.Event>.value(_FakeEvent_3(
-          this,
-          Invocation.method(
-            #getFeaturedEvent,
-            [],
-          ),
-        )),
-        returnValueForMissingStub: _i3.Future<_i4.Event>.value(_FakeEvent_3(
-          this,
-          Invocation.method(
-            #getFeaturedEvent,
-            [],
-          ),
-        )),
-      ) as _i3.Future<_i4.Event>);
-  @override
-  _i3.Future<List<_i4.Event?>> getEvents() => (super.noSuchMethod(
-        Invocation.method(
-          #getEvents,
-          [],
-        ),
-        returnValue: _i3.Future<List<_i4.Event?>>.value(<_i4.Event?>[]),
-        returnValueForMissingStub:
-            _i3.Future<List<_i4.Event?>>.value(<_i4.Event?>[]),
-      ) as _i3.Future<List<_i4.Event?>>);
+        returnValue: _i3.Future<int>.value(0),
+        returnValueForMissingStub: _i3.Future<int>.value(0),
+      ) as _i3.Future<int>);
   @override
   _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>> createEvent(
           _i4.Event? event) =>
@@ -1170,6 +1206,32 @@ class MockEventService extends _i1.Mock implements _i15.EventService {
           Invocation.method(
             #createEvent,
             [event],
+          ),
+        )),
+      ) as _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>>);
+  @override
+  _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>> deleteEvent(
+          String? eventId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteEvent,
+          [eventId],
+        ),
+        returnValue: _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>>.value(
+            _FakeEither_1<_i16.EventError, _i2.Unit>(
+          this,
+          Invocation.method(
+            #deleteEvent,
+            [eventId],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>>.value(
+                _FakeEither_1<_i16.EventError, _i2.Unit>(
+          this,
+          Invocation.method(
+            #deleteEvent,
+            [eventId],
           ),
         )),
       ) as _i3.Future<_i2.Either<_i16.EventError, _i2.Unit>>);
@@ -1199,6 +1261,85 @@ class MockEventService extends _i1.Mock implements _i15.EventService {
           ),
         )),
       ) as _i3.Future<_i2.Either<_i16.EventError, List<_i4.Event?>>>);
+  @override
+  _i3.Future<_i4.Event> getEvent(String? eventId) => (super.noSuchMethod(
+        Invocation.method(
+          #getEvent,
+          [eventId],
+        ),
+        returnValue: _i3.Future<_i4.Event>.value(_FakeEvent_3(
+          this,
+          Invocation.method(
+            #getEvent,
+            [eventId],
+          ),
+        )),
+        returnValueForMissingStub: _i3.Future<_i4.Event>.value(_FakeEvent_3(
+          this,
+          Invocation.method(
+            #getEvent,
+            [eventId],
+          ),
+        )),
+      ) as _i3.Future<_i4.Event>);
+  @override
+  _i3.Future<List<_i4.Event?>> getEvents() => (super.noSuchMethod(
+        Invocation.method(
+          #getEvents,
+          [],
+        ),
+        returnValue: _i3.Future<List<_i4.Event?>>.value(<_i4.Event?>[]),
+        returnValueForMissingStub:
+            _i3.Future<List<_i4.Event?>>.value(<_i4.Event?>[]),
+      ) as _i3.Future<List<_i4.Event?>>);
+  @override
+  _i3.Future<List<_i4.Guest?>> getEventGuests(String? eventId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getEventGuests,
+          [eventId],
+        ),
+        returnValue: _i3.Future<List<_i4.Guest?>>.value(<_i4.Guest?>[]),
+        returnValueForMissingStub:
+            _i3.Future<List<_i4.Guest?>>.value(<_i4.Guest?>[]),
+      ) as _i3.Future<List<_i4.Guest?>>);
+  @override
+  _i3.Future<bool> isAttending(
+    String? eventId,
+    String? guestId,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #isAttending,
+          [
+            eventId,
+            guestId,
+          ],
+        ),
+        returnValue: _i3.Future<bool>.value(false),
+        returnValueForMissingStub: _i3.Future<bool>.value(false),
+      ) as _i3.Future<bool>);
+  @override
+  _i3.Future<_i4.Event> getFeaturedEvent() => (super.noSuchMethod(
+        Invocation.method(
+          #getFeaturedEvent,
+          [],
+        ),
+        returnValue: _i3.Future<_i4.Event>.value(_FakeEvent_3(
+          this,
+          Invocation.method(
+            #getFeaturedEvent,
+            [],
+          ),
+        )),
+        returnValueForMissingStub: _i3.Future<_i4.Event>.value(_FakeEvent_3(
+          this,
+          Invocation.method(
+            #getFeaturedEvent,
+            [],
+          ),
+        )),
+      ) as _i3.Future<_i4.Event>);
   @override
   _i3.Future<_i2.Either<_i16.EventError, List<_i4.Event?>>> getMyEvents(
           String? creatorId) =>

@@ -78,7 +78,7 @@ class CreateEventView extends StackedView<CreateEventViewModel>
               label: 'Description',
               hint: 'What is your event about?',
               maxLines: 3,
-              maxLength: 200,
+              maxLength: 400,
               focusNode: descriptionFocusNode,
               controller: descriptionController,
               enabled: !viewModel.isBusy,

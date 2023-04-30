@@ -4351,9 +4351,11 @@ Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
       'numberOfGuests': instance.numberOfGuests,
       'notes': instance.notes,
       'price': instance.price,
-      'date': instance.date.toIso8601String(),
-      'startTime': instance.startTime.toIso8601String(),
-      'endTime': instance.endTime?.toIso8601String(),
+      'date': const FirestoreDateTimeConverter().toJson(instance.date),
+      'startTime':
+          const FirestoreDateTimeConverter().toJson(instance.startTime),
+      'endTime': _$JsonConverterToJson<Timestamp, DateTime>(
+          instance.endTime, const FirestoreDateTimeConverter().toJson),
       'eventImageUrl': instance.eventImageUrl,
       'photoUrls': instance.photoUrls,
       'creatorId': instance.creatorId,
@@ -4361,6 +4363,12 @@ Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
       'email': instance.email,
       'phone': instance.phone,
     };
+
+Json? _$JsonConverterToJson<Json, Value>(
+  Value? value,
+  Json? Function(Value value) toJson,
+) =>
+    value == null ? null : toJson(value);
 
 Map<String, dynamic> _$GuestToJson(Guest instance) => <String, dynamic>{
       'uid': instance.uid,
@@ -4378,11 +4386,12 @@ _$_Event _$$_EventFromJson(Map<String, dynamic> json) => _$_Event(
       numberOfGuests: json['numberOfGuests'] as int?,
       notes: json['notes'] as String?,
       price: (json['price'] as num?)?.toDouble(),
-      date: DateTime.parse(json['date'] as String),
-      startTime: DateTime.parse(json['startTime'] as String),
-      endTime: json['endTime'] == null
-          ? null
-          : DateTime.parse(json['endTime'] as String),
+      date: const FirestoreDateTimeConverter()
+          .fromJson(json['date'] as Timestamp),
+      startTime: const FirestoreDateTimeConverter()
+          .fromJson(json['startTime'] as Timestamp),
+      endTime: _$JsonConverterFromJson<Timestamp, DateTime>(
+          json['endTime'], const FirestoreDateTimeConverter().fromJson),
       eventImageUrl: json['eventImageUrl'] as String?,
       photoUrls: (json['photoUrls'] as List<dynamic>)
           .map((e) => e as String?)
@@ -4403,9 +4412,11 @@ Map<String, dynamic> _$$_EventToJson(_$_Event instance) => <String, dynamic>{
       'numberOfGuests': instance.numberOfGuests,
       'notes': instance.notes,
       'price': instance.price,
-      'date': instance.date.toIso8601String(),
-      'startTime': instance.startTime.toIso8601String(),
-      'endTime': instance.endTime?.toIso8601String(),
+      'date': const FirestoreDateTimeConverter().toJson(instance.date),
+      'startTime':
+          const FirestoreDateTimeConverter().toJson(instance.startTime),
+      'endTime': _$JsonConverterToJson<Timestamp, DateTime>(
+          instance.endTime, const FirestoreDateTimeConverter().toJson),
       'eventImageUrl': instance.eventImageUrl,
       'photoUrls': instance.photoUrls,
       'creatorId': instance.creatorId,
@@ -4413,6 +4424,12 @@ Map<String, dynamic> _$$_EventToJson(_$_Event instance) => <String, dynamic>{
       'email': instance.email,
       'phone': instance.phone,
     };
+
+Value? _$JsonConverterFromJson<Json, Value>(
+  Object? json,
+  Value? Function(Json json) fromJson,
+) =>
+    json == null ? null : fromJson(json as Json);
 
 _$_Guest _$$_GuestFromJson(Map<String, dynamic> json) => _$_Guest(
       uid: json['uid'] as String,

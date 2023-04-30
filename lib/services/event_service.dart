@@ -8,6 +8,9 @@ import 'package:stacked/stacked.dart';
 
 import 'network_service.dart';
 
+final now = DateTime.now();
+final today = now.copyWith(hour: 0, minute: 0, second: 0);
+
 class EventService with ListenableServiceMixin {
   final _events = ReactiveValue<List<Event?>>([]);
 
@@ -19,9 +22,25 @@ class EventService with ListenableServiceMixin {
 
   List<Event?> get events => _events.value;
 
-  Stream<List<Event?>> get eventsStream {
-    return eventsRef.snapshots().map((e) => e.docs.map((d) => d.data).toList());
+  Stream<List<Event?>> get upcomingEventsStream {
+    return eventsRef
+        .whereDate(isGreaterThanOrEqualTo: today)
+        .snapshots()
+        .map((e) => e.docs.map((d) => d.data).toList());
   }
+
+  Stream<Event?> get featuredEventStream {
+    return eventsRef.whereDate(isGreaterThanOrEqualTo: today).snapshots().map(
+          (e) => e.docs
+              .map((d) => d.data)
+              .where((event) => event.photoUrls.isNotEmpty)
+              .toList()
+              .first,
+        );
+  }
+
+  // Stream upcomingEventsStream =
+  //     eventsRef.whereDate(isGreaterThanOrEqualTo: today).snapshots();
 
   Future<Either<EventError, Unit>> addGuest(String eventId, Guest guest) async {
     if (_networkService.status == NetworkStatus.disconnected) {

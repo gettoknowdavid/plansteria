@@ -22,14 +22,14 @@ class UpcomingEvents extends ViewModelWidget<HomeViewModel> {
           ),
         ),
         10.verticalSpace,
-        if (viewModel.dataReady(allEventsKey))
+        if (viewModel.dataReady(upcomingEventsKey))
           ListView.separated(
             shrinkWrap: true,
             primary: false,
             separatorBuilder: (context, index) => 16.verticalSpace,
-            itemCount: viewModel.fetchedList.length,
+            itemCount: viewModel.upcomingEvents.length,
             itemBuilder: (context, index) {
-              final event = viewModel.fetchedList[index]!;
+              final event = viewModel.upcomingEvents[index]!;
               return EventCard(
                 event: event,
                 onTap: () => viewModel.navigateToDetails(event),
