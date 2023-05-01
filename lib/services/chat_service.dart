@@ -3,19 +3,20 @@ import 'package:flutter/services.dart';
 import 'package:plansteria/core/client/dio_client.dart';
 import 'package:plansteria/core/client/openai_client.dart';
 import 'package:plansteria/core/errors/chat_error.dart';
+import 'package:plansteria/models/chat_input.dart';
 import 'package:plansteria/models/chat_response.dart';
-import 'package:stacked/stacked.dart';
+import 'package:plansteria/models/message.dart';
 
-class ChatService with ListenableServiceMixin {
-  ChatService() {
-    listenToReactiveValues([]);
-  }
-
+class ChatService {
   final _openAIClient = OpenAIClient(dioClient());
 
-  Future<Either<ChatError, ChatResponse>> sendMessage(String msg) async {
+  Future<Either<ChatError, ChatResponse>> sendMessage(
+    List<Message> msgs,
+  ) async {
     try {
-      final response = await _openAIClient.sendMessage(msg: msg);
+      final input = ChatInput(model: "gpt-3.5-turbo", messages: msgs);
+      final response = await _openAIClient.sendMessage(input);
+      return right(response);
     } on PlatformException catch (e) {
       return left(ChatError.error(e.message));
     }
