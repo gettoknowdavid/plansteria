@@ -14,10 +14,13 @@ import 'package:internet_connection_checker/internet_connection_checker.dart'
     as _i14;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:plansteria/core/errors/auth_error.dart' as _i11;
+import 'package:plansteria/core/errors/chat_error.dart' as _i21;
 import 'package:plansteria/core/errors/event_error.dart' as _i17;
+import 'package:plansteria/models/chat_response.dart' as _i22;
 import 'package:plansteria/models/event.dart' as _i5;
 import 'package:plansteria/models/user.dart' as _i2;
 import 'package:plansteria/services/auth_service.dart' as _i10;
+import 'package:plansteria/services/chat_service.dart' as _i20;
 import 'package:plansteria/services/event_service.dart' as _i16;
 import 'package:plansteria/services/media_service.dart' as _i18;
 import 'package:plansteria/services/network_service.dart' as _i13;
@@ -1181,6 +1184,16 @@ class MockEventService extends _i1.Mock implements _i16.EventService {
         returnValueForMissingStub: _i4.Stream<bool>.empty(),
       ) as _i4.Stream<bool>);
   @override
+  _i4.Stream<List<_i5.Event?>> myEventsStream(String? creatorId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #myEventsStream,
+          [creatorId],
+        ),
+        returnValue: _i4.Stream<List<_i5.Event?>>.empty(),
+        returnValueForMissingStub: _i4.Stream<List<_i5.Event?>>.empty(),
+      ) as _i4.Stream<List<_i5.Event?>>);
+  @override
   _i4.Future<_i3.Either<_i17.EventError, _i3.Unit>> addGuest(
     String? eventId,
     _i5.Guest? guest,
@@ -1620,6 +1633,78 @@ class MockMediaService extends _i1.Mock implements _i18.MediaService {
         ),
         returnValueForMissingStub: null,
       );
+  @override
+  void listenToReactiveValues(List<dynamic>? reactiveValues) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #listenToReactiveValues,
+          [reactiveValues],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void addListener(void Function()? listener) => super.noSuchMethod(
+        Invocation.method(
+          #addListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void removeListener(void Function()? listener) => super.noSuchMethod(
+        Invocation.method(
+          #removeListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void notifyListeners() => super.noSuchMethod(
+        Invocation.method(
+          #notifyListeners,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+}
+
+/// A class which mocks [ChatService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockChatService extends _i1.Mock implements _i20.ChatService {
+  @override
+  int get listenersCount => (super.noSuchMethod(
+        Invocation.getter(#listenersCount),
+        returnValue: 0,
+        returnValueForMissingStub: 0,
+      ) as int);
+  @override
+  _i4.Future<_i3.Either<_i21.ChatError, _i22.ChatResponse>> sendMessage(
+          String? msg) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #sendMessage,
+          [msg],
+        ),
+        returnValue:
+            _i4.Future<_i3.Either<_i21.ChatError, _i22.ChatResponse>>.value(
+                _FakeEither_2<_i21.ChatError, _i22.ChatResponse>(
+          this,
+          Invocation.method(
+            #sendMessage,
+            [msg],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i3.Either<_i21.ChatError, _i22.ChatResponse>>.value(
+                _FakeEither_2<_i21.ChatError, _i22.ChatResponse>(
+          this,
+          Invocation.method(
+            #sendMessage,
+            [msg],
+          ),
+        )),
+      ) as _i4.Future<_i3.Either<_i21.ChatError, _i22.ChatResponse>>);
   @override
   void listenToReactiveValues(List<dynamic>? reactiveValues) =>
       super.noSuchMethod(

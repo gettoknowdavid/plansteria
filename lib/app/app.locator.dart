@@ -13,6 +13,7 @@ import 'package:stacked_services/src/snackbar/snackbar_service.dart';
 import 'package:stacked_shared/stacked_shared.dart';
 
 import '../services/auth_service.dart';
+import '../services/chat_service.dart';
 import '../services/event_service.dart';
 import '../services/media_service.dart';
 import '../services/network_service.dart';
@@ -40,4 +41,5 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => OpenMailAppService());
   locator.registerLazySingleton(() => EventService());
   locator.registerLazySingleton(() => MediaService());
+  locator.registerLazySingleton(() => ChatService());
 }

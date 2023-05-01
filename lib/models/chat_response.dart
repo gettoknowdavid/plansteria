@@ -7,7 +7,7 @@ part 'chat_response.freezed.dart';
 part 'chat_response.g.dart';
 
 @freezed
-@JsonSerializable(createFactory: false)
+@JsonSerializable(createFactory: false, explicitToJson: true)
 class ChatResponse with _$ChatResponse {
   const factory ChatResponse({
     String? id,

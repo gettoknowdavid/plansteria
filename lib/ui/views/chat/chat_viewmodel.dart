@@ -1,7 +1,17 @@
+import 'package:plansteria/app/app.locator.dart';
+import 'package:plansteria/models/user.dart';
+import 'package:plansteria/services/auth_service.dart';
 import 'package:stacked/stacked.dart';
 
-class ChatViewModel extends BaseViewModel {
+class ChatViewModel extends ReactiveViewModel {
+  final _authService = locator<AuthService>();
+
+  User get user => _authService.currentUser!;
+  
   List<Map<String, Object>> get messages => _messages;
+
+  @override
+  List<ListenableServiceMixin> get listenableServices => [_authService];
 }
 
 const _messages = [
