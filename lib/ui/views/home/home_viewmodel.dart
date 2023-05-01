@@ -3,7 +3,6 @@ import 'package:plansteria/app/app.dialogs.dart';
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/app/app.router.dart';
 import 'package:plansteria/models/event.dart';
-import 'package:plansteria/models/user.dart';
 import 'package:plansteria/services/auth_service.dart';
 import 'package:plansteria/services/event_service.dart';
 import 'package:plansteria/ui/common/app_strings.dart';
@@ -73,15 +72,6 @@ class HomeViewModel extends MultipleStreamViewModel {
       title: 'Network Error',
       description: kNoNetworkConnectionError,
     );
-  }
-
-  Future<User?> get getCreatorById async {
-    if (featuredEvent != null) {
-      final snapshot = await userRef.doc(featuredEvent!.creatorId).get();
-      return snapshot.data!;
-    } else {
-      return null;
-    }
   }
 
   @override

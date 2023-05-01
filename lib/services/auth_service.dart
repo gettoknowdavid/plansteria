@@ -29,6 +29,15 @@ class AuthService with ListenableServiceMixin {
   bool get isAuthenticated => _isAuthenticated.value;
   bool? get isEmailVerified => _isEmailVerified.value;
 
+  Stream<User> userByIdStream(String userId) {
+    return userRef.doc(userId).snapshots().map((user) => user.data!);
+  }
+
+  Future<User> getUserById(String userId) async {
+    final snapshot = await userRef.doc(userId).get();
+    return snapshot.data!;
+  }
+
   Future<void> checkAuthenticated() async {
     final firebaseUser = _firebaseAuth.currentUser;
 

@@ -5,29 +5,30 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter/material.dart' as _i12;
+import 'package:flutter/material.dart' as _i13;
 import 'package:flutter/material.dart';
-import 'package:plansteria/models/event.dart' as _i13;
+import 'package:plansteria/models/event.dart' as _i14;
 import 'package:plansteria/ui/layout/layout_view.dart' as _i8;
-import 'package:plansteria/ui/views/account/account_view.dart' as _i18;
-import 'package:plansteria/ui/views/chat/chat_view.dart' as _i16;
+import 'package:plansteria/ui/views/account/account_view.dart' as _i19;
+import 'package:plansteria/ui/views/chat/chat_view.dart' as _i17;
 import 'package:plansteria/ui/views/confirmation/confirmation_view.dart' as _i7;
 import 'package:plansteria/ui/views/create_event/create_event_view.dart'
     as _i10;
 import 'package:plansteria/ui/views/event_details/event_details_view.dart'
     as _i9;
-import 'package:plansteria/ui/views/events/events_view.dart' as _i15;
+import 'package:plansteria/ui/views/events/events_view.dart' as _i16;
 import 'package:plansteria/ui/views/forgot_password/forgot_password_view.dart'
     as _i6;
-import 'package:plansteria/ui/views/home/home_view.dart' as _i14;
+import 'package:plansteria/ui/views/guests/guests_view.dart' as _i12;
+import 'package:plansteria/ui/views/home/home_view.dart' as _i15;
 import 'package:plansteria/ui/views/login/login_view.dart' as _i3;
 import 'package:plansteria/ui/views/map/map_view.dart' as _i11;
-import 'package:plansteria/ui/views/profile/profile_view.dart' as _i17;
+import 'package:plansteria/ui/views/profile/profile_view.dart' as _i18;
 import 'package:plansteria/ui/views/register/register_view.dart' as _i4;
 import 'package:plansteria/ui/views/startup/startup_view.dart' as _i2;
 import 'package:plansteria/ui/views/verification/verification_view.dart' as _i5;
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i19;
+import 'package:stacked_services/stacked_services.dart' as _i20;
 
 class Routes {
   static const startupView = '/startup-view';
@@ -50,6 +51,8 @@ class Routes {
 
   static const mapView = '/map-view';
 
+  static const guestsView = '/guests-view';
+
   static const all = <String>{
     startupView,
     loginView,
@@ -61,6 +64,7 @@ class Routes {
     eventDetailsView,
     createEventView,
     mapView,
+    guestsView,
   };
 }
 
@@ -106,32 +110,36 @@ class StackedRouter extends _i1.RouterBase {
       Routes.mapView,
       page: _i11.MapView,
     ),
+    _i1.RouteDef(
+      Routes.guestsView,
+      page: _i12.GuestsView,
+    ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
     _i2.StartupView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.StartupView(),
         settings: data,
         maintainState: false,
       );
     },
     _i3.LoginView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i3.LoginView(),
         settings: data,
         maintainState: false,
       );
     },
     _i4.RegisterView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i4.RegisterView(),
         settings: data,
         maintainState: false,
       );
     },
     _i5.VerificationView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i5.VerificationView(),
         settings: data,
         maintainState: false,
@@ -141,21 +149,21 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<ForgotPasswordViewArguments>(
         orElse: () => const ForgotPasswordViewArguments(),
       );
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => _i6.ForgotPasswordView(key: args.key),
         settings: data,
         maintainState: false,
       );
     },
     _i7.ConfirmationView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i7.ConfirmationView(),
         settings: data,
         maintainState: false,
       );
     },
     _i8.LayoutView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i8.LayoutView(),
         settings: data,
         maintainState: false,
@@ -163,7 +171,7 @@ class StackedRouter extends _i1.RouterBase {
     },
     _i9.EventDetailsView: (data) {
       final args = data.getArgs<EventDetailsViewArguments>(nullOk: false);
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) =>
             _i9.EventDetailsView(key: args.key, event: args.event),
         settings: data,
@@ -174,7 +182,7 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<CreateEventViewArguments>(
         orElse: () => const CreateEventViewArguments(),
       );
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => _i10.CreateEventView(
             key: args.key, editing: args.editing, event: args.event),
         settings: data,
@@ -182,8 +190,16 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i11.MapView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i11.MapView(),
+        settings: data,
+        maintainState: false,
+      );
+    },
+    _i12.GuestsView: (data) {
+      final args = data.getArgs<GuestsViewArguments>(nullOk: false);
+      return _i13.MaterialPageRoute<dynamic>(
+        builder: (context) => _i12.GuestsView(key: args.key, event: args.event),
         settings: data,
         maintainState: false,
       );
@@ -199,7 +215,7 @@ class StackedRouter extends _i1.RouterBase {
 class ForgotPasswordViewArguments {
   const ForgotPasswordViewArguments({this.key});
 
-  final _i12.Key? key;
+  final _i13.Key? key;
 
   @override
   String toString() {
@@ -213,9 +229,9 @@ class EventDetailsViewArguments {
     required this.event,
   });
 
-  final _i12.Key? key;
+  final _i13.Key? key;
 
-  final _i13.Event event;
+  final _i14.Event event;
 
   @override
   String toString() {
@@ -230,15 +246,31 @@ class CreateEventViewArguments {
     this.event,
   });
 
-  final _i12.Key? key;
+  final _i13.Key? key;
 
   final bool editing;
 
-  final _i13.Event? event;
+  final _i14.Event? event;
 
   @override
   String toString() {
     return '{"key": "$key", "editing": "$editing", "event": "$event"}';
+  }
+}
+
+class GuestsViewArguments {
+  const GuestsViewArguments({
+    this.key,
+    required this.event,
+  });
+
+  final _i13.Key? key;
+
+  final _i14.Event event;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "event": "$event"}';
   }
 }
 
@@ -266,58 +298,58 @@ class LayoutViewRouter extends _i1.RouterBase {
   final _routes = <_i1.RouteDef>[
     _i1.RouteDef(
       LayoutViewRoutes.homeView,
-      page: _i14.HomeView,
+      page: _i15.HomeView,
     ),
     _i1.RouteDef(
       LayoutViewRoutes.eventsView,
-      page: _i15.EventsView,
+      page: _i16.EventsView,
     ),
     _i1.RouteDef(
       LayoutViewRoutes.chatView,
-      page: _i16.ChatView,
+      page: _i17.ChatView,
     ),
     _i1.RouteDef(
       LayoutViewRoutes.profileView,
-      page: _i17.ProfileView,
+      page: _i18.ProfileView,
     ),
     _i1.RouteDef(
       LayoutViewRoutes.accountView,
-      page: _i18.AccountView,
+      page: _i19.AccountView,
     ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
-    _i14.HomeView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i14.HomeView(),
+    _i15.HomeView: (data) {
+      return _i13.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i15.HomeView(),
         settings: data,
         maintainState: false,
       );
     },
-    _i15.EventsView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i15.EventsView(),
+    _i16.EventsView: (data) {
+      return _i13.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i16.EventsView(),
         settings: data,
         maintainState: false,
       );
     },
-    _i16.ChatView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i16.ChatView(),
+    _i17.ChatView: (data) {
+      return _i13.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i17.ChatView(),
         settings: data,
         maintainState: false,
       );
     },
-    _i17.ProfileView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i17.ProfileView(),
+    _i18.ProfileView: (data) {
+      return _i13.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i18.ProfileView(),
         settings: data,
         maintainState: false,
       );
     },
-    _i18.AccountView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i18.AccountView(),
+    _i19.AccountView: (data) {
+      return _i13.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i19.AccountView(),
         settings: data,
         maintainState: false,
       );
@@ -330,7 +362,7 @@ class LayoutViewRouter extends _i1.RouterBase {
   Map<Type, _i1.StackedRouteFactory> get pagesMap => _pagesMap;
 }
 
-extension NavigatorStateExtension on _i19.NavigationService {
+extension NavigatorStateExtension on _i20.NavigationService {
   Future<dynamic> navigateToStartupView([
     int? routerId,
     bool preventDuplicates = true,
@@ -388,7 +420,7 @@ extension NavigatorStateExtension on _i19.NavigationService {
   }
 
   Future<dynamic> navigateToForgotPasswordView({
-    _i12.Key? key,
+    _i13.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -432,8 +464,8 @@ extension NavigatorStateExtension on _i19.NavigationService {
   }
 
   Future<dynamic> navigateToEventDetailsView({
-    _i12.Key? key,
-    required _i13.Event event,
+    _i13.Key? key,
+    required _i14.Event event,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -449,9 +481,9 @@ extension NavigatorStateExtension on _i19.NavigationService {
   }
 
   Future<dynamic> navigateToCreateEventView({
-    _i12.Key? key,
+    _i13.Key? key,
     bool editing = false,
-    _i13.Event? event,
+    _i14.Event? event,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -475,6 +507,23 @@ extension NavigatorStateExtension on _i19.NavigationService {
         transition,
   ]) async {
     return navigateTo<dynamic>(Routes.mapView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToGuestsView({
+    _i13.Key? key,
+    required _i14.Event event,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return navigateTo<dynamic>(Routes.guestsView,
+        arguments: GuestsViewArguments(key: key, event: event),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -608,7 +657,7 @@ extension NavigatorStateExtension on _i19.NavigationService {
   }
 
   Future<dynamic> replaceWithForgotPasswordView({
-    _i12.Key? key,
+    _i13.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -652,8 +701,8 @@ extension NavigatorStateExtension on _i19.NavigationService {
   }
 
   Future<dynamic> replaceWithEventDetailsView({
-    _i12.Key? key,
-    required _i13.Event event,
+    _i13.Key? key,
+    required _i14.Event event,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -669,9 +718,9 @@ extension NavigatorStateExtension on _i19.NavigationService {
   }
 
   Future<dynamic> replaceWithCreateEventView({
-    _i12.Key? key,
+    _i13.Key? key,
     bool editing = false,
-    _i13.Event? event,
+    _i14.Event? event,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -695,6 +744,23 @@ extension NavigatorStateExtension on _i19.NavigationService {
         transition,
   ]) async {
     return replaceWith<dynamic>(Routes.mapView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithGuestsView({
+    _i13.Key? key,
+    required _i14.Event event,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return replaceWith<dynamic>(Routes.guestsView,
+        arguments: GuestsViewArguments(key: key, event: event),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

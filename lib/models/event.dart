@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'creator.dart';
+
 part 'event.freezed.dart';
 part 'event.g.dart';
 
@@ -21,10 +23,10 @@ const _$$_EventFieldMap = <String, String>{
   'startTime': 'startTime',
   'endTime': 'endTime',
   'eventImageUrl': 'eventImageUrl',
-  'creatorId': 'creatorId',
   'email': 'email',
   'phone': 'phone',
   'photoUrls': 'photoUrls',
+  'creator': 'creator',
 };
 
 const _$$_GuestFieldMap = <String, String>{
@@ -38,7 +40,7 @@ final eventsRef = EventCollectionReference();
 @Collection<Event>('events')
 @Collection<Guest>('events/*/guests')
 @freezed
-@JsonSerializable(createFactory: false)
+@JsonSerializable(createFactory: false, explicitToJson: true)
 class Event with _$Event {
   factory Event({
     required String uid,
@@ -55,10 +57,10 @@ class Event with _$Event {
     @FirestoreDateTimeConverter() DateTime? endTime,
     String? eventImageUrl,
     required List<String?> photoUrls,
-    required String creatorId,
     bool? featured,
     required String email,
     required String phone,
+    required Creator creator,
   }) = _Event;
 
   factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);

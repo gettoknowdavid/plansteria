@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:plansteria/models/user.dart';
 import 'package:plansteria/ui/common/app_constants.dart';
 import 'package:plansteria/ui/views/home/home_viewmodel.dart';
 import 'package:plansteria/ui/widgets/home/stacked_avatar_widget.dart';
@@ -87,22 +86,13 @@ class _CreatorName extends ViewModelWidget<HomeViewModel> {
   Widget build(BuildContext context, HomeViewModel viewModel) {
     final textTheme = Theme.of(context).textTheme;
 
-    return FutureBuilder<User?>(
-        future: viewModel.getCreatorById,
-        builder: (context, snapshot) {
-          return Padding(
-            padding: kGlobalHorizontalPadding,
-            child: SkeletonLoader(
-              loading: viewModel.fetchingFeaturedEvent,
-              child: Text(
-                'Three Mils Island',
-                style: textTheme.bodySmall?.copyWith(
-                  color: Colors.grey,
-                ),
-              ),
-            ),
-          );
-        });
+    return Padding(
+      padding: kGlobalHorizontalPadding,
+      child: Text(
+        viewModel.featuredEvent!.creator.name,
+        style: textTheme.bodySmall?.copyWith(color: Colors.grey),
+      ),
+    );
   }
 }
 

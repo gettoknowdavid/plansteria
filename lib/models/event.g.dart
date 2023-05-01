@@ -159,8 +159,6 @@ abstract class EventDocumentReference
     FieldValue eventImageUrlFieldValue,
     List<String?> photoUrls,
     FieldValue photoUrlsFieldValue,
-    String creatorId,
-    FieldValue creatorIdFieldValue,
     bool? featured,
     FieldValue featuredFieldValue,
     String email,
@@ -202,8 +200,6 @@ abstract class EventDocumentReference
     FieldValue eventImageUrlFieldValue,
     List<String?> photoUrls,
     FieldValue photoUrlsFieldValue,
-    String creatorId,
-    FieldValue creatorIdFieldValue,
     bool? featured,
     FieldValue featuredFieldValue,
     String email,
@@ -274,8 +270,6 @@ class _$EventDocumentReference
     FieldValue? eventImageUrlFieldValue,
     Object? photoUrls = _sentinel,
     FieldValue? photoUrlsFieldValue,
-    Object? creatorId = _sentinel,
-    FieldValue? creatorIdFieldValue,
     Object? featured = _sentinel,
     FieldValue? featuredFieldValue,
     Object? email = _sentinel,
@@ -340,10 +334,6 @@ class _$EventDocumentReference
       "Cannot specify both photoUrls and photoUrlsFieldValue",
     );
     assert(
-      creatorId == _sentinel || creatorIdFieldValue == null,
-      "Cannot specify both creatorId and creatorIdFieldValue",
-    );
-    assert(
       featured == _sentinel || featuredFieldValue == null,
       "Cannot specify both featured and featuredFieldValue",
     );
@@ -398,10 +388,6 @@ class _$EventDocumentReference
         _$$_EventFieldMap['photoUrls']!: photoUrls as List<String?>,
       if (photoUrlsFieldValue != null)
         _$$_EventFieldMap['photoUrls']!: photoUrlsFieldValue,
-      if (creatorId != _sentinel)
-        _$$_EventFieldMap['creatorId']!: creatorId as String,
-      if (creatorIdFieldValue != null)
-        _$$_EventFieldMap['creatorId']!: creatorIdFieldValue,
       if (featured != _sentinel)
         _$$_EventFieldMap['featured']!: featured as bool?,
       if (featuredFieldValue != null)
@@ -445,8 +431,6 @@ class _$EventDocumentReference
     FieldValue? eventImageUrlFieldValue,
     Object? photoUrls = _sentinel,
     FieldValue? photoUrlsFieldValue,
-    Object? creatorId = _sentinel,
-    FieldValue? creatorIdFieldValue,
     Object? featured = _sentinel,
     FieldValue? featuredFieldValue,
     Object? email = _sentinel,
@@ -511,10 +495,6 @@ class _$EventDocumentReference
       "Cannot specify both photoUrls and photoUrlsFieldValue",
     );
     assert(
-      creatorId == _sentinel || creatorIdFieldValue == null,
-      "Cannot specify both creatorId and creatorIdFieldValue",
-    );
-    assert(
       featured == _sentinel || featuredFieldValue == null,
       "Cannot specify both featured and featuredFieldValue",
     );
@@ -569,10 +549,6 @@ class _$EventDocumentReference
         _$$_EventFieldMap['photoUrls']!: photoUrls as List<String?>,
       if (photoUrlsFieldValue != null)
         _$$_EventFieldMap['photoUrls']!: photoUrlsFieldValue,
-      if (creatorId != _sentinel)
-        _$$_EventFieldMap['creatorId']!: creatorId as String,
-      if (creatorIdFieldValue != null)
-        _$$_EventFieldMap['creatorId']!: creatorIdFieldValue,
       if (featured != _sentinel)
         _$$_EventFieldMap['featured']!: featured as bool?,
       if (featuredFieldValue != null)
@@ -835,17 +811,6 @@ abstract class EventQuery implements QueryReference<Event, EventQuerySnapshot> {
     String? arrayContains,
     List<String?>? arrayContainsAny,
   });
-  EventQuery whereCreatorId({
-    String? isEqualTo,
-    String? isNotEqualTo,
-    String? isLessThan,
-    String? isLessThanOrEqualTo,
-    String? isGreaterThan,
-    String? isGreaterThanOrEqualTo,
-    bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
-  });
   EventQuery whereFeatured({
     bool? isEqualTo,
     bool? isNotEqualTo,
@@ -1054,18 +1019,6 @@ abstract class EventQuery implements QueryReference<Event, EventQuerySnapshot> {
     List<String?> startAfter,
     List<String?> endAt,
     List<String?> endBefore,
-    EventDocumentSnapshot? startAtDocument,
-    EventDocumentSnapshot? endAtDocument,
-    EventDocumentSnapshot? endBeforeDocument,
-    EventDocumentSnapshot? startAfterDocument,
-  });
-
-  EventQuery orderByCreatorId({
-    bool descending = false,
-    String startAt,
-    String startAfter,
-    String endAt,
-    String endBefore,
     EventDocumentSnapshot? startAtDocument,
     EventDocumentSnapshot? endAtDocument,
     EventDocumentSnapshot? endBeforeDocument,
@@ -1686,35 +1639,6 @@ class _$EventQuery extends QueryReference<Event, EventQuerySnapshot>
         isNull: isNull,
         arrayContains: arrayContains,
         arrayContainsAny: arrayContainsAny,
-      ),
-      $queryCursor: $queryCursor,
-    );
-  }
-
-  EventQuery whereCreatorId({
-    String? isEqualTo,
-    String? isNotEqualTo,
-    String? isLessThan,
-    String? isLessThanOrEqualTo,
-    String? isGreaterThan,
-    String? isGreaterThanOrEqualTo,
-    bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
-  }) {
-    return _$EventQuery(
-      _collection,
-      $referenceWithoutCursor: $referenceWithoutCursor.where(
-        _$$_EventFieldMap['creatorId']!,
-        isEqualTo: isEqualTo,
-        isNotEqualTo: isNotEqualTo,
-        isLessThan: isLessThan,
-        isLessThanOrEqualTo: isLessThanOrEqualTo,
-        isGreaterThan: isGreaterThan,
-        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
-        isNull: isNull,
-        whereIn: whereIn,
-        whereNotIn: whereNotIn,
       ),
       $queryCursor: $queryCursor,
     );
@@ -2828,78 +2752,6 @@ class _$EventQuery extends QueryReference<Event, EventQuerySnapshot>
   }) {
     final query = $referenceWithoutCursor
         .orderBy(_$$_EventFieldMap['photoUrls']!, descending: descending);
-    var queryCursor = $queryCursor;
-
-    if (startAtDocument != null) {
-      queryCursor = queryCursor.copyWith(
-        startAt: const [],
-        startAtDocumentSnapshot: startAtDocument.snapshot,
-      );
-    }
-    if (startAfterDocument != null) {
-      queryCursor = queryCursor.copyWith(
-        startAfter: const [],
-        startAfterDocumentSnapshot: startAfterDocument.snapshot,
-      );
-    }
-    if (endAtDocument != null) {
-      queryCursor = queryCursor.copyWith(
-        endAt: const [],
-        endAtDocumentSnapshot: endAtDocument.snapshot,
-      );
-    }
-    if (endBeforeDocument != null) {
-      queryCursor = queryCursor.copyWith(
-        endBefore: const [],
-        endBeforeDocumentSnapshot: endBeforeDocument.snapshot,
-      );
-    }
-
-    if (startAt != _sentinel) {
-      queryCursor = queryCursor.copyWith(
-        startAt: [...queryCursor.startAt, startAt],
-        startAtDocumentSnapshot: null,
-      );
-    }
-    if (startAfter != _sentinel) {
-      queryCursor = queryCursor.copyWith(
-        startAfter: [...queryCursor.startAfter, startAfter],
-        startAfterDocumentSnapshot: null,
-      );
-    }
-    if (endAt != _sentinel) {
-      queryCursor = queryCursor.copyWith(
-        endAt: [...queryCursor.endAt, endAt],
-        endAtDocumentSnapshot: null,
-      );
-    }
-    if (endBefore != _sentinel) {
-      queryCursor = queryCursor.copyWith(
-        endBefore: [...queryCursor.endBefore, endBefore],
-        endBeforeDocumentSnapshot: null,
-      );
-    }
-
-    return _$EventQuery(
-      _collection,
-      $referenceWithoutCursor: query,
-      $queryCursor: queryCursor,
-    );
-  }
-
-  EventQuery orderByCreatorId({
-    bool descending = false,
-    Object? startAt = _sentinel,
-    Object? startAfter = _sentinel,
-    Object? endAt = _sentinel,
-    Object? endBefore = _sentinel,
-    EventDocumentSnapshot? startAtDocument,
-    EventDocumentSnapshot? endAtDocument,
-    EventDocumentSnapshot? endBeforeDocument,
-    EventDocumentSnapshot? startAfterDocument,
-  }) {
-    final query = $referenceWithoutCursor
-        .orderBy(_$$_EventFieldMap['creatorId']!, descending: descending);
     var queryCursor = $queryCursor;
 
     if (startAtDocument != null) {
@@ -4358,10 +4210,10 @@ Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
           instance.endTime, const FirestoreDateTimeConverter().toJson),
       'eventImageUrl': instance.eventImageUrl,
       'photoUrls': instance.photoUrls,
-      'creatorId': instance.creatorId,
       'featured': instance.featured,
       'email': instance.email,
       'phone': instance.phone,
+      'creator': instance.creator.toJson(),
     };
 
 Json? _$JsonConverterToJson<Json, Value>(
@@ -4396,10 +4248,10 @@ _$_Event _$$_EventFromJson(Map<String, dynamic> json) => _$_Event(
       photoUrls: (json['photoUrls'] as List<dynamic>)
           .map((e) => e as String?)
           .toList(),
-      creatorId: json['creatorId'] as String,
       featured: json['featured'] as bool?,
       email: json['email'] as String,
       phone: json['phone'] as String,
+      creator: Creator.fromJson(json['creator'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_EventToJson(_$_Event instance) => <String, dynamic>{
@@ -4419,10 +4271,10 @@ Map<String, dynamic> _$$_EventToJson(_$_Event instance) => <String, dynamic>{
           instance.endTime, const FirestoreDateTimeConverter().toJson),
       'eventImageUrl': instance.eventImageUrl,
       'photoUrls': instance.photoUrls,
-      'creatorId': instance.creatorId,
       'featured': instance.featured,
       'email': instance.email,
       'phone': instance.phone,
+      'creator': instance.creator,
     };
 
 Value? _$JsonConverterFromJson<Json, Value>(

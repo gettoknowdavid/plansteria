@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:plansteria/app/app.bottomsheets.dart';
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/app/app.snackbars.dart';
+import 'package:plansteria/models/creator.dart';
 import 'package:plansteria/models/event.dart';
 import 'package:plansteria/models/user.dart';
 import 'package:plansteria/services/auth_service.dart';
@@ -115,7 +116,6 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
       endTime: endTimeValue == null || endTimeValue == ''
           ? e.endTime
           : DateTime.parse(endTimeValue!),
-      creatorId: currentUser.uid,
       eventImageUrl: _photoUrl.value,
       email: emailValue ?? e.email,
       phone: phoneValue ?? e.phone,
@@ -176,7 +176,6 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
       date: DateTime.parse(dateValue!),
       startTime: DateTime.parse(startTimeValue!),
       endTime: endTimeValue == null ? null : DateTime.parse(endTimeValue!),
-      creatorId: currentUser.uid,
       eventImageUrl: _photoUrl.value,
       numberOfGuests:
           numberOfGuestsValue == null || numberOfGuestsValue!.isEmpty
@@ -185,6 +184,7 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
       email: emailValue!,
       phone: phoneValue!,
       photoUrls: _photoUrls.value,
+      creator: Creator.fromUser(currentUser),
     );
 
     final result = await _eventService.createEvent(event);

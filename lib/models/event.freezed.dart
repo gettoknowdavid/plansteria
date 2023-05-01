@@ -37,10 +37,10 @@ mixin _$Event {
   DateTime? get endTime => throw _privateConstructorUsedError;
   String? get eventImageUrl => throw _privateConstructorUsedError;
   List<String?> get photoUrls => throw _privateConstructorUsedError;
-  String get creatorId => throw _privateConstructorUsedError;
   bool? get featured => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get phone => throw _privateConstructorUsedError;
+  Creator get creator => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -67,10 +67,12 @@ abstract class $EventCopyWith<$Res> {
       @FirestoreDateTimeConverter() DateTime? endTime,
       String? eventImageUrl,
       List<String?> photoUrls,
-      String creatorId,
       bool? featured,
       String email,
-      String phone});
+      String phone,
+      Creator creator});
+
+  $CreatorCopyWith<$Res> get creator;
 }
 
 /// @nodoc
@@ -100,10 +102,10 @@ class _$EventCopyWithImpl<$Res, $Val extends Event>
     Object? endTime = freezed,
     Object? eventImageUrl = freezed,
     Object? photoUrls = null,
-    Object? creatorId = null,
     Object? featured = freezed,
     Object? email = null,
     Object? phone = null,
+    Object? creator = null,
   }) {
     return _then(_value.copyWith(
       uid: null == uid
@@ -162,10 +164,6 @@ class _$EventCopyWithImpl<$Res, $Val extends Event>
           ? _value.photoUrls
           : photoUrls // ignore: cast_nullable_to_non_nullable
               as List<String?>,
-      creatorId: null == creatorId
-          ? _value.creatorId
-          : creatorId // ignore: cast_nullable_to_non_nullable
-              as String,
       featured: freezed == featured
           ? _value.featured
           : featured // ignore: cast_nullable_to_non_nullable
@@ -178,7 +176,19 @@ class _$EventCopyWithImpl<$Res, $Val extends Event>
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
               as String,
+      creator: null == creator
+          ? _value.creator
+          : creator // ignore: cast_nullable_to_non_nullable
+              as Creator,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CreatorCopyWith<$Res> get creator {
+    return $CreatorCopyWith<$Res>(_value.creator, (value) {
+      return _then(_value.copyWith(creator: value) as $Val);
+    });
   }
 }
 
@@ -203,10 +213,13 @@ abstract class _$$_EventCopyWith<$Res> implements $EventCopyWith<$Res> {
       @FirestoreDateTimeConverter() DateTime? endTime,
       String? eventImageUrl,
       List<String?> photoUrls,
-      String creatorId,
       bool? featured,
       String email,
-      String phone});
+      String phone,
+      Creator creator});
+
+  @override
+  $CreatorCopyWith<$Res> get creator;
 }
 
 /// @nodoc
@@ -232,10 +245,10 @@ class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
     Object? endTime = freezed,
     Object? eventImageUrl = freezed,
     Object? photoUrls = null,
-    Object? creatorId = null,
     Object? featured = freezed,
     Object? email = null,
     Object? phone = null,
+    Object? creator = null,
   }) {
     return _then(_$_Event(
       uid: null == uid
@@ -294,10 +307,6 @@ class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
           ? _value._photoUrls
           : photoUrls // ignore: cast_nullable_to_non_nullable
               as List<String?>,
-      creatorId: null == creatorId
-          ? _value.creatorId
-          : creatorId // ignore: cast_nullable_to_non_nullable
-              as String,
       featured: freezed == featured
           ? _value.featured
           : featured // ignore: cast_nullable_to_non_nullable
@@ -310,6 +319,10 @@ class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
               as String,
+      creator: null == creator
+          ? _value.creator
+          : creator // ignore: cast_nullable_to_non_nullable
+              as Creator,
     ));
   }
 }
@@ -332,10 +345,10 @@ class _$_Event implements _Event {
       @FirestoreDateTimeConverter() this.endTime,
       this.eventImageUrl,
       required final List<String?> photoUrls,
-      required this.creatorId,
       this.featured,
       required this.email,
-      required this.phone})
+      required this.phone,
+      required this.creator})
       : _photoUrls = photoUrls;
 
   factory _$_Event.fromJson(Map<String, dynamic> json) =>
@@ -379,17 +392,17 @@ class _$_Event implements _Event {
   }
 
   @override
-  final String creatorId;
-  @override
   final bool? featured;
   @override
   final String email;
   @override
   final String phone;
+  @override
+  final Creator creator;
 
   @override
   String toString() {
-    return 'Event(uid: $uid, name: $name, description: $description, address: $address, state: $state, city: $city, numberOfGuests: $numberOfGuests, notes: $notes, price: $price, date: $date, startTime: $startTime, endTime: $endTime, eventImageUrl: $eventImageUrl, photoUrls: $photoUrls, creatorId: $creatorId, featured: $featured, email: $email, phone: $phone)';
+    return 'Event(uid: $uid, name: $name, description: $description, address: $address, state: $state, city: $city, numberOfGuests: $numberOfGuests, notes: $notes, price: $price, date: $date, startTime: $startTime, endTime: $endTime, eventImageUrl: $eventImageUrl, photoUrls: $photoUrls, featured: $featured, email: $email, phone: $phone, creator: $creator)';
   }
 
   @override
@@ -416,12 +429,11 @@ class _$_Event implements _Event {
                 other.eventImageUrl == eventImageUrl) &&
             const DeepCollectionEquality()
                 .equals(other._photoUrls, _photoUrls) &&
-            (identical(other.creatorId, creatorId) ||
-                other.creatorId == creatorId) &&
             (identical(other.featured, featured) ||
                 other.featured == featured) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.phone, phone) || other.phone == phone));
+            (identical(other.phone, phone) || other.phone == phone) &&
+            (identical(other.creator, creator) || other.creator == creator));
   }
 
   @JsonKey(ignore: true)
@@ -442,10 +454,10 @@ class _$_Event implements _Event {
       endTime,
       eventImageUrl,
       const DeepCollectionEquality().hash(_photoUrls),
-      creatorId,
       featured,
       email,
-      phone);
+      phone,
+      creator);
 
   @JsonKey(ignore: true)
   @override
@@ -477,10 +489,10 @@ abstract class _Event implements Event {
       @FirestoreDateTimeConverter() final DateTime? endTime,
       final String? eventImageUrl,
       required final List<String?> photoUrls,
-      required final String creatorId,
       final bool? featured,
       required final String email,
-      required final String phone}) = _$_Event;
+      required final String phone,
+      required final Creator creator}) = _$_Event;
 
   factory _Event.fromJson(Map<String, dynamic> json) = _$_Event.fromJson;
 
@@ -516,13 +528,13 @@ abstract class _Event implements Event {
   @override
   List<String?> get photoUrls;
   @override
-  String get creatorId;
-  @override
   bool? get featured;
   @override
   String get email;
   @override
   String get phone;
+  @override
+  Creator get creator;
   @override
   @JsonKey(ignore: true)
   _$$_EventCopyWith<_$_Event> get copyWith =>

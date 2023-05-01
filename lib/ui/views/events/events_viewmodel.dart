@@ -4,11 +4,10 @@ import 'package:plansteria/models/event.dart';
 import 'package:plansteria/models/user.dart';
 import 'package:plansteria/services/auth_service.dart';
 import 'package:plansteria/services/event_service.dart';
-import 'package:plansteria/ui/common/app_strings.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class EventsViewModel extends FutureViewModel<List<Event?>>
+class EventsViewModel extends StreamViewModel<List<Event?>>
     with ListenableServiceMixin {
   final _authService = locator<AuthService>();
   final _bottomSheetService = locator<BottomSheetService>();
@@ -17,31 +16,15 @@ class EventsViewModel extends FutureViewModel<List<Event?>>
   final _navigationService = locator<NavigationService>();
   final _snackbarService = locator<SnackbarService>();
 
-  User? get user => _authService.currentUser;
-
-  Future<List<Event?>> getMyEvents() async {
-    final result = await _eventService.getMyEvents(user!.uid);
-    return result.fold(
-      (failure) {
-        throw Exception(
-          failure.map(
-            error: (value) => value,
-            serverError: (_) => kServerErrorMessage,
-            networkError: (_) => kNoNetworkConnectionError,
-          ),
-        );
-      },
-      (success) => success,
-    );
-  }
+  User get user => _authService.currentUser!;
 
   void navigateToDetails(Event event) {
     _navigationService.navigateToEventDetailsView(event: event);
   }
 
   @override
-  Future<List<Event?>> futureToRun() => getMyEvents();
+  List<ListenableServiceMixin> get listenableServices => [_authService];
 
   @override
-  List<ListenableServiceMixin> get listenableServices => [_authService];
+  Stream<List<Event?>> get stream => _eventService.myEventsStream(user.uid);
 }

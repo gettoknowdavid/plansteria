@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:plansteria/models/event.dart';
-import 'package:plansteria/models/user.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
@@ -16,7 +15,6 @@ class EventCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
-    final isDark = theme.brightness == Brightness.dark;
 
     final containerHeight = 0.22.sw;
 
@@ -83,21 +81,12 @@ class EventCard extends StatelessWidget {
                     style: textTheme.bodySmall,
                   ),
                   5.verticalSpace,
-                  FutureBuilder<User>(
-                    future: getCreatorById(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return const SizedBox(height: 16);
-                      }
-
-                      return AutoSizeText(
-                        'by ${snapshot.data!.name}',
-                        maxLines: 1,
-                        minFontSize: 12,
-                        overflow: TextOverflow.ellipsis,
-                        style: textTheme.bodySmall,
-                      );
-                    },
+                  AutoSizeText(
+                    'by ${event.creator.name}',
+                    maxLines: 1,
+                    minFontSize: 12,
+                    overflow: TextOverflow.ellipsis,
+                    style: textTheme.bodySmall,
                   ),
                 ],
               ),
@@ -107,10 +96,5 @@ class EventCard extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Future<User> getCreatorById() async {
-    final snapshot = await userRef.doc(event.creatorId).get();
-    return snapshot.data!;
   }
 }

@@ -92,7 +92,7 @@ class _Dots extends ViewModelWidget<EventDetailsViewModel> {
               height: 6.r,
               margin: const EdgeInsets.symmetric(horizontal: 4).r,
               decoration: BoxDecoration(
-                color: viewModel.currentIndex == entry.key
+                color: viewModel.currentImageIndex == entry.key
                     ? theme.colorScheme.primaryContainer
                     : theme.colorScheme.primary,
               ),

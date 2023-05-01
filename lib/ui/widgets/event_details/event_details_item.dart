@@ -6,12 +6,14 @@ class EventDetailsItem extends StatelessWidget {
   final IconData icon;
   final String title;
   final String subtitle;
+  final void Function()? onTap;
 
   const EventDetailsItem({
     super.key,
     required this.icon,
     required this.title,
     required this.subtitle,
+     this.onTap,
   });
 
   @override
@@ -19,40 +21,43 @@ class EventDetailsItem extends StatelessWidget {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
 
-    return Row(
-      children: [
-        Container(
-          height: 40.r,
-          width: 40.r,
-          decoration: BoxDecoration(
-            color: theme.primaryColor.withOpacity(0.2),
-            borderRadius: const BorderRadius.all(Radius.circular(14)),
+    return GestureDetector(
+      onTap: onTap,
+      child: Row(
+        children: [
+          Container(
+            height: 40.r,
+            width: 40.r,
+            decoration: BoxDecoration(
+              color: theme.primaryColor.withOpacity(0.2),
+              borderRadius: const BorderRadius.all(Radius.circular(14)),
+            ),
+            child: Icon(
+              icon,
+              color: theme.iconTheme.color?.withOpacity(0.5),
+            ),
           ),
-          child: Icon(
-            icon,
-            color: theme.iconTheme.color?.withOpacity(0.5),
-          ),
-        ),
-        12.horizontalSpace,
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AutoSizeText(
-                title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                minFontSize: 10,
-                maxFontSize: 13,
-                style: textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
+          12.horizontalSpace,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AutoSizeText(
+                  title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  minFontSize: 10,
+                  maxFontSize: 13,
+                  style: textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              Text(subtitle, style: textTheme.bodySmall),
-            ],
+                Text(subtitle, style: textTheme.bodySmall),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

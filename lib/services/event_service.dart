@@ -39,6 +39,33 @@ class EventService with ListenableServiceMixin {
         );
   }
 
+  Stream<List<Guest?>> guestsStream(String eventId) {
+    GuestCollectionReference guestsRef = eventsRef.doc(eventId).guests;
+    return guestsRef.snapshots().map((e) => e.docs.map((d) => d.data).toList());
+  }
+
+  Stream<int> numberOfGuestsStream(String eventId) {
+    GuestCollectionReference guestsRef = eventsRef.doc(eventId).guests;
+    return guestsRef.snapshots().map((event) => event.docs.length);
+  }
+
+  Stream<Event> eventStream(String eventId) {
+    return eventsRef.doc(eventId).snapshots().map((event) => event.data!);
+  }
+
+  Stream<bool> isAttendingStream(String eventId, String guestId) {
+    GuestCollectionReference guestsRef = eventsRef.doc(eventId).guests;
+    return guestsRef.doc(guestId).snapshots().map((event) => event.exists);
+  }
+
+  Stream<List<Event?>> myEventsStream(String creatorId) {
+    return eventsRef
+        .whereFieldPath(FieldPath.fromString('creator.uid'),
+            isEqualTo: creatorId)
+        .snapshots()
+        .map((event) => event.docs.map((e) => e.data).toList());
+  }
+
   // Stream upcomingEventsStream =
   //     eventsRef.whereDate(isGreaterThanOrEqualTo: today).snapshots();
 
@@ -192,7 +219,12 @@ class EventService with ListenableServiceMixin {
     }
 
     try {
-      final query = await eventsRef.whereCreatorId(isEqualTo: creatorId).get();
+      final query = await eventsRef
+          .whereFieldPath(
+            FieldPath.fromString('creator.uid'),
+            isEqualTo: creatorId,
+          )
+          .get();
       final result = query.docs.map((e) => e.data).toList();
       _events.value = result;
       return right(result);

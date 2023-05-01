@@ -12,7 +12,7 @@ import 'package:stacked_services/stacked_services.dart';
 const String eventKey = 'eventKey';
 const String isAttendingKey = 'isAttendingKey';
 
-class EventDetailsViewModel extends MultipleFutureViewModel
+class EventDetailsViewModel extends MultipleStreamViewModel
     with ListenableServiceMixin {
   final _authService = locator<AuthService>();
   final _eventService = locator<EventService>();
@@ -20,41 +20,37 @@ class EventDetailsViewModel extends MultipleFutureViewModel
   final _navigationService = locator<NavigationService>();
   final _snackbarService = locator<SnackbarService>();
   final _isAttendingReactive = ReactiveValue<bool>(false);
-  final _currentIndex = ReactiveValue<int>(0);
+  final _currentImageIndex = ReactiveValue<int>(0);
 
   EventDetailsViewModel() {
-    listenToReactiveValues([_isAttendingReactive, _currentIndex]);
+    listenToReactiveValues([_isAttendingReactive, _currentImageIndex]);
   }
 
   Event get event => dataMap?[eventKey];
   bool get isAttending => dataMap?[isAttendingKey];
 
-  bool get fetchingEvent => busy(eventKey);
-  bool get fetchingIsAttending => busy(isAttendingKey);
+  bool get fetchingEvent => !dataReady(eventKey);
+  bool get fetchingIsAttending => !dataReady(isAttendingKey);
 
-  int get currentIndex => _currentIndex.value;
+  int get currentImageIndex => _currentImageIndex.value;
   bool get isAttendingReactive => _isAttendingReactive.value;
 
   User? get currentUser => _authService.currentUser;
 
   String get eventId => _navigationService.currentArguments.event.uid;
 
-  Future<User> get getCreatorById async {
-    final snapshot = await userRef.doc(event.creatorId).get();
-    return snapshot.data!;
-  }
-
-  // bool get isAttending => _isAttending.value;
-
-  bool get isAuthUser => event.creatorId == currentUser?.uid;
+  bool get isAuthUser => event.creator.uid == currentUser?.uid;
 
   bool get isPaid => event.price != null;
+
+  Stream<int> get numberOfGuestsStream {
+    return _eventService.numberOfGuestsStream(eventId);
+  }
 
   @override
   List<ListenableServiceMixin> get listenableServices => [_authService];
 
   Future<void> onAttendPressed() async {
-    setBusy(true);
     final result = await _eventService.addGuest(
       event.uid,
       Guest(
@@ -76,22 +72,16 @@ class EventDetailsViewModel extends MultipleFutureViewModel
           ),
         );
       },
-      (success) {
-        _isAttendingReactive.value = true;
-        initialise();
-        setBusy(false);
-      },
+      (success) => _isAttendingReactive.value = true,
     );
     notifyListeners();
   }
 
   Future<void> onLeavePressed() async {
-    setBusy(true);
     final result = await _eventService.removeGuest(event.uid, currentUser!.uid);
 
     result.fold(
       (failure) {
-        setBusy(false);
         _snackbarService.showCustomSnackBar(
           variant: SnackbarType.error,
           message: failure.maybeMap(
@@ -101,17 +91,14 @@ class EventDetailsViewModel extends MultipleFutureViewModel
           ),
         );
       },
-      (success) {
-        _isAttendingReactive.value = false;
-        initialise();
-        setBusy(false);
-      },
+      (success) => _isAttendingReactive.value = false,
     );
     notifyListeners();
   }
 
-  Future<Event> getEvent() async => await _eventService.getEvent(eventId);
-  Future<bool> getIsAttending() async => await _eventService.isAttending(
+  Stream<Event> get eventStream => _eventService.eventStream(eventId);
+
+  Stream<bool> get isAttendingStream => _eventService.isAttendingStream(
         eventId,
         currentUser!.uid,
       );
@@ -142,12 +129,16 @@ class EventDetailsViewModel extends MultipleFutureViewModel
   }
 
   void setPhotoIndex(int index) {
-    _currentIndex.value = index;
+    _currentImageIndex.value = index;
+  }
+
+  Future<void> navigateToGuestsList() async {
+    await _navigationService.navigateToGuestsView(event: event);
   }
 
   @override
-  Map<String, Future Function()> get futuresMap => {
-        eventKey: getEvent,
-        isAttendingKey: getIsAttending,
+  Map<String, StreamData> get streamsMap => {
+        eventKey: StreamData<Event>(eventStream),
+        isAttendingKey: StreamData<bool>(isAttendingStream),
       };
 }

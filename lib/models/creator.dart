@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'user.dart';
 
 part 'creator.freezed.dart';
 part 'creator.g.dart';
@@ -25,6 +26,9 @@ class Creator with _$Creator {
 
   factory Creator.fromJson(Map<String, dynamic> json) =>
       _$CreatorFromJson(json);
+
+  factory Creator.fromUser(User user) =>
+      Creator(uid: user.uid, name: user.name, avatar: user.avatar);
 
   @override
   Map<String, dynamic> toJson() => _$CreatorToJson(this);

@@ -21,9 +21,7 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
 
   @override
   Widget builder(context, viewModel, child) {
-    if (viewModel.isBusy ||
-        viewModel.fetchingEvent ||
-        viewModel.fetchingIsAttending) {
+    if (viewModel.fetchingEvent || viewModel.fetchingIsAttending) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
@@ -105,10 +103,18 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
                 subtitle: 'Gate/Ticket Fee',
               ),
               16.verticalSpace,
-              const EventDetailsItem(
-                icon: PhosphorIcons.usersThree,
-                title: "1",
-                subtitle: 'Number of guests',
+              StreamBuilder<int>(
+                stream: viewModel.numberOfGuestsStream,
+                builder: (context, snapshot) {
+                  return EventDetailsItem(
+                    icon: PhosphorIcons.usersThree,
+                    title: snapshot.hasData ? '${snapshot.data}' : 'Loading...',
+                    subtitle: 'Number of guests',
+                    onTap: viewModel.isAuthUser
+                        ? viewModel.navigateToGuestsList
+                        : null,
+                  );
+                },
               ),
               20.verticalSpace,
               if (data.description?.isNotEmpty == true) ...[
