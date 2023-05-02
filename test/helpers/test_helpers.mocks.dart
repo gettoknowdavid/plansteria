@@ -18,6 +18,7 @@ import 'package:plansteria/core/errors/chat_error.dart' as _i21;
 import 'package:plansteria/core/errors/event_error.dart' as _i17;
 import 'package:plansteria/models/chat_response.dart' as _i22;
 import 'package:plansteria/models/event.dart' as _i5;
+import 'package:plansteria/models/message.dart' as _i23;
 import 'package:plansteria/models/user.dart' as _i2;
 import 'package:plansteria/services/auth_service.dart' as _i10;
 import 'package:plansteria/services/chat_service.dart' as _i20;
@@ -1673,18 +1674,12 @@ class MockMediaService extends _i1.Mock implements _i18.MediaService {
 /// See the documentation for Mockito's code generation for more information.
 class MockChatService extends _i1.Mock implements _i20.ChatService {
   @override
-  int get listenersCount => (super.noSuchMethod(
-        Invocation.getter(#listenersCount),
-        returnValue: 0,
-        returnValueForMissingStub: 0,
-      ) as int);
-  @override
   _i4.Future<_i3.Either<_i21.ChatError, _i22.ChatResponse>> sendMessage(
-          String? msg) =>
+          List<_i23.Message>? msgs) =>
       (super.noSuchMethod(
         Invocation.method(
           #sendMessage,
-          [msg],
+          [msgs],
         ),
         returnValue:
             _i4.Future<_i3.Either<_i21.ChatError, _i22.ChatResponse>>.value(
@@ -1692,7 +1687,7 @@ class MockChatService extends _i1.Mock implements _i20.ChatService {
           this,
           Invocation.method(
             #sendMessage,
-            [msg],
+            [msgs],
           ),
         )),
         returnValueForMissingStub:
@@ -1701,41 +1696,8 @@ class MockChatService extends _i1.Mock implements _i20.ChatService {
           this,
           Invocation.method(
             #sendMessage,
-            [msg],
+            [msgs],
           ),
         )),
       ) as _i4.Future<_i3.Either<_i21.ChatError, _i22.ChatResponse>>);
-  @override
-  void listenToReactiveValues(List<dynamic>? reactiveValues) =>
-      super.noSuchMethod(
-        Invocation.method(
-          #listenToReactiveValues,
-          [reactiveValues],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void addListener(void Function()? listener) => super.noSuchMethod(
-        Invocation.method(
-          #addListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void removeListener(void Function()? listener) => super.noSuchMethod(
-        Invocation.method(
-          #removeListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void notifyListeners() => super.noSuchMethod(
-        Invocation.method(
-          #notifyListeners,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
 }

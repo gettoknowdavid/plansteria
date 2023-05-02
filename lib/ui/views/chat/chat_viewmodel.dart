@@ -1,10 +1,12 @@
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/models/user.dart';
 import 'package:plansteria/services/auth_service.dart';
+import 'package:plansteria/services/chat_service.dart';
 import 'package:stacked/stacked.dart';
 
 class ChatViewModel extends ReactiveViewModel {
   final _authService = locator<AuthService>();
+  final _chatService = locator<ChatService>();
 
   User get user => _authService.currentUser!;
   
