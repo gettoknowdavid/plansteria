@@ -1,14 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:plansteria/core/env/env.dart';
 
+import 'token_interceptor.dart';
+
 Dio dioClient() {
-  final dio = Dio()
-    ..options = BaseOptions(
-      baseUrl: Env.openAIApiKey,
-      queryParameters: {'token': Env.openAIApiKey},
-    );
+  final dio = Dio()..options = BaseOptions(baseUrl: Env.openAIBaseUrl);
 
   dio.interceptors.addAll([
+    TokenInterceptor(),
     LogInterceptor(
       requestHeader: true,
       requestBody: true,

@@ -1,14 +1,18 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'message.freezed.dart';
 part 'message.g.dart';
 
 @freezed
-@JsonSerializable(createFactory: false)
+@JsonSerializable(createFactory: false, includeIfNull: false)
 class Message with _$Message {
   const factory Message({
-    String? role,
-    String? content,
+    required String role,
+    required String content,
+    String? name,
+    @JsonKey(includeToJson: false) int? index,
   }) = _Message;
 
   factory Message.fromJson(Map<String, dynamic> json) =>

@@ -334,8 +334,11 @@ class LayoutViewRouter extends _i1.RouterBase {
       );
     },
     _i17.ChatView: (data) {
+      final args = data.getArgs<NestedChatViewArguments>(
+        orElse: () => const NestedChatViewArguments(),
+      );
       return _i13.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i17.ChatView(),
+        builder: (context) => _i17.ChatView(key: args.key),
         settings: data,
         maintainState: false,
       );
@@ -360,6 +363,17 @@ class LayoutViewRouter extends _i1.RouterBase {
   List<_i1.RouteDef> get routes => _routes;
   @override
   Map<Type, _i1.StackedRouteFactory> get pagesMap => _pagesMap;
+}
+
+class NestedChatViewArguments {
+  const NestedChatViewArguments({this.key});
+
+  final _i13.Key? key;
+
+  @override
+  String toString() {
+    return '{"key": "$key"}';
+  }
 }
 
 extension NavigatorStateExtension on _i20.NavigationService {
@@ -558,14 +572,16 @@ extension NavigatorStateExtension on _i20.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToNestedChatViewInLayoutViewRouter([
+  Future<dynamic> navigateToNestedChatViewInLayoutViewRouter({
+    _i13.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return navigateTo<dynamic>(LayoutViewRoutes.chatView,
+        arguments: NestedChatViewArguments(key: key),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -795,14 +811,16 @@ extension NavigatorStateExtension on _i20.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithNestedChatViewInLayoutViewRouter([
+  Future<dynamic> replaceWithNestedChatViewInLayoutViewRouter({
+    _i13.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return replaceWith<dynamic>(LayoutViewRoutes.chatView,
+        arguments: NestedChatViewArguments(key: key),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

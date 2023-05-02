@@ -27,6 +27,7 @@ import 'package:plansteria/services/media_service.dart' as _i18;
 import 'package:plansteria/services/network_service.dart' as _i13;
 import 'package:plansteria/services/open_mail_app_service.dart' as _i15;
 import 'package:plansteria/services/secure_storage_service.dart' as _i12;
+import 'package:plansteria/services/shared_preferences_service.dart' as _i24;
 import 'package:stacked_services/stacked_services.dart' as _i7;
 
 // ignore_for_file: type=lint
@@ -1675,11 +1676,14 @@ class MockMediaService extends _i1.Mock implements _i18.MediaService {
 class MockChatService extends _i1.Mock implements _i20.ChatService {
   @override
   _i4.Future<_i3.Either<_i21.ChatError, _i22.ChatResponse>> sendMessage(
-          List<_i23.Message>? msgs) =>
+    _i23.Message? msgs, {
+    String? user,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #sendMessage,
           [msgs],
+          {#user: user},
         ),
         returnValue:
             _i4.Future<_i3.Either<_i21.ChatError, _i22.ChatResponse>>.value(
@@ -1688,6 +1692,7 @@ class MockChatService extends _i1.Mock implements _i20.ChatService {
           Invocation.method(
             #sendMessage,
             [msgs],
+            {#user: user},
           ),
         )),
         returnValueForMissingStub:
@@ -1697,7 +1702,89 @@ class MockChatService extends _i1.Mock implements _i20.ChatService {
           Invocation.method(
             #sendMessage,
             [msgs],
+            {#user: user},
           ),
         )),
       ) as _i4.Future<_i3.Either<_i21.ChatError, _i22.ChatResponse>>);
+}
+
+/// A class which mocks [SharedPreferencesService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockSharedPreferencesService extends _i1.Mock
+    implements _i24.SharedPreferencesService {
+  @override
+  bool get isInitialStartup => (super.noSuchMethod(
+        Invocation.getter(#isInitialStartup),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+  @override
+  _i4.Future<dynamic> delete(String? key) => (super.noSuchMethod(
+        Invocation.method(
+          #delete,
+          [key],
+        ),
+        returnValue: _i4.Future<dynamic>.value(),
+        returnValueForMissingStub: _i4.Future<dynamic>.value(),
+      ) as _i4.Future<dynamic>);
+  @override
+  bool hasKey(String? key) => (super.noSuchMethod(
+        Invocation.method(
+          #hasKey,
+          [key],
+        ),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+  @override
+  dynamic read(String? key) => super.noSuchMethod(
+        Invocation.method(
+          #read,
+          [key],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  dynamic readList(String? key) => super.noSuchMethod(
+        Invocation.method(
+          #readList,
+          [key],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  _i4.Future<dynamic> write({
+    required String? key,
+    required dynamic value,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #write,
+          [],
+          {
+            #key: key,
+            #value: value,
+          },
+        ),
+        returnValue: _i4.Future<dynamic>.value(),
+        returnValueForMissingStub: _i4.Future<dynamic>.value(),
+      ) as _i4.Future<dynamic>);
+  @override
+  _i4.Future<dynamic> writeList({
+    required String? key,
+    required List<String>? value,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #writeList,
+          [],
+          {
+            #key: key,
+            #value: value,
+          },
+        ),
+        returnValue: _i4.Future<dynamic>.value(),
+        returnValueForMissingStub: _i4.Future<dynamic>.value(),
+      ) as _i4.Future<dynamic>);
 }

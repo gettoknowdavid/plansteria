@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:plansteria/app/app_assets.dart';
+import 'package:plansteria/ui/common/app_assets.dart';
 import 'package:plansteria/ui/common/validators.dart';
 import 'package:plansteria/ui/widgets/auth_redirect_button.dart';
 import 'package:plansteria/ui/widgets/or_divider.dart';

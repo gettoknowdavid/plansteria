@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:plansteria/app/app.router.dart';
 import 'package:plansteria/services/auth_service.dart';
+import 'package:plansteria/services/chat_service.dart';
 import 'package:plansteria/services/event_service.dart';
 import 'package:plansteria/services/media_service.dart';
 import 'package:plansteria/services/network_service.dart';
 import 'package:plansteria/services/open_mail_app_service.dart';
 import 'package:plansteria/services/secure_storage_service.dart';
+import 'package:plansteria/services/shared_preferences_service.dart';
 import 'package:plansteria/ui/bottom_sheets/edit_profile/edit_profile_sheet.dart';
 import 'package:plansteria/ui/bottom_sheets/image_source/image_source_sheet.dart';
 import 'package:plansteria/ui/bottom_sheets/map/map_sheet.dart';
@@ -26,6 +28,7 @@ import 'package:plansteria/ui/views/create_event/create_event_view.dart';
 import 'package:plansteria/ui/views/event_details/event_details_view.dart';
 import 'package:plansteria/ui/views/events/events_view.dart';
 import 'package:plansteria/ui/views/forgot_password/forgot_password_view.dart';
+import 'package:plansteria/ui/views/guests/guests_view.dart';
 import 'package:plansteria/ui/views/home/home_view.dart';
 import 'package:plansteria/ui/views/login/login_view.dart';
 import 'package:plansteria/ui/views/map/map_view.dart';
@@ -35,8 +38,6 @@ import 'package:plansteria/ui/views/startup/startup_view.dart';
 import 'package:plansteria/ui/views/verification/verification_view.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:plansteria/ui/views/guests/guests_view.dart';
-import 'package:plansteria/services/chat_service.dart';
 // @stacked-import
 
 @StackedApp(
@@ -75,6 +76,10 @@ import 'package:plansteria/services/chat_service.dart';
     LazySingleton(classType: EventService),
     LazySingleton(classType: MediaService),
     LazySingleton(classType: ChatService),
+    Presolve(
+      classType: SharedPreferencesService,
+      presolveUsing: SharedPreferencesService.getInstance,
+    ),
 // @stacked-service
   ],
   bottomsheets: [

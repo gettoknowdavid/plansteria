@@ -19,6 +19,7 @@ import '../services/media_service.dart';
 import '../services/network_service.dart';
 import '../services/open_mail_app_service.dart';
 import '../services/secure_storage_service.dart';
+import '../services/shared_preferences_service.dart';
 
 final locator = StackedLocator.instance;
 
@@ -42,4 +43,6 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => EventService());
   locator.registerLazySingleton(() => MediaService());
   locator.registerLazySingleton(() => ChatService());
+  final sharedPreferencesService = await SharedPreferencesService.getInstance();
+  locator.registerSingleton(sharedPreferencesService);
 }
