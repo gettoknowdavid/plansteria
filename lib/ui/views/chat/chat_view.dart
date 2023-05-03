@@ -64,7 +64,6 @@ class ChatView extends StackedView<ChatViewModel> with $ChatView {
                         onPressed: () {
                           viewModel.sendMessage();
                           messageController.clear();
-                          // Logger().wtf(viewModel.messages);
                         },
                         iconSize: 18.sp,
                         color: theme.colorScheme.onBackground,
@@ -100,7 +99,7 @@ class ChatView extends StackedView<ChatViewModel> with $ChatView {
 
   @override
   bool get createNewViewModelOnInsert => false;
-  
+
   @override
   void onViewModelReady(ChatViewModel viewModel) async {
     await viewModel.init();

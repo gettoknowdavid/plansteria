@@ -70,6 +70,8 @@ class ChatViewModel extends FormViewModel with ListenableServiceMixin {
 
     final result = await _chatService.sendMessage(message, user: firstName);
 
+    
+
     result.fold(
       (failure) {
         setBusy(false);

@@ -16,9 +16,10 @@ import 'package:mockito/mockito.dart' as _i1;
 import 'package:plansteria/core/errors/auth_error.dart' as _i11;
 import 'package:plansteria/core/errors/chat_error.dart' as _i22;
 import 'package:plansteria/core/errors/event_error.dart' as _i17;
+import 'package:plansteria/models/chat.dart' as _i21;
 import 'package:plansteria/models/chat_response.dart' as _i23;
 import 'package:plansteria/models/event.dart' as _i5;
-import 'package:plansteria/models/message.dart' as _i21;
+import 'package:plansteria/models/message.dart' as _i24;
 import 'package:plansteria/models/user.dart' as _i2;
 import 'package:plansteria/services/auth_service.dart' as _i10;
 import 'package:plansteria/services/chat_service.dart' as _i20;
@@ -27,7 +28,7 @@ import 'package:plansteria/services/media_service.dart' as _i18;
 import 'package:plansteria/services/network_service.dart' as _i13;
 import 'package:plansteria/services/open_mail_app_service.dart' as _i15;
 import 'package:plansteria/services/secure_storage_service.dart' as _i12;
-import 'package:plansteria/services/shared_preferences_service.dart' as _i24;
+import 'package:plansteria/services/shared_preferences_service.dart' as _i25;
 import 'package:stacked_services/stacked_services.dart' as _i7;
 
 // ignore_for_file: type=lint
@@ -1675,11 +1676,11 @@ class MockMediaService extends _i1.Mock implements _i18.MediaService {
 /// See the documentation for Mockito's code generation for more information.
 class MockChatService extends _i1.Mock implements _i20.ChatService {
   @override
-  List<_i21.Message?> get messages => (super.noSuchMethod(
-        Invocation.getter(#messages),
-        returnValue: <_i21.Message?>[],
-        returnValueForMissingStub: <_i21.Message?>[],
-      ) as List<_i21.Message?>);
+  List<_i21.Chat?> get chat => (super.noSuchMethod(
+        Invocation.getter(#chat),
+        returnValue: <_i21.Chat?>[],
+        returnValueForMissingStub: <_i21.Chat?>[],
+      ) as List<_i21.Chat?>);
   @override
   int get listenersCount => (super.noSuchMethod(
         Invocation.getter(#listenersCount),
@@ -1697,7 +1698,7 @@ class MockChatService extends _i1.Mock implements _i20.ChatService {
       ) as _i4.Future<void>);
   @override
   _i4.Future<_i3.Either<_i22.ChatError, _i23.ChatResponse>> sendMessage(
-    _i21.Message? message, {
+    _i24.Message? message, {
     String? user,
   }) =>
       (super.noSuchMethod(
@@ -1775,7 +1776,7 @@ class MockChatService extends _i1.Mock implements _i20.ChatService {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSharedPreferencesService extends _i1.Mock
-    implements _i24.SharedPreferencesService {
+    implements _i25.SharedPreferencesService {
   @override
   bool get isInitialStartup => (super.noSuchMethod(
         Invocation.getter(#isInitialStartup),
