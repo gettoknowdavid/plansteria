@@ -2,12 +2,12 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:plansteria/models/message.dart';
+import 'package:plansteria/models/chat.dart';
 import 'package:plansteria/ui/views/chat/chat_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
 class ChatWidget extends ViewModelWidget<ChatViewModel> {
-  final Message message;
+  final Chat message;
 
   const ChatWidget({super.key, required this.message});
 
@@ -16,7 +16,7 @@ class ChatWidget extends ViewModelWidget<ChatViewModel> {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    final isUser = message.index == 0;
+    final isUser = message.role != "assistant";
     final background = isUser ? colorScheme.primary : colorScheme.secondary;
     final foreground = isUser ? colorScheme.onPrimary : colorScheme.onSecondary;
 
@@ -45,44 +45,18 @@ class ChatWidget extends ViewModelWidget<ChatViewModel> {
                 child: !hasAvatar ? icon : null,
               ),
               10.horizontalSpace,
-              Expanded(
-                child: isUser || !viewModel.shouldAnimate
-                    ? Text(message.content.trim())
-                    : AnimatedTextKit(
-                        isRepeatingAnimation: false,
-                        repeatForever: false,
-                        displayFullTextOnTap: true,
-                        totalRepeatCount: 1,
-                        animatedTexts: [
-                          TyperAnimatedText(message.content.trim())
-                        ],
-                      ),
-              ),
-              5.horizontalSpace,
-              Visibility(
-                visible: !isUser,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    GestureDetector(
-                      onTap: () {},
-                      child: Icon(
-                        PhosphorIcons.thumbsUp,
-                        size: 16.sp,
-                      ),
-                    ),
-                    10.horizontalSpace,
-                    GestureDetector(
-                      onTap: () {},
-                      child: Icon(
-                        PhosphorIcons.thumbsDown,
-                        size: 16.sp,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              if (message.hasAnimated == false && message.role == 'assistant')
+                Expanded(
+                  child: AnimatedTextKit(
+                    isRepeatingAnimation: false,
+                    repeatForever: false,
+                    totalRepeatCount: 1,
+                    animatedTexts: [TyperAnimatedText(message.content.trim())],
+                    onFinished: () => viewModel.timer?.cancel(),
+                  ),
+                )
+              else
+                Expanded(child: Text(message.content.trim())),
             ],
           ),
         )

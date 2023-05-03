@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:plansteria/ui/widgets/chat/chat_widget.dart';
 import 'package:stacked/stacked.dart';
@@ -10,26 +11,26 @@ import 'chat_viewmodel.dart';
 
 @FormView(fields: [FormTextField(name: 'message')])
 class ChatView extends StackedView<ChatViewModel> with $ChatView {
-  ChatView({Key? key}) : super(key: key);
+  ChatView({super.key});
 
   @override
   Widget builder(context, viewModel, child) {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Chat')),
+      appBar: AppBar(
+        title: const Text('Chat'),
+        actions: [
+          TextButton(
+            onPressed: viewModel.clearChatHistory,
+            child: const Text('Clear Chat'),
+          ),
+          10.horizontalSpace,
+        ],
+      ),
       body: Column(
         children: [
-          Flexible(
-            child: ListView.separated(
-              controller: viewModel.listScrollController,
-              itemCount: viewModel.messages.length,
-              separatorBuilder: (context, index) => 4.verticalSpace,
-              itemBuilder: (context, index) => ChatWidget(
-                message: viewModel.messages[index]!,
-              ),
-            ),
-          ),
+          const Flexible(child: _ChatList()),
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
@@ -63,6 +64,7 @@ class ChatView extends StackedView<ChatViewModel> with $ChatView {
                         onPressed: () {
                           viewModel.sendMessage();
                           messageController.clear();
+                          // Logger().wtf(viewModel.messages);
                         },
                         iconSize: 18.sp,
                         color: theme.colorScheme.onBackground,
@@ -87,17 +89,57 @@ class ChatView extends StackedView<ChatViewModel> with $ChatView {
     );
   }
 
-  @override
-  void onDispose(ChatViewModel viewModel) {
-    super.onDispose(viewModel);
-    disposeForm();
-  }
+  // @override
+  // void onDispose(ChatViewModel viewModel) {
+  //   super.onDispose(viewModel);
+  //   disposeForm();
+  // }
 
   @override
-  void onViewModelReady(ChatViewModel viewModel) {
+  bool get disposeViewModel => false;
+
+  @override
+  bool get createNewViewModelOnInsert => false;
+  
+  @override
+  void onViewModelReady(ChatViewModel viewModel) async {
+    await viewModel.init();
     syncFormWithViewModel(viewModel);
   }
 
   @override
   ChatViewModel viewModelBuilder(context) => ChatViewModel();
+}
+
+class _ChatList extends ViewModelWidget<ChatViewModel> {
+  const _ChatList();
+
+  @override
+  Widget build(BuildContext context, ChatViewModel viewModel) {
+    return ListView.separated(
+      controller: viewModel.controller,
+      itemCount: viewModel.chats.length,
+      itemBuilder: (context, i) => ChatWidget(message: viewModel.chats[i]!),
+      separatorBuilder: (context, i) {
+        final chats = viewModel.chats;
+        final nChat = chats[i]; // new chat
+        final pChat = i > 0 ? chats[i - 1] : null; // previous chats
+
+        if (pChat == null || !isSameDay(nChat!.created, pChat.created)) {
+          final dateText = DateFormat('MMMM d, yyyy').format(nChat!.created);
+          return Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.fromLTRB(0, 30, 0, 5).r,
+            child: Text(dateText),
+          );
+        }
+
+        return const SizedBox.shrink();
+      },
+    );
+  }
+
+  bool isSameDay(DateTime a, DateTime b) {
+    return a.year == b.year && a.month == b.month && a.day == b.day;
+  }
 }

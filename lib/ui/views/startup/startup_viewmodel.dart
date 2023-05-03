@@ -2,11 +2,13 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/app/app.router.dart';
 import 'package:plansteria/services/auth_service.dart';
+import 'package:plansteria/services/chat_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class StartupViewModel extends ReactiveViewModel {
   final _authService = locator<AuthService>();
+  final _chatService = locator<ChatService>();
   final _navigationService = locator<NavigationService>();
 
   bool get isAuthenticated => _authService.isAuthenticated;
@@ -31,6 +33,7 @@ class StartupViewModel extends ReactiveViewModel {
     }
 
     if (isAuthenticated && isEmailVerified == true) {
+      await _chatService.loadChatHistory();
       _navigationService.clearStackAndShow(Routes.layoutView);
     }
   }

@@ -14,11 +14,11 @@ import 'package:internet_connection_checker/internet_connection_checker.dart'
     as _i14;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:plansteria/core/errors/auth_error.dart' as _i11;
-import 'package:plansteria/core/errors/chat_error.dart' as _i21;
+import 'package:plansteria/core/errors/chat_error.dart' as _i22;
 import 'package:plansteria/core/errors/event_error.dart' as _i17;
-import 'package:plansteria/models/chat_response.dart' as _i22;
+import 'package:plansteria/models/chat_response.dart' as _i23;
 import 'package:plansteria/models/event.dart' as _i5;
-import 'package:plansteria/models/message.dart' as _i23;
+import 'package:plansteria/models/message.dart' as _i21;
 import 'package:plansteria/models/user.dart' as _i2;
 import 'package:plansteria/services/auth_service.dart' as _i10;
 import 'package:plansteria/services/chat_service.dart' as _i20;
@@ -1675,37 +1675,100 @@ class MockMediaService extends _i1.Mock implements _i18.MediaService {
 /// See the documentation for Mockito's code generation for more information.
 class MockChatService extends _i1.Mock implements _i20.ChatService {
   @override
-  _i4.Future<_i3.Either<_i21.ChatError, _i22.ChatResponse>> sendMessage(
-    _i23.Message? msgs, {
+  List<_i21.Message?> get messages => (super.noSuchMethod(
+        Invocation.getter(#messages),
+        returnValue: <_i21.Message?>[],
+        returnValueForMissingStub: <_i21.Message?>[],
+      ) as List<_i21.Message?>);
+  @override
+  int get listenersCount => (super.noSuchMethod(
+        Invocation.getter(#listenersCount),
+        returnValue: 0,
+        returnValueForMissingStub: 0,
+      ) as int);
+  @override
+  _i4.Future<void> clearChatHistory() => (super.noSuchMethod(
+        Invocation.method(
+          #clearChatHistory,
+          [],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+  @override
+  _i4.Future<_i3.Either<_i22.ChatError, _i23.ChatResponse>> sendMessage(
+    _i21.Message? message, {
     String? user,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
           #sendMessage,
-          [msgs],
+          [message],
           {#user: user},
         ),
         returnValue:
-            _i4.Future<_i3.Either<_i21.ChatError, _i22.ChatResponse>>.value(
-                _FakeEither_2<_i21.ChatError, _i22.ChatResponse>(
+            _i4.Future<_i3.Either<_i22.ChatError, _i23.ChatResponse>>.value(
+                _FakeEither_2<_i22.ChatError, _i23.ChatResponse>(
           this,
           Invocation.method(
             #sendMessage,
-            [msgs],
+            [message],
             {#user: user},
           ),
         )),
         returnValueForMissingStub:
-            _i4.Future<_i3.Either<_i21.ChatError, _i22.ChatResponse>>.value(
-                _FakeEither_2<_i21.ChatError, _i22.ChatResponse>(
+            _i4.Future<_i3.Either<_i22.ChatError, _i23.ChatResponse>>.value(
+                _FakeEither_2<_i22.ChatError, _i23.ChatResponse>(
           this,
           Invocation.method(
             #sendMessage,
-            [msgs],
+            [message],
             {#user: user},
           ),
         )),
-      ) as _i4.Future<_i3.Either<_i21.ChatError, _i22.ChatResponse>>);
+      ) as _i4.Future<_i3.Either<_i22.ChatError, _i23.ChatResponse>>);
+  @override
+  _i4.Future<void> loadChatHistory() => (super.noSuchMethod(
+        Invocation.method(
+          #loadChatHistory,
+          [],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+  @override
+  void listenToReactiveValues(List<dynamic>? reactiveValues) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #listenToReactiveValues,
+          [reactiveValues],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void addListener(void Function()? listener) => super.noSuchMethod(
+        Invocation.method(
+          #addListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void removeListener(void Function()? listener) => super.noSuchMethod(
+        Invocation.method(
+          #removeListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void notifyListeners() => super.noSuchMethod(
+        Invocation.method(
+          #notifyListeners,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
 }
 
 /// A class which mocks [SharedPreferencesService].

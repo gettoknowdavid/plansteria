@@ -12,7 +12,8 @@ class Message with _$Message {
     required String role,
     required String content,
     String? name,
-    @JsonKey(includeToJson: false) int? index,
+    @JsonKey(includeToJson: false) DateTime? created,
+    @JsonKey(includeToJson: false) bool? hasAnimated,
   }) = _Message;
 
   factory Message.fromJson(Map<String, dynamic> json) =>

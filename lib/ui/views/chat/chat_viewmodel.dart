@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/app/app.snackbars.dart';
+import 'package:plansteria/models/chat.dart';
 import 'package:plansteria/models/message.dart';
 import 'package:plansteria/models/user.dart';
 import 'package:plansteria/services/auth_service.dart';
@@ -14,21 +17,56 @@ class ChatViewModel extends FormViewModel with ListenableServiceMixin {
   final _chatService = locator<ChatService>();
   final _snackbarService = locator<SnackbarService>();
 
-  final listScrollController = ScrollController();
+  ScrollController controller = ScrollController();
+  Timer? timer;
+
+  ChatViewModel() {
+    _chatService.loadChatHistory();
+  }
+
+  List<Chat?> get chats => _chatService.chat;
+
+  @override
+  List<ListenableServiceMixin> get listenableServices => [
+        _authService,
+        _chatService,
+      ];
 
   User get user => _authService.currentUser!;
-  List<Message?> get messages => _chatService.messages;
-  bool get shouldAnimate => _chatService.shouldAnimate;
+
+  Future<void> clearChatHistory() async {
+    await _chatService.clearChatHistory();
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  Future<void> init() async {
+    scrollListToEnd();
+  }
+
+  void scrollListToEnd() {
+    Future.delayed(
+      const Duration(seconds: 0),
+      () => controller.jumpTo(controller.position.maxScrollExtent),
+    );
+  }
 
   Future<void> sendMessage() async {
-    setBusy(true);
+    scrollListToEnd();
+
     final firstName = user.name.split(' ')[0];
     final message = Message(
       role: 'user',
       content: messageValue!,
       name: firstName,
-      index: 0,
     );
+
+    setBusy(true);
 
     final result = await _chatService.sendMessage(message, user: firstName);
 
@@ -45,22 +83,18 @@ class ChatViewModel extends FormViewModel with ListenableServiceMixin {
       },
       (success) {
         setBusy(false);
-        _scrollListToEnd();
+        timer = Timer.periodic(const Duration(milliseconds: 50), (timer) {
+          if (controller.hasClients) {
+            // Check if we're already at the bottom
+            if (controller.offset != controller.position.maxScrollExtent) {
+              scrollListToEnd();
+            }
+          }
+        });
+        notifyListeners();
       },
     );
-  }
 
-  void _scrollListToEnd() {
-    listScrollController.animateTo(
-      listScrollController.position.maxScrollExtent,
-      duration: const Duration(seconds: 2),
-      curve: Curves.easeOut,
-    );
+    notifyListeners();
   }
-
-  @override
-  List<ListenableServiceMixin> get listenableServices => [
-        _authService,
-        _chatService,
-      ];
 }
