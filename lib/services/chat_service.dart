@@ -33,17 +33,17 @@ class ChatService with ListenableServiceMixin {
     notifyListeners();
   }
 
-  Future<Either<ChatError, ChatResponse>> sendMessage(
-    Message message, {
-    String? user,
-  }) async {
-    final chat = Chat.fromRemote(message);
-    _chat.value.add(chat);
+  void addChat(Chat c) {
+    _chat.value.add(c);
+    notifyListeners();
+  }
+
+  Future<Either<ChatError, ChatResponse>> sendMessage(Message message) async {
     try {
       final response = await _openAIClient.sendMessage(
         model: "gpt-3.5-turbo",
         messages: [message],
-        user: user,
+        user: message.name,
       );
       final choices = response.choices!;
       _chat.value.add(Chat.fromRemote(choices[0].message!));

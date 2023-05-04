@@ -59,18 +59,17 @@ class ChatViewModel extends FormViewModel with ListenableServiceMixin {
   Future<void> sendMessage() async {
     scrollListToEnd();
 
-    final firstName = user.name.split(' ')[0];
     final message = Message(
       role: 'user',
       content: messageValue!,
-      name: firstName,
+      name: user.name.split(' ')[0],
     );
+
+    _chatService.addChat(Chat.fromRemote(message));
 
     setBusy(true);
 
-    final result = await _chatService.sendMessage(message, user: firstName);
-
-    
+    final result = await _chatService.sendMessage(message);
 
     result.fold(
       (failure) {
