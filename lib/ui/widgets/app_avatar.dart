@@ -10,8 +10,13 @@ class AppAvatar extends ViewModelWidget<LayoutViewModel> {
   Widget build(context, viewModel) {
     return GestureDetector(
       onTap: () => viewModel.handleNavigation(3),
-      child: const CircleAvatar(
-        child: Icon(PhosphorIcons.user),
+      child: CircleAvatar(
+        foregroundImage: viewModel.user.avatar != null
+            ? NetworkImage(viewModel.user.avatar!)
+            : null,
+        child: viewModel.user.avatar == null
+            ? const Icon(PhosphorIcons.user)
+            : null,
       ),
     );
   }

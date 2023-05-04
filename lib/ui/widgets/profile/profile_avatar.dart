@@ -21,10 +21,10 @@ class ProfileAvatar extends ViewModelWidget<ProfileViewModel> {
       backgroundColor: theme.colorScheme.onBackground,
       child: CircleAvatar(
         radius: innerRadius,
-        foregroundImage: viewModel.user?.avatar != null
-            ? NetworkImage(viewModel.user!.avatar!)
+        foregroundImage: viewModel.user.avatar != null
+            ? NetworkImage(viewModel.user.avatar!)
             : null,
-        child: viewModel.user?.avatar == null
+        child: viewModel.user.avatar == null
             ? Icon(PhosphorIcons.user, size: iconSize, color: iconColor)
             : null,
       ),

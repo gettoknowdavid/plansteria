@@ -29,6 +29,16 @@ class EventService with ListenableServiceMixin {
         .map((e) => e.docs.map((d) => d.data).toList());
   }
 
+  Stream<int> numberOfAllCreatedEvents(String creatorId) {
+    return eventsRef
+        .whereFieldPath(
+          FieldPath.fromString('creator.uid'),
+          isEqualTo: creatorId,
+        )
+        .snapshots()
+        .map((event) => event.docs.length);
+  }
+
   Stream<Event?> get featuredEventStream {
     return eventsRef.whereDate(isGreaterThanOrEqualTo: today).snapshots().map(
           (e) => e.docs
@@ -60,8 +70,10 @@ class EventService with ListenableServiceMixin {
 
   Stream<List<Event?>> myEventsStream(String creatorId) {
     return eventsRef
-        .whereFieldPath(FieldPath.fromString('creator.uid'),
-            isEqualTo: creatorId)
+        .whereFieldPath(
+          FieldPath.fromString('creator.uid'),
+          isEqualTo: creatorId,
+        )
         .snapshots()
         .map((event) => event.docs.map((e) => e.data).toList());
   }

@@ -56,6 +56,7 @@ import 'package:stacked_services/stacked_services.dart';
         MaterialRoute(page: ChatView),
         MaterialRoute(page: ProfileView),
         MaterialRoute(page: AccountView),
+        MaterialRoute(page: EventDetailsView),
       ],
     ),
     MaterialRoute(page: EventDetailsView),

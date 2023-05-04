@@ -10,16 +10,16 @@ import 'package:stacked_services/stacked_services.dart';
 class EventsViewModel extends StreamViewModel<List<Event?>>
     with ListenableServiceMixin {
   final _authService = locator<AuthService>();
-  final _bottomSheetService = locator<BottomSheetService>();
-  final _dialogService = locator<DialogService>();
   final _eventService = locator<EventService>();
   final _navigationService = locator<NavigationService>();
-  final _snackbarService = locator<SnackbarService>();
 
   User get user => _authService.currentUser!;
 
   void navigateToDetails(Event event) {
-    _navigationService.navigateToEventDetailsView(event: event);
+    _navigationService.navigateToNestedEventDetailsViewInLayoutViewRouter(
+      event: event,
+      routerId: 1,
+    );
   }
 
   @override

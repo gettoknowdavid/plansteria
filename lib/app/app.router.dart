@@ -285,12 +285,15 @@ class LayoutViewRoutes {
 
   static const accountView = 'account-view';
 
+  static const eventDetailsView = 'event-details-view';
+
   static const all = <String>{
     homeView,
     eventsView,
     chatView,
     profileView,
     accountView,
+    eventDetailsView,
   };
 }
 
@@ -315,6 +318,10 @@ class LayoutViewRouter extends _i1.RouterBase {
     _i1.RouteDef(
       LayoutViewRoutes.accountView,
       page: _i19.AccountView,
+    ),
+    _i1.RouteDef(
+      LayoutViewRoutes.eventDetailsView,
+      page: _i9.EventDetailsView,
     ),
   ];
 
@@ -357,6 +364,15 @@ class LayoutViewRouter extends _i1.RouterBase {
         maintainState: false,
       );
     },
+    _i9.EventDetailsView: (data) {
+      final args = data.getArgs<NestedEventDetailsViewArguments>(nullOk: false);
+      return _i13.MaterialPageRoute<dynamic>(
+        builder: (context) =>
+            _i9.EventDetailsView(key: args.key, event: args.event),
+        settings: data,
+        maintainState: false,
+      );
+    },
   };
 
   @override
@@ -373,6 +389,22 @@ class NestedChatViewArguments {
   @override
   String toString() {
     return '{"key": "$key"}';
+  }
+}
+
+class NestedEventDetailsViewArguments {
+  const NestedEventDetailsViewArguments({
+    this.key,
+    required this.event,
+  });
+
+  final _i13.Key? key;
+
+  final _i14.Event event;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "event": "$event"}';
   }
 }
 
@@ -616,6 +648,23 @@ extension NavigatorStateExtension on _i20.NavigationService {
         transition: transition);
   }
 
+  Future<dynamic> navigateToNestedEventDetailsViewInLayoutViewRouter({
+    _i13.Key? key,
+    required _i14.Event event,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return navigateTo<dynamic>(LayoutViewRoutes.eventDetailsView,
+        arguments: NestedEventDetailsViewArguments(key: key, event: event),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
   Future<dynamic> replaceWithStartupView([
     int? routerId,
     bool preventDuplicates = true,
@@ -849,6 +898,23 @@ extension NavigatorStateExtension on _i20.NavigationService {
         transition,
   ]) async {
     return replaceWith<dynamic>(LayoutViewRoutes.accountView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithNestedEventDetailsViewInLayoutViewRouter({
+    _i13.Key? key,
+    required _i14.Event event,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return replaceWith<dynamic>(LayoutViewRoutes.eventDetailsView,
+        arguments: NestedEventDetailsViewArguments(key: key, event: event),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

@@ -11,12 +11,12 @@ class LayoutViewModel extends IndexTrackingViewModel
 
   final _navigationService = locator<NavigationService>();
 
-  String? get firstName => '${user?.name.split(' ')[0]}';
+  String? get firstName => user.name.split(' ')[0];
 
   @override
   List<ListenableServiceMixin> get listenableServices => [_authService];
 
-  User? get user => _authService.currentUser;
+  User get user => _authService.currentUser!;
 
   void handleNavigation(int index) {
     switch (index) {

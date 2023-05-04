@@ -223,4 +223,28 @@ class AuthService with ListenableServiceMixin {
       }
     }
   }
+
+  Future<Either<AuthError, Unit>> updateProfile(User u) async {
+    final id = _firebaseAuth.currentUser!.uid;
+
+    try {
+      userRef.doc(id).set(u);
+
+      final updatedUserSnapshot = await userRef.doc(id).get();
+      final updatedUser = updatedUserSnapshot.data;
+
+      await _secureStorageService.write(
+        key: kAuthUser,
+        value: jsonEncode(updatedUser?.toJson()),
+      );
+
+      _currentUser.value = updatedUser;
+
+      notifyListeners();
+
+      return right(unit);
+    } on fb.FirebaseAuthException {
+      return left(const AuthError.serverError());
+    }
+  }
 }

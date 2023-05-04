@@ -98,20 +98,29 @@ class _Name extends SelectorViewModelWidget<ProfileViewModel, String> {
   }
 
   @override
-  String selector(ProfileViewModel viewModel) => viewModel.user!.name;
+  String selector(ProfileViewModel viewModel) => viewModel.user.name;
 }
 
-class _Stats extends StatelessWidget {
+class _Stats extends ViewModelWidget<ProfileViewModel> {
   const _Stats();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ProfileViewModel viewModel) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: const [
-        ProfileStatItem(count: 24, label: 'Events'),
-        ProfileStatItem(count: 3000, label: 'Total Guests'),
-        ProfileStatItem(count: 24, label: 'Attended'),
+      children: [
+        StreamBuilder<int>(
+          stream: viewModel.numberOfCreatedEvents,
+          builder: (context, snapshot) {
+            return ProfileStatItem(
+              count: snapshot.data,
+              label: 'Events',
+              loading: snapshot.connectionState == ConnectionState.waiting,
+            );
+          },
+        ),
+        const ProfileStatItem(count: 3000, label: 'Total Guests'),
+        const ProfileStatItem(count: 24, label: 'Attended'),
       ],
     );
   }

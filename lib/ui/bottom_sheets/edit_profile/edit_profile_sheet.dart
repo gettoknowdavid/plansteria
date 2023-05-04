@@ -56,7 +56,7 @@ class EditProfileSheet extends StackedView<EditProfileSheetModel>
               20.verticalSpace,
               20.verticalSpace,
               const _Avatar(),
-              20.verticalSpace,
+              30.verticalSpace,
               AppTextField(
                 label: 'Name of Event',
                 hint: 'Event Name',
@@ -67,10 +67,10 @@ class EditProfileSheet extends StackedView<EditProfileSheetModel>
               ),
               30.verticalSpace,
               AppButton(
-                onPressed: () {},
+                onPressed: viewModel.updateProfile,
                 loading: viewModel.isBusy,
-                disabled: viewModel.disabled,
-                title: 'Save',
+                disabled: nameController.text.isEmpty,
+                title: 'Looks good',
               ),
             ],
           ),
@@ -101,26 +101,33 @@ class _Avatar extends ViewModelWidget<EditProfileSheetModel> {
   @override
   Widget build(BuildContext context, EditProfileSheetModel viewModel) {
     final theme = Theme.of(context);
-    final outerRadius = 0.15.sw;
-    final innerRadius = 0.145.sw;
+    final outerRadius = 0.17.sw;
+    final innerRadius = 0.165.sw;
     final iconSize = innerRadius * 0.6;
-
-    final iconColor = theme.colorScheme.onPrimary;
 
     return GestureDetector(
       onTap: viewModel.showImageSourceBottomSheet,
-      child: CircleAvatar(
-        radius: outerRadius,
-        backgroundColor: theme.colorScheme.onBackground,
-        child: CircleAvatar(
-          radius: innerRadius,
-          foregroundImage: viewModel.user?.avatar != null
-              ? NetworkImage(viewModel.user!.avatar!)
-              : null,
-          child: viewModel.user?.avatar == null
-              ? Icon(PhosphorIcons.user, size: iconSize, color: iconColor)
-              : null,
-        ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          CircleAvatar(
+            radius: outerRadius,
+            backgroundColor: theme.colorScheme.onBackground,
+            child: CircleAvatar(
+              radius: innerRadius,
+              foregroundImage:
+                  viewModel.file == null && viewModel.user?.avatar != null
+                      ? NetworkImage(viewModel.user!.avatar!)
+                      : null,
+              backgroundImage:
+                  viewModel.file != null ? FileImage(viewModel.file!) : null,
+              child: !viewModel.hasImage
+                  ? Icon(PhosphorIcons.user, size: iconSize)
+                  : null,
+            ),
+          ),
+          Icon(PhosphorIcons.pen, size: iconSize),
+        ],
       ),
     );
   }

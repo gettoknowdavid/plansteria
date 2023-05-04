@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:plansteria/ui/common/app_colors.dart';
-import 'package:plansteria/ui/common/ui_helpers.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'image_source_sheet_model.dart';
 
 class ImageSourceSheet extends StackedView<ImageSourceSheetModel> {
-  final Function(SheetResponse response)? completer;
+  final Function(SheetResponse response) completer;
   final SheetRequest request;
   const ImageSourceSheet({
     Key? key,
@@ -16,44 +16,37 @@ class ImageSourceSheet extends StackedView<ImageSourceSheetModel> {
   }) : super(key: key);
 
   @override
-  Widget builder(
-    BuildContext context,
-    ImageSourceSheetModel viewModel,
-    Widget? child,
-  ) {
+  Widget builder(context, viewModel, child) {
+    final theme = Theme.of(context);
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+      color: theme.bottomSheetTheme.backgroundColor,
+      height: 0.17.sh,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            request.title ?? 'Hello Stacked Sheet!!',
-            style: const TextStyle(fontSize: 25, fontWeight: FontWeight.w900),
+          6.verticalSpace,
+          ListTile(
+            leading: const Icon(PhosphorIcons.image),
+            title: const Text('Pick from Gallery'),
+            onTap: () async {
+              final file = await viewModel.avatarChanged(true);
+              completer(SheetResponse(data: file));
+            },
           ),
-          if (request.description != null) ...[
-            verticalSpaceTiny,
-            Text(
-              request.description!,
-              style: const TextStyle(fontSize: 14, color: kcMediumGrey),
-              maxLines: 3,
-              softWrap: true,
-            ),
-          ],
-          verticalSpaceLarge,
+          Divider(color: theme.dividerColor.withOpacity(0.3)),
+          ListTile(
+            leading: const Icon(PhosphorIcons.camera),
+            title: const Text('Use Camera'),
+            onTap: () async {
+              final file = await viewModel.avatarChanged(false);
+              completer(SheetResponse(data: file));
+            },
+          ),
         ],
-      ),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(10),
-          topRight: Radius.circular(10),
-        ),
       ),
     );
   }
 
   @override
-  ImageSourceSheetModel viewModelBuilder(BuildContext context) =>
-      ImageSourceSheetModel();
+  ImageSourceSheetModel viewModelBuilder(context) => ImageSourceSheetModel();
 }

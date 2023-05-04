@@ -1143,6 +1143,16 @@ class MockEventService extends _i1.Mock implements _i16.EventService {
         returnValueForMissingStub: 0,
       ) as int);
   @override
+  _i4.Stream<int> numberOfAllCreatedEvents(String? creatorId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #numberOfAllCreatedEvents,
+          [creatorId],
+        ),
+        returnValue: _i4.Stream<int>.empty(),
+        returnValueForMissingStub: _i4.Stream<int>.empty(),
+      ) as _i4.Stream<int>);
+  @override
   _i4.Stream<List<_i5.Guest?>> guestsStream(String? eventId) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1676,11 +1686,17 @@ class MockMediaService extends _i1.Mock implements _i18.MediaService {
 /// See the documentation for Mockito's code generation for more information.
 class MockChatService extends _i1.Mock implements _i20.ChatService {
   @override
-  List<_i21.Chat?> get chat => (super.noSuchMethod(
-        Invocation.getter(#chat),
+  List<_i21.Chat?> get chats => (super.noSuchMethod(
+        Invocation.getter(#chats),
         returnValue: <_i21.Chat?>[],
         returnValueForMissingStub: <_i21.Chat?>[],
       ) as List<_i21.Chat?>);
+  @override
+  Map<String, List<_i21.Chat?>> get chatGroups => (super.noSuchMethod(
+        Invocation.getter(#chatGroups),
+        returnValue: <String, List<_i21.Chat?>>{},
+        returnValueForMissingStub: <String, List<_i21.Chat?>>{},
+      ) as Map<String, List<_i21.Chat?>>);
   @override
   int get listenersCount => (super.noSuchMethod(
         Invocation.getter(#listenersCount),
@@ -1740,6 +1756,14 @@ class MockChatService extends _i1.Mock implements _i20.ChatService {
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
+  @override
+  void groupByDate() => super.noSuchMethod(
+        Invocation.method(
+          #groupByDate,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
   @override
   void listenToReactiveValues(List<dynamic>? reactiveValues) =>
       super.noSuchMethod(
