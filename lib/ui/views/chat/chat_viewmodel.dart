@@ -24,7 +24,8 @@ class ChatViewModel extends FormViewModel with ListenableServiceMixin {
     _chatService.loadChatHistory();
   }
 
-  List<Chat?> get chats => _chatService.chat;
+  List<Chat?> get chats => _chatService.chats;
+  Map<String, List<Chat?>> get chatGroups => _chatService.chatGroups;
 
   @override
   List<ListenableServiceMixin> get listenableServices => [
@@ -45,23 +46,25 @@ class ChatViewModel extends FormViewModel with ListenableServiceMixin {
     super.dispose();
   }
 
-  Future<void> init() async {
+  void init() {
     scrollListToEnd();
   }
 
   void scrollListToEnd() {
+    if (chatGroups.isEmpty) return;
+
     Future.delayed(
       const Duration(seconds: 0),
       () => controller.jumpTo(controller.position.maxScrollExtent),
     );
   }
 
-  Future<void> sendMessage() async {
+  Future<void> sendMessage([String? suggestion]) async {
     scrollListToEnd();
 
     final message = Message(
       role: 'user',
-      content: messageValue!,
+      content: suggestion ?? messageValue!,
       name: user.name.split(' ')[0],
     );
 
@@ -98,4 +101,16 @@ class ChatViewModel extends FormViewModel with ListenableServiceMixin {
 
     notifyListeners();
   }
+
+final examples = <String>[
+    "Give location ideas for a tech event",
+    "Got any ideas for a 10 year birthday party?",
+    "Would love to have some decoration ideas for my event"
+  ];
+
+final limitations = <String>[
+    "May occasionally generate incorrect information",
+    "Cannot remember what user said earlier in the conversation",
+    "Limited knowledge of world and events after 2021",
+  ];
 }

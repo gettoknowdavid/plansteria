@@ -1697,15 +1697,20 @@ class MockChatService extends _i1.Mock implements _i20.ChatService {
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
   @override
+  void addChat(_i21.Chat? c) => super.noSuchMethod(
+        Invocation.method(
+          #addChat,
+          [c],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
   _i4.Future<_i3.Either<_i22.ChatError, _i23.ChatResponse>> sendMessage(
-    _i24.Message? message, {
-    String? user,
-  }) =>
+          _i24.Message? message) =>
       (super.noSuchMethod(
         Invocation.method(
           #sendMessage,
           [message],
-          {#user: user},
         ),
         returnValue:
             _i4.Future<_i3.Either<_i22.ChatError, _i23.ChatResponse>>.value(
@@ -1714,7 +1719,6 @@ class MockChatService extends _i1.Mock implements _i20.ChatService {
           Invocation.method(
             #sendMessage,
             [message],
-            {#user: user},
           ),
         )),
         returnValueForMissingStub:
@@ -1724,7 +1728,6 @@ class MockChatService extends _i1.Mock implements _i20.ChatService {
           Invocation.method(
             #sendMessage,
             [message],
-            {#user: user},
           ),
         )),
       ) as _i4.Future<_i3.Either<_i22.ChatError, _i23.ChatResponse>>);

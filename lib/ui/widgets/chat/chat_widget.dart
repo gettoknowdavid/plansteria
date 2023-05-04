@@ -1,4 +1,3 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -7,16 +6,16 @@ import 'package:plansteria/ui/views/chat/chat_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
 class ChatWidget extends ViewModelWidget<ChatViewModel> {
-  final Chat message;
+  final Chat chat;
 
-  const ChatWidget({super.key, required this.message});
+  const ChatWidget({super.key, required this.chat});
 
   @override
   Widget build(BuildContext context, ChatViewModel viewModel) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    final isUser = message.role != "assistant";
+    final isUser = chat.role != "assistant";
     final background = isUser ? colorScheme.primary : colorScheme.secondary;
     final foreground = isUser ? colorScheme.onPrimary : colorScheme.onSecondary;
 
@@ -45,18 +44,18 @@ class ChatWidget extends ViewModelWidget<ChatViewModel> {
                 child: !hasAvatar ? icon : null,
               ),
               10.horizontalSpace,
-              if (message.hasAnimated == false && message.role == 'assistant')
-                Expanded(
-                  child: AnimatedTextKit(
-                    isRepeatingAnimation: false,
-                    repeatForever: false,
-                    totalRepeatCount: 1,
-                    animatedTexts: [TyperAnimatedText(message.content.trim())],
-                    onFinished: () => viewModel.timer?.cancel(),
-                  ),
-                )
-              else
-                Expanded(child: Text(message.content.trim())),
+              // if (chat.hasAnimated == false && chat.role == 'assistant')
+              //   Expanded(
+              //     child: AnimatedTextKit(
+              //       isRepeatingAnimation: false,
+              //       repeatForever: false,
+              //       totalRepeatCount: 1,
+              //       animatedTexts: [TyperAnimatedText(chat.content.trim())],
+              //       onFinished: () => viewModel.timer?.cancel(),
+              //     ),
+              //   )
+              // else
+              Expanded(child: Text(chat.content.trim())),
             ],
           ),
         )
