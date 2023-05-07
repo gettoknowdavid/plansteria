@@ -3,9 +3,11 @@ import 'package:dartz/dartz.dart';
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/core/errors/event_error.dart';
 import 'package:plansteria/models/event.dart';
+import 'package:plansteria/models/user.dart';
 import 'package:plansteria/ui/common/app_strings.dart';
 import 'package:stacked/stacked.dart';
 
+import 'auth_service.dart';
 import 'network_service.dart';
 
 final now = DateTime.now();
@@ -15,6 +17,7 @@ class EventService with ListenableServiceMixin {
   final _events = ReactiveValue<List<Event?>>([]);
 
   final _networkService = locator<NetworkService>();
+  final _authService = locator<AuthService>();
 
   EventService() {
     listenToReactiveValues([_events]);
@@ -25,6 +28,17 @@ class EventService with ListenableServiceMixin {
   Stream<List<Event?>> get upcomingEventsStream {
     return eventsRef
         .whereDate(isGreaterThanOrEqualTo: today)
+        .snapshots()
+        .map((e) => e.docs.map((d) => d.data).toList());
+  }
+
+  Stream<List<Event?>> get eventsByUsersFollowingStream async* {
+    final followingRef = userRef.doc(_authService.currentUser!.uid).following;
+    final allFollowing = await followingRef.get().then((value) {
+      return value.docs.map((e) => e.data.uid).toList();
+    });
+    yield* eventsRef
+        .whereCreatorId(whereIn: allFollowing)
         .snapshots()
         .map((e) => e.docs.map((d) => d.data).toList());
   }
