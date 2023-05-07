@@ -2,6 +2,7 @@ import 'package:plansteria/app/app.bottomsheets.dart';
 import 'package:plansteria/app/app.dialogs.dart';
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/app/app.router.dart';
+import 'package:plansteria/models/creator.dart';
 import 'package:plansteria/models/event.dart';
 import 'package:plansteria/services/auth_service.dart';
 import 'package:plansteria/services/event_service.dart';
@@ -26,28 +27,17 @@ class HomeViewModel extends MultipleStreamViewModel {
   bool get fetchingUpcomingEvents => busy(upcomingEventsKey);
   bool get fetchingFeaturedEvent => busy(featuredEventKey);
 
-  Future<List<Event?>> getAllEvents() async {
-    final result = await _eventService.getAllEvents();
-    return result.fold(
-      (failure) {
-        throw Exception(
-          failure.map(
-            error: (value) => value,
-            serverError: (_) => kServerErrorMessage,
-            networkError: (_) => kNoNetworkConnectionError,
-          ),
-        );
-      },
-      (success) => success,
-    );
-  }
-
   Future<List<Guest?>> get getGuests async {
     if (featuredEvent != null) {
       return await _eventService.allGuests(featuredEvent!.uid);
     } else {
       return [];
     }
+  }
+
+  Future<Creator> get getCreator async {
+    final user = await _authService.getUserById(featuredEvent!.creatorId);
+    return Creator.fromUser(user);
   }
 
   void navigateToDetails(Event event) {

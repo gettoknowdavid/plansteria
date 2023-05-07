@@ -86,19 +86,20 @@ class EventCard extends StatelessWidget {
                   ),
                   5.verticalSpace,
                   FutureBuilder<Creator>(
-                      future: getCreator,
-                      builder: (context, snapshot) {
-                        return SkeletonLoader(
-                          loading: !snapshot.hasData,
-                          child: AutoSizeText(
-                            'by ${snapshot.data?.name}',
-                            maxLines: 1,
-                            minFontSize: 12,
-                            overflow: TextOverflow.ellipsis,
-                            style: textTheme.bodySmall,
-                          ),
-                        );
-                      }),
+                    future: getCreator,
+                    builder: (context, snapshot) {
+                      return SkeletonLoader(
+                        loading: !snapshot.hasData,
+                        child: AutoSizeText(
+                          'by ${snapshot.data?.name}',
+                          maxLines: 1,
+                          minFontSize: 12,
+                          overflow: TextOverflow.ellipsis,
+                          style: textTheme.bodySmall,
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),

@@ -1,14 +1,16 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:plansteria/models/creator.dart';
 import 'package:plansteria/ui/common/app_constants.dart';
 import 'package:plansteria/ui/views/home/home_viewmodel.dart';
 import 'package:plansteria/ui/widgets/home/stacked_avatar_widget.dart';
 import 'package:stacked/stacked.dart';
 
 final _containerHeight = 0.325.sh;
-final _imageHeight = _containerHeight * 0.61.r;
+final _imageHeight = _containerHeight * 0.67.r;
 
 class FeaturedEvent extends ViewModelWidget<HomeViewModel> {
   const FeaturedEvent({super.key});
@@ -88,9 +90,20 @@ class _CreatorName extends ViewModelWidget<HomeViewModel> {
 
     return Padding(
       padding: kGlobalHorizontalPadding,
-      child: Text(
-        'viewModel.featuredEvent!.creator.name',
-        style: textTheme.bodySmall?.copyWith(color: Colors.grey),
+      child: FutureBuilder<Creator>(
+        future: viewModel.getCreator,
+        builder: (context, snapshot) {
+          return SkeletonLoader(
+            loading: !snapshot.hasData,
+            child: AutoSizeText(
+              'by ${snapshot.data?.name}',
+              maxLines: 1,
+              minFontSize: 12,
+              overflow: TextOverflow.ellipsis,
+              style: textTheme.bodySmall?.copyWith(color: Colors.grey),
+            ),
+          );
+        },
       ),
     );
   }
