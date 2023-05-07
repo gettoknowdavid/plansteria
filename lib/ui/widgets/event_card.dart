@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:plansteria/app/app.locator.dart';
+import 'package:plansteria/models/creator.dart';
 import 'package:plansteria/models/event.dart';
+import 'package:plansteria/services/auth_service.dart';
+import 'package:stacked/stacked.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
@@ -81,13 +85,20 @@ class EventCard extends StatelessWidget {
                     style: textTheme.bodySmall,
                   ),
                   5.verticalSpace,
-                  AutoSizeText(
-                    'by ${'event.creator.name'}',
-                    maxLines: 1,
-                    minFontSize: 12,
-                    overflow: TextOverflow.ellipsis,
-                    style: textTheme.bodySmall,
-                  ),
+                  FutureBuilder<Creator>(
+                      future: getCreator,
+                      builder: (context, snapshot) {
+                        return SkeletonLoader(
+                          loading: !snapshot.hasData,
+                          child: AutoSizeText(
+                            'by ${snapshot.data?.name}',
+                            maxLines: 1,
+                            minFontSize: 12,
+                            overflow: TextOverflow.ellipsis,
+                            style: textTheme.bodySmall,
+                          ),
+                        );
+                      }),
                 ],
               ),
             ),
@@ -96,5 +107,10 @@ class EventCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<Creator> get getCreator async {
+    final user = await locator<AuthService>().getUserById(event.creatorId);
+    return Creator.fromUser(user);
   }
 }
