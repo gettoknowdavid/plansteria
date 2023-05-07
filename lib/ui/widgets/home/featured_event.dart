@@ -18,65 +18,51 @@ class FeaturedEvent extends ViewModelWidget<HomeViewModel> {
   @override
   Widget build(BuildContext context, HomeViewModel viewModel) {
     final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
 
     final isBusy = viewModel.fetchingFeaturedEvent;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(
-          'Featured Event',
-          style: textTheme.titleMedium?.copyWith(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        10.verticalSpace,
-        GestureDetector(
-          onTap: () => viewModel.navigateToDetails(viewModel.featuredEvent!),
-          child: Container(
-            height: _containerHeight,
-            width: 1.sw,
-            decoration: BoxDecoration(
-              color: isBusy ? Colors.white12 : Colors.white,
-              borderRadius: const BorderRadius.all(Radius.circular(24)).r,
-              boxShadow: [
-                BoxShadow(
-                  color: theme.colorScheme.onBackground.withOpacity(0.1),
-                  blurRadius: 10,
-                  spreadRadius: 4,
-                  offset: const Offset(0, 6),
-                ),
-              ],
+    return GestureDetector(
+      onTap: () => viewModel.navigateToDetails(viewModel.featuredEvent!),
+      child: Container(
+        height: _containerHeight,
+        width: 1.sw,
+        decoration: BoxDecoration(
+          color: isBusy ? Colors.white12 : Colors.white,
+          borderRadius: const BorderRadius.all(Radius.circular(24)).r,
+          boxShadow: [
+            BoxShadow(
+              color: theme.colorScheme.onBackground.withOpacity(0.1),
+              blurRadius: 10,
+              spreadRadius: 4,
+              offset: const Offset(0, 6),
             ),
-            child: Stack(
-              children: [
-                SkeletonLoader(
-                  loading: isBusy,
-                  child: const _EventImage(),
-                ),
-                Positioned(
-                  top: _imageHeight + 5.r,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const _EventName(),
-                      const _CreatorName(),
-                      5.verticalSpace,
-                      SizedBox(
-                        width: 1.sw,
-                        child: const StackedAvatarWidget(),
-                      ),
-                      5.verticalSpace,
-                    ],
+          ],
+        ),
+        child: Stack(
+          children: [
+            SkeletonLoader(
+              loading: isBusy,
+              child: const _EventImage(),
+            ),
+            Positioned(
+              top: _imageHeight + 5.r,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const _EventName(),
+                  const _CreatorName(),
+                  5.verticalSpace,
+                  SizedBox(
+                    width: 1.sw,
+                    child: const StackedAvatarWidget(),
                   ),
-                ),
-              ],
+                  5.verticalSpace,
+                ],
+              ),
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:plansteria/ui/widgets/app_loading_indicator.dart';
 import 'package:plansteria/ui/widgets/home/featured_event.dart';
 import 'package:plansteria/ui/widgets/home/upcoming_events.dart';
 import 'package:plansteria/ui/widgets/layout_app_bar.dart';
+import 'package:plansteria/ui/widgets/section_title.dart';
 import 'package:stacked/stacked.dart';
 
 import 'home_viewmodel.dart';
@@ -20,10 +21,19 @@ class HomeView extends StackedView<HomeViewModel> {
         padding: kGlobalHorizontalPadding,
         child: Column(
           children: [
+            10.verticalSpace,
+            if (viewModel.featuredEvent != null)
+              const SectionTitle(
+                title: 'Featured Event',
+                child: FeaturedEvent(),
+              ),
             20.verticalSpace,
-            if (viewModel.featuredEvent != null) const FeaturedEvent(),
-            20.verticalSpace,
-            const UpcomingEvents(),
+            if (viewModel.dataReady(upcomingEventsKey))
+              SectionTitle(
+                title: 'Upcoming Events',
+                onTap: () {},
+                child: const UpcomingEvents(),
+              ),
             20.verticalSpace,
           ],
         ),

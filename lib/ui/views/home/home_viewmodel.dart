@@ -19,7 +19,6 @@ class HomeViewModel extends MultipleStreamViewModel {
   final _dialogService = locator<DialogService>();
   final _eventService = locator<EventService>();
   final _navigationService = locator<NavigationService>();
-  final _snackbarService = locator<SnackbarService>();
 
   List<Event?> get upcomingEvents => dataMap?[upcomingEventsKey];
   Event? get featuredEvent => dataMap?[featuredEventKey];
