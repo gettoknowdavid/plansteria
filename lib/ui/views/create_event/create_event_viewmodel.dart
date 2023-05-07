@@ -18,6 +18,8 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:uuid/uuid.dart';
 
 class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  
   final _authService = locator<AuthService>();
   final _bottomSheetService = locator<BottomSheetService>();
   final _eventService = locator<EventService>();
@@ -184,7 +186,7 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
       email: emailValue!,
       phone: phoneValue!,
       photoUrls: _photoUrls.value,
-      creator: Creator.fromUser(currentUser),
+      creatorId: currentUser.uid,
     );
 
     final result = await _eventService.createEvent(event);

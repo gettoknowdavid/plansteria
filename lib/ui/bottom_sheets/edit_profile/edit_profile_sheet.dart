@@ -13,6 +13,7 @@ import 'edit_profile_sheet_model.dart';
 
 @FormView(fields: [
   FormTextField(name: 'name', validator: Validators.validateName),
+  FormTextField(name: 'phone', validator: Validators.validatePhone),
   FormTextField(name: 'image'),
 ])
 class EditProfileSheet extends StackedView<EditProfileSheetModel>
@@ -58,12 +59,24 @@ class EditProfileSheet extends StackedView<EditProfileSheetModel>
               const _Avatar(),
               30.verticalSpace,
               AppTextField(
-                label: 'Name of Event',
-                hint: 'Event Name',
+                label: 'Name',
+                hint: 'Your Name',
                 focusNode: nameFocusNode,
                 controller: nameController,
                 enabled: !viewModel.isBusy,
                 validator: Validators.validateName,
+              ),
+              30.verticalSpace,
+              AppTextField(
+                label: 'Phone Number',
+                hint: 'Your phone number',
+                focusNode: phoneFocusNode,
+                controller: phoneController,
+                enabled: !viewModel.isBusy,
+                validator: Validators.validatePhone,
+                keyboardType: TextInputType.number,
+                prefixText: '+234 ',
+                prefixIcon: const Icon(PhosphorIcons.phone),
               ),
               30.verticalSpace,
               AppButton(
@@ -87,7 +100,9 @@ class EditProfileSheet extends StackedView<EditProfileSheetModel>
 
   @override
   void onViewModelReady(EditProfileSheetModel viewModel) {
-    nameController.text = viewModel.user!.name;
+    viewModel.init();
+    nameController.text = viewModel.user.name;
+    phoneController.text = viewModel.user.phone?.split("+234")[1] ?? '';
     syncFormWithViewModel(viewModel);
   }
 
@@ -116,8 +131,8 @@ class _Avatar extends ViewModelWidget<EditProfileSheetModel> {
             child: CircleAvatar(
               radius: innerRadius,
               foregroundImage:
-                  viewModel.file == null && viewModel.user?.avatar != null
-                      ? NetworkImage(viewModel.user!.avatar!)
+                  viewModel.file == null && viewModel.user.avatar != null
+                      ? NetworkImage(viewModel.user.avatar!)
                       : null,
               backgroundImage:
                   viewModel.file != null ? FileImage(viewModel.file!) : null,

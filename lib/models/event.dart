@@ -26,7 +26,7 @@ const _$$_EventFieldMap = <String, String>{
   'email': 'email',
   'phone': 'phone',
   'photoUrls': 'photoUrls',
-  'creator': 'creator',
+  'creatorId': 'creatorId',
 };
 
 const _$$_GuestFieldMap = <String, String>{
@@ -60,7 +60,7 @@ class Event with _$Event {
     bool? featured,
     required String email,
     required String phone,
-    required Creator creator,
+    required String creatorId,
   }) = _Event;
 
   factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);

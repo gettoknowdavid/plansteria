@@ -38,6 +38,8 @@ import 'package:plansteria/ui/views/startup/startup_view.dart';
 import 'package:plansteria/ui/views/verification/verification_view.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:plansteria/services/profile_service.dart';
+import 'package:plansteria/ui/views/user_profile/user_profile_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -63,6 +65,7 @@ import 'package:stacked_services/stacked_services.dart';
     MaterialRoute(page: CreateEventView),
     MaterialRoute(page: MapView),
     MaterialRoute(page: GuestsView),
+    MaterialRoute(page: UserProfileView),
 // @stacked-route
   ],
   dependencies: [
@@ -81,6 +84,7 @@ import 'package:stacked_services/stacked_services.dart';
       classType: SharedPreferencesService,
       presolveUsing: SharedPreferencesService.getInstance,
     ),
+    LazySingleton(classType: ProfileService),
 // @stacked-service
   ],
   bottomsheets: [

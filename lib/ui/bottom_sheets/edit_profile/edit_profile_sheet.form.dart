@@ -11,6 +11,7 @@ import 'package:plansteria/ui/common/validators.dart';
 import 'package:stacked/stacked.dart';
 
 const String NameValueKey = 'name';
+const String PhoneValueKey = 'phone';
 const String ImageValueKey = 'image';
 
 final Map<String, TextEditingController>
@@ -21,15 +22,19 @@ final Map<String, FocusNode> _EditProfileSheetFocusNodes = {};
 final Map<String, String? Function(String?)?> _EditProfileSheetTextValidations =
     {
   NameValueKey: Validators.validateName,
+  PhoneValueKey: Validators.validatePhone,
   ImageValueKey: null,
 };
 
 mixin $EditProfileSheet on StatelessWidget {
   TextEditingController get nameController =>
       _getFormTextEditingController(NameValueKey);
+  TextEditingController get phoneController =>
+      _getFormTextEditingController(PhoneValueKey);
   TextEditingController get imageController =>
       _getFormTextEditingController(ImageValueKey);
   FocusNode get nameFocusNode => _getFormFocusNode(NameValueKey);
+  FocusNode get phoneFocusNode => _getFormFocusNode(PhoneValueKey);
   FocusNode get imageFocusNode => _getFormFocusNode(ImageValueKey);
 
   TextEditingController _getFormTextEditingController(String key,
@@ -54,6 +59,7 @@ mixin $EditProfileSheet on StatelessWidget {
   /// with the latest textController values
   void syncFormWithViewModel(FormViewModel model) {
     nameController.addListener(() => _updateFormData(model));
+    phoneController.addListener(() => _updateFormData(model));
     imageController.addListener(() => _updateFormData(model));
   }
 
@@ -63,6 +69,7 @@ mixin $EditProfileSheet on StatelessWidget {
       'This feature was deprecated after 3.1.0.')
   void listenToFormUpdated(FormViewModel model) {
     nameController.addListener(() => _updateFormData(model));
+    phoneController.addListener(() => _updateFormData(model));
     imageController.addListener(() => _updateFormData(model));
   }
 
@@ -78,6 +85,7 @@ mixin $EditProfileSheet on StatelessWidget {
       model.formValueMap
         ..addAll({
           NameValueKey: nameController.text,
+          PhoneValueKey: phoneController.text,
           ImageValueKey: imageController.text,
         }),
     );
@@ -90,6 +98,7 @@ mixin $EditProfileSheet on StatelessWidget {
   void _updateValidationData(FormViewModel model) =>
       model.setValidationMessages({
         NameValueKey: _getValidationMessage(NameValueKey),
+        PhoneValueKey: _getValidationMessage(PhoneValueKey),
         ImageValueKey: _getValidationMessage(ImageValueKey),
       });
 
@@ -122,6 +131,7 @@ extension ValueProperties on FormViewModel {
   bool get isFormValid =>
       this.fieldsValidationMessages.values.every((element) => element == null);
   String? get nameValue => this.formValueMap[NameValueKey] as String?;
+  String? get phoneValue => this.formValueMap[PhoneValueKey] as String?;
   String? get imageValue => this.formValueMap[ImageValueKey] as String?;
 
   set nameValue(String? value) {
@@ -134,6 +144,20 @@ extension ValueProperties on FormViewModel {
 
     if (_EditProfileSheetTextEditingControllers.containsKey(NameValueKey)) {
       _EditProfileSheetTextEditingControllers[NameValueKey]?.text = value ?? '';
+    }
+  }
+
+  set phoneValue(String? value) {
+    this.setData(
+      this.formValueMap
+        ..addAll({
+          PhoneValueKey: value,
+        }),
+    );
+
+    if (_EditProfileSheetTextEditingControllers.containsKey(PhoneValueKey)) {
+      _EditProfileSheetTextEditingControllers[PhoneValueKey]?.text =
+          value ?? '';
     }
   }
 
@@ -154,21 +178,29 @@ extension ValueProperties on FormViewModel {
   bool get hasName =>
       this.formValueMap.containsKey(NameValueKey) &&
       (nameValue?.isNotEmpty ?? false);
+  bool get hasPhone =>
+      this.formValueMap.containsKey(PhoneValueKey) &&
+      (phoneValue?.isNotEmpty ?? false);
   bool get hasImage =>
       this.formValueMap.containsKey(ImageValueKey) &&
       (imageValue?.isNotEmpty ?? false);
 
   bool get hasNameValidationMessage =>
       this.fieldsValidationMessages[NameValueKey]?.isNotEmpty ?? false;
+  bool get hasPhoneValidationMessage =>
+      this.fieldsValidationMessages[PhoneValueKey]?.isNotEmpty ?? false;
   bool get hasImageValidationMessage =>
       this.fieldsValidationMessages[ImageValueKey]?.isNotEmpty ?? false;
 
   String? get nameValidationMessage =>
       this.fieldsValidationMessages[NameValueKey];
+  String? get phoneValidationMessage =>
+      this.fieldsValidationMessages[PhoneValueKey];
   String? get imageValidationMessage =>
       this.fieldsValidationMessages[ImageValueKey];
   void clearForm() {
     nameValue = '';
+    phoneValue = '';
     imageValue = '';
   }
 }
@@ -176,6 +208,8 @@ extension ValueProperties on FormViewModel {
 extension Methods on FormViewModel {
   setNameValidationMessage(String? validationMessage) =>
       this.fieldsValidationMessages[NameValueKey] = validationMessage;
+  setPhoneValidationMessage(String? validationMessage) =>
+      this.fieldsValidationMessages[PhoneValueKey] = validationMessage;
   setImageValidationMessage(String? validationMessage) =>
       this.fieldsValidationMessages[ImageValueKey] = validationMessage;
 }

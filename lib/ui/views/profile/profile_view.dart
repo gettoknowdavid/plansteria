@@ -119,8 +119,22 @@ class _Stats extends ViewModelWidget<ProfileViewModel> {
             );
           },
         ),
-        const ProfileStatItem(count: 3000, label: 'Total Guests'),
-        const ProfileStatItem(count: 24, label: 'Attended'),
+        StreamBuilder<int>(
+          stream: viewModel.followers,
+          builder: (context, snapshot) => ProfileStatItem(
+            count: snapshot.data,
+            label: 'Followers',
+            loading: snapshot.connectionState == ConnectionState.waiting,
+          ),
+        ),
+        StreamBuilder<int>(
+          stream: viewModel.following,
+          builder: (context, snapshot) => ProfileStatItem(
+            count: snapshot.data,
+            label: 'Following',
+            loading: snapshot.connectionState == ConnectionState.waiting,
+          ),
+        ),
       ],
     );
   }

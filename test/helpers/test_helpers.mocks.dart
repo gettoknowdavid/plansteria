@@ -27,6 +27,7 @@ import 'package:plansteria/services/event_service.dart' as _i16;
 import 'package:plansteria/services/media_service.dart' as _i18;
 import 'package:plansteria/services/network_service.dart' as _i13;
 import 'package:plansteria/services/open_mail_app_service.dart' as _i15;
+import 'package:plansteria/services/profile_service.dart' as _i26;
 import 'package:plansteria/services/secure_storage_service.dart' as _i12;
 import 'package:plansteria/services/shared_preferences_service.dart' as _i25;
 import 'package:stacked_services/stacked_services.dart' as _i7;
@@ -751,6 +752,15 @@ class MockAuthService extends _i1.Mock implements _i10.AuthService {
         )),
       ) as _i4.Future<_i2.User>);
   @override
+  _i4.Future<void> getAuthUser() => (super.noSuchMethod(
+        Invocation.method(
+          #getAuthUser,
+          [],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+  @override
   _i4.Future<void> checkAuthenticated() => (super.noSuchMethod(
         Invocation.method(
           #checkAuthenticated,
@@ -926,6 +936,31 @@ class MockAuthService extends _i1.Mock implements _i10.AuthService {
           Invocation.method(
             #sendVerificationEmail,
             [],
+          ),
+        )),
+      ) as _i4.Future<_i3.Either<_i11.AuthError, _i3.Unit>>);
+  @override
+  _i4.Future<_i3.Either<_i11.AuthError, _i3.Unit>> updateProfile(_i2.User? u) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateProfile,
+          [u],
+        ),
+        returnValue: _i4.Future<_i3.Either<_i11.AuthError, _i3.Unit>>.value(
+            _FakeEither_2<_i11.AuthError, _i3.Unit>(
+          this,
+          Invocation.method(
+            #updateProfile,
+            [u],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i3.Either<_i11.AuthError, _i3.Unit>>.value(
+                _FakeEither_2<_i11.AuthError, _i3.Unit>(
+          this,
+          Invocation.method(
+            #updateProfile,
+            [u],
           ),
         )),
       ) as _i4.Future<_i3.Either<_i11.AuthError, _i3.Unit>>);
@@ -1878,4 +1913,105 @@ class MockSharedPreferencesService extends _i1.Mock
         returnValue: _i4.Future<dynamic>.value(),
         returnValueForMissingStub: _i4.Future<dynamic>.value(),
       ) as _i4.Future<dynamic>);
+}
+
+/// A class which mocks [ProfileService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockProfileService extends _i1.Mock implements _i26.ProfileService {
+  @override
+  _i4.Stream<int> followers(String? userId) => (super.noSuchMethod(
+        Invocation.method(
+          #followers,
+          [userId],
+        ),
+        returnValue: _i4.Stream<int>.empty(),
+        returnValueForMissingStub: _i4.Stream<int>.empty(),
+      ) as _i4.Stream<int>);
+  @override
+  _i4.Stream<int> following(String? userId) => (super.noSuchMethod(
+        Invocation.method(
+          #following,
+          [userId],
+        ),
+        returnValue: _i4.Stream<int>.empty(),
+        returnValueForMissingStub: _i4.Stream<int>.empty(),
+      ) as _i4.Stream<int>);
+  @override
+  _i4.Future<void> follow(
+    _i2.User? user,
+    _i2.User? userToFollow,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #follow,
+          [
+            user,
+            userToFollow,
+          ],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+  @override
+  _i4.Future<void> unFollow(
+    _i2.User? user,
+    _i2.User? userToUnFollow,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #unFollow,
+          [
+            user,
+            userToUnFollow,
+          ],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+  @override
+  _i4.Future<List<_i2.User>> getAllFollowing(String? userId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAllFollowing,
+          [userId],
+        ),
+        returnValue: _i4.Future<List<_i2.User>>.value(<_i2.User>[]),
+        returnValueForMissingStub:
+            _i4.Future<List<_i2.User>>.value(<_i2.User>[]),
+      ) as _i4.Future<List<_i2.User>>);
+  @override
+  _i4.Stream<bool> isFollowing(
+    String? userId,
+    String? userIdToCheck,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #isFollowing,
+          [
+            userId,
+            userIdToCheck,
+          ],
+        ),
+        returnValue: _i4.Stream<bool>.empty(),
+        returnValueForMissingStub: _i4.Stream<bool>.empty(),
+      ) as _i4.Stream<bool>);
+  @override
+  _i4.Future<void> callPhoneNumber([String? phone]) => (super.noSuchMethod(
+        Invocation.method(
+          #callPhoneNumber,
+          [phone],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+  @override
+  _i4.Future<void> sendMail(String? email) => (super.noSuchMethod(
+        Invocation.method(
+          #sendMail,
+          [email],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 }

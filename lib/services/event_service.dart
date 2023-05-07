@@ -31,10 +31,7 @@ class EventService with ListenableServiceMixin {
 
   Stream<int> numberOfAllCreatedEvents(String creatorId) {
     return eventsRef
-        .whereFieldPath(
-          FieldPath.fromString('creator.uid'),
-          isEqualTo: creatorId,
-        )
+        .whereCreatorId(isEqualTo: creatorId)
         .snapshots()
         .map((event) => event.docs.length);
   }
@@ -70,16 +67,10 @@ class EventService with ListenableServiceMixin {
 
   Stream<List<Event?>> myEventsStream(String creatorId) {
     return eventsRef
-        .whereFieldPath(
-          FieldPath.fromString('creator.uid'),
-          isEqualTo: creatorId,
-        )
+        .whereCreatorId(isEqualTo: creatorId)
         .snapshots()
         .map((event) => event.docs.map((e) => e.data).toList());
   }
-
-  // Stream upcomingEventsStream =
-  //     eventsRef.whereDate(isGreaterThanOrEqualTo: today).snapshots();
 
   Future<Either<EventError, Unit>> addGuest(String eventId, Guest guest) async {
     if (_networkService.status == NetworkStatus.disconnected) {

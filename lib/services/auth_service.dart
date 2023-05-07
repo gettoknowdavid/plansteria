@@ -38,6 +38,16 @@ class AuthService with ListenableServiceMixin {
     return snapshot.data!;
   }
 
+  Future<void> getAuthUser() async {
+    final snapshot = await userRef.doc(currentUser!.uid).get();
+    _currentUser.value = snapshot.data!;
+    await _secureStorageService.write(
+      key: kAuthUser,
+      value: jsonEncode(_currentUser.value?.toJson()),
+    );
+    notifyListeners();
+  }
+
   Future<void> checkAuthenticated() async {
     final firebaseUser = _firebaseAuth.currentUser;
 
@@ -45,12 +55,14 @@ class AuthService with ListenableServiceMixin {
 
     if (firebaseUser == null && localUserString == null) {
       _isAuthenticated.value = false;
+      notifyListeners();
     }
 
     if (firebaseUser != null || localUserString != null) {
       _isAuthenticated.value = true;
       final snapshot = await userRef.doc(firebaseUser!.uid).get();
       _currentUser.value = snapshot.data;
+      notifyListeners();
     }
   }
 
@@ -78,17 +90,6 @@ class AuthService with ListenableServiceMixin {
 
     if (firebaseUser.emailVerified) {
       _isEmailVerified.value = true;
-
-      final updatedUser = User(
-        uid: firebaseUser.uid,
-        name: firebaseUser.displayName!,
-        email: firebaseUser.email!,
-        emailVerified: true,
-      );
-
-      await userRef.doc(firebaseUser.uid).set(updatedUser);
-
-      _currentUser.value = _currentUser.value?.copyWith(emailVerified: true);
 
       return optionOf(right(true));
     } else {

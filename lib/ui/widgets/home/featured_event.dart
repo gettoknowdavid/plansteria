@@ -89,7 +89,7 @@ class _CreatorName extends ViewModelWidget<HomeViewModel> {
     return Padding(
       padding: kGlobalHorizontalPadding,
       child: Text(
-        viewModel.featuredEvent!.creator.name,
+        'viewModel.featuredEvent!.creator.name',
         style: textTheme.bodySmall?.copyWith(color: Colors.grey),
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/app/app.router.dart';
 import 'package:plansteria/app/app.snackbars.dart';
+import 'package:plansteria/models/creator.dart';
 import 'package:plansteria/models/event.dart';
 import 'package:plansteria/models/user.dart';
 import 'package:plansteria/services/auth_service.dart';
@@ -23,7 +24,10 @@ class EventDetailsViewModel extends MultipleStreamViewModel
   final _currentImageIndex = ReactiveValue<int>(0);
 
   EventDetailsViewModel() {
-    listenToReactiveValues([_isAttendingReactive, _currentImageIndex]);
+    listenToReactiveValues([
+      _isAttendingReactive,
+      _currentImageIndex,
+    ]);
   }
 
   Event get event => dataMap?[eventKey];
@@ -39,7 +43,7 @@ class EventDetailsViewModel extends MultipleStreamViewModel
 
   String get eventId => _navigationService.currentArguments.event.uid;
 
-  bool get isAuthUser => event.creator.uid == currentUser?.uid;
+  bool get isAuthUser => event.creatorId == currentUser?.uid;
 
   bool get isPaid => event.price != null;
 
@@ -96,6 +100,13 @@ class EventDetailsViewModel extends MultipleStreamViewModel
     notifyListeners();
   }
 
+  Future<void> navigateToUserProfile() async {
+    await _navigationService.navigateToUserProfileView(
+      userId: event.creatorId,
+      event: event,
+    );
+  }
+
   Stream<Event> get eventStream => _eventService.eventStream(eventId);
 
   Stream<bool> get isAttendingStream => _eventService.isAttendingStream(
@@ -134,6 +145,11 @@ class EventDetailsViewModel extends MultipleStreamViewModel
 
   Future<void> navigateToGuestsList() async {
     await _navigationService.navigateToGuestsView(event: event);
+  }
+
+  Future<Creator> getCreator() async {
+    final creatorUser = await _authService.getUserById(event.creatorId);
+    return Creator.fromUser(creatorUser);
   }
 
   @override

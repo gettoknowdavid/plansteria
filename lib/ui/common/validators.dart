@@ -58,4 +58,12 @@ class Validators {
 
     return 'Please provide a valid password';
   }
+
+  static String? validatePhone(String? input) {
+    if (input != null && (input.length != 10 || input.length != 11)) {
+      return 'Phone Number must be 11 digits';
+    } else {
+      return null;
+    }
+  }
 }

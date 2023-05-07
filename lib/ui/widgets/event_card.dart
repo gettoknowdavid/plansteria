@@ -82,7 +82,7 @@ class EventCard extends StatelessWidget {
                   ),
                   5.verticalSpace,
                   AutoSizeText(
-                    'by ${event.creator.name}',
+                    'by ${'event.creator.name'}',
                     maxLines: 1,
                     minFontSize: 12,
                     overflow: TextOverflow.ellipsis,

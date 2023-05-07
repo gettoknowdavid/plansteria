@@ -25,26 +25,31 @@ class EditProfileSheetModel extends FormViewModel with ListenableServiceMixin {
   String? get avatar => _avatar.value;
 
   bool get hasImage =>
-      user?.avatar != null || user?.avatar != "" || _file.value != null;
+      user.avatar != null || user.avatar != "" || _file.value != null;
 
-  User? get user => _authService.currentUser;
-
+  User get user => _authService.currentUser!;
 
   Future<void> updateProfile() async {
     setBusy(true);
-    final name = "${user!.uid}.jpg";
+    final name = "${user.uid}.jpg";
     if (_file.value != null) {
       final ref = _mediaService.storageRef.child('images/avatar/$name');
       await _mediaService.uploadFileToCloud(_file.value!.path, name, ref);
       _avatar.value = await _mediaService.getFileFromCloud(ref);
     }
 
-    final updatedUser = user?.copyWith(
-      avatar: _avatar.value ?? user?.avatar,
-      name: nameValue ?? user!.name,
+    String? phoneNumber;
+    if (hasPhone) {
+      phoneNumber = "+234$phoneValue";
+    }
+
+    final updatedUser = user.copyWith(
+      avatar: _avatar.value ?? user.avatar,
+      name: nameValue ?? user.name,
+      phone: phoneNumber ?? user.phone,
     );
 
-    await _authService.updateProfile(updatedUser!);
+    await _authService.updateProfile(updatedUser);
 
     notifyListeners();
     _bottomSheetService.completeSheet(SheetResponse());
@@ -60,6 +65,10 @@ class EditProfileSheetModel extends FormViewModel with ListenableServiceMixin {
   }
 
   void close() => _bottomSheetService.completeSheet(SheetResponse());
+
+  Future<void> init() async {
+    await _authService.getAuthUser();
+  }
 
   @override
   List<ListenableServiceMixin> get listenableServices => [_authService];

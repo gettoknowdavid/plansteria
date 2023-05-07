@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:plansteria/ui/common/app_constants.dart';
 import 'package:plansteria/ui/widgets/event_card.dart';
 import 'package:plansteria/ui/widgets/layout_app_bar.dart';
+import 'package:plansteria/ui/widgets/section_title.dart';
 import 'package:stacked/stacked.dart';
 
 import 'events_viewmodel.dart';
@@ -12,8 +13,6 @@ class EventsView extends StackedView<EventsViewModel> {
 
   @override
   Widget builder(context, viewModel, child) {
-    final textTheme = Theme.of(context).textTheme;
-
     return Scaffold(
       appBar: LayoutAppBar(),
       body: SingleChildScrollView(
@@ -48,46 +47,4 @@ class EventsView extends StackedView<EventsViewModel> {
 
   @override
   EventsViewModel viewModelBuilder(BuildContext context) => EventsViewModel();
-}
-
-class SectionTitle extends StatelessWidget {
-  const SectionTitle({
-    super.key,
-    required this.title,
-    required this.onTap,
-    this.child,
-  });
-
-  final String title;
-  final void Function() onTap;
-  final Widget? child;
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
-    return Column(
-      children: [
-        Row(
-          children: [
-            Text(
-              title,
-              style: textTheme.bodyLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const Spacer(),
-            TextButton(
-              onPressed: onTap,
-              child: Text(
-                'See all',
-                style: textTheme.bodySmall?.copyWith(),
-              ),
-            )
-          ],
-        ),
-        child ?? const SizedBox(),
-      ],
-    );
-  }
 }

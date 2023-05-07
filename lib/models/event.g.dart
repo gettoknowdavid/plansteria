@@ -165,6 +165,8 @@ abstract class EventDocumentReference
     FieldValue emailFieldValue,
     String phone,
     FieldValue phoneFieldValue,
+    String creatorId,
+    FieldValue creatorIdFieldValue,
   });
 
   /// Updates fields in the current document using the transaction API.
@@ -206,6 +208,8 @@ abstract class EventDocumentReference
     FieldValue emailFieldValue,
     String phone,
     FieldValue phoneFieldValue,
+    String creatorId,
+    FieldValue creatorIdFieldValue,
   });
 }
 
@@ -276,6 +280,8 @@ class _$EventDocumentReference
     FieldValue? emailFieldValue,
     Object? phone = _sentinel,
     FieldValue? phoneFieldValue,
+    Object? creatorId = _sentinel,
+    FieldValue? creatorIdFieldValue,
   }) async {
     assert(
       uid == _sentinel || uidFieldValue == null,
@@ -345,6 +351,10 @@ class _$EventDocumentReference
       phone == _sentinel || phoneFieldValue == null,
       "Cannot specify both phone and phoneFieldValue",
     );
+    assert(
+      creatorId == _sentinel || creatorIdFieldValue == null,
+      "Cannot specify both creatorId and creatorIdFieldValue",
+    );
     final json = {
       if (uid != _sentinel) _$$_EventFieldMap['uid']!: uid as String,
       if (uidFieldValue != null) _$$_EventFieldMap['uid']!: uidFieldValue,
@@ -396,6 +406,10 @@ class _$EventDocumentReference
       if (emailFieldValue != null) _$$_EventFieldMap['email']!: emailFieldValue,
       if (phone != _sentinel) _$$_EventFieldMap['phone']!: phone as String,
       if (phoneFieldValue != null) _$$_EventFieldMap['phone']!: phoneFieldValue,
+      if (creatorId != _sentinel)
+        _$$_EventFieldMap['creatorId']!: creatorId as String,
+      if (creatorIdFieldValue != null)
+        _$$_EventFieldMap['creatorId']!: creatorIdFieldValue,
     };
 
     return reference.update(json);
@@ -437,6 +451,8 @@ class _$EventDocumentReference
     FieldValue? emailFieldValue,
     Object? phone = _sentinel,
     FieldValue? phoneFieldValue,
+    Object? creatorId = _sentinel,
+    FieldValue? creatorIdFieldValue,
   }) {
     assert(
       uid == _sentinel || uidFieldValue == null,
@@ -506,6 +522,10 @@ class _$EventDocumentReference
       phone == _sentinel || phoneFieldValue == null,
       "Cannot specify both phone and phoneFieldValue",
     );
+    assert(
+      creatorId == _sentinel || creatorIdFieldValue == null,
+      "Cannot specify both creatorId and creatorIdFieldValue",
+    );
     final json = {
       if (uid != _sentinel) _$$_EventFieldMap['uid']!: uid as String,
       if (uidFieldValue != null) _$$_EventFieldMap['uid']!: uidFieldValue,
@@ -557,6 +577,10 @@ class _$EventDocumentReference
       if (emailFieldValue != null) _$$_EventFieldMap['email']!: emailFieldValue,
       if (phone != _sentinel) _$$_EventFieldMap['phone']!: phone as String,
       if (phoneFieldValue != null) _$$_EventFieldMap['phone']!: phoneFieldValue,
+      if (creatorId != _sentinel)
+        _$$_EventFieldMap['creatorId']!: creatorId as String,
+      if (creatorIdFieldValue != null)
+        _$$_EventFieldMap['creatorId']!: creatorIdFieldValue,
     };
 
     transaction.update(reference, json);
@@ -844,6 +868,17 @@ abstract class EventQuery implements QueryReference<Event, EventQuerySnapshot> {
     List<String>? whereIn,
     List<String>? whereNotIn,
   });
+  EventQuery whereCreatorId({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  });
 
   EventQuery orderByDocumentId({
     bool descending = false,
@@ -1050,6 +1085,18 @@ abstract class EventQuery implements QueryReference<Event, EventQuerySnapshot> {
   });
 
   EventQuery orderByPhone({
+    bool descending = false,
+    String startAt,
+    String startAfter,
+    String endAt,
+    String endBefore,
+    EventDocumentSnapshot? startAtDocument,
+    EventDocumentSnapshot? endAtDocument,
+    EventDocumentSnapshot? endBeforeDocument,
+    EventDocumentSnapshot? startAfterDocument,
+  });
+
+  EventQuery orderByCreatorId({
     bool descending = false,
     String startAt,
     String startAfter,
@@ -1717,6 +1764,35 @@ class _$EventQuery extends QueryReference<Event, EventQuerySnapshot>
       _collection,
       $referenceWithoutCursor: $referenceWithoutCursor.where(
         _$$_EventFieldMap['phone']!,
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+      ),
+      $queryCursor: $queryCursor,
+    );
+  }
+
+  EventQuery whereCreatorId({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  }) {
+    return _$EventQuery(
+      _collection,
+      $referenceWithoutCursor: $referenceWithoutCursor.where(
+        _$$_EventFieldMap['creatorId']!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -3027,6 +3103,78 @@ class _$EventQuery extends QueryReference<Event, EventQuerySnapshot>
     );
   }
 
+  EventQuery orderByCreatorId({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    EventDocumentSnapshot? startAtDocument,
+    EventDocumentSnapshot? endAtDocument,
+    EventDocumentSnapshot? endBeforeDocument,
+    EventDocumentSnapshot? startAfterDocument,
+  }) {
+    final query = $referenceWithoutCursor
+        .orderBy(_$$_EventFieldMap['creatorId']!, descending: descending);
+    var queryCursor = $queryCursor;
+
+    if (startAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAt: const [],
+        startAtDocumentSnapshot: startAtDocument.snapshot,
+      );
+    }
+    if (startAfterDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: const [],
+        startAfterDocumentSnapshot: startAfterDocument.snapshot,
+      );
+    }
+    if (endAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endAt: const [],
+        endAtDocumentSnapshot: endAtDocument.snapshot,
+      );
+    }
+    if (endBeforeDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: const [],
+        endBeforeDocumentSnapshot: endBeforeDocument.snapshot,
+      );
+    }
+
+    if (startAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAt: [...queryCursor.startAt, startAt],
+        startAtDocumentSnapshot: null,
+      );
+    }
+    if (startAfter != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: [...queryCursor.startAfter, startAfter],
+        startAfterDocumentSnapshot: null,
+      );
+    }
+    if (endAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endAt: [...queryCursor.endAt, endAt],
+        endAtDocumentSnapshot: null,
+      );
+    }
+    if (endBefore != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: [...queryCursor.endBefore, endBefore],
+        endBeforeDocumentSnapshot: null,
+      );
+    }
+
+    return _$EventQuery(
+      _collection,
+      $referenceWithoutCursor: query,
+      $queryCursor: queryCursor,
+    );
+  }
+
   @override
   bool operator ==(Object other) {
     return other is _$EventQuery &&
@@ -4213,7 +4361,7 @@ Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
       'featured': instance.featured,
       'email': instance.email,
       'phone': instance.phone,
-      'creator': instance.creator.toJson(),
+      'creatorId': instance.creatorId,
     };
 
 Json? _$JsonConverterToJson<Json, Value>(
@@ -4251,7 +4399,7 @@ _$_Event _$$_EventFromJson(Map<String, dynamic> json) => _$_Event(
       featured: json['featured'] as bool?,
       email: json['email'] as String,
       phone: json['phone'] as String,
-      creator: Creator.fromJson(json['creator'] as Map<String, dynamic>),
+      creatorId: json['creatorId'] as String,
     );
 
 Map<String, dynamic> _$$_EventToJson(_$_Event instance) => <String, dynamic>{
@@ -4274,7 +4422,7 @@ Map<String, dynamic> _$$_EventToJson(_$_Event instance) => <String, dynamic>{
       'featured': instance.featured,
       'email': instance.email,
       'phone': instance.phone,
-      'creator': instance.creator,
+      'creatorId': instance.creatorId,
     };
 
 Value? _$JsonConverterFromJson<Json, Value>(

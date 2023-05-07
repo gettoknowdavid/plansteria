@@ -10,6 +10,7 @@ import 'package:plansteria/services/event_service.dart';
 import 'package:plansteria/services/media_service.dart';
 import 'package:plansteria/services/chat_service.dart';
 import 'package:plansteria/services/shared_preferences_service.dart';
+import 'package:plansteria/services/profile_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -27,6 +28,7 @@ import 'test_helpers.mocks.dart';
   MockSpec<ChatService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<SharedPreferencesService>(
       onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<ProfileService>(onMissingStub: OnMissingStub.returnDefault),
 // @stacked-mock-spec
 ])
 void registerServices() {
@@ -41,6 +43,7 @@ void registerServices() {
   getAndRegisterMediaService();
   getAndRegisterChatService();
   getAndRegisterSharedPreferencesService();
+  getAndRegisterProfileService();
 // @stacked-mock-register
 }
 
@@ -147,6 +150,13 @@ MockSharedPreferencesService getAndRegisterSharedPreferencesService() {
   _removeRegistrationIfExists<SharedPreferencesService>();
   final service = MockSharedPreferencesService();
   locator.registerSingleton<SharedPreferencesService>(service);
+  return service;
+}
+
+MockProfileService getAndRegisterProfileService() {
+  _removeRegistrationIfExists<ProfileService>();
+  final service = MockProfileService();
+  locator.registerSingleton<ProfileService>(service);
   return service;
 }
 // @stacked-mock-create
