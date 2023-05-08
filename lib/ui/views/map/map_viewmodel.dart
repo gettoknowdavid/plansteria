@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:stacked/stacked.dart';
@@ -8,10 +7,10 @@ import 'package:stacked/stacked.dart';
 class MapViewModel extends BaseViewModel {
   final Completer<GoogleMapController> _controller = Completer();
 
-  static const CameraPosition _kLake = CameraPosition(
-    target: LatLng(45.521563, -122.677433),
-    zoom: 14.4746,
-  );
+  // static const CameraPosition _kLake = CameraPosition(
+  //   target: LatLng(45.521563, -122.677433),
+  //   zoom: 14.4746,
+  // );
 
   late GoogleMapController mapController;
 
@@ -45,10 +44,10 @@ class MapViewModel extends BaseViewModel {
     return await Geolocator.getCurrentPosition();
   }
 
-  static const CameraPosition _kPH = CameraPosition(
-    target: LatLng(4.8472, 6.9746),
-    zoom: 14.4746,
-  );
+  // static const CameraPosition _kPH = CameraPosition(
+  //   target: LatLng(4.8472, 6.9746),
+  //   zoom: 14.4746,
+  // );
 
   Future<void> goToPH() async {
     final GoogleMapController controller = await _controller.future;
@@ -59,12 +58,12 @@ class MapViewModel extends BaseViewModel {
 
     final _curLoc = CameraPosition(target: LatLng(lat, lon), zoom: 16);
 
-    final placemarks = await placemarkFromCoordinates(lat, lon);
-    final place = placemarks[0];
+    // final placemarks = await placemarkFromCoordinates(lat, lon);
+    // final place = placemarks[0];
 
-    print("===============================================================");
-    print("${place.country} ${place.country} ${place.country}");
-    print("===============================================================");
+    // print("===============================================================");
+    // print("${place.country} ${place.country} ${place.country}");
+    // print("===============================================================");
 
     controller.animateCamera(CameraUpdate.newCameraPosition(_curLoc));
   }

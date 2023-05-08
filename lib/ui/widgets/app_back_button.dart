@@ -17,8 +17,8 @@ class AppBackButton extends StatelessWidget {
       onPressed: onTap ?? () => Navigator.pop(context),
       style: IconButton.styleFrom(
         padding: isIos ? const EdgeInsets.only(left: 10).r : null,
-        backgroundColor: addColor ? colorScheme.primary : null,
-        foregroundColor: addColor ? colorScheme.onPrimary : null,
+        backgroundColor: addColor ? colorScheme.background : null,
+        foregroundColor: addColor ? colorScheme.onBackground : null,
         shape: RoundedRectangleBorder(
           borderRadius: const BorderRadius.all(Radius.circular(10)).r,
           side: BorderSide(color: colorScheme.onBackground.withOpacity(0.3)),

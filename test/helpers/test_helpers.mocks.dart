@@ -1166,6 +1166,13 @@ class MockEventService extends _i1.Mock implements _i16.EventService {
         returnValueForMissingStub: _i4.Stream<List<_i5.Event?>>.empty(),
       ) as _i4.Stream<List<_i5.Event?>>);
   @override
+  _i4.Stream<List<_i5.Event?>> get eventsByUsersFollowingStream =>
+      (super.noSuchMethod(
+        Invocation.getter(#eventsByUsersFollowingStream),
+        returnValue: _i4.Stream<List<_i5.Event?>>.empty(),
+        returnValueForMissingStub: _i4.Stream<List<_i5.Event?>>.empty(),
+      ) as _i4.Stream<List<_i5.Event?>>);
+  @override
   _i4.Stream<_i5.Event?> get featuredEventStream => (super.noSuchMethod(
         Invocation.getter(#featuredEventStream),
         returnValue: _i4.Stream<_i5.Event?>.empty(),
@@ -1197,6 +1204,17 @@ class MockEventService extends _i1.Mock implements _i16.EventService {
         returnValue: _i4.Stream<List<_i5.Guest?>>.empty(),
         returnValueForMissingStub: _i4.Stream<List<_i5.Guest?>>.empty(),
       ) as _i4.Stream<List<_i5.Guest?>>);
+  @override
+  _i4.Future<List<_i5.Guest?>> getAllGuests(String? eventId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAllGuests,
+          [eventId],
+        ),
+        returnValue: _i4.Future<List<_i5.Guest?>>.value(<_i5.Guest?>[]),
+        returnValueForMissingStub:
+            _i4.Future<List<_i5.Guest?>>.value(<_i5.Guest?>[]),
+      ) as _i4.Future<List<_i5.Guest?>>);
   @override
   _i4.Stream<int> numberOfGuestsStream(String? eventId) => (super.noSuchMethod(
         Invocation.method(
@@ -1493,32 +1511,16 @@ class MockEventService extends _i1.Mock implements _i16.EventService {
         )),
       ) as _i4.Future<_i5.Event>);
   @override
-  _i4.Future<_i3.Either<_i17.EventError, List<_i5.Event?>>> getMyEvents(
-          String? creatorId) =>
+  _i4.Future<List<_i5.Event?>> getMyEvents(String? creatorId) =>
       (super.noSuchMethod(
         Invocation.method(
           #getMyEvents,
           [creatorId],
         ),
-        returnValue:
-            _i4.Future<_i3.Either<_i17.EventError, List<_i5.Event?>>>.value(
-                _FakeEither_2<_i17.EventError, List<_i5.Event?>>(
-          this,
-          Invocation.method(
-            #getMyEvents,
-            [creatorId],
-          ),
-        )),
+        returnValue: _i4.Future<List<_i5.Event?>>.value(<_i5.Event?>[]),
         returnValueForMissingStub:
-            _i4.Future<_i3.Either<_i17.EventError, List<_i5.Event?>>>.value(
-                _FakeEither_2<_i17.EventError, List<_i5.Event?>>(
-          this,
-          Invocation.method(
-            #getMyEvents,
-            [creatorId],
-          ),
-        )),
-      ) as _i4.Future<_i3.Either<_i17.EventError, List<_i5.Event?>>>);
+            _i4.Future<List<_i5.Event?>>.value(<_i5.Event?>[]),
+      ) as _i4.Future<List<_i5.Event?>>);
   @override
   _i4.Future<_i3.Either<_i17.EventError, _i3.Unit>> removeEvent(String? uid) =>
       (super.noSuchMethod(
@@ -1970,16 +1972,27 @@ class MockProfileService extends _i1.Mock implements _i26.ProfileService {
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
   @override
-  _i4.Future<List<_i2.User>> getAllFollowing(String? userId) =>
+  _i4.Future<List<_i2.User?>> getAllFollowing(String? userId) =>
       (super.noSuchMethod(
         Invocation.method(
           #getAllFollowing,
           [userId],
         ),
-        returnValue: _i4.Future<List<_i2.User>>.value(<_i2.User>[]),
+        returnValue: _i4.Future<List<_i2.User?>>.value(<_i2.User?>[]),
         returnValueForMissingStub:
-            _i4.Future<List<_i2.User>>.value(<_i2.User>[]),
-      ) as _i4.Future<List<_i2.User>>);
+            _i4.Future<List<_i2.User?>>.value(<_i2.User?>[]),
+      ) as _i4.Future<List<_i2.User?>>);
+  @override
+  _i4.Future<List<_i2.User?>> getAllFollowers(String? userId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAllFollowers,
+          [userId],
+        ),
+        returnValue: _i4.Future<List<_i2.User?>>.value(<_i2.User?>[]),
+        returnValueForMissingStub:
+            _i4.Future<List<_i2.User?>>.value(<_i2.User?>[]),
+      ) as _i4.Future<List<_i2.User?>>);
   @override
   _i4.Stream<bool> isFollowing(
     String? userId,

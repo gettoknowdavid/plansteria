@@ -17,7 +17,7 @@ class UserProfileViewModel extends FutureViewModel<User>
 
   User get user => _authService.currentUser!;
   String get userId => _navigationService.currentArguments.userId;
-  Event get event => _navigationService.currentArguments.event;
+  Event? get event => _navigationService.currentArguments.event;
 
   @override
   Future<User> futureToRun() => _authService.getUserById(userId);
@@ -41,7 +41,7 @@ class UserProfileViewModel extends FutureViewModel<User>
   }
 
   Stream<int> get numberOfCreatedEvents =>
-      _eventService.numberOfAllCreatedEvents(event.creatorId);
+      _eventService.numberOfAllCreatedEvents(userId);
 
   Stream<int> get followers => _profileService.followers(userId);
 

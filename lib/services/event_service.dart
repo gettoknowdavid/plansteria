@@ -65,6 +65,12 @@ class EventService with ListenableServiceMixin {
     return guestsRef.snapshots().map((e) => e.docs.map((d) => d.data).toList());
   }
 
+  Future<List<Guest?>> getAllGuests(String eventId) async {
+    GuestCollectionReference guestsRef = eventsRef.doc(eventId).guests;
+    final query = await guestsRef.get();
+    return query.docs.map((e) => e.data).toList();
+  }
+
   Stream<int> numberOfGuestsStream(String eventId) {
     GuestCollectionReference guestsRef = eventsRef.doc(eventId).guests;
     return guestsRef.snapshots().map((event) => event.docs.length);
@@ -230,25 +236,20 @@ class EventService with ListenableServiceMixin {
         .first;
   }
 
-  Future<Either<EventError, List<Event?>>> getMyEvents(String creatorId) async {
-    if (_networkService.status == NetworkStatus.disconnected) {
-      return left(const EventError.networkError());
-    }
+  Future<List<Event?>> getMyEvents(String creatorId) async {
+    // if (_networkService.status == NetworkStatus.disconnected) {
+    //   return left(const EventError.networkError());
+    // }
 
     try {
-      final query = await eventsRef
-          .whereFieldPath(
-            FieldPath.fromString('creator.uid'),
-            isEqualTo: creatorId,
-          )
-          .get();
+      final query = await eventsRef.whereCreatorId(isEqualTo: creatorId).get();
       final result = query.docs.map((e) => e.data).toList();
       _events.value = result;
-      return right(result);
+      return result;
     } on FirebaseException catch (e) {
-      return left(EventError.error(e.message));
+      return throw (EventError.error(e.message));
     } on Exception {
-      return left(const EventError.serverError());
+      return throw (const EventError.serverError());
     }
   }
 

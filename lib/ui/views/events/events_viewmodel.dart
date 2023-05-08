@@ -7,7 +7,7 @@ import 'package:plansteria/services/event_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class EventsViewModel extends StreamViewModel<List<Event?>>
+class EventsViewModel extends FutureViewModel<List<Event?>>
     with ListenableServiceMixin {
   final _authService = locator<AuthService>();
   final _eventService = locator<EventService>();
@@ -19,6 +19,7 @@ class EventsViewModel extends StreamViewModel<List<Event?>>
     _navigationService.navigateToNestedEventDetailsViewInLayoutViewRouter(
       event: event,
       routerId: 1,
+      isFromLayoutView: true,
     );
   }
 
@@ -26,5 +27,5 @@ class EventsViewModel extends StreamViewModel<List<Event?>>
   List<ListenableServiceMixin> get listenableServices => [_authService];
 
   @override
-  Stream<List<Event?>> get stream => _eventService.myEventsStream(user.uid);
+  Future<List<Event?>> futureToRun() => _eventService.getMyEvents(user.uid);
 }

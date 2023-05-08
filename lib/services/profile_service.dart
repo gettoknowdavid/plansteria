@@ -41,15 +41,16 @@ class ProfileService {
     }
   }
 
-  Future<List<User>> getAllFollowing(String userId) async {
-    final followingRef = userRef.doc(userId).following;
+  Future<List<User?>> getAllFollowing(String userId) async {
+    FollowingCollectionReference followingRef = userRef.doc(userId).following;
+    final query = await followingRef.get();
+    return query.docs.map((e) => e.data).toList();
+  }
 
-    return followingRef.get().then((value) {
-      // print("================================================");
-      // print(value.docs.map((e) => e.data).toList());
-      // print("================================================");
-      return value.docs.map((e) => e.data).toList();
-    });
+  Future<List<User?>> getAllFollowers(String userId) async {
+    FollowersCollectionReference followersRef = userRef.doc(userId).followers;
+    final query = await followersRef.get();
+    return query.docs.map((e) => e.data).toList();
   }
 
   Stream<bool> isFollowing(String userId, String userIdToCheck) {

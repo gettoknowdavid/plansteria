@@ -14,9 +14,6 @@ class ProfileView extends StackedView<ProfileViewModel> {
 
   @override
   Widget builder(context, viewModel, child) {
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
-
     if (viewModel.isBusy) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
@@ -111,28 +108,35 @@ class _Stats extends ViewModelWidget<ProfileViewModel> {
       children: [
         StreamBuilder<int>(
           stream: viewModel.numberOfCreatedEvents,
-          builder: (context, snapshot) {
-            return ProfileStatItem(
+          builder: (context, snapshot) => GestureDetector(
+            onTap: viewModel.viewAllEvents,
+            child: ProfileStatItem(
               count: snapshot.data,
               label: 'Events',
               loading: snapshot.connectionState == ConnectionState.waiting,
-            );
-          },
+            ),
+          ),
         ),
         StreamBuilder<int>(
           stream: viewModel.followers,
-          builder: (context, snapshot) => ProfileStatItem(
-            count: snapshot.data,
-            label: 'Followers',
-            loading: snapshot.connectionState == ConnectionState.waiting,
+          builder: (context, snapshot) => GestureDetector(
+            onTap: viewModel.viewAllFollowers,
+            child: ProfileStatItem(
+              count: snapshot.data,
+              label: 'Followers',
+              loading: snapshot.connectionState == ConnectionState.waiting,
+            ),
           ),
         ),
         StreamBuilder<int>(
           stream: viewModel.following,
-          builder: (context, snapshot) => ProfileStatItem(
-            count: snapshot.data,
-            label: 'Following',
-            loading: snapshot.connectionState == ConnectionState.waiting,
+          builder: (context, snapshot) => GestureDetector(
+            onTap: viewModel.viewAllFollowing,
+            child: ProfileStatItem(
+              count: snapshot.data,
+              label: 'Following',
+              loading: snapshot.connectionState == ConnectionState.waiting,
+            ),
           ),
         ),
       ],

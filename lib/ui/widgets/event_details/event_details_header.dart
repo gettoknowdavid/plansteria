@@ -16,7 +16,7 @@ class EventDetailsHeader extends ViewModelWidget<EventDetailsViewModel> {
 
     Widget? background;
 
-    if (viewModel.event.photoUrls.isEmpty) {
+    if (viewModel.event!.photoUrls.isEmpty) {
       background = Container(
         child: const Icon(PhosphorIcons.image),
         color: theme.primaryColor.withOpacity(0.5),
@@ -37,7 +37,7 @@ class _Carousel extends ViewModelWidget<EventDetailsViewModel> {
 
   @override
   Widget build(BuildContext context, EventDetailsViewModel viewModel) {
-    final urls = viewModel.event.photoUrls;
+    final urls = viewModel.event!.photoUrls;
     List<Widget> items = [];
 
     if (urls.isEmpty) {
@@ -86,7 +86,7 @@ class _Dots extends ViewModelWidget<EventDetailsViewModel> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
-          children: viewModel.event.photoUrls.asMap().entries.map((entry) {
+          children: viewModel.event!.photoUrls.asMap().entries.map((entry) {
             return Container(
               width: 6.r,
               height: 6.r,

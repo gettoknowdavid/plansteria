@@ -11,12 +11,14 @@ import '../ui/bottom_sheets/edit_profile/edit_profile_sheet.dart';
 import '../ui/bottom_sheets/image_source/image_source_sheet.dart';
 import '../ui/bottom_sheets/map/map_sheet.dart';
 import '../ui/bottom_sheets/notice/notice_sheet.dart';
+import '../ui/bottom_sheets/users/profile_stats_sheet.dart';
 
 enum BottomSheetType {
   notice,
   editProfile,
   imageSource,
   map,
+  profileStats,
 }
 
 void setupBottomSheetUi() {
@@ -31,6 +33,8 @@ void setupBottomSheetUi() {
         ImageSourceSheet(request: request, completer: completer),
     BottomSheetType.map: (context, request, completer) =>
         MapSheet(request: request, completer: completer),
+    BottomSheetType.profileStats: (context, request, completer) =>
+        ProfileStatsSheet(request: request, completer: completer),
   };
 
   bottomsheetService.setCustomSheetBuilders(builders);

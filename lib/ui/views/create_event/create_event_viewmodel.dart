@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:plansteria/app/app.bottomsheets.dart';
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/app/app.snackbars.dart';
-import 'package:plansteria/models/creator.dart';
 import 'package:plansteria/models/event.dart';
 import 'package:plansteria/models/user.dart';
 import 'package:plansteria/services/auth_service.dart';
@@ -19,7 +18,7 @@ import 'package:uuid/uuid.dart';
 
 class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  
+
   final _authService = locator<AuthService>();
   final _bottomSheetService = locator<BottomSheetService>();
   final _eventService = locator<EventService>();
@@ -37,6 +36,7 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
   final _photoUrl = ReactiveValue<String?>(null);
   final _photoUrls = ReactiveValue<List<String?>>([]);
   final _currentIndex = ReactiveValue<int>(0);
+  final _isPhoneValid = ReactiveValue<bool>(false);
 
   CreateEventViewModel() {
     listenToReactiveValues([
@@ -46,6 +46,7 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
       _photoUrls,
       _currentIndex,
       _editing,
+      _isPhoneValid,
     ]);
   }
 
@@ -60,6 +61,7 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
       !hasDate ||
       !hasStartTime ||
       !isFormValid ||
+      !_isPhoneValid.value ||
       isBusy;
 
   List<File>? get images => _images.value;
@@ -81,6 +83,11 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
       _images.value = _pickedFiles!.map((e) => File(e.path)).toList();
     }
 
+    notifyListeners();
+  }
+
+  void setPhoneValidity(bool value) {
+    _isPhoneValid.value = value;
     notifyListeners();
   }
 

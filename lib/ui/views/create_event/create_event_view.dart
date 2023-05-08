@@ -25,9 +25,9 @@ import 'create_event_viewmodel.dart';
   FormTextField(name: 'endTime'),
 
   // Location
-  FormTextField(name: 'address', validator: Validators.validateName),
-  FormTextField(name: 'state', validator: Validators.validateName),
-  FormTextField(name: 'city', validator: Validators.validateName),
+  FormTextField(name: 'address', validator: Validators.validateAddress),
+  FormTextField(name: 'state', validator: Validators.validateState),
+  FormTextField(name: 'city', validator: Validators.validateCity),
 
   // Guests
   FormTextField(name: 'numberOfGuests'),
@@ -38,7 +38,7 @@ import 'create_event_viewmodel.dart';
 
   // Contact
   FormTextField(name: 'email', validator: Validators.validateEmail),
-  FormTextField(name: 'phone'),
+  FormTextField(name: 'phone', validator: Validators.validatePhone),
 ])
 class CreateEventView extends StackedView<CreateEventViewModel>
     with $CreateEventView {
@@ -56,12 +56,15 @@ class CreateEventView extends StackedView<CreateEventViewModel>
     );
 
     return Scaffold(
-      appBar: AppBar(title: Text(viewModel.editing ? 'Edit' : 'Create Event')),
+      appBar: AppBar(
+        title: Text(viewModel.editing ? 'Edit' : 'Create Event'),
+        leading: const BackButton(),
+        scrolledUnderElevation: 0,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(kGlobalPadding).r,
         child: Form(
           key: viewModel.formKey,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -93,6 +96,7 @@ class CreateEventView extends StackedView<CreateEventViewModel>
               Text('Location', style: labelStyle),
               5.verticalSpace,
               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
                     child: AppTextField(
@@ -101,7 +105,7 @@ class CreateEventView extends StackedView<CreateEventViewModel>
                       focusNode: addressFocusNode,
                       controller: addressController,
                       enabled: !viewModel.isBusy,
-                      validator: Validators.validateName,
+                      validator: Validators.validateAddress,
                       prefixIcon: const Icon(PhosphorIcons.houseSimple),
                     ),
                   ),
@@ -130,7 +134,7 @@ class CreateEventView extends StackedView<CreateEventViewModel>
                 focusNode: stateFocusNode,
                 controller: stateController,
                 enabled: !viewModel.isBusy,
-                validator: Validators.validateName,
+                validator: Validators.validateState,
                 prefixIcon: const Icon(PhosphorIcons.flag),
               ),
               10.verticalSpace,
@@ -140,7 +144,7 @@ class CreateEventView extends StackedView<CreateEventViewModel>
                 focusNode: cityFocusNode,
                 controller: cityController,
                 enabled: !viewModel.isBusy,
-                validator: Validators.validateName,
+                validator: Validators.validateCity,
                 prefixIcon: const Icon(PhosphorIcons.buildings),
               ),
               20.verticalSpace,
@@ -190,30 +194,15 @@ class CreateEventView extends StackedView<CreateEventViewModel>
                 prefixIcon: const Icon(PhosphorIcons.at),
               ),
               10.verticalSpace,
-              AppTextField(
-                label: 'Phone Number',
-                hint: 'Contact phone number',
-                focusNode: phoneFocusNode,
-                controller: phoneController,
-                enabled: !viewModel.isBusy,
-                keyboardType: TextInputType.number,
-                prefixIcon: const Icon(PhosphorIcons.phone),
-                prefixText: '+234 ',
-              ),
-              10.verticalSpace,
               InternationalPhoneNumberInput(
-                onInputChanged: (PhoneNumber number) {
-                  print(number.phoneNumber);
-                },
-                onInputValidated: (bool value) {
-                  print(value);
-                },
+                onInputChanged: null,
+                onInputValidated: viewModel.setPhoneValidity,
                 initialValue: PhoneNumber(isoCode: 'NG'),
                 autoValidateMode: AutovalidateMode.onUserInteraction,
                 selectorConfig: const SelectorConfig(
                   selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                  // setSelectorButtonAsPrefixIcon: true,
-                  leadingPadding: 0,
+                  setSelectorButtonAsPrefixIcon: true,
+                  leadingPadding: 16,
                   trailingSpace: false,
                 ),
                 hintText: "Contact phone number",
@@ -224,6 +213,7 @@ class CreateEventView extends StackedView<CreateEventViewModel>
                     vertical: 14,
                   ).r,
                 ),
+                // validator: Validators.validatePhone,
                 focusNode: phoneFocusNode,
                 textFieldController: phoneController,
                 formatInput: true,

@@ -7,13 +7,8 @@ class AccountView extends StackedView<AccountViewModel> {
   const AccountView({Key? key}) : super(key: key);
 
   @override
-  Widget builder(
-    BuildContext context,
-    AccountViewModel viewModel,
-    Widget? child,
-  ) {
+  Widget builder(context, viewModel, child) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
       body: Container(
         padding: const EdgeInsets.only(left: 25.0, right: 25.0),
       ),
@@ -21,8 +16,5 @@ class AccountView extends StackedView<AccountViewModel> {
   }
 
   @override
-  AccountViewModel viewModelBuilder(
-    BuildContext context,
-  ) =>
-      AccountViewModel();
+  AccountViewModel viewModelBuilder(context) => AccountViewModel();
 }

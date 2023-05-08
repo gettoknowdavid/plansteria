@@ -36,14 +36,14 @@ final Map<String, String? Function(String?)?> _CreateEventViewTextValidations =
   DateValueKey: Validators.validateDate,
   StartTimeValueKey: Validators.validateDate,
   EndTimeValueKey: null,
-  AddressValueKey: Validators.validateName,
-  StateValueKey: Validators.validateName,
-  CityValueKey: Validators.validateName,
+  AddressValueKey: Validators.validateAddress,
+  StateValueKey: Validators.validateState,
+  CityValueKey: Validators.validateCity,
   NumberOfGuestsValueKey: null,
   NotesValueKey: null,
   PriceValueKey: null,
   EmailValueKey: Validators.validateEmail,
-  PhoneValueKey: null,
+  PhoneValueKey: Validators.validatePhone,
 };
 
 mixin $CreateEventView on StatelessWidget {

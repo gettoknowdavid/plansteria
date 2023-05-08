@@ -13,8 +13,8 @@ import 'user_profile_viewmodel.dart';
 
 class UserProfileView extends StackedView<UserProfileViewModel> {
   final String userId;
-  final Event event;
-  const UserProfileView({super.key, required this.userId, required this.event});
+  final Event? event;
+  const UserProfileView({super.key, required this.userId, this.event});
 
   @override
   Widget builder(context, viewModel, child) {

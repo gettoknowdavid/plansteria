@@ -47,6 +47,30 @@ class Validators {
     return null;
   }
 
+  static String? validateAddress(String? input) {
+    if (input == null || input.isEmpty) {
+      return 'Address cannot be empty';
+    }
+
+    return null;
+  }
+
+  static String? validateState(String? input) {
+    if (input == null || input.isEmpty) {
+      return 'State cannot be empty';
+    }
+
+    return null;
+  }
+
+  static String? validateCity(String? input) {
+    if (input == null || input.isEmpty) {
+      return 'City cannot be empty';
+    }
+
+    return null;
+  }
+
   static String? validatePassword(String? input) {
     if (input == null || input.isEmpty == true) {
       return 'Password cannot be empty';
@@ -60,10 +84,10 @@ class Validators {
   }
 
   static String? validatePhone(String? input) {
-    if (input != null && (input.length != 10 || input.length != 11)) {
-      return 'Phone Number must be 11 digits';
-    } else {
-      return null;
+    if (input == null || input.isEmpty) {
+      return 'Phone Number cannot be empty';
     }
+
+    return null;
   }
 }

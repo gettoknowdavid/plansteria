@@ -17,15 +17,20 @@ import 'event_details_viewmodel.dart';
 
 class EventDetailsView extends StackedView<EventDetailsViewModel> {
   final Event event;
-  const EventDetailsView({super.key, required this.event});
+  final bool isFromLayoutView;
+  const EventDetailsView({
+    super.key,
+    required this.event,
+    this.isFromLayoutView = false,
+  });
 
   @override
   Widget builder(context, viewModel, child) {
-    if (viewModel.fetchingEvent || viewModel.fetchingIsAttending) {
+    if (viewModel.isBusy) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
-    final data = viewModel.event;
+    final data = viewModel.event!;
 
     final scrollController = ScrollController();
     final theme = Theme.of(context);
@@ -104,7 +109,7 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
               ),
               16.verticalSpace,
               StreamBuilder<int>(
-                stream: viewModel.numberOfGuestsStream,
+                stream: viewModel.numberOfGuestsStream(data.uid),
                 builder: (context, snapshot) {
                   return EventDetailsItem(
                     icon: PhosphorIcons.usersThree,
@@ -203,7 +208,7 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
 
   @override
   void onViewModelReady(EventDetailsViewModel viewModel) async {
-    await viewModel.init();
+    viewModel.init(event.uid, isFromLayoutView);
   }
 
   @override

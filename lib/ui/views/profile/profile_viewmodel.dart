@@ -5,13 +5,14 @@ import 'package:plansteria/models/user.dart';
 import 'package:plansteria/services/auth_service.dart';
 import 'package:plansteria/services/event_service.dart';
 import 'package:plansteria/services/profile_service.dart';
+import 'package:plansteria/ui/bottom_sheets/users/profile_stats_sheet_model.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class ProfileViewModel extends ReactiveViewModel with Initialisable {
   final _authService = locator<AuthService>();
-  final _eventService = locator<EventService>();
   final _bottomSheetService = locator<BottomSheetService>();
+  final _eventService = locator<EventService>();
   final _navigationService = locator<NavigationService>();
   final _profileService = locator<ProfileService>();
 
@@ -36,6 +37,38 @@ class ProfileViewModel extends ReactiveViewModel with Initialisable {
   Stream<int> get followers => _profileService.followers(user.uid);
 
   Stream<int> get following => _profileService.following(user.uid);
+
+  Future<void> viewAllFollowers() async {
+    await _bottomSheetService.showCustomSheet(
+      variant: BottomSheetType.profileStats,
+      isScrollControlled: true,
+      data: UsersSheetArguments(type: UsersViewType.followers),
+      takesInput: true,
+      barrierDismissible: false,
+      enableDrag: false,
+    );
+  }
+
+  Future<void> viewAllFollowing() async {
+    await _navigationService.navigateToNestedProfileStatsViewInLayoutViewRouter(
+      1,
+    );
+    // await _bottomSheetService.showCustomSheet(
+    //   variant: BottomSheetType.profileStats,
+    //   isScrollControlled: true,
+    //   data: UsersSheetArguments(type: UsersViewType.following),
+    //   takesInput: true,
+    //   barrierDismissible: false,
+    //   enableDrag: false,
+    // );
+  }
+
+  Future<void> viewAllEvents() async {
+    await _navigationService.navigateToNestedEventsViewInLayoutViewRouter(
+      fromProfileView: true,
+      routerId: 1,
+    );
+  }
 
   @override
   List<ListenableServiceMixin> get listenableServices => [

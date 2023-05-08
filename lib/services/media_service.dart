@@ -29,7 +29,7 @@ class MediaService with ListenableServiceMixin {
     if (files != null) {
       return files;
     } else {
-      print(response.file);
+      // print(response.file);
       return null;
     }
   }
