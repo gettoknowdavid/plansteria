@@ -6,6 +6,7 @@ import 'package:plansteria/services/auth_service.dart';
 import 'package:plansteria/services/event_service.dart';
 import 'package:plansteria/services/profile_service.dart';
 import 'package:plansteria/ui/bottom_sheets/users/profile_stats_sheet_model.dart';
+import 'package:plansteria/ui/views/profile_stats/profile_stats_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -51,7 +52,8 @@ class ProfileViewModel extends ReactiveViewModel with Initialisable {
 
   Future<void> viewAllFollowing() async {
     await _navigationService.navigateToNestedProfileStatsViewInLayoutViewRouter(
-      1,
+      type: StatsType.following,
+      routerId: 1,
     );
     // await _bottomSheetService.showCustomSheet(
     //   variant: BottomSheetType.profileStats,

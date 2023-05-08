@@ -26,13 +26,15 @@ import 'package:plansteria/ui/views/map/map_view.dart' as _i11;
 import 'package:plansteria/ui/views/profile/profile_view.dart' as _i19;
 import 'package:plansteria/ui/views/profile_stats/profile_stats_view.dart'
     as _i21;
+import 'package:plansteria/ui/views/profile_stats/profile_stats_viewmodel.dart'
+    as _i22;
 import 'package:plansteria/ui/views/register/register_view.dart' as _i4;
 import 'package:plansteria/ui/views/startup/startup_view.dart' as _i2;
 import 'package:plansteria/ui/views/user_profile/user_profile_view.dart'
     as _i13;
 import 'package:plansteria/ui/views/verification/verification_view.dart' as _i5;
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i22;
+import 'package:stacked_services/stacked_services.dart' as _i23;
 
 class Routes {
   static const startupView = '/startup-view';
@@ -449,8 +451,10 @@ class LayoutViewRouter extends _i1.RouterBase {
       );
     },
     _i21.ProfileStatsView: (data) {
+      final args = data.getArgs<NestedProfileStatsViewArguments>(nullOk: false);
       return _i14.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i21.ProfileStatsView(),
+        builder: (context) => _i21.ProfileStatsView(
+            key: args.key, type: args.type, event: args.event),
         settings: data,
         maintainState: false,
       );
@@ -528,7 +532,26 @@ class NestedCreateEventViewArguments {
   }
 }
 
-extension NavigatorStateExtension on _i22.NavigationService {
+class NestedProfileStatsViewArguments {
+  const NestedProfileStatsViewArguments({
+    this.key,
+    required this.type,
+    this.event,
+  });
+
+  final _i14.Key? key;
+
+  final _i22.StatsType type;
+
+  final _i15.Event? event;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "type": "$type", "event": "$event"}';
+  }
+}
+
+extension NavigatorStateExtension on _i23.NavigationService {
   Future<dynamic> navigateToStartupView([
     int? routerId,
     bool preventDuplicates = true,
@@ -831,14 +854,19 @@ extension NavigatorStateExtension on _i22.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToNestedProfileStatsViewInLayoutViewRouter([
+  Future<dynamic> navigateToNestedProfileStatsViewInLayoutViewRouter({
+    _i14.Key? key,
+    required _i22.StatsType type,
+    _i15.Event? event,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return navigateTo<dynamic>(LayoutViewRoutes.profileStatsView,
+        arguments:
+            NestedProfileStatsViewArguments(key: key, type: type, event: event),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -1147,14 +1175,19 @@ extension NavigatorStateExtension on _i22.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithNestedProfileStatsViewInLayoutViewRouter([
+  Future<dynamic> replaceWithNestedProfileStatsViewInLayoutViewRouter({
+    _i14.Key? key,
+    required _i22.StatsType type,
+    _i15.Event? event,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return replaceWith<dynamic>(LayoutViewRoutes.profileStatsView,
+        arguments:
+            NestedProfileStatsViewArguments(key: key, type: type, event: event),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
