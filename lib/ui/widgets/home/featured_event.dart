@@ -10,7 +10,7 @@ import 'package:plansteria/ui/widgets/home/stacked_avatar_widget.dart';
 import 'package:stacked/stacked.dart';
 
 final _containerHeight = 0.325.sh;
-final _imageHeight = _containerHeight * 0.67.r;
+final _imageHeight = _containerHeight * 0.6.r;
 
 class FeaturedEvent extends ViewModelWidget<HomeViewModel> {
   const FeaturedEvent({super.key});

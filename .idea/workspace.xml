@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b4d37574-25fb-4e62-a7c7-ee7d3b7cfbff" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/utils/currency_input_formater.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/bottom_sheets/create_event/create_event_sheet.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/bottom_sheets/create_event/create_event_sheet.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/views/create_event/create_event_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/views/create_event/create_event_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/views/create_event/create_event_view.form.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/views/create_event/create_event_view.form.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/widgets/app_textfield.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/widgets/app_textfield.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plansteria.iml" beforeDir="false" afterPath="$PROJECT_DIR$/plansteria.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
-    </list>
+    <list default="true" id="b4d37574-25fb-4e62-a7c7-ee7d3b7cfbff" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,16 +26,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "cidr.known.project.marker": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "last_opened_file_path": "/Users/gettoknowdavid/Code/plansteria",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/gettoknowdavid/Code/plansteria&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
