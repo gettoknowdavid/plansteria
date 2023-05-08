@@ -5,7 +5,6 @@ import 'package:plansteria/models/user.dart';
 import 'package:plansteria/services/auth_service.dart';
 import 'package:plansteria/services/event_service.dart';
 import 'package:plansteria/services/profile_service.dart';
-import 'package:plansteria/ui/bottom_sheets/users/profile_stats_sheet_model.dart';
 import 'package:plansteria/ui/views/profile_stats/profile_stats_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -40,13 +39,9 @@ class ProfileViewModel extends ReactiveViewModel with Initialisable {
   Stream<int> get following => _profileService.following(user.uid);
 
   Future<void> viewAllFollowers() async {
-    await _bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.profileStats,
-      isScrollControlled: true,
-      data: UsersSheetArguments(type: UsersViewType.followers),
-      takesInput: true,
-      barrierDismissible: false,
-      enableDrag: false,
+    await _navigationService.navigateToNestedProfileStatsViewInLayoutViewRouter(
+      type: StatsType.followers,
+      routerId: 1,
     );
   }
 
@@ -55,14 +50,6 @@ class ProfileViewModel extends ReactiveViewModel with Initialisable {
       type: StatsType.following,
       routerId: 1,
     );
-    // await _bottomSheetService.showCustomSheet(
-    //   variant: BottomSheetType.profileStats,
-    //   isScrollControlled: true,
-    //   data: UsersSheetArguments(type: UsersViewType.following),
-    //   takesInput: true,
-    //   barrierDismissible: false,
-    //   enableDrag: false,
-    // );
   }
 
   Future<void> viewAllEvents() async {

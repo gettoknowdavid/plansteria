@@ -41,7 +41,7 @@ class ProfileStatsViewModel extends FutureViewModel
     );
   }
 
-  void close() => _navigationService.back();
+  void close() => _navigationService.back(id: 1);
 
   Future<void> init({Event? initEvent, required StatsType initType}) async {
     Future.delayed(const Duration(seconds: 1));

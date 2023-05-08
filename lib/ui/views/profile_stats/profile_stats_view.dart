@@ -21,17 +21,11 @@ class ProfileStatsView extends StackedView<ProfileStatsViewModel> {
     return SizedBox(
       height: 1.sh,
       child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(kToolbarHeight + 22),
-          child: Padding(
-            padding: const EdgeInsets.only(top: 22).r,
-            child: AppBar(
-              scrolledUnderElevation: 0.0,
-              title: Text(viewModel.appBarTitle),
-              bottom: !viewModel.isBusy ? null : _buildLoadingIndicator(),
-              leading: Center(child: AppBackButton(onTap: viewModel.close)),
-            ),
-          ),
+        appBar: AppBar(
+          scrolledUnderElevation: 0.0,
+          title: Text(viewModel.appBarTitle),
+          bottom: !viewModel.isBusy ? null : _buildLoadingIndicator(),
+          leading: Center(child: AppBackButton(onTap: viewModel.close)),
         ),
         body: !viewModel.dataReady ? null : _buildList(viewModel, context),
       ),
