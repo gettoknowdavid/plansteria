@@ -1,4 +1,3 @@
-import 'package:plansteria/app/app.bottomsheets.dart';
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/app/app.router.dart';
 import 'package:plansteria/app/app.snackbars.dart';
@@ -7,8 +6,8 @@ import 'package:plansteria/models/event.dart';
 import 'package:plansteria/models/user.dart';
 import 'package:plansteria/services/auth_service.dart';
 import 'package:plansteria/services/event_service.dart';
-import 'package:plansteria/ui/bottom_sheets/users/profile_stats_sheet_model.dart';
 import 'package:plansteria/ui/common/app_strings.dart';
+import 'package:plansteria/ui/views/profile_stats/profile_stats_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -159,12 +158,16 @@ class EventDetailsViewModel extends ReactiveViewModel
   }
 
   Future<void> navigateToGuestsList() async {
-    await _bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.profileStats,
-      isScrollControlled: true,
-      data: UsersSheetArguments(type: UsersViewType.guests, event: event),
-      takesInput: true,
+    await _navigationService.navigateToProfileStatsView(
+      type: StatsType.guests,
+      event: event,
     );
+    // await _bottomSheetService.showCustomSheet(
+    //   variant: BottomSheetType.profileStats,
+    //   isScrollControlled: true,
+    //   data: Profile(type: UsersViewType.guests, event: event),
+    //   takesInput: true,
+    // );
   }
 
   Future<Creator> getCreator() async {

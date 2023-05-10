@@ -1,4 +1,3 @@
-import 'package:plansteria/app/app.bottomsheets.dart';
 import 'package:plansteria/app/app.dialogs.dart';
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/app/app.router.dart';
@@ -15,7 +14,6 @@ const String upcomingEventsKey = 'upcomingEventsKey';
 
 class HomeViewModel extends MultipleStreamViewModel {
   final _authService = locator<AuthService>();
-  final _bottomSheetService = locator<BottomSheetService>();
   final _dialogService = locator<DialogService>();
   final _eventService = locator<EventService>();
   final _navigationService = locator<NavigationService>();
@@ -45,14 +43,6 @@ class HomeViewModel extends MultipleStreamViewModel {
 
   void navigateToCreateEvent() {
     _navigationService.navigateToCreateEventView();
-  }
-
-  void showBottomSheet() {
-    _bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.notice,
-      title: ksHomeBottomSheetTitle,
-      description: ksHomeBottomSheetDescription,
-    );
   }
 
   void showDialog() {

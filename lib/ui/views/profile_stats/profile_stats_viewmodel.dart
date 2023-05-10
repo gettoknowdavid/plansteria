@@ -41,7 +41,15 @@ class ProfileStatsViewModel extends FutureViewModel
     );
   }
 
-  void close() => _navigationService.back(id: 1);
+  void close(StatsType statsType) {
+    switch (statsType) {
+      case StatsType.guests:
+        _navigationService.back();
+        break;
+      default:
+        _navigationService.back(id: 1);
+    }
+  }
 
   Future<void> init({Event? initEvent, required StatsType initType}) async {
     Future.delayed(const Duration(seconds: 1));
@@ -55,7 +63,10 @@ class ProfileStatsViewModel extends FutureViewModel
   }
 
   Future<void> navigateToUserProfile(String userId) async {
-    await _navigationService.navigateToUserProfileView(userId: userId);
+    await _navigationService.navigateToUserProfileView(
+      userId: userId,
+      event: event,
+    );
   }
 
   @override

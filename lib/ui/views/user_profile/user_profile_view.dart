@@ -102,6 +102,14 @@ class _EventList extends ViewModelWidget<UserProfileViewModel> {
           return const Center(child: CircularProgressIndicator());
         }
 
+        if (snapshot.data?.isEmpty == true) {
+          return Container(
+            alignment: Alignment.topCenter,
+            padding: const EdgeInsets.only(top: 20).r,
+            child: const Text('No events created by this user.'),
+          );
+        }
+
         return ListView.separated(
           shrinkWrap: true,
           primary: false,

@@ -18,17 +18,16 @@ class ProfileStatsView extends StackedView<ProfileStatsViewModel> {
 
   @override
   Widget builder(context, viewModel, child) {
-    return SizedBox(
-      height: 1.sh,
-      child: Scaffold(
-        appBar: AppBar(
-          scrolledUnderElevation: 0.0,
-          title: Text(viewModel.appBarTitle),
-          bottom: !viewModel.isBusy ? null : _buildLoadingIndicator(),
-          leading: Center(child: AppBackButton(onTap: viewModel.close)),
+    return Scaffold(
+      appBar: AppBar(
+        scrolledUnderElevation: 0.0,
+        title: Text(viewModel.appBarTitle),
+        bottom: !viewModel.isBusy ? null : _buildLoadingIndicator(),
+        leading: Center(
+          child: AppBackButton(onTap: () => viewModel.close(type)),
         ),
-        body: !viewModel.dataReady ? null : _buildList(viewModel, context),
       ),
+      body: !viewModel.dataReady ? null : _buildList(viewModel, context),
     );
   }
 

@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:plansteria/models/user.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -58,11 +60,14 @@ class ProfileService {
     return followingRef.doc(userIdToCheck).snapshots().map((e) => e.exists);
   }
 
-  Future<void> callPhoneNumber([String? phone]) async {
+  Future<void> callPhoneNumber(String phone) async {
     try {
-      if (phone != null) {
-        Uri uri = Uri.parse('tel:$phone');
+      String url = Platform.isIOS ? 'tel://$phone' : 'tel:$phone';
+      Uri uri = Uri.parse(url);
+      if (await canLaunchUrl(uri)) {
         await launchUrl(uri);
+      } else {
+        throw 'Could not launch $url';
       }
     } catch (e) {
       throw Exception(e);

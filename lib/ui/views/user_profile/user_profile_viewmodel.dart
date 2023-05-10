@@ -55,7 +55,7 @@ class UserProfileViewModel extends FutureViewModel<User>
     await _profileService.getAllFollowing(user.uid);
   }
 
-  Future<void> call() => _profileService.callPhoneNumber(data!.phone);
+  Future<void> call() => _profileService.callPhoneNumber(data!.phone!);
 
   Future<void> sendMail() async => _profileService.sendMail(data!.email);
 

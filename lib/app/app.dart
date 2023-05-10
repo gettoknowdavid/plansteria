@@ -14,7 +14,6 @@ import 'package:plansteria/ui/bottom_sheets/edit_profile/edit_profile_sheet.dart
 import 'package:plansteria/ui/bottom_sheets/image_source/image_source_sheet.dart';
 import 'package:plansteria/ui/bottom_sheets/map/map_sheet.dart';
 import 'package:plansteria/ui/bottom_sheets/notice/notice_sheet.dart';
-import 'package:plansteria/ui/bottom_sheets/users/profile_stats_sheet.dart';
 import 'package:plansteria/ui/common/app_theme.dart';
 import 'package:plansteria/ui/dialogs/about_app/about_app_dialog.dart';
 import 'package:plansteria/ui/dialogs/error/error_dialog.dart';
@@ -66,9 +65,10 @@ import 'package:stacked_services/stacked_services.dart';
       ],
     ),
     MaterialRoute(page: EventDetailsView),
+    MaterialRoute(page: ProfileStatsView),
+    MaterialRoute(page: GuestsView),
     MaterialRoute(page: CreateEventView),
     MaterialRoute(page: MapView),
-    MaterialRoute(page: GuestsView),
     MaterialRoute(page: UserProfileView),
 // @stacked-route
   ],
@@ -96,7 +96,7 @@ import 'package:stacked_services/stacked_services.dart';
     StackedBottomsheet(classType: EditProfileSheet),
     StackedBottomsheet(classType: ImageSourceSheet),
     StackedBottomsheet(classType: MapSheet),
-    StackedBottomsheet(classType: ProfileStatsSheet),
+    // StackedBottomsheet(classType: ProfileStatsSheet),
 // @stacked-bottom-sheet
   ],
   dialogs: [

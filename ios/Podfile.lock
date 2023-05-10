@@ -771,6 +771,9 @@ PODS:
   - image_picker_ios (0.0.1):
     - Flutter
   - leveldb-library (1.22.1)
+  - libphonenumber_plugin (0.0.1):
+    - Flutter
+    - PhoneNumberKit
   - Libuv-gRPC (0.0.10):
     - Libuv-gRPC/Implementation (= 0.0.10)
     - Libuv-gRPC/Interface (= 0.0.10)
@@ -791,8 +794,17 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
+  - PhoneNumberKit (3.3.4):
+    - PhoneNumberKit/PhoneNumberKitCore (= 3.3.4)
+    - PhoneNumberKit/UIKit (= 3.3.4)
+  - PhoneNumberKit/PhoneNumberKitCore (3.3.4)
+  - PhoneNumberKit/UIKit (3.3.4):
+    - PhoneNumberKit/PhoneNumberKitCore
   - PromisesObjC (2.2.0)
   - ReachabilitySwift (5.0.0)
+  - shared_preferences_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
   - url_launcher_ios (0.0.1):
     - Flutter
 
@@ -811,9 +823,11 @@ DEPENDENCIES:
   - google_maps_flutter_ios (from `.symlinks/plugins/google_maps_flutter_ios/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
+  - libphonenumber_plugin (from `.symlinks/plugins/libphonenumber_plugin/ios`)
   - objectbox_flutter_libs (from `.symlinks/plugins/objectbox_flutter_libs/ios`)
   - open_mail_app (from `.symlinks/plugins/open_mail_app/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
+  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
 SPEC REPOS:
@@ -841,6 +855,7 @@ SPEC REPOS:
     - Libuv-gRPC
     - nanopb
     - ObjectBox
+    - PhoneNumberKit
     - PromisesObjC
     - ReachabilitySwift
 
@@ -873,12 +888,16 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_sign_in_ios/ios"
   image_picker_ios:
     :path: ".symlinks/plugins/image_picker_ios/ios"
+  libphonenumber_plugin:
+    :path: ".symlinks/plugins/libphonenumber_plugin/ios"
   objectbox_flutter_libs:
     :path: ".symlinks/plugins/objectbox_flutter_libs/ios"
   open_mail_app:
     :path: ".symlinks/plugins/open_mail_app/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/ios"
+  shared_preferences_foundation:
+    :path: ".symlinks/plugins/shared_preferences_foundation/ios"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
 
@@ -917,14 +936,17 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 3a63d75eecd6aa32c2fc79f578064e1214dfdec2
   image_picker_ios: 4a8aadfbb6dc30ad5141a2ce3832af9214a705b5
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
+  libphonenumber_plugin: e8a7d64a6624a7c25f2c4ab0b7ead2a8e341e35e
   Libuv-gRPC: 55e51798e14ef436ad9bc45d12d43b77b49df378
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   ObjectBox: a7900d5335218cd437cbc080b7ccc38a5211f7b4
   objectbox_flutter_libs: 61d74196d924fbc773da5f5757d1e9fab7b3cc78
   open_mail_app: 794172f6a22cd16319d3ddaf45e945b2f74952b0
   path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
+  PhoneNumberKit: 441e8b26ec88d598e3591de9061eff18f5dd12e8
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
+  shared_preferences_foundation: 986fc17f3d3251412d18b0265f9c64113a8c2472
   url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
 
 PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
