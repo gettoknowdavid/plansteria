@@ -21,6 +21,7 @@ class ChatView extends StackedView<ChatViewModel> with $ChatView {
           _buildClearButton(viewModel),
           10.horizontalSpace,
         ],
+        scrolledUnderElevation: 0,
       ),
       body: Column(
         children: [
@@ -51,10 +52,13 @@ class ChatView extends StackedView<ChatViewModel> with $ChatView {
   @override
   ChatViewModel viewModelBuilder(context) => ChatViewModel();
 
-  TextButton _buildClearButton(ChatViewModel viewModel) {
-    return TextButton(
-      onPressed: viewModel.clearChatHistory,
-      child: const Text('Clear Chat'),
+  Widget _buildClearButton(ChatViewModel viewModel) {
+    return Visibility(
+      visible: viewModel.chatGroups.isNotEmpty,
+      child: TextButton(
+        onPressed: viewModel.clearChatHistory,
+        child: const Text('Clear Chat'),
+      ),
     );
   }
 }

@@ -17,7 +17,7 @@ class ChatSuggestionSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(kGlobalPadding).r,
+      padding: kGlobalHorizontalPadding,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

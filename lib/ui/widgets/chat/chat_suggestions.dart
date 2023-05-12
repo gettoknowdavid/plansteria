@@ -38,15 +38,16 @@ class ChatSuggestions extends ViewModelWidget<ChatViewModel> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          20.verticalSpace,
-          Text('AI Chat', style: textTheme.displaySmall),
-          Text('Powered by OpenAI', style: textTheme.bodyLarge),
+          10.verticalSpace,
+          Text('AI Chat', style: textTheme.titleLarge),
+          Text('Powered by OpenAI', style: textTheme.bodyMedium),
           20.verticalSpace,
           ChatSuggestionSection(
             title: 'Examples',
             icon: PhosphorIcons.sun,
             content: [...exampleItems],
           ),
+          10.verticalSpace,
           ChatSuggestionSection(
             title: 'Limitations',
             icon: PhosphorIcons.warning,
