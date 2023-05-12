@@ -24,6 +24,9 @@ class HomeViewModel extends MultipleStreamViewModel {
   bool get fetchingUpcomingEvents => busy(upcomingEventsKey);
   bool get fetchingFeaturedEvent => busy(featuredEventKey);
 
+  bool get isUpcomingEventsEmpty =>
+      dataMap?[upcomingEventsKey]?.isEmpty == true;
+
   Future<List<Guest?>> get getGuests async {
     if (featuredEvent != null) {
       return await _eventService.allGuests(featuredEvent!.uid);

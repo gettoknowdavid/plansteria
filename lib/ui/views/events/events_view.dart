@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:plansteria/ui/common/app_constants.dart';
 import 'package:plansteria/ui/widgets/app_back_button.dart';
+import 'package:plansteria/ui/widgets/empty_state.dart';
 import 'package:plansteria/ui/widgets/event_card.dart';
 import 'package:plansteria/ui/widgets/layout_app_bar.dart';
 import 'package:plansteria/ui/widgets/section_title.dart';
@@ -16,7 +17,25 @@ class EventsView extends StackedView<EventsViewModel> {
   @override
   Widget builder(context, viewModel, child) {
     final isReady = viewModel.dataReady;
-    final isEmpty = viewModel.data?.isEmpty == true;
+    final isNotEmpty = viewModel.data?.isEmpty == false;
+
+    if (!isReady) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
+    if (fromProfileView && isReady) {
+      return Scaffold(
+        appBar: AppBar(
+          leadingWidth: 70.r,
+          leading: const Center(child: AppBackButton()),
+          title: const Text('My Events'),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(kGlobalPadding).r,
+          child: isNotEmpty ? _buildList(viewModel) : const EmptyState(),
+        ),
+      );
+    }
 
     return Scaffold(
       appBar: LayoutAppBar(),
@@ -25,32 +44,17 @@ class EventsView extends StackedView<EventsViewModel> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (fromProfileView && isReady) ...[
-              20.verticalSpace,
-              const AppBackButton(),
-              10.verticalSpace,
-              isEmpty ? _buildEmptyState(context) : _buildList(viewModel),
-            ] else if (isReady && !isEmpty)
+            if (isReady && isNotEmpty)
               SectionTitle(
                 title: 'My Events',
-                onTap: () {},
                 child: _buildList(viewModel),
               )
             else
-              _buildEmptyState(context),
+              const EmptyState(),
             20.verticalSpace,
           ],
         ),
       ),
-    );
-  }
-
-  Container _buildEmptyState(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    return Container(
-      alignment: Alignment.topCenter,
-      padding: const EdgeInsets.fromLTRB(16, 40, 16, 0).r,
-      child: Text('Nothing to see here', style: textTheme.titleMedium),
     );
   }
 

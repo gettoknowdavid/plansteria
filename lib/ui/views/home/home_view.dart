@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:plansteria/ui/common/app_constants.dart';
 import 'package:plansteria/ui/widgets/app_loading_indicator.dart';
+import 'package:plansteria/ui/widgets/empty_state.dart';
 import 'package:plansteria/ui/widgets/home/featured_event.dart';
 import 'package:plansteria/ui/widgets/home/upcoming_events.dart';
 import 'package:plansteria/ui/widgets/layout_app_bar.dart';
@@ -22,19 +23,25 @@ class HomeView extends StackedView<HomeViewModel> {
         child: Column(
           children: [
             10.verticalSpace,
-            if (viewModel.featuredEvent != null)
+            if (viewModel.featuredEvent != null) ...[
               const SectionTitle(
                 title: 'Featured Event',
                 child: FeaturedEvent(),
               ),
-            20.verticalSpace,
-            if (viewModel.dataReady(upcomingEventsKey))
+              20.verticalSpace,
+            ],
+            if (viewModel.dataReady(upcomingEventsKey) &&
+                !viewModel.isUpcomingEventsEmpty) ...[
               SectionTitle(
                 title: 'Upcoming Events',
                 onTap: () {},
                 child: const UpcomingEvents(),
               ),
-            20.verticalSpace,
+              20.verticalSpace,
+            ] else ...[
+              30.verticalSpace,
+              const EmptyState(),
+            ]
           ],
         ),
       ),
