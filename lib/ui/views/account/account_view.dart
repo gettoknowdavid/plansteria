@@ -98,6 +98,7 @@ class AccountView extends StackedView<AccountViewModel> with $AccountView {
                   focusNode: passwordFocusNode,
                   controller: passwordController,
                   validator: Validators.validatePassword,
+                  isPassword: true,
                 ),
                 10.verticalSpace,
                 AppTextField(
@@ -107,6 +108,7 @@ class AccountView extends StackedView<AccountViewModel> with $AccountView {
                   focusNode: confirmPasswordFocusNode,
                   controller: confirmPasswordController,
                   validator: Validators.validateLoginPassword,
+                  isPassword: true,
                 ),
                 4.verticalSpace,
                 Text(

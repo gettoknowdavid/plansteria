@@ -1,3 +1,4 @@
+import 'package:plansteria/app/app.bottomsheets.dart';
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/app/app.router.dart';
 import 'package:plansteria/app/app.snackbars.dart';
@@ -11,6 +12,7 @@ import 'account_view.form.dart';
 
 class AccountViewModel extends FormViewModel with ListenableServiceMixin {
   final _authService = locator<AuthService>();
+  final _bottomSheetService = locator<BottomSheetService>();
   final _dialogService = locator<DialogService>();
   final _navigationService = locator<NavigationService>();
   final _snackbarService = locator<SnackbarService>();
@@ -84,29 +86,51 @@ class AccountViewModel extends FormViewModel with ListenableServiceMixin {
       .whenComplete(logout);
 
   Future<void> updatePassword() async {
-    setBusy(true);
-    // final result = await _authService.forgotPassword(currentUser.email);
-    // return result.fold(
-    //   (failure) {
-    //     setBusy(false);
-    //     _snackbarService.showCustomSnackBar(
-    //       duration: const Duration(seconds: 6),
-    //       variant: SnackbarType.error,
-    //       message: failure.maybeMap(
-    //         orElse: () => '',
-    //         error: (value) => value.message ?? '',
-    //         requiresRecentLogin: (_) => kRequiresRecentLoginErrorMessage,
-    //         serverError: (_) => kServerErrorMessage,
-    //         invalidEmail: (_) => kInvalidEmail,
-    //         emailInUse: (_) => kEmailAlreadyInUseErrorMessage,
-    //       ),
-    //     );
-    //   },
-    //   (success) async {
-    //     setBusy(false);
-    //     // await showConfirmationDialog();
-    //   },
-    // );
+    final confirmationResponse = await _bottomSheetService.showCustomSheet(
+      variant: BottomSheetType.passwordConfirmation,
+      isScrollControlled: true,
+      enableDrag: false,
+    );
+    if (confirmationResponse?.confirmed == true) {
+      setBusy(true);
+      final result = await _authService.updatePassword(passwordValue!);
+      return result.fold(
+        (failure) {
+          setBusy(false);
+          _snackbarService.showCustomSnackBar(
+            duration: const Duration(seconds: 6),
+            variant: SnackbarType.error,
+            message: failure.maybeMap(
+              orElse: () => '',
+              error: (value) => value.message ?? '',
+              requiresRecentLogin: (_) => kRequiresRecentLoginErrorMessage,
+              serverError: (_) => kServerErrorMessage,
+              invalidEmail: (_) => kInvalidEmail,
+              emailInUse: (_) => kEmailAlreadyInUseErrorMessage,
+            ),
+          );
+        },
+        (success) async {
+          setBusy(false);
+          await _dialogService
+              .showDialog(
+                barrierDismissible: false,
+                title: 'Password Updated',
+                description:
+                    "Your password has been updated. \n\nYou will have to login with your email and your new password.",
+                buttonTitle: 'Okay, great!',
+              )
+              .whenComplete(logout);
+        },
+      );
+    } else {
+      setBusy(false);
+      _snackbarService.showCustomSnackBar(
+        duration: const Duration(seconds: 6),
+        variant: SnackbarType.error,
+        message: 'Invalid password. Cannot change password.',
+      );
+    }
   }
 
   @override

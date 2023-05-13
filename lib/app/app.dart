@@ -42,6 +42,7 @@ import 'package:plansteria/ui/views/verification/verification_view.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:plansteria/ui/bottom_sheets/password_confirmation/password_confirmation_sheet.dart';
+import 'package:plansteria/ui/views/about/about_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -71,6 +72,7 @@ import 'package:plansteria/ui/bottom_sheets/password_confirmation/password_confi
     MaterialRoute(page: CreateEventView),
     MaterialRoute(page: MapView),
     MaterialRoute(page: UserProfileView),
+    MaterialRoute(page: AboutView),
 // @stacked-route
   ],
   dependencies: [

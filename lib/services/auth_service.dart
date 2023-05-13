@@ -269,22 +269,8 @@ class AuthService with ListenableServiceMixin {
     }
   }
 
-  Future<Either<AuthError, Unit>> updatePassword({
-    required String oldPassword,
-    required String newPassword,
-  }) async {
+  Future<Either<AuthError, Unit>> updatePassword(String newPassword) async {
     final curUser = _firebaseAuth.currentUser!;
-
-    final result = await _firebaseAuth.signInWithEmailAndPassword(
-      email: curUser.email!,
-      password: oldPassword,
-    );
-
-    if (result.user != null && result.user?.uid == curUser.uid) {
-      await curUser.updatePassword(newPassword);
-    } else {
-      return left(const AuthError.invalidPassword());
-    }
 
     try {
       await curUser.updatePassword(newPassword);
