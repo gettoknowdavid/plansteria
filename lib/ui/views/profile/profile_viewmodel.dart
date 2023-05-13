@@ -59,6 +59,12 @@ class ProfileViewModel extends ReactiveViewModel with Initialisable {
     );
   }
 
+  Future<void> navigateToAccountView() async {
+    await _navigationService.navigateToNestedAccountViewInLayoutViewRouter(
+      routerId: 1,
+    );
+  }
+
   @override
   List<ListenableServiceMixin> get listenableServices => [
         _authService,

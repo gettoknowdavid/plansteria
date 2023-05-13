@@ -1,18 +1,156 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:plansteria/ui/common/app_constants.dart';
+import 'package:plansteria/ui/common/validators.dart';
+import 'package:plansteria/ui/widgets/app_back_button.dart';
+import 'package:plansteria/ui/widgets/app_button.dart';
+import 'package:plansteria/ui/widgets/app_textfield.dart';
+import 'package:plansteria/ui/widgets/profile/profile_item.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked/stacked_annotations.dart';
 
+import 'account_view.form.dart';
 import 'account_viewmodel.dart';
 
-class AccountView extends StackedView<AccountViewModel> {
-  const AccountView({Key? key}) : super(key: key);
+@FormView(fields: [
+  FormTextField(name: 'email', validator: Validators.validateEmail),
+  FormTextField(name: 'password', validator: Validators.validatePassword),
+  FormTextField(
+    name: 'confirmPassword',
+    validator: Validators.validateLoginPassword,
+  ),
+])
+class AccountView extends StackedView<AccountViewModel> with $AccountView {
+  AccountView({super.key});
 
   @override
   Widget builder(context, viewModel, child) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final colorScheme = theme.colorScheme;
+    final backgroundColor = colorScheme.primary.withOpacity(0.1);
+    final shape = RoundedRectangleBorder(
+      borderRadius: const BorderRadius.all(Radius.circular(10)).r,
+    );
+
+    if (viewModel.isBusy) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+      appBar: AppBar(
+        leading: const Center(child: AppBackButton()),
+        leadingWidth: 70.r,
+        scrolledUnderElevation: 0.0,
+        title: const Text('Account Settings'),
+      ),
+      body: SingleChildScrollView(
+        padding: kGlobalHorizontalPadding,
+        child: Column(
+          children: [
+            10.verticalSpace,
+            ExpansionTile(
+              title: const Text('Change Email'),
+              leading: const Icon(PhosphorIcons.at),
+              tilePadding: const EdgeInsets.fromLTRB(12, 0, 12, 0).r,
+              childrenPadding: const EdgeInsets.fromLTRB(12, 4, 12, 4).r,
+              onExpansionChanged: viewModel.onEmailExpansionChanged,
+              collapsedBackgroundColor: backgroundColor,
+              backgroundColor: backgroundColor,
+              collapsedShape: shape,
+              shape: shape,
+              children: [
+                AppTextField(
+                  hint: 'newemail@exmaple.com',
+                  label: 'Your new email',
+                  enabled: viewModel.showEmail && !viewModel.isBusy,
+                  focusNode: emailFocusNode,
+                  controller: emailController,
+                  validator: Validators.validateEmail,
+                ),
+                10.verticalSpace,
+                AppButton(
+                  title: 'Looks good',
+                  disabled: viewModel.emailFieldDisabled,
+                  loading: viewModel.isBusy,
+                  onPressed: viewModel.updateEmail,
+                ),
+                10.verticalSpace,
+              ],
+            ),
+            10.verticalSpace,
+            ExpansionTile(
+              title: const Text('Change Password'),
+              leading: const Icon(PhosphorIcons.password),
+              tilePadding: const EdgeInsets.fromLTRB(12, 0, 12, 0).r,
+              childrenPadding: const EdgeInsets.fromLTRB(12, 4, 12, 4).r,
+              onExpansionChanged: viewModel.onPasswordExpansionChanged,
+              collapsedBackgroundColor: backgroundColor,
+              backgroundColor: backgroundColor,
+              collapsedShape: shape,
+              shape: shape,
+              children: [
+                AppTextField(
+                  hint: 'New Password',
+                  label: 'New Password',
+                  enabled: viewModel.showPassword && !viewModel.isBusy,
+                  focusNode: passwordFocusNode,
+                  controller: passwordController,
+                  validator: Validators.validatePassword,
+                ),
+                10.verticalSpace,
+                AppTextField(
+                  hint: 'Confirm New Password',
+                  label: 'Confirm New Password',
+                  enabled: viewModel.showPassword && !viewModel.isBusy,
+                  focusNode: confirmPasswordFocusNode,
+                  controller: confirmPasswordController,
+                  validator: Validators.validateLoginPassword,
+                ),
+                4.verticalSpace,
+                Text(
+                  'Password must have at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character.',
+                  style: textTheme.labelSmall,
+                ),
+                10.verticalSpace,
+                AppButton(
+                  title: 'Change Password',
+                  disabled: viewModel.passwordButtonDisabled,
+                  loading: viewModel.isBusy,
+                  onPressed: viewModel.updatePassword,
+                ),
+                10.verticalSpace,
+              ],
+            ),
+            10.verticalSpace,
+            const ProfileItem(
+              'Reset Password',
+              leadingIcon: PhosphorIcons.password,
+            ),
+            10.verticalSpace,
+            ProfileItem(
+              'Delete Account',
+              iconColor: theme.colorScheme.error,
+              tileColor: theme.colorScheme.error.withOpacity(0.25),
+              leadingIcon: PhosphorIcons.warning,
+            ),
+            10.verticalSpace,
+          ],
+        ),
       ),
     );
+  }
+
+  @override
+  void onDispose(AccountViewModel viewModel) {
+    super.onDispose(viewModel);
+    disposeForm();
+  }
+
+  @override
+  void onViewModelReady(AccountViewModel viewModel) {
+    syncFormWithViewModel(viewModel);
   }
 
   @override

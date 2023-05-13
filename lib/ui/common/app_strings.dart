@@ -1,7 +1,3 @@
-const String ksHomeBottomSheetTitle = 'Build Great Apps!';
-const String ksHomeBottomSheetDescription =
-    'Stacked is built to help you build better apps. Give us a chance and we\'ll prove it to you. Check out stacked.filledstacks.com to learn more';
-
 const String kLoadingAsset = 'assets/loading.json';
 const String kOnboardingAsset1 = 'assets/images/onboarding_1.png';
 const String kOnboardingAsset2 = 'assets/images/onboarding_2.png';
@@ -23,6 +19,8 @@ const String kEmailAlreadyInUseErrorMessage = 'Email already in use.';
 const String kNoUserFoundErrorMessage = 'No user found with this email.';
 const String kNoNetworkConnectionError =
     'Please check your internet connection or try again later.';
+const String kRequiresRecentLoginErrorMessage =
+    'This operation is sensitive and requires recent authentication. Log in again before retrying this request.';
 
 const String kMailAppTitle = 'Your mail apps';
 const String kMailAppDescription =

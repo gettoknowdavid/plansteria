@@ -28,7 +28,7 @@ class ProfileView extends StackedView<ProfileViewModel> {
             const ProfileAvatar(),
             20.verticalSpace,
             const _Name(),
-            const _Location(),
+            const _Email(),
             30.verticalSpace,
             const _Stats(),
             30.verticalSpace,
@@ -38,9 +38,15 @@ class ProfileView extends StackedView<ProfileViewModel> {
               leadingIcon: PhosphorIcons.pencil,
             ),
             10.verticalSpace,
-            const ProfileItem(
+            ProfileItem(
               'Account',
+              onTap: viewModel.navigateToAccountView,
               leadingIcon: PhosphorIcons.userCircle,
+            ),
+            10.verticalSpace,
+            const ProfileItem(
+              'Location: Lagos, NG',
+              leadingIcon: PhosphorIcons.mapPin,
             ),
             10.verticalSpace,
             const ProfileItem(
@@ -63,22 +69,6 @@ class ProfileView extends StackedView<ProfileViewModel> {
   ProfileViewModel viewModelBuilder(context) => ProfileViewModel();
 }
 
-class _Location extends StatelessWidget {
-  const _Location();
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    return Text(
-      'Lagos, NG',
-      textAlign: TextAlign.center,
-      style: textTheme.bodyMedium?.copyWith(
-        color: textTheme.bodyLarge?.color?.withOpacity(0.5),
-      ),
-    );
-  }
-}
-
 class _Name extends SelectorViewModelWidget<ProfileViewModel, String> {
   const _Name();
 
@@ -96,6 +86,27 @@ class _Name extends SelectorViewModelWidget<ProfileViewModel, String> {
 
   @override
   String selector(ProfileViewModel viewModel) => viewModel.user.name;
+}
+
+class _Email extends SelectorViewModelWidget<ProfileViewModel, String> {
+  const _Email();
+
+  @override
+  Widget build(BuildContext context, String value) {
+    final textTheme = Theme.of(context).textTheme;
+
+    return Text(
+      value,
+      textAlign: TextAlign.center,
+      style: textTheme.bodyMedium?.copyWith(
+        fontStyle: FontStyle.italic,
+        color: textTheme.bodyMedium?.color?.withOpacity(0.5),
+      ),
+    );
+  }
+
+  @override
+  String selector(ProfileViewModel viewModel) => viewModel.user.email;
 }
 
 class _Stats extends ViewModelWidget<ProfileViewModel> {

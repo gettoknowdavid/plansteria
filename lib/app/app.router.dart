@@ -457,8 +457,11 @@ class LayoutViewRouter extends _i1.RouterBase {
       );
     },
     _i22.AccountView: (data) {
+      final args = data.getArgs<NestedAccountViewArguments>(
+        orElse: () => const NestedAccountViewArguments(),
+      );
       return _i15.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i22.AccountView(),
+        builder: (context) => _i22.AccountView(key: args.key),
         settings: data,
         maintainState: false,
       );
@@ -520,6 +523,17 @@ class NestedEventsViewArguments {
 
 class NestedChatViewArguments {
   const NestedChatViewArguments({this.key});
+
+  final _i15.Key? key;
+
+  @override
+  String toString() {
+    return '{"key": "$key"}';
+  }
+}
+
+class NestedAccountViewArguments {
+  const NestedAccountViewArguments({this.key});
 
   final _i15.Key? key;
 
@@ -856,14 +870,16 @@ extension NavigatorStateExtension on _i23.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToNestedAccountViewInLayoutViewRouter([
+  Future<dynamic> navigateToNestedAccountViewInLayoutViewRouter({
+    _i15.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return navigateTo<dynamic>(LayoutViewRoutes.accountView,
+        arguments: NestedAccountViewArguments(key: key),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -1196,14 +1212,16 @@ extension NavigatorStateExtension on _i23.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithNestedAccountViewInLayoutViewRouter([
+  Future<dynamic> replaceWithNestedAccountViewInLayoutViewRouter({
+    _i15.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return replaceWith<dynamic>(LayoutViewRoutes.accountView,
+        arguments: NestedAccountViewArguments(key: key),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

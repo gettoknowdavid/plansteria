@@ -161,6 +161,7 @@ class AuthService with ListenableServiceMixin {
       ]);
       _currentUser.value = null;
       _isAuthenticated.value = false;
+      notifyListeners();
     } catch (e) {
       // Log any errors that occur during the logout process
       // print('Error logging out: $e');
@@ -243,6 +244,50 @@ class AuthService with ListenableServiceMixin {
 
       notifyListeners();
 
+      return right(unit);
+    } on fb.FirebaseAuthException {
+      return left(const AuthError.serverError());
+    }
+  }
+
+  Future<Either<AuthError, Unit>> updateEmailAddress(String newEmail) async {
+    final curUser = _firebaseAuth.currentUser!;
+
+    try {
+      await curUser.updateEmail(newEmail);
+      await userRef.doc(curUser.uid).update(email: newEmail);
+      return right(unit);
+    } on fb.FirebaseAuthException catch (e) {
+      // Handle specific Firebase authentication exceptions.
+      if (e.code == 'email-already-in-use') {
+        return left(const AuthError.emailInUse());
+      } else if (e.code == 'requires-recent-login') {
+        return left(const AuthError.requiresRecentLogin());
+      } else {
+        return left(AuthError.error(e.message));
+      }
+    }
+  }
+
+  Future<Either<AuthError, Unit>> updatePassword({
+    required String oldPassword,
+    required String newPassword,
+  }) async {
+    final curUser = _firebaseAuth.currentUser!;
+
+    final result = await _firebaseAuth.signInWithEmailAndPassword(
+      email: curUser.email!,
+      password: oldPassword,
+    );
+
+    if (result.user != null && result.user?.uid == curUser.uid) {
+      await curUser.updatePassword(newPassword);
+    } else {
+      return left(const AuthError.invalidPassword());
+    }
+
+    try {
+      await curUser.updatePassword(newPassword);
       return right(unit);
     } on fb.FirebaseAuthException {
       return left(const AuthError.serverError());

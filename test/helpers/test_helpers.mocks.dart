@@ -965,6 +965,72 @@ class MockAuthService extends _i1.Mock implements _i10.AuthService {
         )),
       ) as _i4.Future<_i3.Either<_i11.AuthError, _i3.Unit>>);
   @override
+  _i4.Future<_i3.Either<_i11.AuthError, _i3.Unit>> updateEmailAddress(
+          String? newEmail) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateEmailAddress,
+          [newEmail],
+        ),
+        returnValue: _i4.Future<_i3.Either<_i11.AuthError, _i3.Unit>>.value(
+            _FakeEither_2<_i11.AuthError, _i3.Unit>(
+          this,
+          Invocation.method(
+            #updateEmailAddress,
+            [newEmail],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i3.Either<_i11.AuthError, _i3.Unit>>.value(
+                _FakeEither_2<_i11.AuthError, _i3.Unit>(
+          this,
+          Invocation.method(
+            #updateEmailAddress,
+            [newEmail],
+          ),
+        )),
+      ) as _i4.Future<_i3.Either<_i11.AuthError, _i3.Unit>>);
+  @override
+  _i4.Future<_i3.Either<_i11.AuthError, _i3.Unit>> updatePassword({
+    required String? oldPassword,
+    required String? newPassword,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updatePassword,
+          [],
+          {
+            #oldPassword: oldPassword,
+            #newPassword: newPassword,
+          },
+        ),
+        returnValue: _i4.Future<_i3.Either<_i11.AuthError, _i3.Unit>>.value(
+            _FakeEither_2<_i11.AuthError, _i3.Unit>(
+          this,
+          Invocation.method(
+            #updatePassword,
+            [],
+            {
+              #oldPassword: oldPassword,
+              #newPassword: newPassword,
+            },
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i3.Either<_i11.AuthError, _i3.Unit>>.value(
+                _FakeEither_2<_i11.AuthError, _i3.Unit>(
+          this,
+          Invocation.method(
+            #updatePassword,
+            [],
+            {
+              #oldPassword: oldPassword,
+              #newPassword: newPassword,
+            },
+          ),
+        )),
+      ) as _i4.Future<_i3.Either<_i11.AuthError, _i3.Unit>>);
+  @override
   void listenToReactiveValues(List<dynamic>? reactiveValues) =>
       super.noSuchMethod(
         Invocation.method(
@@ -2010,7 +2076,7 @@ class MockProfileService extends _i1.Mock implements _i26.ProfileService {
         returnValueForMissingStub: _i4.Stream<bool>.empty(),
       ) as _i4.Stream<bool>);
   @override
-  _i4.Future<void> callPhoneNumber([String? phone]) => (super.noSuchMethod(
+  _i4.Future<void> callPhoneNumber(String? phone) => (super.noSuchMethod(
         Invocation.method(
           #callPhoneNumber,
           [phone],

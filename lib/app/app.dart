@@ -41,6 +41,7 @@ import 'package:plansteria/ui/views/user_profile/user_profile_view.dart';
 import 'package:plansteria/ui/views/verification/verification_view.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:plansteria/ui/bottom_sheets/password_confirmation/password_confirmation_sheet.dart';
 // @stacked-import
 
 @StackedApp(
@@ -97,6 +98,7 @@ import 'package:stacked_services/stacked_services.dart';
     StackedBottomsheet(classType: ImageSourceSheet),
     StackedBottomsheet(classType: MapSheet),
     // StackedBottomsheet(classType: ProfileStatsSheet),
+    StackedBottomsheet(classType: PasswordConfirmationSheet),
 // @stacked-bottom-sheet
   ],
   dialogs: [
