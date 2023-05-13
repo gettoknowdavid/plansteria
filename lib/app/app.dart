@@ -14,6 +14,7 @@ import 'package:plansteria/ui/bottom_sheets/edit_profile/edit_profile_sheet.dart
 import 'package:plansteria/ui/bottom_sheets/image_source/image_source_sheet.dart';
 import 'package:plansteria/ui/bottom_sheets/map/map_sheet.dart';
 import 'package:plansteria/ui/bottom_sheets/notice/notice_sheet.dart';
+import 'package:plansteria/ui/bottom_sheets/password_confirmation/password_confirmation_sheet.dart';
 import 'package:plansteria/ui/common/app_theme.dart';
 import 'package:plansteria/ui/dialogs/about_app/about_app_dialog.dart';
 import 'package:plansteria/ui/dialogs/error/error_dialog.dart';
@@ -22,6 +23,7 @@ import 'package:plansteria/ui/dialogs/mail_app/mail_app_dialog.dart';
 import 'package:plansteria/ui/dialogs/network_error/network_error_dialog.dart';
 import 'package:plansteria/ui/dialogs/no_mail_app/no_mail_app_dialog.dart';
 import 'package:plansteria/ui/layout/layout_view.dart';
+import 'package:plansteria/ui/views/about/about_view.dart';
 import 'package:plansteria/ui/views/account/account_view.dart';
 import 'package:plansteria/ui/views/chat/chat_view.dart';
 import 'package:plansteria/ui/views/confirmation/confirmation_view.dart';
@@ -41,8 +43,6 @@ import 'package:plansteria/ui/views/user_profile/user_profile_view.dart';
 import 'package:plansteria/ui/views/verification/verification_view.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:plansteria/ui/bottom_sheets/password_confirmation/password_confirmation_sheet.dart';
-import 'package:plansteria/ui/views/about/about_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -64,6 +64,7 @@ import 'package:plansteria/ui/views/about/about_view.dart';
         MaterialRoute(page: EventDetailsView),
         MaterialRoute(page: CreateEventView),
         MaterialRoute(page: ProfileStatsView),
+        MaterialRoute(page: AboutView),
       ],
     ),
     MaterialRoute(page: EventDetailsView),
@@ -72,7 +73,6 @@ import 'package:plansteria/ui/views/about/about_view.dart';
     MaterialRoute(page: CreateEventView),
     MaterialRoute(page: MapView),
     MaterialRoute(page: UserProfileView),
-    MaterialRoute(page: AboutView),
 // @stacked-route
   ],
   dependencies: [

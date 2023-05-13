@@ -991,29 +991,19 @@ class MockAuthService extends _i1.Mock implements _i10.AuthService {
         )),
       ) as _i4.Future<_i3.Either<_i11.AuthError, _i3.Unit>>);
   @override
-  _i4.Future<_i3.Either<_i11.AuthError, _i3.Unit>> updatePassword({
-    required String? oldPassword,
-    required String? newPassword,
-  }) =>
+  _i4.Future<_i3.Either<_i11.AuthError, _i3.Unit>> updatePassword(
+          String? newPassword) =>
       (super.noSuchMethod(
         Invocation.method(
           #updatePassword,
-          [],
-          {
-            #oldPassword: oldPassword,
-            #newPassword: newPassword,
-          },
+          [newPassword],
         ),
         returnValue: _i4.Future<_i3.Either<_i11.AuthError, _i3.Unit>>.value(
             _FakeEither_2<_i11.AuthError, _i3.Unit>(
           this,
           Invocation.method(
             #updatePassword,
-            [],
-            {
-              #oldPassword: oldPassword,
-              #newPassword: newPassword,
-            },
+            [newPassword],
           ),
         )),
         returnValueForMissingStub:
@@ -1022,11 +1012,7 @@ class MockAuthService extends _i1.Mock implements _i10.AuthService {
           this,
           Invocation.method(
             #updatePassword,
-            [],
-            {
-              #oldPassword: oldPassword,
-              #newPassword: newPassword,
-            },
+            [newPassword],
           ),
         )),
       ) as _i4.Future<_i3.Either<_i11.AuthError, _i3.Unit>>);

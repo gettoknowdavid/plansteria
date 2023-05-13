@@ -19,7 +19,7 @@ final Map<String, FocusNode> _PasswordConfirmationSheetFocusNodes = {};
 
 final Map<String, String? Function(String?)?>
     _PasswordConfirmationSheetTextValidations = {
-  PasswordValueKey: Validators.validatePassword,
+  PasswordValueKey: Validators.validateLoginPassword,
 };
 
 mixin $PasswordConfirmationSheet on StatelessWidget {

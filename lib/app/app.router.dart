@@ -9,6 +9,7 @@ import 'package:flutter/material.dart' as _i15;
 import 'package:flutter/material.dart';
 import 'package:plansteria/models/event.dart' as _i16;
 import 'package:plansteria/ui/layout/layout_view.dart' as _i8;
+import 'package:plansteria/ui/views/about/about_view.dart' as _i23;
 import 'package:plansteria/ui/views/account/account_view.dart' as _i22;
 import 'package:plansteria/ui/views/chat/chat_view.dart' as _i20;
 import 'package:plansteria/ui/views/confirmation/confirmation_view.dart' as _i7;
@@ -34,7 +35,7 @@ import 'package:plansteria/ui/views/user_profile/user_profile_view.dart'
     as _i14;
 import 'package:plansteria/ui/views/verification/verification_view.dart' as _i5;
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i23;
+import 'package:stacked_services/stacked_services.dart' as _i24;
 
 class Routes {
   static const startupView = '/startup-view';
@@ -372,6 +373,8 @@ class LayoutViewRoutes {
 
   static const profileStatsView = 'profile-stats-view';
 
+  static const aboutView = 'about-view';
+
   static const all = <String>{
     homeView,
     eventsView,
@@ -381,6 +384,7 @@ class LayoutViewRoutes {
     eventDetailsView,
     createEventView,
     profileStatsView,
+    aboutView,
   };
 }
 
@@ -417,6 +421,10 @@ class LayoutViewRouter extends _i1.RouterBase {
     _i1.RouteDef(
       LayoutViewRoutes.profileStatsView,
       page: _i10.ProfileStatsView,
+    ),
+    _i1.RouteDef(
+      LayoutViewRoutes.aboutView,
+      page: _i23.AboutView,
     ),
   ];
 
@@ -493,6 +501,13 @@ class LayoutViewRouter extends _i1.RouterBase {
       return _i15.MaterialPageRoute<dynamic>(
         builder: (context) => _i10.ProfileStatsView(
             key: args.key, type: args.type, event: args.event),
+        settings: data,
+        maintainState: false,
+      );
+    },
+    _i23.AboutView: (data) {
+      return _i15.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i23.AboutView(),
         settings: data,
         maintainState: false,
       );
@@ -600,7 +615,7 @@ class NestedProfileStatsViewArguments {
   }
 }
 
-extension NavigatorStateExtension on _i23.NavigationService {
+extension NavigatorStateExtension on _i24.NavigationService {
   Future<dynamic> navigateToStartupView([
     int? routerId,
     bool preventDuplicates = true,
@@ -943,6 +958,20 @@ extension NavigatorStateExtension on _i23.NavigationService {
         transition: transition);
   }
 
+  Future<dynamic> navigateToNestedAboutViewInLayoutViewRouter([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(LayoutViewRoutes.aboutView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
   Future<dynamic> replaceWithStartupView([
     int? routerId,
     bool preventDuplicates = true,
@@ -1279,6 +1308,20 @@ extension NavigatorStateExtension on _i23.NavigationService {
     return replaceWith<dynamic>(LayoutViewRoutes.profileStatsView,
         arguments:
             NestedProfileStatsViewArguments(key: key, type: type, event: event),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithNestedAboutViewInLayoutViewRouter([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(LayoutViewRoutes.aboutView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
