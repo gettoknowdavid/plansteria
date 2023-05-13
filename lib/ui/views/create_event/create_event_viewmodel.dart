@@ -10,6 +10,7 @@ import 'package:plansteria/models/user.dart';
 import 'package:plansteria/services/auth_service.dart';
 import 'package:plansteria/services/event_service.dart';
 import 'package:plansteria/services/media_service.dart';
+import 'package:plansteria/services/network_service.dart';
 import 'package:plansteria/ui/common/app_strings.dart';
 import 'package:plansteria/ui/views/create_event/create_event_view.form.dart';
 import 'package:stacked/stacked.dart';
@@ -23,6 +24,7 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
   final _bottomSheetService = locator<BottomSheetService>();
   final _eventService = locator<EventService>();
   final _navigationService = locator<NavigationService>();
+  final _networkService = locator<NetworkService>();
   final _snackbarService = locator<SnackbarService>();
   final _mediaService = locator<MediaService>();
 
@@ -54,6 +56,7 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
   bool get editing => _editing.value;
 
   User get currentUser => _authService.currentUser!;
+  NetworkStatus get networkStatus => _networkService.status;
 
   bool get disabled =>
       !hasName ||
@@ -62,7 +65,8 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
       !hasStartTime ||
       !isFormValid ||
       !_isPhoneValid.value ||
-      isBusy;
+      isBusy ||
+      networkStatus == NetworkStatus.disconnected;
 
   List<File>? get images => _images.value;
 
@@ -318,4 +322,10 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
       return 'Time not selected';
     }
   }
+
+  @override
+  List<ListenableServiceMixin> get listenableServices => [
+        _authService,
+        _networkService,
+      ];
 }

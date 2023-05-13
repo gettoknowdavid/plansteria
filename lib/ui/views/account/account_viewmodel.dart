@@ -1,9 +1,11 @@
+import 'package:flutter/services.dart';
 import 'package:plansteria/app/app.bottomsheets.dart';
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/app/app.router.dart';
 import 'package:plansteria/app/app.snackbars.dart';
 import 'package:plansteria/models/user.dart';
 import 'package:plansteria/services/auth_service.dart';
+import 'package:plansteria/services/network_service.dart';
 import 'package:plansteria/ui/common/app_strings.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -15,13 +17,16 @@ class AccountViewModel extends FormViewModel with ListenableServiceMixin {
   final _bottomSheetService = locator<BottomSheetService>();
   final _dialogService = locator<DialogService>();
   final _navigationService = locator<NavigationService>();
+  final _networkService = locator<NetworkService>();
   final _snackbarService = locator<SnackbarService>();
 
   AccountViewModel() {
     listenToReactiveValues([_showEmail, _showPassword]);
+    _networkService.listenForChange();
   }
 
   User get currentUser => _authService.currentUser!;
+  NetworkStatus get networkStatus => _networkService.status;
 
   final _showEmail = ReactiveValue<bool>(false);
   bool get showEmail => _showEmail.value;
@@ -41,6 +46,10 @@ class AccountViewModel extends FormViewModel with ListenableServiceMixin {
   void onPasswordExpansionChanged(bool value) => _showPassword.value = value;
 
   Future<void> updateEmail() async {
+    if (networkStatus == NetworkStatus.disconnected) {
+      return await HapticFeedback.vibrate();
+    }
+
     setBusy(true);
 
     if (hasEmail && isFormValid) {
@@ -86,6 +95,10 @@ class AccountViewModel extends FormViewModel with ListenableServiceMixin {
       .whenComplete(logout);
 
   Future<void> updatePassword() async {
+    if (networkStatus == NetworkStatus.disconnected) {
+      return await HapticFeedback.vibrate();
+    }
+
     final confirmationResponse = await _bottomSheetService.showCustomSheet(
       variant: BottomSheetType.passwordConfirmation,
       isScrollControlled: true,
@@ -134,5 +147,8 @@ class AccountViewModel extends FormViewModel with ListenableServiceMixin {
   }
 
   @override
-  List<ListenableServiceMixin> get listenableServices => [_authService];
+  List<ListenableServiceMixin> get listenableServices => [
+        _authService,
+        _networkService,
+      ];
 }

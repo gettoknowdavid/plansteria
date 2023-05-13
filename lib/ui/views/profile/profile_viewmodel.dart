@@ -1,9 +1,11 @@
+import 'package:flutter/services.dart';
 import 'package:plansteria/app/app.bottomsheets.dart';
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/app/app.router.dart';
 import 'package:plansteria/models/user.dart';
 import 'package:plansteria/services/auth_service.dart';
 import 'package:plansteria/services/event_service.dart';
+import 'package:plansteria/services/network_service.dart';
 import 'package:plansteria/services/profile_service.dart';
 import 'package:plansteria/ui/views/profile_stats/profile_stats_viewmodel.dart';
 import 'package:stacked/stacked.dart';
@@ -15,7 +17,9 @@ class ProfileViewModel extends ReactiveViewModel with Initialisable {
   final _eventService = locator<EventService>();
   final _navigationService = locator<NavigationService>();
   final _profileService = locator<ProfileService>();
+  final _networkService = locator<NetworkService>();
 
+  NetworkStatus get networkStatus => _networkService.status;
   User get user => _authService.currentUser!;
 
   Future<void> logout() async {
@@ -25,6 +29,10 @@ class ProfileViewModel extends ReactiveViewModel with Initialisable {
   }
 
   Future<void> showEditProfileBottomSheet() async {
+    if (networkStatus == NetworkStatus.disconnected) {
+      return await HapticFeedback.vibrate();
+    }
+
     _bottomSheetService.showCustomSheet(
       variant: BottomSheetType.editProfile,
       isScrollControlled: true,
@@ -39,21 +47,36 @@ class ProfileViewModel extends ReactiveViewModel with Initialisable {
   Stream<int> get following => _profileService.following(user.uid);
 
   Future<void> viewAllFollowers() async {
-    await _navigationService.navigateToNestedProfileStatsViewInLayoutViewRouter(
+    if (networkStatus == NetworkStatus.disconnected) {
+      return await HapticFeedback.vibrate();
+    }
+
+    return await _navigationService
+        .navigateToNestedProfileStatsViewInLayoutViewRouter(
       type: StatsType.followers,
       routerId: 1,
     );
   }
 
   Future<void> viewAllFollowing() async {
-    await _navigationService.navigateToNestedProfileStatsViewInLayoutViewRouter(
+    if (networkStatus == NetworkStatus.disconnected) {
+      return await HapticFeedback.vibrate();
+    }
+
+    return await _navigationService
+        .navigateToNestedProfileStatsViewInLayoutViewRouter(
       type: StatsType.following,
       routerId: 1,
     );
   }
 
   Future<void> viewAllEvents() async {
-    await _navigationService.navigateToNestedEventsViewInLayoutViewRouter(
+    if (networkStatus == NetworkStatus.disconnected) {
+      return await HapticFeedback.vibrate();
+    }
+
+    return await _navigationService
+        .navigateToNestedEventsViewInLayoutViewRouter(
       fromProfileView: true,
       routerId: 1,
     );
@@ -73,6 +96,7 @@ class ProfileViewModel extends ReactiveViewModel with Initialisable {
   List<ListenableServiceMixin> get listenableServices => [
         _authService,
         _eventService,
+        _networkService,
       ];
 
   @override

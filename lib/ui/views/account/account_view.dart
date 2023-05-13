@@ -126,11 +126,6 @@ class AccountView extends StackedView<AccountViewModel> with $AccountView {
               ],
             ),
             10.verticalSpace,
-            const ProfileItem(
-              'Reset Password',
-              leadingIcon: PhosphorIcons.password,
-            ),
-            10.verticalSpace,
             ProfileItem(
               'Delete Account',
               iconColor: theme.colorScheme.error,

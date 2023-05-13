@@ -21,7 +21,7 @@ class ChatSuggestions extends ViewModelWidget<ChatViewModel> {
     for (var i = 0; i < viewModel.examples.length; i++) {
       exampleItems.addAll([
         ChatSuggestionItem(
-          onTap: () => viewModel.sendMessage(viewModel.examples[i]),
+          onTap: () => viewModel.sendMessage(suggestion: viewModel.examples[i]),
           title: '"${viewModel.examples[i]}"',
         ),
         10.verticalSpace,
