@@ -41,7 +41,7 @@ dependencies:
   cloud_firestore: ^4.4.5
   firebase_storage: ^11.0.16
   cloud_firestore_odm: ^1.0.0-dev.52
-  google_sign_in: ^6.0.2
+  google_sign_in: ^6.1.0
   objectbox: ^2.0.0
   objectbox_flutter_libs: ^2.0.0
   path_provider: ^2.0.14

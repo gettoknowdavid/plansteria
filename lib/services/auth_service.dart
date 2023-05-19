@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fb;
+import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/core/errors/auth_error.dart';
 import 'package:plansteria/models/user.dart';
@@ -12,6 +14,7 @@ import 'package:stacked/stacked.dart';
 
 class AuthService with ListenableServiceMixin {
   final fb.FirebaseAuth _firebaseAuth = fb.FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   final _networkService = locator<NetworkService>();
   final _secureStorageService = locator<SecureStorageService>();
 
@@ -28,25 +31,6 @@ class AuthService with ListenableServiceMixin {
   User? get currentUser => _currentUser.value;
   bool get isAuthenticated => _isAuthenticated.value;
   bool? get isEmailVerified => _isEmailVerified.value;
-
-  Stream<User> userByIdStream(String userId) {
-    return userRef.doc(userId).snapshots().map((user) => user.data!);
-  }
-
-  Future<User> getUserById(String userId) async {
-    final snapshot = await userRef.doc(userId).get();
-    return snapshot.data!;
-  }
-
-  Future<void> getAuthUser() async {
-    final snapshot = await userRef.doc(currentUser!.uid).get();
-    _currentUser.value = snapshot.data!;
-    await _secureStorageService.write(
-      key: kAuthUser,
-      value: jsonEncode(_currentUser.value?.toJson()),
-    );
-    notifyListeners();
-  }
 
   Future<void> checkAuthenticated() async {
     final firebaseUser = _firebaseAuth.currentUser;
@@ -112,6 +96,91 @@ class AuthService with ListenableServiceMixin {
         default:
           return left(const AuthError.serverError());
       }
+    }
+  }
+
+  Future<void> getAuthUser() async {
+    final snapshot = await userRef.doc(currentUser!.uid).get();
+    _currentUser.value = snapshot.data!;
+    await _secureStorageService.write(
+      key: kAuthUser,
+      value: jsonEncode(_currentUser.value?.toJson()),
+    );
+    notifyListeners();
+  }
+
+  Future<User> getUserById(String userId) async {
+    final snapshot = await userRef.doc(userId).get();
+    return snapshot.data!;
+  }
+
+  Future<Either<AuthError, Unit>> googleLogin() async {
+    if (_networkService.status == NetworkStatus.disconnected) {
+      return left(const AuthError.noNetworkConnection());
+    }
+
+    try {
+      // Sign out any existing Google accounts
+      await _googleSignIn.signOut();
+
+      // Sign in to the user's Google account
+      final GoogleSignInAccount? gAccount = await _googleSignIn.signIn();
+      print("====================== G - A C C O U N T ======================");
+      print(gAccount?.toString());
+      print("====================== G - A C C O U N T ======================");
+
+      // Return an error if no Google account was found
+      if (gAccount == null) {
+        return left(const AuthError.noGoogleAccount());
+      }
+
+      // Get the user's authentication credentials
+      final GoogleSignInAuthentication gAuth = await gAccount.authentication;
+      final credential = fb.GoogleAuthProvider.credential(
+        accessToken: gAuth.accessToken,
+        idToken: gAuth.idToken,
+      );
+
+      // Sign in to Firebase using the Google authentication credentials
+      final fUser = await _firebaseAuth
+          .signInWithCredential(credential)
+          .then((credentials) => credentials.user);
+
+      print("========================= F - U S E R =========================");
+      print(fUser?.toString());
+      print("========================= F - U S E R =========================");
+
+      // Create a user object from the Firebase user
+      final user = User(
+        uid: fUser!.uid,
+        name: fUser.displayName!,
+        email: fUser.email!,
+        avatar: fUser.photoURL,
+        emailVerified: fUser.emailVerified,
+      );
+
+      print("=========================== U S E R ===========================");
+      print(fUser.toString());
+      print("=========================== U S E R ===========================");
+
+      _currentUser.value = user;
+      _isAuthenticated.value = true;
+
+      // Save the user object to Firestore and local storage
+      await userRef.doc(user.uid).set(user);
+      await _secureStorageService.write(
+        key: kAuthUser,
+        value: jsonEncode(user.toJson()),
+      );
+
+      // Return success
+      return right(unit);
+    } on fb.FirebaseAuthException catch (_) {
+      // Return an error if the user's Google account cannot be accessed
+      return left(const AuthError.noGoogleAccount());
+    } on PlatformException catch (e) {
+      // Return a server error if any other exception occurs
+      return left(AuthError.error(e.message));
     }
   }
 
@@ -226,30 +295,6 @@ class AuthService with ListenableServiceMixin {
     }
   }
 
-  Future<Either<AuthError, Unit>> updateProfile(User u) async {
-    final id = _firebaseAuth.currentUser!.uid;
-
-    try {
-      userRef.doc(id).set(u);
-
-      final updatedUserSnapshot = await userRef.doc(id).get();
-      final updatedUser = updatedUserSnapshot.data;
-
-      await _secureStorageService.write(
-        key: kAuthUser,
-        value: jsonEncode(updatedUser?.toJson()),
-      );
-
-      _currentUser.value = updatedUser;
-
-      notifyListeners();
-
-      return right(unit);
-    } on fb.FirebaseAuthException {
-      return left(const AuthError.serverError());
-    }
-  }
-
   Future<Either<AuthError, Unit>> updateEmailAddress(String newEmail) async {
     final curUser = _firebaseAuth.currentUser!;
 
@@ -278,5 +323,33 @@ class AuthService with ListenableServiceMixin {
     } on fb.FirebaseAuthException {
       return left(const AuthError.serverError());
     }
+  }
+
+  Future<Either<AuthError, Unit>> updateProfile(User u) async {
+    final id = _firebaseAuth.currentUser!.uid;
+
+    try {
+      userRef.doc(id).set(u);
+
+      final updatedUserSnapshot = await userRef.doc(id).get();
+      final updatedUser = updatedUserSnapshot.data;
+
+      await _secureStorageService.write(
+        key: kAuthUser,
+        value: jsonEncode(updatedUser?.toJson()),
+      );
+
+      _currentUser.value = updatedUser;
+
+      notifyListeners();
+
+      return right(unit);
+    } on fb.FirebaseAuthException {
+      return left(const AuthError.serverError());
+    }
+  }
+
+  Stream<User> userByIdStream(String userId) {
+    return userRef.doc(userId).snapshots().map((user) => user.data!);
   }
 }
