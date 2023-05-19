@@ -1119,15 +1119,6 @@ class MockNetworkService extends _i1.Mock implements _i13.NetworkService {
         returnValueForMissingStub: 0,
       ) as int);
   @override
-  _i4.Future<void> checkConnectivity() => (super.noSuchMethod(
-        Invocation.method(
-          #checkConnectivity,
-          [],
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
-  @override
   _i4.StreamSubscription<_i14.InternetConnectionStatus> listenForChange() =>
       (super.noSuchMethod(
         Invocation.method(

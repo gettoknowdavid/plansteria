@@ -3,6 +3,7 @@ import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/app/app.router.dart';
 import 'package:plansteria/services/auth_service.dart';
 import 'package:plansteria/services/chat_service.dart';
+import 'package:plansteria/services/shared_preferences_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -10,6 +11,7 @@ class StartupViewModel extends ReactiveViewModel {
   final _authService = locator<AuthService>();
   final _chatService = locator<ChatService>();
   final _navigationService = locator<NavigationService>();
+  final _preferences = locator<SharedPreferencesService>();
 
   bool get isAuthenticated => _authService.isAuthenticated;
   bool? get isEmailVerified => _authService.isEmailVerified;
@@ -23,18 +25,21 @@ class StartupViewModel extends ReactiveViewModel {
 
     // This is where you can make decisions on where your app should navigate when
     // you have custom startup logic
+    if (_preferences.isInitialStartup) {
+      _navigationService.clearStackAndShow(Routes.onboardingView);
+    } else {
+      if (!isAuthenticated) {
+        _navigationService.clearStackAndShow(Routes.loginView);
+      }
 
-    if (!isAuthenticated) {
-      _navigationService.clearStackAndShow(Routes.loginView);
-    }
+      if (isAuthenticated && isEmailVerified == false) {
+        _navigationService.clearStackAndShow(Routes.verificationView);
+      }
 
-    if (isAuthenticated && isEmailVerified == false) {
-      _navigationService.clearStackAndShow(Routes.verificationView);
-    }
-
-    if (isAuthenticated && isEmailVerified == true) {
-      await _chatService.loadChatHistory();
-      _navigationService.clearStackAndShow(Routes.layoutView);
+      if (isAuthenticated && isEmailVerified == true) {
+        await _chatService.loadChatHistory();
+        _navigationService.clearStackAndShow(Routes.layoutView);
+      }
     }
   }
 

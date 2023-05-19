@@ -1,7 +1,7 @@
 const String kLoadingAsset = 'assets/loading.json';
-const String kOnboardingAsset1 = 'assets/images/onboarding_1.png';
-const String kOnboardingAsset2 = 'assets/images/onboarding_2.png';
-const String kOnboardingAsset3 = 'assets/images/onboarding_3.png';
+const String kOnboardingAsset1 = 'assets/onboarding-1.png';
+const String kOnboardingAsset2 = 'assets/onboarding-2.png';
+const String kOnboardingAsset3 = 'assets/onboarding-3.png';
 
 const String kDBName = '__plansteria__';
 

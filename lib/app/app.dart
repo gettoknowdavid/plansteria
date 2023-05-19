@@ -43,6 +43,7 @@ import 'package:plansteria/ui/views/user_profile/user_profile_view.dart';
 import 'package:plansteria/ui/views/verification/verification_view.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:plansteria/ui/views/onboarding/onboarding_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -73,6 +74,7 @@ import 'package:stacked_services/stacked_services.dart';
     MaterialRoute(page: CreateEventView),
     MaterialRoute(page: MapView),
     MaterialRoute(page: UserProfileView),
+    MaterialRoute(page: OnboardingView),
 // @stacked-route
   ],
   dependencies: [
