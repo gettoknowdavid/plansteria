@@ -6,6 +6,7 @@ import 'package:plansteria/app/app.bottomsheets.dart';
 import 'package:plansteria/app/app.dialogs.dart';
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/app/app.snackbars.dart';
+import 'package:stacked_themes/stacked_themes.dart';
 
 import 'app/app.dart';
 import 'firebase_options.dart';
@@ -20,6 +21,7 @@ Future<void> main() async {
   await setupSnackbarUI();
   setupDialogUi();
   setupBottomSheetUi();
+  await ThemeManager.initialise();
 
   runApp(const App());
 }

@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:plansteria/app/app.bottomsheets.dart';
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/app/app.router.dart';
@@ -10,6 +12,7 @@ import 'package:plansteria/services/profile_service.dart';
 import 'package:plansteria/ui/views/profile_stats/profile_stats_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:stacked_themes/stacked_themes.dart';
 
 class ProfileViewModel extends ReactiveViewModel with Initialisable {
   final _authService = locator<AuthService>();
@@ -90,6 +93,36 @@ class ProfileViewModel extends ReactiveViewModel with Initialisable {
 
   Future<void> navigateToAboutView() async {
     await _navigationService.navigateToNestedAboutViewInLayoutViewRouter(1);
+  }
+
+  ThemeMode? selectedThemeMode(BuildContext context) {
+    return getThemeManager(context).selectedThemeMode;
+  }
+
+  Future<void> showThemeBottomSheet() async {
+    await _bottomSheetService.showCustomSheet(variant: BottomSheetType.theme);
+  }
+
+  String getThemeModeName(ThemeMode mode) {
+    switch (mode) {
+      case ThemeMode.dark:
+        return 'Dark Mode';
+      case ThemeMode.light:
+        return 'Light Mode';
+      default:
+        return 'System';
+    }
+  }
+
+  IconData getIcon(ThemeMode mode) {
+    switch (mode) {
+      case ThemeMode.dark:
+        return PhosphorIcons.moon;
+      case ThemeMode.light:
+        return PhosphorIcons.sun;
+      default:
+        return PhosphorIcons.nut;
+    }
   }
 
   @override

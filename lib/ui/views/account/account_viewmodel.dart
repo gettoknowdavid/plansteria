@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:plansteria/app/app.bottomsheets.dart';
+import 'package:plansteria/app/app.dialogs.dart';
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/app/app.router.dart';
 import 'package:plansteria/app/app.snackbars.dart';
@@ -146,6 +148,42 @@ class AccountViewModel extends FormViewModel with ListenableServiceMixin {
     }
   }
 
+
+Future<void> onDeleteAccount() async {
+    if (networkStatus == NetworkStatus.disconnected) {
+      _dialogService.showCustomDialog(variant: DialogType.networkError);
+    }
+
+    final confirmationResponse = await _dialogService.showDialog(
+      title: 'Delete Account',
+      barrierDismissible: true,
+      buttonTitleColor: Colors.red,
+      cancelTitleColor: Colors.grey,
+      description:
+          "You are about to delete your account. \nThis cannot be undone.",
+      buttonTitle: 'Delete',
+      cancelTitle: 'Cancel',
+    );
+
+    if (confirmationResponse?.confirmed == true) {
+      setBusy(true);
+      final response = await _authService.deleteAccount();
+      return response.fold(
+        (failure) {
+          setBusy(false);
+          _snackbarService.showCustomSnackBar(
+            duration: const Duration(seconds: 6),
+            variant: SnackbarType.error,
+            message: failure.maybeMap(
+              orElse: () => '',
+              serverError: (_) => kServerErrorMessage,
+            ),
+          );
+        },
+        (success) => _navigationService.clearStackAndShow(Routes.loginView),
+      );
+    }
+  }
   @override
   List<ListenableServiceMixin> get listenableServices => [
         _authService,

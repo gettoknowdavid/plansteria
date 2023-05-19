@@ -4,14 +4,15 @@
 // StackedBottomsheetGenerator
 // **************************************************************************
 
+import 'package:plansteria/ui/bottom_sheets/theme/theme_sheet.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-import 'app.locator.dart';
 import '../ui/bottom_sheets/edit_profile/edit_profile_sheet.dart';
 import '../ui/bottom_sheets/image_source/image_source_sheet.dart';
 import '../ui/bottom_sheets/map/map_sheet.dart';
 import '../ui/bottom_sheets/notice/notice_sheet.dart';
 import '../ui/bottom_sheets/password_confirmation/password_confirmation_sheet.dart';
+import 'app.locator.dart';
 
 enum BottomSheetType {
   notice,
@@ -19,6 +20,7 @@ enum BottomSheetType {
   imageSource,
   map,
   passwordConfirmation,
+  theme,
 }
 
 void setupBottomSheetUi() {
@@ -35,6 +37,8 @@ void setupBottomSheetUi() {
         MapSheet(request: request, completer: completer),
     BottomSheetType.passwordConfirmation: (context, request, completer) =>
         PasswordConfirmationSheet(request: request, completer: completer),
+    BottomSheetType.theme: (context, request, completer) =>
+        ThemeSheet(request: request, completer: completer),
   };
 
   bottomsheetService.setCustomSheetBuilders(builders);

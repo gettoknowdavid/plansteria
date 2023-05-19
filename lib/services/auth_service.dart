@@ -81,6 +81,20 @@ class AuthService with ListenableServiceMixin {
     }
   }
 
+  Future<Either<AuthError, Unit>> deleteAccount() async {
+    final curUser = _firebaseAuth.currentUser!;
+
+    try {
+      await curUser.delete().then((value) async {
+        await userRef.doc(curUser.uid).delete();
+        await _secureStorageService.deleteAll();
+      });
+      return right(unit);
+    } on fb.FirebaseAuthException {
+      return left(const AuthError.serverError());
+    }
+  }
+
   Future<Either<AuthError, Unit>> forgotPassword(String email) async {
     try {
       // Send password reset email using Firebase authentication.

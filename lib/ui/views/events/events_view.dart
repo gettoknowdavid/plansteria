@@ -46,7 +46,7 @@ class EventsView extends StackedView<EventsViewModel> {
           children: [
             if (isReady && isNotEmpty)
               SectionTitle(
-                title: 'My Events',
+                'My Events',
                 child: _buildList(viewModel),
               )
             else

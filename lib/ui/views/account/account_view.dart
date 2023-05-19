@@ -7,6 +7,7 @@ import 'package:plansteria/ui/widgets/app_back_button.dart';
 import 'package:plansteria/ui/widgets/app_button.dart';
 import 'package:plansteria/ui/widgets/app_textfield.dart';
 import 'package:plansteria/ui/widgets/profile/profile_item.dart';
+import 'package:plansteria/ui/widgets/section_title.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
@@ -126,11 +127,31 @@ class AccountView extends StackedView<AccountViewModel> with $AccountView {
               ],
             ),
             10.verticalSpace,
-            ProfileItem(
-              'Delete Account',
-              iconColor: theme.colorScheme.error,
-              tileColor: theme.colorScheme.error.withOpacity(0.25),
-              leadingIcon: PhosphorIcons.warning,
+            Container(
+              padding: kGlobalHorizontalPadding,
+              decoration: BoxDecoration(
+                color: theme.colorScheme.error.withOpacity(0.2),
+                borderRadius: BorderRadius.all(const Radius.circular(20).r),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SectionTitle(
+                    'Danger Zone',
+                    textColor: theme.colorScheme.error,
+                  ),
+                  ProfileItem(
+                    'Delete Account',
+                    showTrailing: false,
+                    iconColor: theme.colorScheme.onError,
+                    titleColor: theme.colorScheme.onError,
+                    tileColor: theme.colorScheme.error,
+                    leadingIcon: PhosphorIcons.warning,
+                    onTap: viewModel.onDeleteAccount,
+                  ),
+                  14.verticalSpace,
+                ],
+              ),
             ),
             10.verticalSpace,
           ],

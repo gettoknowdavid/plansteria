@@ -15,6 +15,7 @@ import 'package:plansteria/ui/bottom_sheets/image_source/image_source_sheet.dart
 import 'package:plansteria/ui/bottom_sheets/map/map_sheet.dart';
 import 'package:plansteria/ui/bottom_sheets/notice/notice_sheet.dart';
 import 'package:plansteria/ui/bottom_sheets/password_confirmation/password_confirmation_sheet.dart';
+import 'package:plansteria/ui/bottom_sheets/theme/theme_sheet.dart';
 import 'package:plansteria/ui/common/app_theme.dart';
 import 'package:plansteria/ui/dialogs/about_app/about_app_dialog.dart';
 import 'package:plansteria/ui/dialogs/error/error_dialog.dart';
@@ -35,6 +36,7 @@ import 'package:plansteria/ui/views/guests/guests_view.dart';
 import 'package:plansteria/ui/views/home/home_view.dart';
 import 'package:plansteria/ui/views/login/login_view.dart';
 import 'package:plansteria/ui/views/map/map_view.dart';
+import 'package:plansteria/ui/views/onboarding/onboarding_view.dart';
 import 'package:plansteria/ui/views/profile/profile_view.dart';
 import 'package:plansteria/ui/views/profile_stats/profile_stats_view.dart';
 import 'package:plansteria/ui/views/register/register_view.dart';
@@ -43,7 +45,7 @@ import 'package:plansteria/ui/views/user_profile/user_profile_view.dart';
 import 'package:plansteria/ui/views/verification/verification_view.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:plansteria/ui/views/onboarding/onboarding_view.dart';
+import 'package:stacked_themes/stacked_themes.dart';
 // @stacked-import
 
 @StackedApp(
@@ -101,8 +103,8 @@ import 'package:plansteria/ui/views/onboarding/onboarding_view.dart';
     StackedBottomsheet(classType: EditProfileSheet),
     StackedBottomsheet(classType: ImageSourceSheet),
     StackedBottomsheet(classType: MapSheet),
-    // StackedBottomsheet(classType: ProfileStatsSheet),
     StackedBottomsheet(classType: PasswordConfirmationSheet),
+    StackedBottomsheet(classType: ThemeSheet),
 // @stacked-bottom-sheet
   ],
   dialogs: [
@@ -125,19 +127,26 @@ class App extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return MaterialApp(
-          title: 'Plansteria',
-          theme: lightTheme,
+        return ThemeBuilder(
+          lightTheme: lightTheme,
           darkTheme: darkTheme,
-          debugShowCheckedModeBanner: false,
-          initialRoute: Routes.startupView,
-          onGenerateRoute: StackedRouter().onGenerateRoute,
-          navigatorKey: StackedService.navigatorKey,
-          navigatorObservers: [StackedService.routeObserver],
-          builder: (context, child) => MediaQuery(
-            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-            child: child!,
-          ),
+          builder: (context, regularTheme, darkTheme, themeMode) {
+            return MaterialApp(
+              title: 'Plansteria',
+              theme: regularTheme,
+              darkTheme: darkTheme,
+              themeMode: themeMode,
+              debugShowCheckedModeBanner: false,
+              initialRoute: Routes.startupView,
+              onGenerateRoute: StackedRouter().onGenerateRoute,
+              navigatorKey: StackedService.navigatorKey,
+              navigatorObservers: [StackedService.routeObserver],
+              builder: (context, child) => MediaQuery(
+                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                child: child!,
+              ),
+            );
+          },
         );
       },
     );
