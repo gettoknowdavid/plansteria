@@ -16,8 +16,25 @@ class HomeView extends StackedView<HomeViewModel> {
 
   @override
   Widget builder(context, viewModel, child) {
+    if (viewModel.fetchingFeaturedEvent ||
+        viewModel.fetchingUpcomingEvents ||
+        !viewModel.upcomingReady) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    if (viewModel.featuredEvent == null && viewModel.upcomingEvents.isEmpty) {
+      return const Scaffold(
+        body: Center(child: EmptyState()),
+      );
+    }
+
     return Scaffold(
-      appBar: LayoutAppBar(bottom: _buildLoadingIndicator()),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: LayoutAppBar(bottom: _buildLoadingIndicator()),
+      ),
       body: SingleChildScrollView(
         padding: kGlobalHorizontalPadding,
         child: Column(
@@ -30,17 +47,15 @@ class HomeView extends StackedView<HomeViewModel> {
               ),
               20.verticalSpace,
             ],
-            if (viewModel.dataReady(upcomingEventsKey) &&
-                !viewModel.isUpcomingEventsEmpty) ...[
-              SectionTitle(
+            if (viewModel.upcomingEvents.isNotEmpty) ...[
+              const SectionTitle(
                 title: 'Upcoming Events',
-                onTap: () {},
-                child: const UpcomingEvents(),
+                child: UpcomingEvents(),
               ),
               20.verticalSpace,
             ] else ...[
-              30.verticalSpace,
               const EmptyState(),
+              30.verticalSpace,
             ]
           ],
         ),

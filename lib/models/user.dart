@@ -15,17 +15,12 @@ const _$$_UserFieldMap = <String, String>{
   'verified': 'verified',
 };
 
-// const _$$_ProfileFieldMap = <String, String>{
-//   'uid': 'uid',
-//   'name': 'name',
-//   'avatar': 'avatar',
-// };
+
 
 final userRef = UserCollectionReference();
 
 @Collection<User>('users')
-// @Collection<Profile>('users/*/followers', prefix: 'Followers')
-// @Collection<Profile>('users/*/following', prefix: 'Following')
+
 @Collection<User>('users/*/followers', prefix: 'Followers')
 @Collection<User>('users/*/following', prefix: 'Following')
 @freezed
@@ -45,19 +40,3 @@ class User with _$User {
   @override
   Map<String, dynamic> toJson() => _$UserToJson(this);
 }
-
-// @freezed
-// @JsonSerializable(createFactory: false)
-// class Profile with _$Profile {
-//   factory Profile({
-//     required String uid,
-//     required String name,
-//     String? avatar,
-//   }) = _Guest;
-
-//   factory Profile.fromJson(Map<String, dynamic> json) =>
-//       _$ProfileFromJson(json);
-
-//   @override
-//   Map<String, dynamic> toJson() => _$GuestToJson(this);
-// }

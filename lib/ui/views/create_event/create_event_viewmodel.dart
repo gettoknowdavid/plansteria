@@ -1,11 +1,15 @@
+// ignore_for_file: sdk_version_since
+
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:plansteria/app/app.bottomsheets.dart';
 import 'package:plansteria/app/app.locator.dart';
+import 'package:plansteria/app/app.router.dart';
 import 'package:plansteria/app/app.snackbars.dart';
 import 'package:plansteria/models/event.dart';
+import 'package:plansteria/models/place.dart';
 import 'package:plansteria/models/user.dart';
 import 'package:plansteria/services/auth_service.dart';
 import 'package:plansteria/services/event_service.dart';
@@ -20,7 +24,6 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final _authService = locator<AuthService>();
-  final _bottomSheetService = locator<BottomSheetService>();
   final _eventService = locator<EventService>();
   final _navigationService = locator<NavigationService>();
   final _snackbarService = locator<SnackbarService>();
@@ -38,6 +41,8 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
   final _currentIndex = ReactiveValue<int>(0);
   final _isPhoneValid = ReactiveValue<bool>(false);
 
+  final _selectedPlace = ReactiveValue<Place?>(null);
+
   CreateEventViewModel() {
     listenToReactiveValues([
       _selectedDate,
@@ -47,6 +52,7 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
       _currentIndex,
       _editing,
       _isPhoneValid,
+      _selectedPlace,
     ]);
   }
 
@@ -72,9 +78,12 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
 
   List<DateTime> get selectedDate => _selectedDate.value;
 
+  Place? get selectedPlace => _selectedPlace.value;
+
   late TextEditingController _dateController;
   late TextEditingController _startTimeController;
   late TextEditingController _endTimeController;
+  late TextEditingController _addressController;
 
   void getImages() async {
     final _pickedFiles = await _mediaService.getMultiImages();
@@ -114,6 +123,9 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
       address: addressValue ?? e.address,
       state: stateValue ?? e.state,
       city: cityValue ?? e.city,
+      geo: _selectedPlace.value == null
+          ? e.geo
+          : GeoPoint(_selectedPlace.value!.lat, _selectedPlace.value!.lon),
       notes: notesValue ?? e.notes,
       price: priceValue == null ? e.price : double.tryParse(priceValue!),
       date: dateValue == null || dateValue == ''
@@ -147,7 +159,7 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
         );
       },
       (success) {
-        _navigationService.popRepeated(1);
+        _navigationService.back();
         setBusy(false);
       },
     );
@@ -178,9 +190,10 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
       name: nameValue!,
       description: descriptionValue,
       address: addressValue!,
-      state: stateValue!,
-      city: cityValue!,
+      state: stateValue,
+      city: cityValue,
       notes: notesValue,
+      geo: GeoPoint(_selectedPlace.value!.lat, _selectedPlace.value!.lon),
       price: priceValue == null ? null : double.tryParse(priceValue!),
       date: DateTime.parse(dateValue!),
       startTime: DateTime.parse(startTimeValue!),
@@ -283,12 +296,12 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
     _currentIndex.value = index;
   }
 
-  Future<void> showMapBottomSheet() async {
-    await _bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.map,
-      isScrollControlled: true,
-      barrierDismissible: false,
-    );
+  Future<void> navigateToMapView() async {
+    final result = await _navigationService.navigateToMapView();
+    _selectedPlace.value = result;
+    _addressController.text = _selectedPlace.value!.name;
+    notifyListeners();
+    return;
   }
 
   Future<void> initialiseEdit(Event e) async {
@@ -302,10 +315,12 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
     required TextEditingController dateController,
     required TextEditingController startTimeController,
     required TextEditingController endTimeController,
+    required TextEditingController addressController,
   }) async {
     _dateController = dateController;
     _startTimeController = startTimeController;
     _endTimeController = endTimeController;
+    _addressController = addressController;
   }
 
   String timeFormatter(List<DateTime>? selectedDate) {

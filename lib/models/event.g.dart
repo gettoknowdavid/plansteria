@@ -139,9 +139,9 @@ abstract class EventDocumentReference
     FieldValue descriptionFieldValue,
     String address,
     FieldValue addressFieldValue,
-    String state,
+    String? state,
     FieldValue stateFieldValue,
-    String city,
+    String? city,
     FieldValue cityFieldValue,
     int? numberOfGuests,
     FieldValue numberOfGuestsFieldValue,
@@ -155,6 +155,8 @@ abstract class EventDocumentReference
     FieldValue startTimeFieldValue,
     DateTime? endTime,
     FieldValue endTimeFieldValue,
+    GeoPoint? geo,
+    FieldValue geoFieldValue,
     String? eventImageUrl,
     FieldValue eventImageUrlFieldValue,
     List<String?> photoUrls,
@@ -182,9 +184,9 @@ abstract class EventDocumentReference
     FieldValue descriptionFieldValue,
     String address,
     FieldValue addressFieldValue,
-    String state,
+    String? state,
     FieldValue stateFieldValue,
-    String city,
+    String? city,
     FieldValue cityFieldValue,
     int? numberOfGuests,
     FieldValue numberOfGuestsFieldValue,
@@ -198,6 +200,8 @@ abstract class EventDocumentReference
     FieldValue startTimeFieldValue,
     DateTime? endTime,
     FieldValue endTimeFieldValue,
+    GeoPoint? geo,
+    FieldValue geoFieldValue,
     String? eventImageUrl,
     FieldValue eventImageUrlFieldValue,
     List<String?> photoUrls,
@@ -270,6 +274,8 @@ class _$EventDocumentReference
     FieldValue? startTimeFieldValue,
     Object? endTime = _sentinel,
     FieldValue? endTimeFieldValue,
+    Object? geo = _sentinel,
+    FieldValue? geoFieldValue,
     Object? eventImageUrl = _sentinel,
     FieldValue? eventImageUrlFieldValue,
     Object? photoUrls = _sentinel,
@@ -332,6 +338,10 @@ class _$EventDocumentReference
       "Cannot specify both endTime and endTimeFieldValue",
     );
     assert(
+      geo == _sentinel || geoFieldValue == null,
+      "Cannot specify both geo and geoFieldValue",
+    );
+    assert(
       eventImageUrl == _sentinel || eventImageUrlFieldValue == null,
       "Cannot specify both eventImageUrl and eventImageUrlFieldValue",
     );
@@ -368,9 +378,9 @@ class _$EventDocumentReference
         _$$_EventFieldMap['address']!: address as String,
       if (addressFieldValue != null)
         _$$_EventFieldMap['address']!: addressFieldValue,
-      if (state != _sentinel) _$$_EventFieldMap['state']!: state as String,
+      if (state != _sentinel) _$$_EventFieldMap['state']!: state as String?,
       if (stateFieldValue != null) _$$_EventFieldMap['state']!: stateFieldValue,
-      if (city != _sentinel) _$$_EventFieldMap['city']!: city as String,
+      if (city != _sentinel) _$$_EventFieldMap['city']!: city as String?,
       if (cityFieldValue != null) _$$_EventFieldMap['city']!: cityFieldValue,
       if (numberOfGuests != _sentinel)
         _$$_EventFieldMap['numberOfGuests']!: numberOfGuests as int?,
@@ -390,6 +400,8 @@ class _$EventDocumentReference
         _$$_EventFieldMap['endTime']!: endTime as DateTime?,
       if (endTimeFieldValue != null)
         _$$_EventFieldMap['endTime']!: endTimeFieldValue,
+      if (geo != _sentinel) _$$_EventFieldMap['geo']!: geo as GeoPoint?,
+      if (geoFieldValue != null) _$$_EventFieldMap['geo']!: geoFieldValue,
       if (eventImageUrl != _sentinel)
         _$$_EventFieldMap['eventImageUrl']!: eventImageUrl as String?,
       if (eventImageUrlFieldValue != null)
@@ -441,6 +453,8 @@ class _$EventDocumentReference
     FieldValue? startTimeFieldValue,
     Object? endTime = _sentinel,
     FieldValue? endTimeFieldValue,
+    Object? geo = _sentinel,
+    FieldValue? geoFieldValue,
     Object? eventImageUrl = _sentinel,
     FieldValue? eventImageUrlFieldValue,
     Object? photoUrls = _sentinel,
@@ -503,6 +517,10 @@ class _$EventDocumentReference
       "Cannot specify both endTime and endTimeFieldValue",
     );
     assert(
+      geo == _sentinel || geoFieldValue == null,
+      "Cannot specify both geo and geoFieldValue",
+    );
+    assert(
       eventImageUrl == _sentinel || eventImageUrlFieldValue == null,
       "Cannot specify both eventImageUrl and eventImageUrlFieldValue",
     );
@@ -539,9 +557,9 @@ class _$EventDocumentReference
         _$$_EventFieldMap['address']!: address as String,
       if (addressFieldValue != null)
         _$$_EventFieldMap['address']!: addressFieldValue,
-      if (state != _sentinel) _$$_EventFieldMap['state']!: state as String,
+      if (state != _sentinel) _$$_EventFieldMap['state']!: state as String?,
       if (stateFieldValue != null) _$$_EventFieldMap['state']!: stateFieldValue,
-      if (city != _sentinel) _$$_EventFieldMap['city']!: city as String,
+      if (city != _sentinel) _$$_EventFieldMap['city']!: city as String?,
       if (cityFieldValue != null) _$$_EventFieldMap['city']!: cityFieldValue,
       if (numberOfGuests != _sentinel)
         _$$_EventFieldMap['numberOfGuests']!: numberOfGuests as int?,
@@ -561,6 +579,8 @@ class _$EventDocumentReference
         _$$_EventFieldMap['endTime']!: endTime as DateTime?,
       if (endTimeFieldValue != null)
         _$$_EventFieldMap['endTime']!: endTimeFieldValue,
+      if (geo != _sentinel) _$$_EventFieldMap['geo']!: geo as GeoPoint?,
+      if (geoFieldValue != null) _$$_EventFieldMap['geo']!: geoFieldValue,
       if (eventImageUrl != _sentinel)
         _$$_EventFieldMap['eventImageUrl']!: eventImageUrl as String?,
       if (eventImageUrlFieldValue != null)
@@ -733,8 +753,8 @@ abstract class EventQuery implements QueryReference<Event, EventQuerySnapshot> {
     String? isGreaterThan,
     String? isGreaterThanOrEqualTo,
     bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<String?>? whereIn,
+    List<String?>? whereNotIn,
   });
   EventQuery whereCity({
     String? isEqualTo,
@@ -744,8 +764,8 @@ abstract class EventQuery implements QueryReference<Event, EventQuerySnapshot> {
     String? isGreaterThan,
     String? isGreaterThanOrEqualTo,
     bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<String?>? whereIn,
+    List<String?>? whereNotIn,
   });
   EventQuery whereNumberOfGuests({
     int? isEqualTo,
@@ -812,6 +832,17 @@ abstract class EventQuery implements QueryReference<Event, EventQuerySnapshot> {
     bool? isNull,
     List<DateTime?>? whereIn,
     List<DateTime?>? whereNotIn,
+  });
+  EventQuery whereGeo({
+    GeoPoint? isEqualTo,
+    GeoPoint? isNotEqualTo,
+    GeoPoint? isLessThan,
+    GeoPoint? isLessThanOrEqualTo,
+    GeoPoint? isGreaterThan,
+    GeoPoint? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<GeoPoint?>? whereIn,
+    List<GeoPoint?>? whereNotIn,
   });
   EventQuery whereEventImageUrl({
     String? isEqualTo,
@@ -942,10 +973,10 @@ abstract class EventQuery implements QueryReference<Event, EventQuerySnapshot> {
 
   EventQuery orderByState({
     bool descending = false,
-    String startAt,
-    String startAfter,
-    String endAt,
-    String endBefore,
+    String? startAt,
+    String? startAfter,
+    String? endAt,
+    String? endBefore,
     EventDocumentSnapshot? startAtDocument,
     EventDocumentSnapshot? endAtDocument,
     EventDocumentSnapshot? endBeforeDocument,
@@ -954,10 +985,10 @@ abstract class EventQuery implements QueryReference<Event, EventQuerySnapshot> {
 
   EventQuery orderByCity({
     bool descending = false,
-    String startAt,
-    String startAfter,
-    String endAt,
-    String endBefore,
+    String? startAt,
+    String? startAfter,
+    String? endAt,
+    String? endBefore,
     EventDocumentSnapshot? startAtDocument,
     EventDocumentSnapshot? endAtDocument,
     EventDocumentSnapshot? endBeforeDocument,
@@ -1030,6 +1061,18 @@ abstract class EventQuery implements QueryReference<Event, EventQuerySnapshot> {
     DateTime? startAfter,
     DateTime? endAt,
     DateTime? endBefore,
+    EventDocumentSnapshot? startAtDocument,
+    EventDocumentSnapshot? endAtDocument,
+    EventDocumentSnapshot? endBeforeDocument,
+    EventDocumentSnapshot? startAfterDocument,
+  });
+
+  EventQuery orderByGeo({
+    bool descending = false,
+    GeoPoint? startAt,
+    GeoPoint? startAfter,
+    GeoPoint? endAt,
+    GeoPoint? endBefore,
     EventDocumentSnapshot? startAtDocument,
     EventDocumentSnapshot? endAtDocument,
     EventDocumentSnapshot? endBeforeDocument,
@@ -1409,8 +1452,8 @@ class _$EventQuery extends QueryReference<Event, EventQuerySnapshot>
     String? isGreaterThan,
     String? isGreaterThanOrEqualTo,
     bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<String?>? whereIn,
+    List<String?>? whereNotIn,
   }) {
     return _$EventQuery(
       _collection,
@@ -1438,8 +1481,8 @@ class _$EventQuery extends QueryReference<Event, EventQuerySnapshot>
     String? isGreaterThan,
     String? isGreaterThanOrEqualTo,
     bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<String?>? whereIn,
+    List<String?>? whereNotIn,
   }) {
     return _$EventQuery(
       _collection,
@@ -1619,6 +1662,35 @@ class _$EventQuery extends QueryReference<Event, EventQuerySnapshot>
       _collection,
       $referenceWithoutCursor: $referenceWithoutCursor.where(
         _$$_EventFieldMap['endTime']!,
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+      ),
+      $queryCursor: $queryCursor,
+    );
+  }
+
+  EventQuery whereGeo({
+    GeoPoint? isEqualTo,
+    GeoPoint? isNotEqualTo,
+    GeoPoint? isLessThan,
+    GeoPoint? isLessThanOrEqualTo,
+    GeoPoint? isGreaterThan,
+    GeoPoint? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<GeoPoint?>? whereIn,
+    List<GeoPoint?>? whereNotIn,
+  }) {
+    return _$EventQuery(
+      _collection,
+      $referenceWithoutCursor: $referenceWithoutCursor.where(
+        _$$_EventFieldMap['geo']!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -2683,6 +2755,78 @@ class _$EventQuery extends QueryReference<Event, EventQuerySnapshot>
     EventDocumentSnapshot? startAfterDocument,
   }) {
     final query = $referenceWithoutCursor.orderBy(_$$_EventFieldMap['endTime']!,
+        descending: descending);
+    var queryCursor = $queryCursor;
+
+    if (startAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAt: const [],
+        startAtDocumentSnapshot: startAtDocument.snapshot,
+      );
+    }
+    if (startAfterDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: const [],
+        startAfterDocumentSnapshot: startAfterDocument.snapshot,
+      );
+    }
+    if (endAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endAt: const [],
+        endAtDocumentSnapshot: endAtDocument.snapshot,
+      );
+    }
+    if (endBeforeDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: const [],
+        endBeforeDocumentSnapshot: endBeforeDocument.snapshot,
+      );
+    }
+
+    if (startAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAt: [...queryCursor.startAt, startAt],
+        startAtDocumentSnapshot: null,
+      );
+    }
+    if (startAfter != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: [...queryCursor.startAfter, startAfter],
+        startAfterDocumentSnapshot: null,
+      );
+    }
+    if (endAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endAt: [...queryCursor.endAt, endAt],
+        endAtDocumentSnapshot: null,
+      );
+    }
+    if (endBefore != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: [...queryCursor.endBefore, endBefore],
+        endBeforeDocumentSnapshot: null,
+      );
+    }
+
+    return _$EventQuery(
+      _collection,
+      $referenceWithoutCursor: query,
+      $queryCursor: queryCursor,
+    );
+  }
+
+  EventQuery orderByGeo({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    EventDocumentSnapshot? startAtDocument,
+    EventDocumentSnapshot? endAtDocument,
+    EventDocumentSnapshot? endBeforeDocument,
+    EventDocumentSnapshot? startAfterDocument,
+  }) {
+    final query = $referenceWithoutCursor.orderBy(_$$_EventFieldMap['geo']!,
         descending: descending);
     var queryCursor = $queryCursor;
 
@@ -4356,6 +4500,8 @@ Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
           const FirestoreDateTimeConverter().toJson(instance.startTime),
       'endTime': _$JsonConverterToJson<Timestamp, DateTime>(
           instance.endTime, const FirestoreDateTimeConverter().toJson),
+      'geo': _$JsonConverterToJson<GeoPoint, GeoPoint>(
+          instance.geo, const FirestoreGeoPointConverter().toJson),
       'eventImageUrl': instance.eventImageUrl,
       'photoUrls': instance.photoUrls,
       'featured': instance.featured,
@@ -4381,8 +4527,8 @@ _$_Event _$$_EventFromJson(Map<String, dynamic> json) => _$_Event(
       name: json['name'] as String,
       description: json['description'] as String?,
       address: json['address'] as String,
-      state: json['state'] as String,
-      city: json['city'] as String,
+      state: json['state'] as String?,
+      city: json['city'] as String?,
       numberOfGuests: json['numberOfGuests'] as int?,
       notes: json['notes'] as String?,
       price: (json['price'] as num?)?.toDouble(),
@@ -4392,6 +4538,8 @@ _$_Event _$$_EventFromJson(Map<String, dynamic> json) => _$_Event(
           .fromJson(json['startTime'] as Timestamp),
       endTime: _$JsonConverterFromJson<Timestamp, DateTime>(
           json['endTime'], const FirestoreDateTimeConverter().fromJson),
+      geo: _$JsonConverterFromJson<GeoPoint, GeoPoint>(
+          json['geo'], const FirestoreGeoPointConverter().fromJson),
       eventImageUrl: json['eventImageUrl'] as String?,
       photoUrls: (json['photoUrls'] as List<dynamic>)
           .map((e) => e as String?)
@@ -4417,6 +4565,8 @@ Map<String, dynamic> _$$_EventToJson(_$_Event instance) => <String, dynamic>{
           const FirestoreDateTimeConverter().toJson(instance.startTime),
       'endTime': _$JsonConverterToJson<Timestamp, DateTime>(
           instance.endTime, const FirestoreDateTimeConverter().toJson),
+      'geo': _$JsonConverterToJson<GeoPoint, GeoPoint>(
+          instance.geo, const FirestoreGeoPointConverter().toJson),
       'eventImageUrl': instance.eventImageUrl,
       'photoUrls': instance.photoUrls,
       'featured': instance.featured,

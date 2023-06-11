@@ -13,7 +13,6 @@ class ProfileStatsViewModel extends FutureViewModel
   final _authService = locator<AuthService>();
   final _eventService = locator<EventService>();
   final _profileService = locator<ProfileService>();
-  final _bottomSheetService = locator<BottomSheetService>();
   final _navigationService = locator<NavigationService>();
 
   User get user => _authService.currentUser!;

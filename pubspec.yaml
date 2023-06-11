@@ -69,7 +69,7 @@ dependencies:
   dio: ^5.1.1
   retrofit: ^4.0.1
   envied: ^0.3.0
-  google_maps_flutter: ^2.2.5
+  google_maps_flutter: ^2.3.0
   carousel_slider: ^4.2.1
   geolocator: ^9.0.2
   geocoding: ^2.1.0
@@ -78,6 +78,7 @@ dependencies:
   url_launcher: ^6.1.10
   intl_phone_number_input: ^0.7.3+1
   collection:
+  stacked_themes: ^0.3.11
 
 dev_dependencies:
   flutter_test:

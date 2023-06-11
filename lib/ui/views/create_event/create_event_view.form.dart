@@ -37,8 +37,8 @@ final Map<String, String? Function(String?)?> _CreateEventViewTextValidations =
   StartTimeValueKey: Validators.validateDate,
   EndTimeValueKey: null,
   AddressValueKey: Validators.validateAddress,
-  StateValueKey: Validators.validateState,
-  CityValueKey: Validators.validateCity,
+  StateValueKey: null,
+  CityValueKey: null,
   NumberOfGuestsValueKey: null,
   NotesValueKey: null,
   PriceValueKey: null,
@@ -46,7 +46,7 @@ final Map<String, String? Function(String?)?> _CreateEventViewTextValidations =
   PhoneValueKey: Validators.validatePhone,
 };
 
-mixin $CreateEventView on StatelessWidget {
+mixin $CreateEventView {
   TextEditingController get nameController =>
       _getFormTextEditingController(NameValueKey);
   TextEditingController get descriptionController =>
@@ -88,11 +88,14 @@ mixin $CreateEventView on StatelessWidget {
   FocusNode get emailFocusNode => _getFormFocusNode(EmailValueKey);
   FocusNode get phoneFocusNode => _getFormFocusNode(PhoneValueKey);
 
-  TextEditingController _getFormTextEditingController(String key,
-      {String? initialValue}) {
+  TextEditingController _getFormTextEditingController(
+    String key, {
+    String? initialValue,
+  }) {
     if (_CreateEventViewTextEditingControllers.containsKey(key)) {
       return _CreateEventViewTextEditingControllers[key]!;
     }
+
     _CreateEventViewTextEditingControllers[key] =
         TextEditingController(text: initialValue);
     return _CreateEventViewTextEditingControllers[key]!;
@@ -126,8 +129,10 @@ mixin $CreateEventView on StatelessWidget {
 
   /// Registers a listener on every generated controller that calls [model.setData()]
   /// with the latest textController values
-  @Deprecated('Use syncFormWithViewModel instead.'
-      'This feature was deprecated after 3.1.0.')
+  @Deprecated(
+    'Use syncFormWithViewModel instead.'
+    'This feature was deprecated after 3.1.0.',
+  )
   void listenToFormUpdated(FormViewModel model) {
     nameController.addListener(() => _updateFormData(model));
     descriptionController.addListener(() => _updateFormData(model));
@@ -144,7 +149,7 @@ mixin $CreateEventView on StatelessWidget {
     phoneController.addListener(() => _updateFormData(model));
   }
 
-  final bool _autoTextFieldValidation = true;
+  static const bool _autoTextFieldValidation = true;
   bool validateFormFields(FormViewModel model) {
     _updateFormData(model, forceValidate: true);
     return model.isFormValid;
@@ -170,36 +175,10 @@ mixin $CreateEventView on StatelessWidget {
           PhoneValueKey: phoneController.text,
         }),
     );
+
     if (_autoTextFieldValidation || forceValidate) {
-      _updateValidationData(model);
+      updateValidationData(model);
     }
-  }
-
-  /// Updates the fieldsValidationMessages on the FormViewModel
-  void _updateValidationData(FormViewModel model) =>
-      model.setValidationMessages({
-        NameValueKey: _getValidationMessage(NameValueKey),
-        DescriptionValueKey: _getValidationMessage(DescriptionValueKey),
-        DateValueKey: _getValidationMessage(DateValueKey),
-        StartTimeValueKey: _getValidationMessage(StartTimeValueKey),
-        EndTimeValueKey: _getValidationMessage(EndTimeValueKey),
-        AddressValueKey: _getValidationMessage(AddressValueKey),
-        StateValueKey: _getValidationMessage(StateValueKey),
-        CityValueKey: _getValidationMessage(CityValueKey),
-        NumberOfGuestsValueKey: _getValidationMessage(NumberOfGuestsValueKey),
-        NotesValueKey: _getValidationMessage(NotesValueKey),
-        PriceValueKey: _getValidationMessage(PriceValueKey),
-        EmailValueKey: _getValidationMessage(EmailValueKey),
-        PhoneValueKey: _getValidationMessage(PhoneValueKey),
-      });
-
-  /// Returns the validation message for the given key
-  String? _getValidationMessage(String key) {
-    final validatorForKey = _CreateEventViewTextValidations[key];
-    if (validatorForKey == null) return null;
-    String? validationMessageForKey =
-        validatorForKey(_CreateEventViewTextEditingControllers[key]!.text);
-    return validationMessageForKey;
   }
 
   /// Calls dispose on all the generated controllers and focus nodes
@@ -507,21 +486,6 @@ extension ValueProperties on FormViewModel {
       this.fieldsValidationMessages[EmailValueKey];
   String? get phoneValidationMessage =>
       this.fieldsValidationMessages[PhoneValueKey];
-  void clearForm() {
-    nameValue = '';
-    descriptionValue = '';
-    dateValue = '';
-    startTimeValue = '';
-    endTimeValue = '';
-    addressValue = '';
-    stateValue = '';
-    cityValue = '';
-    numberOfGuestsValue = '';
-    notesValue = '';
-    priceValue = '';
-    emailValue = '';
-    phoneValue = '';
-  }
 }
 
 extension Methods on FormViewModel {
@@ -551,4 +515,69 @@ extension Methods on FormViewModel {
       this.fieldsValidationMessages[EmailValueKey] = validationMessage;
   setPhoneValidationMessage(String? validationMessage) =>
       this.fieldsValidationMessages[PhoneValueKey] = validationMessage;
+
+  /// Clears text input fields on the Form
+  void clearForm() {
+    nameValue = '';
+    descriptionValue = '';
+    dateValue = '';
+    startTimeValue = '';
+    endTimeValue = '';
+    addressValue = '';
+    stateValue = '';
+    cityValue = '';
+    numberOfGuestsValue = '';
+    notesValue = '';
+    priceValue = '';
+    emailValue = '';
+    phoneValue = '';
+  }
+
+  /// Validates text input fields on the Form
+  void validateForm() {
+    this.setValidationMessages({
+      NameValueKey: getValidationMessage(NameValueKey),
+      DescriptionValueKey: getValidationMessage(DescriptionValueKey),
+      DateValueKey: getValidationMessage(DateValueKey),
+      StartTimeValueKey: getValidationMessage(StartTimeValueKey),
+      EndTimeValueKey: getValidationMessage(EndTimeValueKey),
+      AddressValueKey: getValidationMessage(AddressValueKey),
+      StateValueKey: getValidationMessage(StateValueKey),
+      CityValueKey: getValidationMessage(CityValueKey),
+      NumberOfGuestsValueKey: getValidationMessage(NumberOfGuestsValueKey),
+      NotesValueKey: getValidationMessage(NotesValueKey),
+      PriceValueKey: getValidationMessage(PriceValueKey),
+      EmailValueKey: getValidationMessage(EmailValueKey),
+      PhoneValueKey: getValidationMessage(PhoneValueKey),
+    });
+  }
 }
+
+/// Returns the validation message for the given key
+String? getValidationMessage(String key) {
+  final validatorForKey = _CreateEventViewTextValidations[key];
+  if (validatorForKey == null) return null;
+
+  String? validationMessageForKey = validatorForKey(
+    _CreateEventViewTextEditingControllers[key]!.text,
+  );
+
+  return validationMessageForKey;
+}
+
+/// Updates the fieldsValidationMessages on the FormViewModel
+void updateValidationData(FormViewModel model) => model.setValidationMessages({
+      NameValueKey: getValidationMessage(NameValueKey),
+      DescriptionValueKey: getValidationMessage(DescriptionValueKey),
+      DateValueKey: getValidationMessage(DateValueKey),
+      StartTimeValueKey: getValidationMessage(StartTimeValueKey),
+      EndTimeValueKey: getValidationMessage(EndTimeValueKey),
+      AddressValueKey: getValidationMessage(AddressValueKey),
+      StateValueKey: getValidationMessage(StateValueKey),
+      CityValueKey: getValidationMessage(CityValueKey),
+      NumberOfGuestsValueKey: getValidationMessage(NumberOfGuestsValueKey),
+      NotesValueKey: getValidationMessage(NotesValueKey),
+      PriceValueKey: getValidationMessage(PriceValueKey),
+      EmailValueKey: getValidationMessage(EmailValueKey),
+      PhoneValueKey: getValidationMessage(PhoneValueKey),
+    });

@@ -22,18 +22,18 @@ class ForgotPasswordView extends StackedView<ForgotPasswordViewModel>
     final theme = Theme.of(context);
 
     return Scaffold(
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20.0).r,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             50.verticalSpace,
             const Align(
               alignment: Alignment.centerLeft,
               child: AppBackButton(),
             ),
-            const Spacer(),
+            10.verticalSpace,
             Text(
               'Forgot Password',
               textAlign: TextAlign.center,

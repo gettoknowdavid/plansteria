@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 
 class AppBottomSheetWrapper extends StatelessWidget {
   final Widget child;
-  final double height;
-
+  final double? height;
+  final EdgeInsets? padding;
   const AppBottomSheetWrapper({
-    Key? key,
+    super.key,
     required this.child,
-    required this.height,
-  }) : super(key: key);
+    this.height,
+    this.padding,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,8 @@ class AppBottomSheetWrapper extends StatelessWidget {
         ),
         child: Container(
           margin: const EdgeInsets.fromLTRB(2, 2, 2, 0),
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          padding: padding ??
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           decoration: BoxDecoration(
             color: theme.scaffoldBackgroundColor,
             borderRadius: const BorderRadius.only(
@@ -40,12 +42,12 @@ class AppBottomSheetWrapper extends StatelessWidget {
 }
 
 class _BottomSheetPainter extends CustomPainter {
-  final double height;
+  final double? height;
   final double borderRadius;
   final Color color;
 
   _BottomSheetPainter({
-    required this.height,
+    this.height,
     required this.borderRadius,
     required this.color,
   });

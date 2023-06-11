@@ -16,16 +16,13 @@ class HomeViewModel extends MultipleStreamViewModel {
   final _authService = locator<AuthService>();
   final _dialogService = locator<DialogService>();
   final _eventService = locator<EventService>();
-  final _navigationService = locator<NavigationService>();
-
+  final _navService = locator<NavigationService>();
   List<Event?> get upcomingEvents => dataMap?[upcomingEventsKey];
   Event? get featuredEvent => dataMap?[featuredEventKey];
-
   bool get fetchingUpcomingEvents => busy(upcomingEventsKey);
   bool get fetchingFeaturedEvent => busy(featuredEventKey);
-
-  bool get isUpcomingEventsEmpty =>
-      dataMap?[upcomingEventsKey]?.isEmpty == true;
+  bool get upcomingReady => dataReady(upcomingEventsKey);
+  bool get isUpcomingEmpty => dataMap?[upcomingEventsKey]?.isEmpty == true;
 
   Future<List<Guest?>> get getGuests async {
     if (featuredEvent != null) {
@@ -40,21 +37,15 @@ class HomeViewModel extends MultipleStreamViewModel {
     return Creator.fromUser(user);
   }
 
-  void navigateToDetails(Event event) {
-    _navigationService.navigateToEventDetailsView(event: event);
-  }
+  void navigateToCreateEvent() => _navService.navigateToCreateEventView();
+  
+  void navigateToDetails(Event e) => _navService.navigateToEventDetailsView(event: e);
 
-  void navigateToCreateEvent() {
-    _navigationService.navigateToCreateEventView();
-  }
-
-  void showDialog() {
-    _dialogService.showCustomDialog(
-      variant: DialogType.error,
-      title: 'Network Error',
-      description: kNoNetworkConnectionError,
-    );
-  }
+  void showDialog() => _dialogService.showCustomDialog(
+        variant: DialogType.error,
+        title: 'Network Error',
+        description: kNoNetworkConnectionError,
+      );
 
   @override
   Map<String, StreamData> get streamsMap => {

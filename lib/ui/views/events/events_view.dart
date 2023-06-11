@@ -38,7 +38,10 @@ class EventsView extends StackedView<EventsViewModel> {
     }
 
     return Scaffold(
-      appBar: LayoutAppBar(),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(kToolbarHeight),
+        child: LayoutAppBar(),
+      ),
       body: SingleChildScrollView(
         padding: kGlobalHorizontalPadding,
         child: Column(

@@ -9,8 +9,8 @@ import 'package:plansteria/ui/views/home/home_viewmodel.dart';
 import 'package:plansteria/ui/widgets/home/stacked_avatar_widget.dart';
 import 'package:stacked/stacked.dart';
 
-final _containerHeight = 0.325.sh;
-final _imageHeight = _containerHeight * 0.6.r;
+final _containerHeight = 0.3.sh;
+final _imageHeight = _containerHeight * 0.65.r;
 
 class FeaturedEvent extends ViewModelWidget<HomeViewModel> {
   const FeaturedEvent({super.key});
@@ -25,7 +25,6 @@ class FeaturedEvent extends ViewModelWidget<HomeViewModel> {
       onTap: () => viewModel.navigateToDetails(viewModel.featuredEvent!),
       child: Container(
         height: _containerHeight,
-        width: 1.sw,
         decoration: BoxDecoration(
           color: isBusy ? Colors.white12 : Colors.white,
           borderRadius: const BorderRadius.all(Radius.circular(24)).r,
@@ -46,8 +45,11 @@ class FeaturedEvent extends ViewModelWidget<HomeViewModel> {
             ),
             Positioned(
               top: _imageHeight + 5.r,
+              right: 0,
+              left: 0,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   const _EventName(),
                   const _CreatorName(),
@@ -157,8 +159,8 @@ class _EventImage
             ? DecorationImage(image: NetworkImage(value[0]!), fit: BoxFit.cover)
             : null,
       ),
-      child: Stack(
-        children: const [
+      child: const Stack(
+        children: [
           Align(
             alignment: Alignment.bottomLeft,
             child: _EventDate(),

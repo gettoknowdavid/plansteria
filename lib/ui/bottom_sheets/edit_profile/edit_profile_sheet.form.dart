@@ -26,7 +26,7 @@ final Map<String, String? Function(String?)?> _EditProfileSheetTextValidations =
   ImageValueKey: null,
 };
 
-mixin $EditProfileSheet on StatelessWidget {
+mixin $EditProfileSheet {
   TextEditingController get nameController =>
       _getFormTextEditingController(NameValueKey);
   TextEditingController get phoneController =>
@@ -37,11 +37,14 @@ mixin $EditProfileSheet on StatelessWidget {
   FocusNode get phoneFocusNode => _getFormFocusNode(PhoneValueKey);
   FocusNode get imageFocusNode => _getFormFocusNode(ImageValueKey);
 
-  TextEditingController _getFormTextEditingController(String key,
-      {String? initialValue}) {
+  TextEditingController _getFormTextEditingController(
+    String key, {
+    String? initialValue,
+  }) {
     if (_EditProfileSheetTextEditingControllers.containsKey(key)) {
       return _EditProfileSheetTextEditingControllers[key]!;
     }
+
     _EditProfileSheetTextEditingControllers[key] =
         TextEditingController(text: initialValue);
     return _EditProfileSheetTextEditingControllers[key]!;
@@ -65,15 +68,17 @@ mixin $EditProfileSheet on StatelessWidget {
 
   /// Registers a listener on every generated controller that calls [model.setData()]
   /// with the latest textController values
-  @Deprecated('Use syncFormWithViewModel instead.'
-      'This feature was deprecated after 3.1.0.')
+  @Deprecated(
+    'Use syncFormWithViewModel instead.'
+    'This feature was deprecated after 3.1.0.',
+  )
   void listenToFormUpdated(FormViewModel model) {
     nameController.addListener(() => _updateFormData(model));
     phoneController.addListener(() => _updateFormData(model));
     imageController.addListener(() => _updateFormData(model));
   }
 
-  final bool _autoTextFieldValidation = true;
+  static const bool _autoTextFieldValidation = true;
   bool validateFormFields(FormViewModel model) {
     _updateFormData(model, forceValidate: true);
     return model.isFormValid;
@@ -89,26 +94,10 @@ mixin $EditProfileSheet on StatelessWidget {
           ImageValueKey: imageController.text,
         }),
     );
+
     if (_autoTextFieldValidation || forceValidate) {
-      _updateValidationData(model);
+      updateValidationData(model);
     }
-  }
-
-  /// Updates the fieldsValidationMessages on the FormViewModel
-  void _updateValidationData(FormViewModel model) =>
-      model.setValidationMessages({
-        NameValueKey: _getValidationMessage(NameValueKey),
-        PhoneValueKey: _getValidationMessage(PhoneValueKey),
-        ImageValueKey: _getValidationMessage(ImageValueKey),
-      });
-
-  /// Returns the validation message for the given key
-  String? _getValidationMessage(String key) {
-    final validatorForKey = _EditProfileSheetTextValidations[key];
-    if (validatorForKey == null) return null;
-    String? validationMessageForKey =
-        validatorForKey(_EditProfileSheetTextEditingControllers[key]!.text);
-    return validationMessageForKey;
   }
 
   /// Calls dispose on all the generated controllers and focus nodes
@@ -198,11 +187,6 @@ extension ValueProperties on FormViewModel {
       this.fieldsValidationMessages[PhoneValueKey];
   String? get imageValidationMessage =>
       this.fieldsValidationMessages[ImageValueKey];
-  void clearForm() {
-    nameValue = '';
-    phoneValue = '';
-    imageValue = '';
-  }
 }
 
 extension Methods on FormViewModel {
@@ -212,4 +196,39 @@ extension Methods on FormViewModel {
       this.fieldsValidationMessages[PhoneValueKey] = validationMessage;
   setImageValidationMessage(String? validationMessage) =>
       this.fieldsValidationMessages[ImageValueKey] = validationMessage;
+
+  /// Clears text input fields on the Form
+  void clearForm() {
+    nameValue = '';
+    phoneValue = '';
+    imageValue = '';
+  }
+
+  /// Validates text input fields on the Form
+  void validateForm() {
+    this.setValidationMessages({
+      NameValueKey: getValidationMessage(NameValueKey),
+      PhoneValueKey: getValidationMessage(PhoneValueKey),
+      ImageValueKey: getValidationMessage(ImageValueKey),
+    });
+  }
 }
+
+/// Returns the validation message for the given key
+String? getValidationMessage(String key) {
+  final validatorForKey = _EditProfileSheetTextValidations[key];
+  if (validatorForKey == null) return null;
+
+  String? validationMessageForKey = validatorForKey(
+    _EditProfileSheetTextEditingControllers[key]!.text,
+  );
+
+  return validationMessageForKey;
+}
+
+/// Updates the fieldsValidationMessages on the FormViewModel
+void updateValidationData(FormViewModel model) => model.setValidationMessages({
+      NameValueKey: getValidationMessage(NameValueKey),
+      PhoneValueKey: getValidationMessage(PhoneValueKey),
+      ImageValueKey: getValidationMessage(ImageValueKey),
+    });

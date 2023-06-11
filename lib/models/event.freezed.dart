@@ -24,8 +24,8 @@ mixin _$Event {
   String get name => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
-  String get state => throw _privateConstructorUsedError;
-  String get city => throw _privateConstructorUsedError;
+  String? get state => throw _privateConstructorUsedError;
+  String? get city => throw _privateConstructorUsedError;
   int? get numberOfGuests => throw _privateConstructorUsedError;
   String? get notes => throw _privateConstructorUsedError;
   double? get price => throw _privateConstructorUsedError;
@@ -35,6 +35,8 @@ mixin _$Event {
   DateTime get startTime => throw _privateConstructorUsedError;
   @FirestoreDateTimeConverter()
   DateTime? get endTime => throw _privateConstructorUsedError;
+  @FirestoreGeoPointConverter()
+  GeoPoint? get geo => throw _privateConstructorUsedError;
   String? get eventImageUrl => throw _privateConstructorUsedError;
   List<String?> get photoUrls => throw _privateConstructorUsedError;
   bool? get featured => throw _privateConstructorUsedError;
@@ -57,14 +59,15 @@ abstract class $EventCopyWith<$Res> {
       String name,
       String? description,
       String address,
-      String state,
-      String city,
+      String? state,
+      String? city,
       int? numberOfGuests,
       String? notes,
       double? price,
       @FirestoreDateTimeConverter() DateTime date,
       @FirestoreDateTimeConverter() DateTime startTime,
       @FirestoreDateTimeConverter() DateTime? endTime,
+      @FirestoreGeoPointConverter() GeoPoint? geo,
       String? eventImageUrl,
       List<String?> photoUrls,
       bool? featured,
@@ -90,14 +93,15 @@ class _$EventCopyWithImpl<$Res, $Val extends Event>
     Object? name = null,
     Object? description = freezed,
     Object? address = null,
-    Object? state = null,
-    Object? city = null,
+    Object? state = freezed,
+    Object? city = freezed,
     Object? numberOfGuests = freezed,
     Object? notes = freezed,
     Object? price = freezed,
     Object? date = null,
     Object? startTime = null,
     Object? endTime = freezed,
+    Object? geo = freezed,
     Object? eventImageUrl = freezed,
     Object? photoUrls = null,
     Object? featured = freezed,
@@ -122,14 +126,14 @@ class _$EventCopyWithImpl<$Res, $Val extends Event>
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
-      state: null == state
+      state: freezed == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
-              as String,
-      city: null == city
+              as String?,
+      city: freezed == city
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       numberOfGuests: freezed == numberOfGuests
           ? _value.numberOfGuests
           : numberOfGuests // ignore: cast_nullable_to_non_nullable
@@ -154,6 +158,10 @@ class _$EventCopyWithImpl<$Res, $Val extends Event>
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      geo: freezed == geo
+          ? _value.geo
+          : geo // ignore: cast_nullable_to_non_nullable
+              as GeoPoint?,
       eventImageUrl: freezed == eventImageUrl
           ? _value.eventImageUrl
           : eventImageUrl // ignore: cast_nullable_to_non_nullable
@@ -193,14 +201,15 @@ abstract class _$$_EventCopyWith<$Res> implements $EventCopyWith<$Res> {
       String name,
       String? description,
       String address,
-      String state,
-      String city,
+      String? state,
+      String? city,
       int? numberOfGuests,
       String? notes,
       double? price,
       @FirestoreDateTimeConverter() DateTime date,
       @FirestoreDateTimeConverter() DateTime startTime,
       @FirestoreDateTimeConverter() DateTime? endTime,
+      @FirestoreGeoPointConverter() GeoPoint? geo,
       String? eventImageUrl,
       List<String?> photoUrls,
       bool? featured,
@@ -222,14 +231,15 @@ class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
     Object? name = null,
     Object? description = freezed,
     Object? address = null,
-    Object? state = null,
-    Object? city = null,
+    Object? state = freezed,
+    Object? city = freezed,
     Object? numberOfGuests = freezed,
     Object? notes = freezed,
     Object? price = freezed,
     Object? date = null,
     Object? startTime = null,
     Object? endTime = freezed,
+    Object? geo = freezed,
     Object? eventImageUrl = freezed,
     Object? photoUrls = null,
     Object? featured = freezed,
@@ -254,14 +264,14 @@ class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
-      state: null == state
+      state: freezed == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
-              as String,
-      city: null == city
+              as String?,
+      city: freezed == city
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       numberOfGuests: freezed == numberOfGuests
           ? _value.numberOfGuests
           : numberOfGuests // ignore: cast_nullable_to_non_nullable
@@ -286,6 +296,10 @@ class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      geo: freezed == geo
+          ? _value.geo
+          : geo // ignore: cast_nullable_to_non_nullable
+              as GeoPoint?,
       eventImageUrl: freezed == eventImageUrl
           ? _value.eventImageUrl
           : eventImageUrl // ignore: cast_nullable_to_non_nullable
@@ -322,14 +336,15 @@ class _$_Event implements _Event {
       required this.name,
       this.description,
       required this.address,
-      required this.state,
-      required this.city,
+      this.state,
+      this.city,
       this.numberOfGuests,
       this.notes,
       this.price,
       @FirestoreDateTimeConverter() required this.date,
       @FirestoreDateTimeConverter() required this.startTime,
       @FirestoreDateTimeConverter() this.endTime,
+      @FirestoreGeoPointConverter() this.geo,
       this.eventImageUrl,
       required final List<String?> photoUrls,
       this.featured,
@@ -350,9 +365,9 @@ class _$_Event implements _Event {
   @override
   final String address;
   @override
-  final String state;
+  final String? state;
   @override
-  final String city;
+  final String? city;
   @override
   final int? numberOfGuests;
   @override
@@ -368,6 +383,9 @@ class _$_Event implements _Event {
   @override
   @FirestoreDateTimeConverter()
   final DateTime? endTime;
+  @override
+  @FirestoreGeoPointConverter()
+  final GeoPoint? geo;
   @override
   final String? eventImageUrl;
   final List<String?> _photoUrls;
@@ -389,7 +407,7 @@ class _$_Event implements _Event {
 
   @override
   String toString() {
-    return 'Event(uid: $uid, name: $name, description: $description, address: $address, state: $state, city: $city, numberOfGuests: $numberOfGuests, notes: $notes, price: $price, date: $date, startTime: $startTime, endTime: $endTime, eventImageUrl: $eventImageUrl, photoUrls: $photoUrls, featured: $featured, email: $email, phone: $phone, creatorId: $creatorId)';
+    return 'Event(uid: $uid, name: $name, description: $description, address: $address, state: $state, city: $city, numberOfGuests: $numberOfGuests, notes: $notes, price: $price, date: $date, startTime: $startTime, endTime: $endTime, geo: $geo, eventImageUrl: $eventImageUrl, photoUrls: $photoUrls, featured: $featured, email: $email, phone: $phone, creatorId: $creatorId)';
   }
 
   @override
@@ -412,6 +430,7 @@ class _$_Event implements _Event {
             (identical(other.startTime, startTime) ||
                 other.startTime == startTime) &&
             (identical(other.endTime, endTime) || other.endTime == endTime) &&
+            (identical(other.geo, geo) || other.geo == geo) &&
             (identical(other.eventImageUrl, eventImageUrl) ||
                 other.eventImageUrl == eventImageUrl) &&
             const DeepCollectionEquality()
@@ -426,26 +445,28 @@ class _$_Event implements _Event {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      uid,
-      name,
-      description,
-      address,
-      state,
-      city,
-      numberOfGuests,
-      notes,
-      price,
-      date,
-      startTime,
-      endTime,
-      eventImageUrl,
-      const DeepCollectionEquality().hash(_photoUrls),
-      featured,
-      email,
-      phone,
-      creatorId);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        uid,
+        name,
+        description,
+        address,
+        state,
+        city,
+        numberOfGuests,
+        notes,
+        price,
+        date,
+        startTime,
+        endTime,
+        geo,
+        eventImageUrl,
+        const DeepCollectionEquality().hash(_photoUrls),
+        featured,
+        email,
+        phone,
+        creatorId
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -467,14 +488,15 @@ abstract class _Event implements Event {
       required final String name,
       final String? description,
       required final String address,
-      required final String state,
-      required final String city,
+      final String? state,
+      final String? city,
       final int? numberOfGuests,
       final String? notes,
       final double? price,
       @FirestoreDateTimeConverter() required final DateTime date,
       @FirestoreDateTimeConverter() required final DateTime startTime,
       @FirestoreDateTimeConverter() final DateTime? endTime,
+      @FirestoreGeoPointConverter() final GeoPoint? geo,
       final String? eventImageUrl,
       required final List<String?> photoUrls,
       final bool? featured,
@@ -493,9 +515,9 @@ abstract class _Event implements Event {
   @override
   String get address;
   @override
-  String get state;
+  String? get state;
   @override
-  String get city;
+  String? get city;
   @override
   int? get numberOfGuests;
   @override
@@ -511,6 +533,9 @@ abstract class _Event implements Event {
   @override
   @FirestoreDateTimeConverter()
   DateTime? get endTime;
+  @override
+  @FirestoreGeoPointConverter()
+  GeoPoint? get geo;
   @override
   String? get eventImageUrl;
   @override

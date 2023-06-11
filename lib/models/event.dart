@@ -4,8 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'creator.dart';
-
 part 'event.freezed.dart';
 part 'event.g.dart';
 
@@ -47,14 +45,15 @@ class Event with _$Event {
     required String name,
     String? description,
     required String address,
-    required String state,
-    required String city,
+    String? state,
+    String? city,
     int? numberOfGuests,
     String? notes,
     double? price,
     @FirestoreDateTimeConverter() required DateTime date,
     @FirestoreDateTimeConverter() required DateTime startTime,
     @FirestoreDateTimeConverter() DateTime? endTime,
+    @FirestoreGeoPointConverter() GeoPoint? geo,
     String? eventImageUrl,
     required List<String?> photoUrls,
     bool? featured,

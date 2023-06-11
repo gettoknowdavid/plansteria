@@ -1,8 +1,12 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:plansteria/app/app.bottomsheets.dart';
+import 'package:plansteria/app/app.dialogs.dart';
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/app/app.router.dart';
 import 'package:plansteria/app/app.snackbars.dart';
 import 'package:plansteria/models/user.dart';
-import 'package:plansteria/services/auth_service.dart';
+import 'package:plansteria/services/services.dart';
 import 'package:plansteria/ui/common/app_strings.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -11,15 +15,18 @@ import 'account_view.form.dart';
 
 class AccountViewModel extends FormViewModel with ListenableServiceMixin {
   final _authService = locator<AuthService>();
+  final _bottomSheetService = locator<BottomSheetService>();
   final _dialogService = locator<DialogService>();
   final _navigationService = locator<NavigationService>();
   final _snackbarService = locator<SnackbarService>();
+  final _networkService = locator<NetworkService>();
 
   AccountViewModel() {
     listenToReactiveValues([_showEmail, _showPassword]);
   }
 
   User get currentUser => _authService.currentUser!;
+  NetworkStatus get networkStatus => _networkService.status;
 
   final _showEmail = ReactiveValue<bool>(false);
   bool get showEmail => _showEmail.value;
@@ -67,6 +74,50 @@ class AccountViewModel extends FormViewModel with ListenableServiceMixin {
     }
   }
 
+  Future<void> onDeleteAccount() async {
+    if (networkStatus == NetworkStatus.disconnected) {
+      _dialogService.showCustomDialog(variant: DialogType.networkError);
+    }
+
+    final reAuthResponse = await _bottomSheetService.showCustomSheet(
+      variant: BottomSheetType.reAuth,
+      enableDrag: true,
+      isScrollControlled: true,
+    );
+
+    if (reAuthResponse?.confirmed == true) {
+      final confirmationResponse = await _dialogService.showDialog(
+        title: 'Delete Account',
+        barrierDismissible: true,
+        buttonTitleColor: Colors.red,
+        cancelTitleColor: Colors.grey,
+        description:
+            "You are about to delete your account. \nThis cannot be undone.",
+        buttonTitle: 'Delete',
+        cancelTitle: 'Cancel',
+      );
+
+      if (confirmationResponse?.confirmed == true) {
+        setBusy(true);
+        final response = await _authService.deleteAccount();
+        return response.fold(
+          (failure) {
+            setBusy(false);
+            _snackbarService.showCustomSnackBar(
+              duration: const Duration(seconds: 6),
+              variant: SnackbarType.error,
+              message: failure.maybeMap(
+                orElse: () => '',
+                serverError: (_) => kServerErrorMessage,
+              ),
+            );
+          },
+          (success) => _navigationService.clearStackAndShow(Routes.loginView),
+        );
+      }
+    }
+  }
+
   Future<void> logout() async {
     setBusy(true);
     await _authService.logout();
@@ -84,29 +135,49 @@ class AccountViewModel extends FormViewModel with ListenableServiceMixin {
       .whenComplete(logout);
 
   Future<void> updatePassword() async {
-    setBusy(true);
-    // final result = await _authService.forgotPassword(currentUser.email);
-    // return result.fold(
-    //   (failure) {
-    //     setBusy(false);
-    //     _snackbarService.showCustomSnackBar(
-    //       duration: const Duration(seconds: 6),
-    //       variant: SnackbarType.error,
-    //       message: failure.maybeMap(
-    //         orElse: () => '',
-    //         error: (value) => value.message ?? '',
-    //         requiresRecentLogin: (_) => kRequiresRecentLoginErrorMessage,
-    //         serverError: (_) => kServerErrorMessage,
-    //         invalidEmail: (_) => kInvalidEmail,
-    //         emailInUse: (_) => kEmailAlreadyInUseErrorMessage,
-    //       ),
-    //     );
-    //   },
-    //   (success) async {
-    //     setBusy(false);
-    //     // await showConfirmationDialog();
-    //   },
-    // );
+    if (networkStatus == NetworkStatus.disconnected) {
+      return await HapticFeedback.vibrate();
+    }
+
+    final confirmationResponse = await _bottomSheetService.showCustomSheet(
+      variant: BottomSheetType.reAuth,
+      isScrollControlled: true,
+      enableDrag: false,
+    );
+
+    if (confirmationResponse?.confirmed == true) {
+      setBusy(true);
+      final result = await _authService.updatePassword(passwordValue!);
+      return result.fold(
+        (failure) {
+          setBusy(false);
+          _snackbarService.showCustomSnackBar(
+            duration: const Duration(seconds: 6),
+            variant: SnackbarType.error,
+            message: failure.maybeMap(
+              orElse: () => '',
+              error: (value) => value.message ?? '',
+              requiresRecentLogin: (_) => kRequiresRecentLoginErrorMessage,
+              serverError: (_) => kServerErrorMessage,
+              invalidEmail: (_) => kInvalidEmail,
+              emailInUse: (_) => kEmailAlreadyInUseErrorMessage,
+            ),
+          );
+        },
+        (success) async {
+          setBusy(false);
+          await _dialogService
+              .showDialog(
+                barrierDismissible: false,
+                title: 'Password Updated',
+                description:
+                    "Your password has been updated. \n\nYou will have to login with your email and your new password.",
+                buttonTitle: 'Okay, great!',
+              )
+              .whenComplete(logout);
+        },
+      );
+    }
   }
 
   @override

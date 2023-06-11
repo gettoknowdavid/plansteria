@@ -1,3 +1,4 @@
+import 'package:plansteria/app/app.bottomsheets.dart';
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/app/app.router.dart';
 import 'package:plansteria/app/app.snackbars.dart';
@@ -17,6 +18,7 @@ const String isAttendingKey = 'isAttendingKey';
 class EventDetailsViewModel extends ReactiveViewModel
     with ListenableServiceMixin {
   final _authService = locator<AuthService>();
+  final _bottomSheetService = locator<BottomSheetService>();
   final _eventService = locator<EventService>();
   final _dialogService = locator<DialogService>();
   final _navigationService = locator<NavigationService>();
@@ -26,7 +28,6 @@ class EventDetailsViewModel extends ReactiveViewModel
   final _event = ReactiveValue<Event?>(null);
   final _isAttending = ReactiveValue<bool>(false);
   final _isFromLayoutView = ReactiveValue<bool>(false);
-  final _bottomSheetService = locator<BottomSheetService>();
 
   EventDetailsViewModel() {
     listenToReactiveValues([
@@ -162,12 +163,6 @@ class EventDetailsViewModel extends ReactiveViewModel
       type: StatsType.guests,
       event: event,
     );
-    // await _bottomSheetService.showCustomSheet(
-    //   variant: BottomSheetType.profileStats,
-    //   isScrollControlled: true,
-    //   data: Profile(type: UsersViewType.guests, event: event),
-    //   takesInput: true,
-    // );
   }
 
   Future<Creator> getCreator() async {
@@ -175,9 +170,19 @@ class EventDetailsViewModel extends ReactiveViewModel
     return Creator.fromUser(creatorUser);
   }
 
-  // @override
-  // Map<String, StreamData> get streamsMap => {
-  //       eventKey: StreamData<Event>(eventStream),
-  //       isAttendingKey: StreamData<bool>(isAttendingStream),
-  //     };
+  Future<void> showMapBottomSheet() async {
+    if (event?.geo != null) {
+      await _bottomSheetService.showCustomSheet(
+        variant: BottomSheetType.map,
+        isScrollControlled: true,
+        data: event,
+        takesInput: true,
+      );
+    } else {
+      await _bottomSheetService.showBottomSheet(
+        title: '${event?.address}',
+        description: '${event?.city}, ${event?.state}',
+      );
+    }
+  }
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: sdk_version_since
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:plansteria/app/app.locator.dart';
@@ -51,10 +53,12 @@ class EventService with ListenableServiceMixin {
   }
 
   Stream<Event?> get featuredEventStream {
-    return eventsRef.whereDate(isGreaterThanOrEqualTo: today).snapshots().map(
+    return eventsRef.orderByNumberOfGuests(descending: true).snapshots().map(
           (e) => e.docs
               .map((d) => d.data)
-              .where((event) => event.photoUrls.isNotEmpty)
+              .where((e) =>
+                  e.photoUrls.isNotEmpty &&
+                  e.date.microsecondsSinceEpoch >= today.microsecondsSinceEpoch)
               .toList()
               .first,
         );
@@ -98,8 +102,10 @@ class EventService with ListenableServiceMixin {
     }
 
     try {
-      GuestCollectionReference guestsRef = eventsRef.doc(eventId).guests;
-      await guestsRef.doc(guest.uid).set(guest);
+      final doc = eventsRef.doc(eventId);
+      await doc.guests.doc(guest.uid).set(guest);
+      final numberOfGuests = (await doc.guests.get()).docs.length;
+      await doc.update(numberOfGuests: numberOfGuests);
       return right(unit);
     } on FirebaseException catch (e) {
       return left(EventError.error(e.message));
@@ -117,8 +123,10 @@ class EventService with ListenableServiceMixin {
     }
 
     try {
-      GuestCollectionReference guestsRef = eventsRef.doc(eventId).guests;
-      await guestsRef.doc(guestId).delete();
+      final doc = eventsRef.doc(eventId);
+      await doc.guests.doc(guestId).delete();
+      final numberOfGuests = (await doc.guests.get()).docs.length;
+      await doc.update(numberOfGuests: numberOfGuests);
       return right(unit);
     } on FirebaseException catch (e) {
       return left(EventError.error(e.message));

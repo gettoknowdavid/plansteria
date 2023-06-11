@@ -7,16 +7,12 @@ import 'package:stacked/stacked.dart';
 
 import 'app_avatar.dart';
 
-class LayoutAppBar extends ViewModelWidget<LayoutViewModel>
-    with PreferredSizeWidget {
+class LayoutAppBar extends ViewModelWidget<LayoutViewModel> {
   final String? title;
   final Widget? action;
   final PreferredSizeWidget? bottom;
 
-  LayoutAppBar({super.key, this.action, this.title, this.bottom});
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  const LayoutAppBar({super.key, this.action, this.title, this.bottom});
 
   @override
   Widget build(BuildContext context, LayoutViewModel viewModel) {

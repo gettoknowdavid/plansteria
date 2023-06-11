@@ -10,8 +10,11 @@ import 'app.locator.dart';
 import '../ui/bottom_sheets/edit_profile/edit_profile_sheet.dart';
 import '../ui/bottom_sheets/image_source/image_source_sheet.dart';
 import '../ui/bottom_sheets/map/map_sheet.dart';
+import '../ui/bottom_sheets/map_address/map_address_sheet.dart';
 import '../ui/bottom_sheets/notice/notice_sheet.dart';
 import '../ui/bottom_sheets/password_confirmation/password_confirmation_sheet.dart';
+import '../ui/bottom_sheets/re_auth/re_auth_sheet.dart';
+import '../ui/bottom_sheets/theme/theme_sheet.dart';
 
 enum BottomSheetType {
   notice,
@@ -19,6 +22,9 @@ enum BottomSheetType {
   imageSource,
   map,
   passwordConfirmation,
+  reAuth,
+  theme,
+  mapAddress,
 }
 
 void setupBottomSheetUi() {
@@ -35,6 +41,12 @@ void setupBottomSheetUi() {
         MapSheet(request: request, completer: completer),
     BottomSheetType.passwordConfirmation: (context, request, completer) =>
         PasswordConfirmationSheet(request: request, completer: completer),
+    BottomSheetType.reAuth: (context, request, completer) =>
+        ReAuthSheet(request: request, completer: completer),
+    BottomSheetType.theme: (context, request, completer) =>
+        ThemeSheet(request: request, completer: completer),
+    BottomSheetType.mapAddress: (context, request, completer) =>
+        MapAddressSheet(request: request, completer: completer),
   };
 
   bottomsheetService.setCustomSheetBuilders(builders);

@@ -60,20 +60,13 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
                 const CreatorSection()
               else
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     TextButton.icon(
                       onPressed: viewModel.onEditPressed,
                       icon: const Icon(PhosphorIcons.pencil),
                       label: const Text('Edit'),
                     ),
-                    20.horizontalSpace,
-                    TextButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(PhosphorIcons.share),
-                      label: const Text('Share'),
-                    ),
-                    20.horizontalSpace,
                     TextButton.icon(
                       onPressed: () => viewModel.onDeletePressed(event.uid),
                       icon: const Icon(PhosphorIcons.trash),
@@ -100,6 +93,7 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
                 icon: PhosphorIcons.mapPin,
                 title: data.address,
                 subtitle: 'View on Map',
+                onTap: viewModel.showMapBottomSheet,
               ),
               16.verticalSpace,
               EventDetailsItem(

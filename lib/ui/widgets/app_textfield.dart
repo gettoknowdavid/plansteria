@@ -27,6 +27,8 @@ class AppTextField extends StatefulWidget {
     this.prefixText,
     this.prefixIcon,
     this.prefix,
+    this.suffixIcon,
+    this.required = false,
   });
 
   final String hint;
@@ -49,6 +51,8 @@ class AppTextField extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final Widget? prefixIcon;
   final Widget? prefix;
+  final Widget? suffixIcon;
+  final bool required;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -72,33 +76,38 @@ class _AppTextFieldState extends State<AppTextField> {
             child: widget.prefixIcon,
           );
 
-    return TextFormField(
-      obscureText: widget.isPassword ? !obscure : obscure,
-      onTap: widget.onTap,
-      controller: widget.controller,
-      initialValue: widget.initialValue,
-      keyboardType: widget.keyboardType,
-      autocorrect: widget.autocorrect,
-      onChanged: widget.onChanged,
-      validator: widget.validator,
-      enabled: widget.enabled,
-      maxLines: widget.maxLines,
-      maxLength: widget.maxLength,
-      autofocus: widget.autofocus,
-      textInputAction: widget.textInputAction,
-      focusNode: widget.focusNode,
-      inputFormatters: widget.inputFormatters,
-      decoration: InputDecoration(
-        hintText: widget.hint,
-        alignLabelWithHint: true,
-        labelText: widget.label,
-        prefixText: widget.prefixText,
-        prefixIcon: prefixIcon,
-        prefix: widget.prefix,
-        prefixIconColor: theme.colorScheme.onBackground.withOpacity(0.3),
-        suffixIcon: !widget.isPassword ? null : _suffixIcon(),
-        contentPadding: padding,
-      ),
+    return Stack(
+      children: [
+        TextFormField(
+          obscureText: widget.isPassword ? !obscure : obscure,
+          onTap: widget.onTap,
+          controller: widget.controller,
+          initialValue: widget.initialValue,
+          keyboardType: widget.keyboardType,
+          autocorrect: widget.autocorrect,
+          onChanged: widget.onChanged,
+          validator: widget.validator,
+          enabled: widget.enabled,
+          maxLines: widget.maxLines,
+          maxLength: widget.maxLength,
+          autofocus: widget.autofocus,
+          textInputAction: widget.textInputAction,
+          focusNode: widget.focusNode,
+          inputFormatters: widget.inputFormatters,
+          decoration: InputDecoration(
+            hintText: widget.hint,
+            alignLabelWithHint: true,
+            labelText: widget.label,
+            prefixText: widget.prefixText,
+            prefixIcon: prefixIcon,
+            prefix: widget.prefix,
+            prefixIconColor: theme.colorScheme.onBackground.withOpacity(0.3),
+            suffixIcon: !widget.isPassword ? widget.suffixIcon : _suffixIcon(),
+            contentPadding: padding,
+          ),
+        ),
+        if (widget.required) const RequiredDot(),
+      ],
     );
   }
 
@@ -111,6 +120,26 @@ class _AppTextFieldState extends State<AppTextField> {
         icon: obscure
             ? const Icon(PhosphorIcons.eye)
             : const Icon(PhosphorIcons.eyeSlash),
+      ),
+    );
+  }
+}
+
+class RequiredDot extends StatelessWidget {
+  const RequiredDot({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: 6.r,
+      left: 6.r,
+      child: Container(
+        height: 5.r,
+        width: 5.r,
+        decoration: const BoxDecoration(
+          color: Colors.red,
+          shape: BoxShape.circle,
+        ),
       ),
     );
   }

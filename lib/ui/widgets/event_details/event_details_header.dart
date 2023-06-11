@@ -22,9 +22,9 @@ class EventDetailsHeader extends ViewModelWidget<EventDetailsViewModel> {
         color: theme.primaryColor.withOpacity(0.5),
       );
     } else {
-      background = Stack(
+      background = const Stack(
         alignment: Alignment.bottomCenter,
-        children: const [_Carousel(), _Dots()],
+        children: [_Carousel(), _Dots()],
       );
     }
 

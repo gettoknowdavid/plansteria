@@ -5,8 +5,11 @@ part 'env.g.dart';
 @Envied(obfuscate: true)
 abstract class Env {
   @EnviedField(varName: 'OPENAI_API_KEY')
-  static final openAIApiKey = _Env.openAIApiKey;
+  static final String openAIApiKey = _Env.openAIApiKey;
 
   @EnviedField(varName: 'OPENAI_BASE_URL')
-  static final openAIBaseUrl = _Env.openAIBaseUrl;
+  static final String openAIBaseUrl = _Env.openAIBaseUrl;
+
+  @EnviedField(varName: 'GOOGLE_MAP_API_KEY')
+  static final String googleMapApiKey = _Env.googleMapApiKey;
 }

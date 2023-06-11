@@ -7,11 +7,13 @@ class SectionTitle extends StatelessWidget {
     required this.title,
     this.onTap,
     this.child,
+    this.textColor,
   });
 
   final String title;
   final void Function()? onTap;
   final Widget? child;
+  final Color? textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,10 @@ class SectionTitle extends StatelessWidget {
           children: [
             Text(
               title,
-              style: textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+              style: textTheme.bodyLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: textColor,
+              ),
             ),
             const Spacer(),
             if (onTap != null)

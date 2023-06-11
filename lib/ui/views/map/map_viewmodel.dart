@@ -1,77 +1,132 @@
 import 'dart:async';
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:plansteria/app/app.bottomsheets.dart';
+import 'package:plansteria/app/app.locator.dart';
+import 'package:plansteria/models/place.dart';
+import 'package:plansteria/services/services.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
-class MapViewModel extends BaseViewModel {
-  final Completer<GoogleMapController> _controller = Completer();
+class MapViewModel extends ReactiveViewModel
+    with Initialisable, ListenableServiceMixin {
+  final _bottomSheetService = locator<BottomSheetService>();
+  final _locationService = locator<LocationService>();
+  final _navigationService = locator<NavigationService>();
 
-  // static const CameraPosition _kLake = CameraPosition(
-  //   target: LatLng(45.521563, -122.677433),
-  //   zoom: 14.4746,
-  // );
+  final _completer = Completer();
+  final _geo = ReactiveValue<LatLng>(const LatLng(0.0, 0.0));
 
-  late GoogleMapController mapController;
+  final _address = ReactiveValue<String?>(null);
 
-  LatLng center = const LatLng(45.521563, -122.677433);
+  final _isSearchBarVisible = ReactiveValue<bool>(false);
+  final _bottomSheetHeight = ReactiveValue<double>(0.25.sh);
 
-  void onMapCreated(GoogleMapController controller) {
-    _controller.complete(controller);
+  MapViewModel() {
+    listenToReactiveValues([
+      _address,
+      _geo,
+      _isSearchBarVisible,
+      _bottomSheetHeight,
+    ]);
   }
 
-  Future<Position> _determinePosition() async {
-    LocationPermission permission;
+  String? get address => _address.value;
 
-    // serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    // if (!serviceEnabled) {
-    //   return Future.error('Location services are disabled.');
-    // }
+  bool get isSearchBarVisible => _isSearchBarVisible.value;
+  double get bottomSheetHeight => _bottomSheetHeight.value;
 
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
+  String? get currentAddress => _locationService.currentAddress;
+  LatLng get currentGeo => _locationService.currentGeo;
+
+  Place? get place => _locationService.place;
+
+  CameraPosition get initialPosition => CameraPosition(target: currentGeo);
+
+  @override
+  List<ListenableServiceMixin> get listenableServices => [_locationService];
+
+  LatLng get geo => _geo.value;
+
+  Placemark? get placemark => _locationService.placemark;
+
+  Position? get position => _locationService.position;
+
+  bool get detailsLoading => busy(_geo.value);
+
+  Future<void> goToMyLocation() async {
+    _address.value = address;
+
+    final _mapController = await _completer.future;
+
+    _mapController.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(target: currentGeo, zoom: 20),
+      ),
+    );
+
+    notifyListeners();
+  }
+
+  @override
+  void initialise() async {
+    await goToMyLocation();
+    _isSearchBarVisible.value = false;
+    notifyListeners();
+  }
+
+  Future<void> onCameraMove(CameraPosition newPosition) async {
+    if (!_isSearchBarVisible.value) {
+      final target = newPosition.target;
+      final placemark = await _locationService.getLocationDetails(target);
+      _address.value = placemark.street;
+      final _place = Place(
+        placeId: '',
+        name: placemark.street!,
+        lat: target.latitude,
+        lon: target.longitude,
+        types: [],
+      );
+      _locationService.updatePlace(_place);
+
+      notifyListeners();
     }
+  }
 
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
+  void showSearchBar() async {
+    setBusy(true);
+    _isSearchBarVisible.value = true;
+
+    GoogleMapController _mapController = await _completer.future;
+
+    SheetResponse? result = await _bottomSheetService.showCustomSheet(
+      variant: BottomSheetType.mapAddress,
+      isScrollControlled: true,
+    );
+
+    if (result?.confirmed == true) {
+      final newPlace = result?.data as Place?;
+      final target = LatLng(newPlace!.lat, newPlace.lon);
+
+      _address.value = newPlace.name;
+
+      _locationService.updatePlace(newPlace);
+
+      _mapController.moveCamera(CameraUpdate.newLatLng(target)).then((value) {
+        _isSearchBarVisible.value = false;
+        setBusy(false);
+      });
+
+      notifyListeners();
     }
-
-    return await Geolocator.getCurrentPosition();
   }
 
-  // static const CameraPosition _kPH = CameraPosition(
-  //   target: LatLng(4.8472, 6.9746),
-  //   zoom: 14.4746,
-  // );
-
-  Future<void> goToPH() async {
-    final GoogleMapController controller = await _controller.future;
-
-    final loc = await _determinePosition();
-    final lat = loc.latitude;
-    final lon = loc.longitude;
-
-    final _curLoc = CameraPosition(target: LatLng(lat, lon), zoom: 16);
-
-    // final placemarks = await placemarkFromCoordinates(lat, lon);
-    // final place = placemarks[0];
-
-    // print("===============================================================");
-    // print("${place.country} ${place.country} ${place.country}");
-    // print("===============================================================");
-
-    controller.animateCamera(CameraUpdate.newCameraPosition(_curLoc));
+  bool confirm() {
+    return _navigationService.back(result: place);
   }
 
-  // Marker _marker = Marker(
-  //   markerId: const MarkerId('kCurrentLocation'),
-  //   infoWindow: const InfoWindow(title: "Your Current Location"),
-  //   icon: BitmapDescriptor.defaultMarker,
-  //   position: _kPH.target,
-  // );
+  void onMapCreated(GoogleMapController c) => _completer.complete(c);
 }
