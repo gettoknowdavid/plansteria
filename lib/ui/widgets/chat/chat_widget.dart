@@ -15,7 +15,7 @@ class ChatWidget extends ViewModelWidget<ChatViewModel> {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    final isUser = chat.role != "assistant";
+    final isUser = chat.role == "user";
     final background = isUser ? colorScheme.primary : colorScheme.secondary;
     final foreground = isUser ? colorScheme.onPrimary : colorScheme.onSecondary;
 
@@ -36,13 +36,21 @@ class ChatWidget extends ViewModelWidget<ChatViewModel> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CircleAvatar(
-                radius: 10.r,
-                backgroundColor: background,
-                foregroundColor: foreground,
-                foregroundImage: hasAvatar ? NetworkImage(avatar) : null,
-                child: !hasAvatar ? icon : null,
-              ),
+              if (isUser)
+                CircleAvatar(
+                  radius: 10.r,
+                  backgroundColor: background,
+                  foregroundColor: foreground,
+                  foregroundImage: hasAvatar ? NetworkImage(avatar) : null,
+                  child: !hasAvatar ? icon : null,
+                )
+              else
+                CircleAvatar(
+                  radius: 10.r,
+                  backgroundColor: background,
+                  foregroundColor: foreground,
+                  child: icon,
+                ),
               10.horizontalSpace,
               // if (chat.hasAnimated == false && chat.role == 'assistant')
               //   Expanded(

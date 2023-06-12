@@ -13,6 +13,7 @@ import '../ui/dialogs/dialogs.dart';
 import '../ui/layout/layout.dart';
 import '../ui/views/views.dart';
 import 'app.router.dart';
+import 'package:plansteria/ui/views/about/about_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -43,6 +44,7 @@ import 'app.router.dart';
     MaterialRoute(page: MapView),
     MaterialRoute(page: UserProfileView),
     MaterialRoute(page: OnboardingView),
+MaterialRoute(page: AboutView),
 // @stacked-route
   ],
   dependencies: [

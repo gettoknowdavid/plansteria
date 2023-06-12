@@ -34,3 +34,12 @@ const String kVerificationEmailSentSuccess = 'Verification email sent';
 const String kLocationPermissionPermanentlyDenied =
     'Location permissions are permanently denied, we cannot request permissions.';
 const kLocationPermissionDenied = 'Location permissions are denied';
+
+const kAboutApp =
+    "Welcome to Plansteria, your go-to platform for creating and managing extraordinary events! Whether you're planning a small gathering, a corporate conference, or a grand wedding, we've got you covered.\n"
+    "At Plansteria, we understand that organizing events can be a daunting task. That's why we've developed a comprehensive and user-friendly application to simplify the event planning process. With our innovative features and intuitive interface, you can bring your vision to life with ease and precision.\n"
+    "Creating an event with Plansteria is as simple as a few clicks. Our powerful event creation tool allows you to define all the essential details, from the event type and location to the date and time. Customize your event with descriptions, themes, and even ticketing options. You have complete control to tailor every aspect to suit your unique requirements.\n"
+    "With Plansteria, event promotion becomes a breeze. Our built-in marketing features allow you to create personalized event websites, share updates through social media integration, and reach your target audience effectively. Maximize your event's exposure and boost attendance with our powerful promotional tools.\n"
+    "At Plansteria, we value security and privacy. Rest assured that your event data is protected with robust encryption and strict privacy protocols. We prioritize the confidentiality of your information and adhere to industry best practices to maintain the utmost security.\n"
+    "Our mission is to empower event organizers like you to create unforgettable experiences. Whether you're a seasoned professional or a first-time planner, Plansteria provides you with the tools and resources you need to execute flawless events.\n"
+    "Join us today and discover the future of event creation and management. Let Plansteria be your trusted companion on your event planning journey. Start creating exceptional experiences with ease and efficiency.";

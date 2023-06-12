@@ -23,6 +23,10 @@ class EventsViewModel extends FutureViewModel<List<Event?>>
     );
   }
 
+  Future<void> navigateToCreateEvent() {
+    return _navigationService.navigateToCreateEventView();
+  }
+
   @override
   List<ListenableServiceMixin> get listenableServices => [_authService];
 

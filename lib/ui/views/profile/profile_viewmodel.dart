@@ -98,6 +98,10 @@ class ProfileViewModel extends ReactiveViewModel with Initialisable {
     );
   }
 
+  Future<void> navigateToAboutView() async {
+    await _navigationService.navigateToAboutView();
+  }
+
   @override
   List<ListenableServiceMixin> get listenableServices => [
         _authService,

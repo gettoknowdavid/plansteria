@@ -13,78 +13,59 @@ class CreatorSection extends ViewModelWidget<EventDetailsViewModel> {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
 
-    return Row(
-      children: [
-        Expanded(
-          child: GestureDetector(
-            onTap: viewModel.navigateToUserProfile,
-            child: Row(
+    return GestureDetector(
+      onTap: viewModel.navigateToUserProfile,
+      child: Row(
+        children: [
+          FutureBuilder<Creator>(
+            future: viewModel.getCreator(),
+            builder: (context, snapshot) {
+              return SkeletonLoader(
+                loading: !snapshot.hasData,
+                child: Container(
+                  height: 54.r,
+                  width: 54.r,
+                  decoration: BoxDecoration(
+                    color: theme.primaryColor.withOpacity(0.2),
+                    borderRadius: const BorderRadius.all(Radius.circular(16)).r,
+                    image: snapshot.data?.avatar == null
+                        ? null
+                        : DecorationImage(
+                            image: NetworkImage(snapshot.data!.avatar!),
+                            fit: BoxFit.cover,
+                          ),
+                  ),
+                  child: snapshot.data?.avatar == null
+                      ? const Icon(PhosphorIcons.user)
+                      : null,
+                ),
+              );
+            },
+          ),
+          12.horizontalSpace,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Text('CREATED BY', style: textTheme.bodySmall),
                 FutureBuilder<Creator>(
                   future: viewModel.getCreator(),
                   builder: (context, snapshot) {
                     return SkeletonLoader(
                       loading: !snapshot.hasData,
-                      child: Container(
-                        height: 54.r,
-                        width: 54.r,
-                        decoration: BoxDecoration(
-                          color: theme.primaryColor.withOpacity(0.2),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(16)).r,
-                          image: snapshot.data?.avatar == null
-                              ? null
-                              : DecorationImage(
-                                  image: NetworkImage(snapshot.data!.avatar!),
-                                  fit: BoxFit.cover,
-                                ),
-                        ),
-                        child: snapshot.data?.avatar == null
-                            ? const Icon(PhosphorIcons.user)
-                            : null,
+                      child: Text(
+                        '${snapshot.data?.name}',
+                        style: textTheme.bodyLarge,
                       ),
                     );
                   },
                 ),
-                12.horizontalSpace,
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('CREATED BY', style: textTheme.bodySmall),
-                      FutureBuilder<Creator>(
-                        future: viewModel.getCreator(),
-                        builder: (context, snapshot) {
-                          return SkeletonLoader(
-                            loading: !snapshot.hasData,
-                            child: Text(
-                              '${snapshot.data?.name}',
-                              style: textTheme.bodyLarge,
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
               ],
             ),
           ),
-        ),
-        12.horizontalSpace,
-        GestureDetector(
-          onTap: () {},
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(PhosphorIcons.share),
-              4.verticalSpace,
-              Text('Share', style: textTheme.bodySmall),
-            ],
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

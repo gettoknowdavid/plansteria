@@ -54,9 +54,10 @@ class ProfileView extends StackedView<ProfileViewModel> {
               leadingIcon: PhosphorIcons.userCircle,
             ),
             10.verticalSpace,
-            const ProfileItem(
+            ProfileItem(
               'About Plansteria',
               leadingIcon: PhosphorIcons.info,
+              onTap: viewModel.navigateToAboutView,
             ),
             10.verticalSpace,
             ProfileItem(

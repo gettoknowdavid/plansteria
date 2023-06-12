@@ -21,6 +21,7 @@ class ChatList extends ViewModelWidget<ChatViewModel> {
       itemBuilder: (context, index) {
         final date = viewModel.chatGroups.keys.toList()[index];
         final chats = viewModel.chatGroups[date]!;
+        print(chats);
 
         return Column(
           children: [

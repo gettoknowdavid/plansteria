@@ -87,15 +87,14 @@ class ChatViewModel extends FormViewModel with ListenableServiceMixin {
       },
       (success) {
         setBusy(false);
-        timer = Timer.periodic(const Duration(milliseconds: 50), (timer) {
-          if (controller.hasClients) {
-            // Check if we're already at the bottom
-            if (controller.offset != controller.position.maxScrollExtent) {
-              scrollListToEnd();
-            }
-          }
-        });
-        notifyListeners();
+        // timer = Timer.periodic(const Duration(milliseconds: 50), (timer) {
+        //   if (controller.hasClients) {
+        //     // Check if we're already at the bottom
+        //     if (controller.offset != controller.position.maxScrollExtent) {
+        // controller.jumpTo(controller.position.maxScrollExtent);
+        //     }
+        //   }
+        // });
       },
     );
 

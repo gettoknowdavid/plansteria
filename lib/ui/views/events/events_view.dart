@@ -58,6 +58,10 @@ class EventsView extends StackedView<EventsViewModel> {
           ],
         ),
       ),
+       floatingActionButton: FloatingActionButton(
+        onPressed: viewModel.navigateToCreateEvent,
+        child: const Icon(Icons.add),
+      ),
     );
   }
 
