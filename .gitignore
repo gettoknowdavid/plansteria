@@ -29,3 +29,5 @@ doc/api/
 *.freezed.dart
 *.g.dart
 lib/core/errors/event_error.freezed.dart
+
+plansteria-upload-keystore.jks
