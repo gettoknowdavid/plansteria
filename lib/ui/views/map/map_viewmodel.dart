@@ -88,6 +88,10 @@ class MapViewModel extends ReactiveViewModel
         name: placemark.street!,
         lat: target.latitude,
         lon: target.longitude,
+        city: placemark.locality,
+        state: placemark.administrativeArea,
+        country: placemark.country,
+        countryISO: placemark.isoCountryCode,
         types: [],
       );
       _locationService.updatePlace(_place);
@@ -109,11 +113,18 @@ class MapViewModel extends ReactiveViewModel
 
     if (result?.confirmed == true) {
       final newPlace = result?.data as Place?;
+
       final target = LatLng(newPlace!.lat, newPlace.lon);
+      final placemark = await _locationService.getLocationDetails(target);
 
       _address.value = newPlace.name;
 
-      _locationService.updatePlace(newPlace);
+      _locationService.updatePlace(newPlace.copyWith(
+        city: placemark.locality,
+        state: placemark.administrativeArea,
+        country: placemark.country,
+        countryISO: placemark.isoCountryCode,
+      ));
 
       _mapController.moveCamera(CameraUpdate.newLatLng(target)).then((value) {
         _isSearchBarVisible.value = false;

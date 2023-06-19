@@ -43,7 +43,7 @@ final Map<String, String? Function(String?)?> _CreateEventViewTextValidations =
   NotesValueKey: null,
   PriceValueKey: null,
   EmailValueKey: Validators.validateEmail,
-  PhoneValueKey: Validators.validatePhone,
+  PhoneValueKey: null,
 };
 
 mixin $CreateEventView {

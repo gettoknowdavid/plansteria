@@ -38,7 +38,7 @@ import 'create_event_viewmodel.dart';
 
   // Contact
   FormTextField(name: 'email', validator: Validators.validateEmail),
-  FormTextField(name: 'phone', validator: Validators.validatePhone),
+  FormTextField(name: 'phone'),
 ])
 class CreateEventView extends StackedView<CreateEventViewModel>
     with $CreateEventView {
@@ -54,6 +54,7 @@ class CreateEventView extends StackedView<CreateEventViewModel>
     final labelStyle = textTheme.titleSmall?.copyWith(
       color: textTheme.titleSmall?.color?.withOpacity(0.6),
     );
+    final labelSmall = labelStyle?.copyWith(fontSize: 11);
 
     return Scaffold(
       appBar: AppBar(
@@ -167,6 +168,7 @@ class CreateEventView extends StackedView<CreateEventViewModel>
                 hint: 'Any notes?',
                 focusNode: notesFocusNode,
                 controller: notesController,
+                maxLines: 3,
                 enabled: !viewModel.isBusy,
                 prefixIcon: const Icon(PhosphorIcons.note),
               ),
@@ -183,6 +185,11 @@ class CreateEventView extends StackedView<CreateEventViewModel>
                 inputFormatters: [CurrencyFormatter()],
                 prefixIcon: const Icon(PhosphorIcons.currencyNgn),
               ),
+              2.verticalSpace,
+              Text(
+                "The event will be free, if not specified.",
+                style: labelSmall,
+              ),
               20.verticalSpace,
               Text('Contact', style: labelStyle),
               5.verticalSpace,
@@ -197,37 +204,34 @@ class CreateEventView extends StackedView<CreateEventViewModel>
                 required: true,
               ),
               10.verticalSpace,
-              Stack(
-                children: [
-                  InternationalPhoneNumberInput(
-                    onInputChanged: null,
-                    onInputValidated: viewModel.setPhoneValidity,
-                    initialValue: PhoneNumber(isoCode: 'NG'),
-                    selectorConfig: const SelectorConfig(
-                      selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                      setSelectorButtonAsPrefixIcon: true,
-                      leadingPadding: 16,
-                      trailingSpace: false,
-                    ),
-                    hintText: "Contact phone number",
-                    inputDecoration: InputDecoration(
-                      labelText: "Phone Number",
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 14,
-                      ).r,
-                    ),
-                    // validator: Validators.validatePhone,
-                    focusNode: phoneFocusNode,
-                    textFieldController: phoneController,
-                    formatInput: true,
-                    keyboardType: const TextInputType.numberWithOptions(
-                      signed: true,
-                      decimal: true,
-                    ),
-                  ),
-                  const RequiredDot(),
-                ],
+              InternationalPhoneNumberInput(
+                onInputChanged: null,
+                onInputValidated: viewModel.setPhoneValidity,
+                initialValue: PhoneNumber(
+                  isoCode: viewModel.placemark?.isoCountryCode,
+                ),
+                selectorConfig: const SelectorConfig(
+                  selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                  setSelectorButtonAsPrefixIcon: true,
+                  leadingPadding: 16,
+                  trailingSpace: false,
+                ),
+                hintText: "Contact phone number",
+                inputDecoration: InputDecoration(
+                  labelText: "Phone Number",
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 14,
+                  ).r,
+                ),
+                // validator: Validators.validatePhone,
+                focusNode: phoneFocusNode,
+                textFieldController: phoneController,
+                formatInput: true,
+                keyboardType: const TextInputType.numberWithOptions(
+                  signed: true,
+                  decimal: true,
+                ),
               ),
               30.verticalSpace,
               AppButton(
@@ -281,6 +285,8 @@ class CreateEventView extends StackedView<CreateEventViewModel>
       endTimeController: endTimeController,
       startTimeController: startTimeController,
       addressController: addressController,
+      stateController: stateController,
+      cityController: cityController,
     );
     syncFormWithViewModel(viewModel);
   }

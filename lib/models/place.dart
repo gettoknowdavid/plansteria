@@ -8,6 +8,10 @@ part 'place.g.dart';
 class Place with _$Place {
   factory Place({
     required String placeId,
+    String? country,
+    String? state,
+    String? city,
+    String? countryISO,
     required String name,
     required double lat,
     required double lon,

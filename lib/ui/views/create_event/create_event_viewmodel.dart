@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:intl/intl.dart';
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/app/app.router.dart';
@@ -11,10 +12,7 @@ import 'package:plansteria/app/app.snackbars.dart';
 import 'package:plansteria/models/event.dart';
 import 'package:plansteria/models/place.dart';
 import 'package:plansteria/models/user.dart';
-import 'package:plansteria/services/auth_service.dart';
-import 'package:plansteria/services/event_service.dart';
-import 'package:plansteria/services/media_service.dart';
-import 'package:plansteria/services/network_service.dart';
+import 'package:plansteria/services/services.dart';
 import 'package:plansteria/ui/common/app_strings.dart';
 import 'package:plansteria/ui/views/create_event/create_event_view.form.dart';
 import 'package:stacked/stacked.dart';
@@ -30,6 +28,7 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
   final _networkService = locator<NetworkService>();
   final _snackbarService = locator<SnackbarService>();
   final _mediaService = locator<MediaService>();
+  final _locationService = locator<LocationService>();
 
   final _selectedDate = ReactiveValue<List<DateTime>>([
     DateTime.now(),
@@ -63,6 +62,7 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
 
   User get currentUser => _authService.currentUser!;
   NetworkStatus get networkStatus => _networkService.status;
+  Placemark? get placemark => _locationService.placemark;
 
   bool get disabled =>
       !hasName ||
@@ -70,7 +70,6 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
       !hasDate ||
       !hasStartTime ||
       !isFormValid ||
-      !_isPhoneValid.value ||
       isBusy ||
       networkStatus == NetworkStatus.disconnected;
 
@@ -88,6 +87,8 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
   late TextEditingController _startTimeController;
   late TextEditingController _endTimeController;
   late TextEditingController _addressController;
+  late TextEditingController _stateController;
+  late TextEditingController _cityController;
 
   void getImages() async {
     final _pickedFiles = await _mediaService.getMultiImages();
@@ -304,6 +305,9 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
     final result = await _navigationService.navigateToMapView();
     _selectedPlace.value = result;
     _addressController.text = _selectedPlace.value!.name;
+    _stateController.text = _selectedPlace.value?.state ?? '';
+    _cityController.text = _selectedPlace.value?.city ?? '';
+
     notifyListeners();
     return;
   }
@@ -320,11 +324,15 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
     required TextEditingController startTimeController,
     required TextEditingController endTimeController,
     required TextEditingController addressController,
+    required TextEditingController stateController,
+    required TextEditingController cityController,
   }) async {
     _dateController = dateController;
     _startTimeController = startTimeController;
     _endTimeController = endTimeController;
     _addressController = addressController;
+    _stateController = stateController;
+    _cityController = cityController;
   }
 
   String timeFormatter(List<DateTime>? selectedDate) {
@@ -342,5 +350,6 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
   List<ListenableServiceMixin> get listenableServices => [
         _authService,
         _networkService,
+        _locationService,
       ];
 }
