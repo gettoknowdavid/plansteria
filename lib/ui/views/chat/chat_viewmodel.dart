@@ -85,35 +85,33 @@ class ChatViewModel extends FormViewModel with ListenableServiceMixin {
 
       final result = await _chatService.sendMessage(message);
 
-<<<<<<< HEAD
-    final result = await _chatService.sendMessage(message);
 
-    result.fold(
-      (failure) {
-        setBusy(false);
-        _snackbarService.showCustomSnackBar(
-          variant: SnackbarType.error,
-          message: failure.maybeMap(
-            orElse: () => '',
-            error: (value) => value.message!,
-          ),
-        );
-      },
-      (success) {
-        setBusy(false);
-        // timer = Timer.periodic(const Duration(milliseconds: 50), (timer) {
-        //   if (controller.hasClients) {
-        //     // Check if we're already at the bottom
-        //     if (controller.offset != controller.position.maxScrollExtent) {
-        // controller.jumpTo(controller.position.maxScrollExtent);
-        //     }
-        //   }
-        // });
-      },
-    );
+      result.fold(
+        (failure) {
+          setBusy(false);
+          _snackbarService.showCustomSnackBar(
+            variant: SnackbarType.error,
+            message: failure.maybeMap(
+              orElse: () => '',
+              error: (value) => value.message!,
+            ),
+          );
+        },
+        (success) {
+          setBusy(false);
+          // timer = Timer.periodic(const Duration(milliseconds: 50), (timer) {
+          //   if (controller.hasClients) {
+          //     // Check if we're already at the bottom
+          //     if (controller.offset != controller.position.maxScrollExtent) {
+          // controller.jumpTo(controller.position.maxScrollExtent);
+          //     }
+          //   }
+          // });
+        },
+      );
 
-    notifyListeners();
-=======
+      notifyListeners();
+
       return result.fold(
         (failure) {
           setBusy(false);
@@ -139,7 +137,6 @@ class ChatViewModel extends FormViewModel with ListenableServiceMixin {
         },
       );
     }
->>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
   }
 
   final examples = <String>[

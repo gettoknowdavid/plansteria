@@ -2,11 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:plansteria/ui/common/validators.dart';
 import 'package:plansteria/ui/widgets/auth_redirect_button.dart';
-<<<<<<< HEAD
-=======
-import 'package:plansteria/ui/widgets/google_sign_in_button.dart';
-import 'package:plansteria/ui/widgets/or_divider.dart';
->>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
@@ -30,7 +25,7 @@ class LoginView extends StackedView<LoginViewModel> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            90.verticalSpace,
+            80.verticalSpace,
             Text(
               'Hello!',
               style: textTheme.displayLarge,
@@ -44,6 +39,7 @@ class LoginView extends StackedView<LoginViewModel> {
             ),
             40.verticalSpace,
             LoginFormWidget(),
+           
             10.verticalSpace,
             AuthRedirectButton(
               text: "Don't have an account yet?",
@@ -51,22 +47,6 @@ class LoginView extends StackedView<LoginViewModel> {
               onTap: viewModel.navigateToRegisterView,
             ),
             30.verticalSpace,
-<<<<<<< HEAD
-            // const OrDivider(),
-            // 30.verticalSpace,
-            // ButtonBar(
-            //   alignment: MainAxisAlignment.spaceAround,
-            //   children: [
-            //     ProviderIconButton(onTap: () {}, assetName: kGoogleAsset),
-            //     ProviderIconButton(onTap: () {}, assetName: kAppleAsset),
-            //     ProviderIconButton(onTap: () {}, assetName: kFacebookAsset),
-            //   ],
-            // ),
-=======
-            const OrDivider(),
-            30.verticalSpace,
-            const GoogleSignInButton(),
->>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
           ],
         ),
       ),

@@ -5,6 +5,7 @@ import 'package:plansteria/ui/views/register/register_view.form.dart';
 import 'package:plansteria/ui/views/register/register_viewmodel.dart';
 import 'package:plansteria/ui/widgets/app_button.dart';
 import 'package:plansteria/ui/widgets/app_textfield.dart';
+import 'package:plansteria/ui/widgets/register/password_rules_widget.dart';
 import 'package:stacked/stacked.dart';
 
 class RegisterFormWidget extends StackedView<RegisterViewModel>
@@ -15,7 +16,7 @@ class RegisterFormWidget extends StackedView<RegisterViewModel>
   Widget builder(context, viewModel, child) {
     return Form(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppTextField(
             hint: 'Your Name',
@@ -44,7 +45,9 @@ class RegisterFormWidget extends StackedView<RegisterViewModel>
             controller: passwordController,
             validator: Validators.validatePassword,
           ),
-          40.verticalSpace,
+          10.verticalSpace,
+          PasswordRulesWidget(),
+          30.verticalSpace,
           AppButton(
             title: 'Register',
             disabled: viewModel.disabled,

@@ -8,14 +8,12 @@ class SectionTitle extends StatelessWidget {
     this.textColor,
     this.onTap,
     this.child,
-    this.textColor,
   });
 
   final String title;
   final Color? textColor;
   final void Function()? onTap;
   final Widget? child;
-  final Color? textColor;
 
   @override
   Widget build(BuildContext context) {

@@ -6,12 +6,7 @@ import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/app/app.router.dart';
 import 'package:plansteria/app/app.snackbars.dart';
 import 'package:plansteria/models/user.dart';
-<<<<<<< HEAD
 import 'package:plansteria/services/services.dart';
-=======
-import 'package:plansteria/services/auth_service.dart';
-import 'package:plansteria/services/network_service.dart';
->>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 import 'package:plansteria/ui/common/app_strings.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -25,7 +20,6 @@ class AccountViewModel extends FormViewModel with ListenableServiceMixin {
   final _navigationService = locator<NavigationService>();
   final _networkService = locator<NetworkService>();
   final _snackbarService = locator<SnackbarService>();
-  final _networkService = locator<NetworkService>();
 
   AccountViewModel() {
     listenToReactiveValues([_showEmail, _showPassword]);
@@ -151,18 +145,11 @@ class AccountViewModel extends FormViewModel with ListenableServiceMixin {
     }
 
     final confirmationResponse = await _bottomSheetService.showCustomSheet(
-<<<<<<< HEAD
       variant: BottomSheetType.reAuth,
       isScrollControlled: true,
       enableDrag: false,
     );
 
-=======
-      variant: BottomSheetType.passwordConfirmation,
-      isScrollControlled: true,
-      enableDrag: false,
-    );
->>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     if (confirmationResponse?.confirmed == true) {
       setBusy(true);
       final result = await _authService.updatePassword(passwordValue!);
@@ -195,8 +182,6 @@ class AccountViewModel extends FormViewModel with ListenableServiceMixin {
               .whenComplete(logout);
         },
       );
-<<<<<<< HEAD
-=======
     } else {
       setBusy(false);
       _snackbarService.showCustomSnackBar(
@@ -204,46 +189,9 @@ class AccountViewModel extends FormViewModel with ListenableServiceMixin {
         variant: SnackbarType.error,
         message: 'Invalid password. Cannot change password.',
       );
->>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     }
   }
 
-
-Future<void> onDeleteAccount() async {
-    if (networkStatus == NetworkStatus.disconnected) {
-      _dialogService.showCustomDialog(variant: DialogType.networkError);
-    }
-
-    final confirmationResponse = await _dialogService.showDialog(
-      title: 'Delete Account',
-      barrierDismissible: true,
-      buttonTitleColor: Colors.red,
-      cancelTitleColor: Colors.grey,
-      description:
-          "You are about to delete your account. \nThis cannot be undone.",
-      buttonTitle: 'Delete',
-      cancelTitle: 'Cancel',
-    );
-
-    if (confirmationResponse?.confirmed == true) {
-      setBusy(true);
-      final response = await _authService.deleteAccount();
-      return response.fold(
-        (failure) {
-          setBusy(false);
-          _snackbarService.showCustomSnackBar(
-            duration: const Duration(seconds: 6),
-            variant: SnackbarType.error,
-            message: failure.maybeMap(
-              orElse: () => '',
-              serverError: (_) => kServerErrorMessage,
-            ),
-          );
-        },
-        (success) => _navigationService.clearStackAndShow(Routes.loginView),
-      );
-    }
-  }
   @override
   List<ListenableServiceMixin> get listenableServices => [
         _authService,

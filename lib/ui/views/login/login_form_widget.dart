@@ -42,7 +42,7 @@ class LoginFormWidget extends StackedView<LoginViewModel> with $LoginView {
               child: const Text('Forgot Password'),
             ),
           ),
-          10.verticalSpace,
+          30.verticalSpace,
           AppButton(
             title: 'Login',
             disabled: viewModel.disabled,

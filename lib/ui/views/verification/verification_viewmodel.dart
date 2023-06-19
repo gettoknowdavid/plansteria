@@ -24,7 +24,10 @@ class VerificationViewModel extends ReactiveViewModel with Initialisable {
   @override
   List<ListenableServiceMixin> get listenableServices => [_authService];
 
-  Future<void> cancel() => Future.wait([_authService.logout()]);
+  Future<void> cancel() async {
+    await _authService.logout();
+    await _navigationService.clearStackAndShow(Routes.loginView);
+  }
 
   Future<void> checkEmailVerified() async {
     final result = await _authService.checkEmailVerified();

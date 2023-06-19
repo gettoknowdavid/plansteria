@@ -27,12 +27,12 @@ class RegisterView extends StackedView<RegisterViewModel> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            50.verticalSpace,
+            26.verticalSpace,
             const Align(
               alignment: Alignment.centerLeft,
               child: AppBackButton(),
             ),
-            50.verticalSpace,
+            20.verticalSpace,
             Text(
               'Register',
               style: textTheme.displayLarge,
@@ -44,7 +44,7 @@ class RegisterView extends StackedView<RegisterViewModel> {
               style: textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
-            40.verticalSpace,
+            30.verticalSpace,
             RegisterFormWidget(),
             10.verticalSpace,
             AuthRedirectButton(

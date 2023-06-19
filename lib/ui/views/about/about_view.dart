@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-<<<<<<< HEAD
 import 'package:plansteria/ui/common/common.dart';
-=======
-import 'package:plansteria/ui/common/app_constants.dart';
 import 'package:plansteria/ui/widgets/app_back_button.dart';
->>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 import 'package:stacked/stacked.dart';
 
 import 'about_viewmodel.dart';
@@ -15,22 +11,8 @@ class AboutView extends StackedView<AboutViewModel> {
 
   @override
   Widget builder(context, viewModel, child) {
-<<<<<<< HEAD
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
-
-    final text = kAboutApp.replaceAll('\n', '\n\n');
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('About CleanAir'),
-        scrolledUnderElevation: 0,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(kGlobalPadding).r,
-        child: Text(text, style: textTheme.bodyMedium),
-=======
-    final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
       appBar: AppBar(
@@ -63,15 +45,10 @@ class AboutView extends StackedView<AboutViewModel> {
             ],
           ),
         ),
->>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
       ),
     );
   }
 
   @override
-<<<<<<< HEAD
   AboutViewModel viewModelBuilder(context) => AboutViewModel();
-=======
-  AboutViewModel viewModelBuilder(BuildContext context) => AboutViewModel();
->>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 }

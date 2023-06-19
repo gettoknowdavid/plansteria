@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-=======
 import 'package:flutter/services.dart';
->>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:plansteria/app/app.bottomsheets.dart';
 import 'package:plansteria/app/app.locator.dart';
@@ -125,41 +122,9 @@ class ProfileViewModel extends ReactiveViewModel with Initialisable {
   }
 
   Future<void> navigateToAboutView() async {
-<<<<<<< HEAD
     await _navigationService.navigateToAboutView();
-=======
+
     await _navigationService.navigateToNestedAboutViewInLayoutViewRouter(1);
-  }
-
-  ThemeMode? selectedThemeMode(BuildContext context) {
-    return getThemeManager(context).selectedThemeMode;
-  }
-
-  Future<void> showThemeBottomSheet() async {
-    await _bottomSheetService.showCustomSheet(variant: BottomSheetType.theme);
-  }
-
-  String getThemeModeName(ThemeMode mode) {
-    switch (mode) {
-      case ThemeMode.dark:
-        return 'Dark Mode';
-      case ThemeMode.light:
-        return 'Light Mode';
-      default:
-        return 'System';
-    }
-  }
-
-  IconData getIcon(ThemeMode mode) {
-    switch (mode) {
-      case ThemeMode.dark:
-        return PhosphorIcons.moon;
-      case ThemeMode.light:
-        return PhosphorIcons.sun;
-      default:
-        return PhosphorIcons.nut;
-    }
->>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
   }
 
   @override

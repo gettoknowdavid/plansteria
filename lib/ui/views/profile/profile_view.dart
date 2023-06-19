@@ -41,22 +41,12 @@ class ProfileView extends StackedView<ProfileViewModel> {
             ),
             10.verticalSpace,
             ProfileItem(
-              'Set Theme',
-              showTrailing: false,
-              leadingIcon: viewModel.getIcon(mode),
-              onTap: viewModel.showThemeBottomSheet,
-              subtitle: const _ThemeModeSubtitle(),
-            ),
-            10.verticalSpace,
-            ProfileItem(
               'Account',
               onTap: viewModel.navigateToAccountView,
               leadingIcon: PhosphorIcons.userCircle,
             ),
             10.verticalSpace,
             ProfileItem(
-<<<<<<< HEAD
-=======
               'Set Theme',
               showTrailing: false,
               leadingIcon: viewModel.getIcon(mode),
@@ -65,7 +55,6 @@ class ProfileView extends StackedView<ProfileViewModel> {
             ),
             10.verticalSpace,
             ProfileItem(
->>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
               'About Plansteria',
               leadingIcon: PhosphorIcons.info,
               onTap: viewModel.navigateToAboutView,
@@ -78,6 +67,7 @@ class ProfileView extends StackedView<ProfileViewModel> {
               showTrailing: false,
               tileColor: Colors.red.withOpacity(0.2),
             ),
+            30.verticalSpace,
           ],
         ),
       ),

@@ -8,7 +8,7 @@ const String kDBName = '__plansteria__';
 const String emailRegex =
     r"""^[\w!#$%&\'*+/=?^_`{|}~-]+(?:\.[\w!#$%&\'*+/=?^_`{|}~-]+)*@(?:[\w-]+\.)+[\w]{2,}$""";
 const String passwordRegex =
-    r"""^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=.{8,})""";
+    r"""^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=?!])(?=.{8,})""";
 
 const String kAuthUser = '_authenticated_user__';
 
