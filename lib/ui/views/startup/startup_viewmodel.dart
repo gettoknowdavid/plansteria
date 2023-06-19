@@ -32,32 +32,16 @@ class StartupViewModel extends ReactiveViewModel {
         _navigationService.clearStackAndShow(Routes.loginView);
       }
 
-      if (_preferences.isInitialStartup) {
-        _navigationService.clearStackAndShow(Routes.onboardingView);
-      } else {
-        if (!isAuthenticated) {
-          _navigationService.clearStackAndShow(Routes.loginView);
-        }
+      if (isAuthenticated && isEmailVerified == false) {
+        _navigationService.clearStackAndShow(Routes.verificationView);
+      }
 
-        if (isAuthenticated && isEmailVerified == false) {
-          _navigationService.clearStackAndShow(Routes.verificationView);
-        }
+      if (isAuthenticated && isEmailVerified == true) {
+        await _chatService.loadChatHistory();
+        await Geolocator.checkPermission();
+        await _locationService.determinePosition();
 
-        if (isAuthenticated && isEmailVerified == true) {
-          await _chatService.loadChatHistory();
-          await Geolocator.checkPermission();
-          await _locationService.determinePosition();
-
-          if (isAuthenticated && isEmailVerified == false) {
-            _navigationService.clearStackAndShow(Routes.verificationView);
-          }
-
-          if (isAuthenticated && isEmailVerified == true) {
-            await _chatService.loadChatHistory();
-
-            _navigationService.clearStackAndShow(Routes.layoutView);
-          }
-        }
+        _navigationService.clearStackAndShow(Routes.layoutView);
       }
     }
   }
