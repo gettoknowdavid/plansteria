@@ -35,7 +35,14 @@ class ProfileItem extends StatelessWidget {
       dense: true,
       leading: leadingIcon != null ? Icon(leadingIcon) : null,
       contentPadding: const EdgeInsets.fromLTRB(12, 4, 12, 4).r,
+<<<<<<< HEAD
       title: Text(title, style: textTheme.bodyLarge),
+=======
+      title: Text(
+        title,
+        style: textTheme.bodyLarge?.copyWith(color: titleColor),
+      ),
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
       subtitle: subtitle,
       trailing: !loading
           ? showTrailing

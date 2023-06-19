@@ -99,6 +99,7 @@ class AccountView extends StackedView<AccountViewModel> with $AccountView {
                   focusNode: passwordFocusNode,
                   controller: passwordController,
                   validator: Validators.validatePassword,
+                  isPassword: true,
                 ),
                 10.verticalSpace,
                 AppTextField(
@@ -108,6 +109,7 @@ class AccountView extends StackedView<AccountViewModel> with $AccountView {
                   focusNode: confirmPasswordFocusNode,
                   controller: confirmPasswordController,
                   validator: Validators.validateLoginPassword,
+                  isPassword: true,
                 ),
                 4.verticalSpace,
                 Text(
@@ -128,22 +130,36 @@ class AccountView extends StackedView<AccountViewModel> with $AccountView {
             Container(
               padding: kGlobalHorizontalPadding,
               decoration: BoxDecoration(
+<<<<<<< HEAD
                 color: Colors.red.withOpacity(0.2),
+=======
+                color: theme.colorScheme.error.withOpacity(0.2),
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
                 borderRadius: BorderRadius.all(const Radius.circular(20).r),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SectionTitle(
+<<<<<<< HEAD
                     title: 'Danger Zone',
+=======
+                    'Danger Zone',
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
                     textColor: theme.colorScheme.error,
                   ),
                   ProfileItem(
                     'Delete Account',
                     showTrailing: false,
+<<<<<<< HEAD
                     iconColor: Colors.white,
                     titleColor: Colors.white,
                     tileColor: Colors.red,
+=======
+                    iconColor: theme.colorScheme.onError,
+                    titleColor: theme.colorScheme.onError,
+                    tileColor: theme.colorScheme.error,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
                     leadingIcon: PhosphorIcons.warning,
                     onTap: viewModel.onDeleteAccount,
                   ),

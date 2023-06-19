@@ -5,6 +5,7 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+<<<<<<< HEAD
 import 'package:flutter/material.dart' as _i6;
 import 'package:flutter/material.dart';
 import 'package:plansteria/models/event.dart' as _i7;
@@ -16,6 +17,40 @@ import 'package:plansteria/ui/views/profile_stats/profile_stats_viewmodel.dart'
 import 'package:plansteria/ui/views/views.dart' as _i2;
 import 'package:stacked/stacked.dart' as _i1;
 import 'package:stacked_services/stacked_services.dart' as _i9;
+=======
+import 'package:flutter/material.dart' as _i16;
+import 'package:flutter/material.dart';
+import 'package:plansteria/models/event.dart' as _i17;
+import 'package:plansteria/ui/layout/layout_view.dart' as _i8;
+import 'package:plansteria/ui/views/about/about_view.dart' as _i24;
+import 'package:plansteria/ui/views/account/account_view.dart' as _i23;
+import 'package:plansteria/ui/views/chat/chat_view.dart' as _i21;
+import 'package:plansteria/ui/views/confirmation/confirmation_view.dart' as _i7;
+import 'package:plansteria/ui/views/create_event/create_event_view.dart'
+    as _i12;
+import 'package:plansteria/ui/views/event_details/event_details_view.dart'
+    as _i9;
+import 'package:plansteria/ui/views/events/events_view.dart' as _i20;
+import 'package:plansteria/ui/views/forgot_password/forgot_password_view.dart'
+    as _i6;
+import 'package:plansteria/ui/views/guests/guests_view.dart' as _i11;
+import 'package:plansteria/ui/views/home/home_view.dart' as _i19;
+import 'package:plansteria/ui/views/login/login_view.dart' as _i3;
+import 'package:plansteria/ui/views/map/map_view.dart' as _i13;
+import 'package:plansteria/ui/views/onboarding/onboarding_view.dart' as _i15;
+import 'package:plansteria/ui/views/profile/profile_view.dart' as _i22;
+import 'package:plansteria/ui/views/profile_stats/profile_stats_view.dart'
+    as _i10;
+import 'package:plansteria/ui/views/profile_stats/profile_stats_viewmodel.dart'
+    as _i18;
+import 'package:plansteria/ui/views/register/register_view.dart' as _i4;
+import 'package:plansteria/ui/views/startup/startup_view.dart' as _i2;
+import 'package:plansteria/ui/views/user_profile/user_profile_view.dart'
+    as _i14;
+import 'package:plansteria/ui/views/verification/verification_view.dart' as _i5;
+import 'package:stacked/stacked.dart' as _i1;
+import 'package:stacked_services/stacked_services.dart' as _i25;
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 
 class Routes {
   static const startupView = '/startup-view';
@@ -46,8 +81,11 @@ class Routes {
 
   static const onboardingView = '/onboarding-view';
 
+<<<<<<< HEAD
   static const aboutView = '/about-view';
 
+=======
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
   static const all = <String>{
     startupView,
     loginView,
@@ -63,7 +101,10 @@ class Routes {
     mapView,
     userProfileView,
     onboardingView,
+<<<<<<< HEAD
     aboutView,
+=======
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
   };
 }
 
@@ -129,30 +170,56 @@ class StackedRouter extends _i1.RouterBase {
       Routes.aboutView,
       page: _i5.AboutView,
     ),
+    _i1.RouteDef(
+      Routes.onboardingView,
+      page: _i15.OnboardingView,
+    ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
     _i2.StartupView: (data) {
+<<<<<<< HEAD
       return _i6.MaterialPageRoute<dynamic>(
+=======
+      return _i16.MaterialPageRoute<dynamic>(
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
         builder: (context) => const _i2.StartupView(),
         settings: data,
       );
     },
+<<<<<<< HEAD
     _i2.LoginView: (data) {
       return _i6.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.LoginView(),
+=======
+    _i3.LoginView: (data) {
+      return _i16.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i3.LoginView(),
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
         settings: data,
       );
     },
+<<<<<<< HEAD
     _i2.RegisterView: (data) {
       return _i6.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.RegisterView(),
+=======
+    _i4.RegisterView: (data) {
+      return _i16.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i4.RegisterView(),
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
         settings: data,
       );
     },
+<<<<<<< HEAD
     _i2.VerificationView: (data) {
       return _i6.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.VerificationView(),
+=======
+    _i5.VerificationView: (data) {
+      return _i16.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i5.VerificationView(),
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
         settings: data,
       );
     },
@@ -160,27 +227,49 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<ForgotPasswordViewArguments>(
         orElse: () => const ForgotPasswordViewArguments(),
       );
+<<<<<<< HEAD
       return _i6.MaterialPageRoute<dynamic>(
         builder: (context) => _i2.ForgotPasswordView(key: args.key),
+=======
+      return _i16.MaterialPageRoute<dynamic>(
+        builder: (context) => _i6.ForgotPasswordView(key: args.key),
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
         settings: data,
       );
     },
+<<<<<<< HEAD
     _i2.ConfirmationView: (data) {
       return _i6.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.ConfirmationView(),
+=======
+    _i7.ConfirmationView: (data) {
+      return _i16.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i7.ConfirmationView(),
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
         settings: data,
       );
     },
+<<<<<<< HEAD
     _i3.LayoutView: (data) {
       return _i6.MaterialPageRoute<dynamic>(
         builder: (context) => const _i3.LayoutView(),
+=======
+    _i8.LayoutView: (data) {
+      return _i16.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i8.LayoutView(),
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
         settings: data,
       );
     },
     _i2.EventDetailsView: (data) {
       final args = data.getArgs<EventDetailsViewArguments>(nullOk: false);
+<<<<<<< HEAD
       return _i6.MaterialPageRoute<dynamic>(
         builder: (context) => _i2.EventDetailsView(
+=======
+      return _i16.MaterialPageRoute<dynamic>(
+        builder: (context) => _i9.EventDetailsView(
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
             key: args.key,
             event: args.event,
             isFromLayoutView: args.isFromLayoutView),
@@ -189,16 +278,26 @@ class StackedRouter extends _i1.RouterBase {
     },
     _i2.ProfileStatsView: (data) {
       final args = data.getArgs<ProfileStatsViewArguments>(nullOk: false);
+<<<<<<< HEAD
       return _i6.MaterialPageRoute<dynamic>(
         builder: (context) => _i2.ProfileStatsView(
+=======
+      return _i16.MaterialPageRoute<dynamic>(
+        builder: (context) => _i10.ProfileStatsView(
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
             key: args.key, type: args.type, event: args.event),
         settings: data,
       );
     },
     _i2.GuestsView: (data) {
       final args = data.getArgs<GuestsViewArguments>(nullOk: false);
+<<<<<<< HEAD
       return _i6.MaterialPageRoute<dynamic>(
         builder: (context) => _i2.GuestsView(key: args.key, event: args.event),
+=======
+      return _i16.MaterialPageRoute<dynamic>(
+        builder: (context) => _i11.GuestsView(key: args.key, event: args.event),
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
         settings: data,
       );
     },
@@ -206,22 +305,38 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<CreateEventViewArguments>(
         orElse: () => const CreateEventViewArguments(),
       );
+<<<<<<< HEAD
       return _i6.MaterialPageRoute<dynamic>(
         builder: (context) => _i2.CreateEventView(
+=======
+      return _i16.MaterialPageRoute<dynamic>(
+        builder: (context) => _i12.CreateEventView(
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
             key: args.key, editing: args.editing, event: args.event),
         settings: data,
       );
     },
+<<<<<<< HEAD
     _i2.MapView: (data) {
       return _i6.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.MapView(),
+=======
+    _i13.MapView: (data) {
+      return _i16.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i13.MapView(),
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
         settings: data,
       );
     },
     _i2.UserProfileView: (data) {
       final args = data.getArgs<UserProfileViewArguments>(nullOk: false);
+<<<<<<< HEAD
       return _i6.MaterialPageRoute<dynamic>(
         builder: (context) => _i2.UserProfileView(
+=======
+      return _i16.MaterialPageRoute<dynamic>(
+        builder: (context) => _i14.UserProfileView(
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
             key: args.key, userId: args.userId, event: args.event),
         settings: data,
       );
@@ -238,6 +353,13 @@ class StackedRouter extends _i1.RouterBase {
         settings: data,
       );
     },
+    _i15.OnboardingView: (data) {
+      return _i16.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i15.OnboardingView(),
+        settings: data,
+        maintainState: false,
+      );
+    },
   };
 
   @override
@@ -249,7 +371,11 @@ class StackedRouter extends _i1.RouterBase {
 class ForgotPasswordViewArguments {
   const ForgotPasswordViewArguments({this.key});
 
+<<<<<<< HEAD
   final _i6.Key? key;
+=======
+  final _i16.Key? key;
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 
   @override
   String toString() {
@@ -275,9 +401,15 @@ class EventDetailsViewArguments {
     this.isFromLayoutView = false,
   });
 
+<<<<<<< HEAD
   final _i6.Key? key;
 
   final _i7.Event event;
+=======
+  final _i16.Key? key;
+
+  final _i17.Event event;
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 
   final bool isFromLayoutView;
 
@@ -307,11 +439,19 @@ class ProfileStatsViewArguments {
     this.event,
   });
 
+<<<<<<< HEAD
   final _i6.Key? key;
 
   final _i8.StatsType type;
 
   final _i7.Event? event;
+=======
+  final _i16.Key? key;
+
+  final _i18.StatsType type;
+
+  final _i17.Event? event;
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 
   @override
   String toString() {
@@ -336,9 +476,15 @@ class GuestsViewArguments {
     required this.event,
   });
 
+<<<<<<< HEAD
   final _i6.Key? key;
 
   final _i7.Event event;
+=======
+  final _i16.Key? key;
+
+  final _i17.Event event;
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 
   @override
   String toString() {
@@ -364,11 +510,19 @@ class CreateEventViewArguments {
     this.event,
   });
 
+<<<<<<< HEAD
   final _i6.Key? key;
 
   final bool editing;
 
   final _i7.Event? event;
+=======
+  final _i16.Key? key;
+
+  final bool editing;
+
+  final _i17.Event? event;
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 
   @override
   String toString() {
@@ -394,11 +548,19 @@ class UserProfileViewArguments {
     this.event,
   });
 
+<<<<<<< HEAD
   final _i6.Key? key;
 
   final String userId;
 
   final _i7.Event? event;
+=======
+  final _i16.Key? key;
+
+  final String userId;
+
+  final _i17.Event? event;
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 
   @override
   String toString() {
@@ -434,6 +596,8 @@ class LayoutViewRoutes {
 
   static const profileStatsView = 'profile-stats-view';
 
+  static const aboutView = 'about-view';
+
   static const all = <String>{
     homeView,
     eventsView,
@@ -443,6 +607,7 @@ class LayoutViewRoutes {
     eventDetailsView,
     createEventView,
     profileStatsView,
+    aboutView,
   };
 }
 
@@ -450,6 +615,7 @@ class LayoutViewRouter extends _i1.RouterBase {
   final _routes = <_i1.RouteDef>[
     _i1.RouteDef(
       LayoutViewRoutes.homeView,
+<<<<<<< HEAD
       page: _i2.HomeView,
     ),
     _i1.RouteDef(
@@ -467,6 +633,25 @@ class LayoutViewRouter extends _i1.RouterBase {
     _i1.RouteDef(
       LayoutViewRoutes.accountView,
       page: _i2.AccountView,
+=======
+      page: _i19.HomeView,
+    ),
+    _i1.RouteDef(
+      LayoutViewRoutes.eventsView,
+      page: _i20.EventsView,
+    ),
+    _i1.RouteDef(
+      LayoutViewRoutes.chatView,
+      page: _i21.ChatView,
+    ),
+    _i1.RouteDef(
+      LayoutViewRoutes.profileView,
+      page: _i22.ProfileView,
+    ),
+    _i1.RouteDef(
+      LayoutViewRoutes.accountView,
+      page: _i23.AccountView,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     ),
     _i1.RouteDef(
       LayoutViewRoutes.eventDetailsView,
@@ -480,53 +665,101 @@ class LayoutViewRouter extends _i1.RouterBase {
       LayoutViewRoutes.profileStatsView,
       page: _i2.ProfileStatsView,
     ),
+    _i1.RouteDef(
+      LayoutViewRoutes.aboutView,
+      page: _i24.AboutView,
+    ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
+<<<<<<< HEAD
     _i2.HomeView: (data) {
       return _i6.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.HomeView(),
+=======
+    _i19.HomeView: (data) {
+      return _i16.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i19.HomeView(),
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
         settings: data,
       );
     },
+<<<<<<< HEAD
     _i2.EventsView: (data) {
       final args = data.getArgs<NestedEventsViewArguments>(
         orElse: () => const NestedEventsViewArguments(),
       );
       return _i6.MaterialPageRoute<dynamic>(
         builder: (context) => _i2.EventsView(
+=======
+    _i20.EventsView: (data) {
+      final args = data.getArgs<NestedEventsViewArguments>(
+        orElse: () => const NestedEventsViewArguments(),
+      );
+      return _i16.MaterialPageRoute<dynamic>(
+        builder: (context) => _i20.EventsView(
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
             key: args.key, fromProfileView: args.fromProfileView),
         settings: data,
       );
     },
+<<<<<<< HEAD
     _i2.ChatView: (data) {
       final args = data.getArgs<NestedChatViewArguments>(
         orElse: () => const NestedChatViewArguments(),
       );
       return _i6.MaterialPageRoute<dynamic>(
         builder: (context) => _i2.ChatView(key: args.key),
+=======
+    _i21.ChatView: (data) {
+      final args = data.getArgs<NestedChatViewArguments>(
+        orElse: () => const NestedChatViewArguments(),
+      );
+      return _i16.MaterialPageRoute<dynamic>(
+        builder: (context) => _i21.ChatView(key: args.key),
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
         settings: data,
       );
     },
+<<<<<<< HEAD
     _i2.ProfileView: (data) {
       return _i6.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.ProfileView(),
+=======
+    _i22.ProfileView: (data) {
+      return _i16.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i22.ProfileView(),
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
         settings: data,
       );
     },
+<<<<<<< HEAD
     _i2.AccountView: (data) {
       final args = data.getArgs<NestedAccountViewArguments>(
         orElse: () => const NestedAccountViewArguments(),
       );
       return _i6.MaterialPageRoute<dynamic>(
         builder: (context) => _i2.AccountView(key: args.key),
+=======
+    _i23.AccountView: (data) {
+      final args = data.getArgs<NestedAccountViewArguments>(
+        orElse: () => const NestedAccountViewArguments(),
+      );
+      return _i16.MaterialPageRoute<dynamic>(
+        builder: (context) => _i23.AccountView(key: args.key),
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
         settings: data,
       );
     },
     _i2.EventDetailsView: (data) {
       final args = data.getArgs<NestedEventDetailsViewArguments>(nullOk: false);
+<<<<<<< HEAD
       return _i6.MaterialPageRoute<dynamic>(
         builder: (context) => _i2.EventDetailsView(
+=======
+      return _i16.MaterialPageRoute<dynamic>(
+        builder: (context) => _i9.EventDetailsView(
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
             key: args.key,
             event: args.event,
             isFromLayoutView: args.isFromLayoutView),
@@ -537,18 +770,35 @@ class LayoutViewRouter extends _i1.RouterBase {
       final args = data.getArgs<NestedCreateEventViewArguments>(
         orElse: () => const NestedCreateEventViewArguments(),
       );
+<<<<<<< HEAD
       return _i6.MaterialPageRoute<dynamic>(
         builder: (context) => _i2.CreateEventView(
+=======
+      return _i16.MaterialPageRoute<dynamic>(
+        builder: (context) => _i12.CreateEventView(
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
             key: args.key, editing: args.editing, event: args.event),
         settings: data,
       );
     },
     _i2.ProfileStatsView: (data) {
       final args = data.getArgs<NestedProfileStatsViewArguments>(nullOk: false);
+<<<<<<< HEAD
       return _i6.MaterialPageRoute<dynamic>(
         builder: (context) => _i2.ProfileStatsView(
+=======
+      return _i16.MaterialPageRoute<dynamic>(
+        builder: (context) => _i10.ProfileStatsView(
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
             key: args.key, type: args.type, event: args.event),
         settings: data,
+      );
+    },
+    _i24.AboutView: (data) {
+      return _i16.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i24.AboutView(),
+        settings: data,
+        maintainState: false,
       );
     },
   };
@@ -565,7 +815,11 @@ class NestedEventsViewArguments {
     this.fromProfileView = false,
   });
 
+<<<<<<< HEAD
   final _i6.Key? key;
+=======
+  final _i16.Key? key;
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 
   final bool fromProfileView;
 
@@ -589,7 +843,11 @@ class NestedEventsViewArguments {
 class NestedChatViewArguments {
   const NestedChatViewArguments({this.key});
 
+<<<<<<< HEAD
   final _i6.Key? key;
+=======
+  final _i16.Key? key;
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 
   @override
   String toString() {
@@ -611,7 +869,11 @@ class NestedChatViewArguments {
 class NestedAccountViewArguments {
   const NestedAccountViewArguments({this.key});
 
+<<<<<<< HEAD
   final _i6.Key? key;
+=======
+  final _i16.Key? key;
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 
   @override
   String toString() {
@@ -637,9 +899,15 @@ class NestedEventDetailsViewArguments {
     this.isFromLayoutView = false,
   });
 
+<<<<<<< HEAD
   final _i6.Key? key;
 
   final _i7.Event event;
+=======
+  final _i16.Key? key;
+
+  final _i17.Event event;
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 
   final bool isFromLayoutView;
 
@@ -669,11 +937,19 @@ class NestedCreateEventViewArguments {
     this.event,
   });
 
+<<<<<<< HEAD
   final _i6.Key? key;
 
   final bool editing;
 
   final _i7.Event? event;
+=======
+  final _i16.Key? key;
+
+  final bool editing;
+
+  final _i17.Event? event;
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 
   @override
   String toString() {
@@ -699,11 +975,19 @@ class NestedProfileStatsViewArguments {
     this.event,
   });
 
+<<<<<<< HEAD
   final _i6.Key? key;
 
   final _i8.StatsType type;
 
   final _i7.Event? event;
+=======
+  final _i16.Key? key;
+
+  final _i18.StatsType type;
+
+  final _i17.Event? event;
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 
   @override
   String toString() {
@@ -722,7 +1006,11 @@ class NestedProfileStatsViewArguments {
   }
 }
 
+<<<<<<< HEAD
 extension NavigatorStateExtension on _i9.NavigationService {
+=======
+extension NavigatorStateExtension on _i25.NavigationService {
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
   Future<dynamic> navigateToStartupView([
     int? routerId,
     bool preventDuplicates = true,
@@ -780,7 +1068,11 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> navigateToForgotPasswordView({
+<<<<<<< HEAD
     _i6.Key? key,
+=======
+    _i16.Key? key,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -824,8 +1116,13 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> navigateToEventDetailsView({
+<<<<<<< HEAD
     _i6.Key? key,
     required _i7.Event event,
+=======
+    _i16.Key? key,
+    required _i17.Event event,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     bool isFromLayoutView = false,
     int? routerId,
     bool preventDuplicates = true,
@@ -843,9 +1140,15 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> navigateToProfileStatsView({
+<<<<<<< HEAD
     _i6.Key? key,
     required _i8.StatsType type,
     _i7.Event? event,
+=======
+    _i16.Key? key,
+    required _i18.StatsType type,
+    _i17.Event? event,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -862,8 +1165,13 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> navigateToGuestsView({
+<<<<<<< HEAD
     _i6.Key? key,
     required _i7.Event event,
+=======
+    _i16.Key? key,
+    required _i17.Event event,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -879,9 +1187,15 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> navigateToCreateEventView({
+<<<<<<< HEAD
     _i6.Key? key,
     bool editing = false,
     _i7.Event? event,
+=======
+    _i16.Key? key,
+    bool editing = false,
+    _i17.Event? event,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -912,9 +1226,15 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> navigateToUserProfileView({
+<<<<<<< HEAD
     _i6.Key? key,
     required String userId,
     _i7.Event? event,
+=======
+    _i16.Key? key,
+    required String userId,
+    _i17.Event? event,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -944,6 +1264,7 @@ extension NavigatorStateExtension on _i9.NavigationService {
         transition: transition);
   }
 
+<<<<<<< HEAD
   Future<dynamic> navigateToAboutView([
     int? routerId,
     bool preventDuplicates = true,
@@ -958,6 +1279,8 @@ extension NavigatorStateExtension on _i9.NavigationService {
         transition: transition);
   }
 
+=======
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
   Future<dynamic> navigateToNestedHomeViewInLayoutViewRouter([
     int? routerId,
     bool preventDuplicates = true,
@@ -973,7 +1296,11 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> navigateToNestedEventsViewInLayoutViewRouter({
+<<<<<<< HEAD
     _i6.Key? key,
+=======
+    _i16.Key? key,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     bool fromProfileView = false,
     int? routerId,
     bool preventDuplicates = true,
@@ -991,7 +1318,11 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> navigateToNestedChatViewInLayoutViewRouter({
+<<<<<<< HEAD
     _i6.Key? key,
+=======
+    _i16.Key? key,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1021,7 +1352,11 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> navigateToNestedAccountViewInLayoutViewRouter({
+<<<<<<< HEAD
     _i6.Key? key,
+=======
+    _i16.Key? key,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1037,8 +1372,13 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> navigateToNestedEventDetailsViewInLayoutViewRouter({
+<<<<<<< HEAD
     _i6.Key? key,
     required _i7.Event event,
+=======
+    _i16.Key? key,
+    required _i17.Event event,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     bool isFromLayoutView = false,
     int? routerId,
     bool preventDuplicates = true,
@@ -1056,9 +1396,15 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> navigateToNestedCreateEventViewInLayoutViewRouter({
+<<<<<<< HEAD
     _i6.Key? key,
     bool editing = false,
     _i7.Event? event,
+=======
+    _i16.Key? key,
+    bool editing = false,
+    _i17.Event? event,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1075,9 +1421,15 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> navigateToNestedProfileStatsViewInLayoutViewRouter({
+<<<<<<< HEAD
     _i6.Key? key,
     required _i8.StatsType type,
     _i7.Event? event,
+=======
+    _i16.Key? key,
+    required _i18.StatsType type,
+    _i17.Event? event,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1087,6 +1439,20 @@ extension NavigatorStateExtension on _i9.NavigationService {
     return navigateTo<dynamic>(LayoutViewRoutes.profileStatsView,
         arguments:
             NestedProfileStatsViewArguments(key: key, type: type, event: event),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToNestedAboutViewInLayoutViewRouter([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(LayoutViewRoutes.aboutView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -1150,7 +1516,11 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> replaceWithForgotPasswordView({
+<<<<<<< HEAD
     _i6.Key? key,
+=======
+    _i16.Key? key,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1194,8 +1564,13 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> replaceWithEventDetailsView({
+<<<<<<< HEAD
     _i6.Key? key,
     required _i7.Event event,
+=======
+    _i16.Key? key,
+    required _i17.Event event,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     bool isFromLayoutView = false,
     int? routerId,
     bool preventDuplicates = true,
@@ -1213,9 +1588,15 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> replaceWithProfileStatsView({
+<<<<<<< HEAD
     _i6.Key? key,
     required _i8.StatsType type,
     _i7.Event? event,
+=======
+    _i16.Key? key,
+    required _i18.StatsType type,
+    _i17.Event? event,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1232,8 +1613,13 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> replaceWithGuestsView({
+<<<<<<< HEAD
     _i6.Key? key,
     required _i7.Event event,
+=======
+    _i16.Key? key,
+    required _i17.Event event,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1249,9 +1635,15 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> replaceWithCreateEventView({
+<<<<<<< HEAD
     _i6.Key? key,
     bool editing = false,
     _i7.Event? event,
+=======
+    _i16.Key? key,
+    bool editing = false,
+    _i17.Event? event,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1282,9 +1674,15 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> replaceWithUserProfileView({
+<<<<<<< HEAD
     _i6.Key? key,
     required String userId,
     _i7.Event? event,
+=======
+    _i16.Key? key,
+    required String userId,
+    _i17.Event? event,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1314,6 +1712,7 @@ extension NavigatorStateExtension on _i9.NavigationService {
         transition: transition);
   }
 
+<<<<<<< HEAD
   Future<dynamic> replaceWithAboutView([
     int? routerId,
     bool preventDuplicates = true,
@@ -1328,6 +1727,8 @@ extension NavigatorStateExtension on _i9.NavigationService {
         transition: transition);
   }
 
+=======
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
   Future<dynamic> replaceWithNestedHomeViewInLayoutViewRouter([
     int? routerId,
     bool preventDuplicates = true,
@@ -1343,7 +1744,11 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> replaceWithNestedEventsViewInLayoutViewRouter({
+<<<<<<< HEAD
     _i6.Key? key,
+=======
+    _i16.Key? key,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     bool fromProfileView = false,
     int? routerId,
     bool preventDuplicates = true,
@@ -1361,7 +1766,11 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> replaceWithNestedChatViewInLayoutViewRouter({
+<<<<<<< HEAD
     _i6.Key? key,
+=======
+    _i16.Key? key,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1391,7 +1800,11 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> replaceWithNestedAccountViewInLayoutViewRouter({
+<<<<<<< HEAD
     _i6.Key? key,
+=======
+    _i16.Key? key,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1407,8 +1820,13 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> replaceWithNestedEventDetailsViewInLayoutViewRouter({
+<<<<<<< HEAD
     _i6.Key? key,
     required _i7.Event event,
+=======
+    _i16.Key? key,
+    required _i17.Event event,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     bool isFromLayoutView = false,
     int? routerId,
     bool preventDuplicates = true,
@@ -1426,9 +1844,15 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> replaceWithNestedCreateEventViewInLayoutViewRouter({
+<<<<<<< HEAD
     _i6.Key? key,
     bool editing = false,
     _i7.Event? event,
+=======
+    _i16.Key? key,
+    bool editing = false,
+    _i17.Event? event,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1445,9 +1869,15 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> replaceWithNestedProfileStatsViewInLayoutViewRouter({
+<<<<<<< HEAD
     _i6.Key? key,
     required _i8.StatsType type,
     _i7.Event? event,
+=======
+    _i16.Key? key,
+    required _i18.StatsType type,
+    _i17.Event? event,
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1457,6 +1887,20 @@ extension NavigatorStateExtension on _i9.NavigationService {
     return replaceWith<dynamic>(LayoutViewRoutes.profileStatsView,
         arguments:
             NestedProfileStatsViewArguments(key: key, type: type, event: event),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithNestedAboutViewInLayoutViewRouter([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(LayoutViewRoutes.aboutView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

@@ -1,6 +1,13 @@
+<<<<<<< HEAD
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:plansteria/ui/bottom_sheets/app_bottom_sheet_wrapper.dart';
+=======
+
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:plansteria/ui/common/app_constants.dart';
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -46,6 +53,7 @@ class ThemeSheet extends StackedView<ThemeSheetModel> {
       ));
     }
 
+<<<<<<< HEAD
     return AppBottomSheetWrapper(
       child: Container(
         child: Column(
@@ -79,6 +87,40 @@ class ThemeSheet extends StackedView<ThemeSheetModel> {
             topLeft: Radius.circular(10),
             topRight: Radius.circular(10),
           ),
+=======
+    return Container(
+      padding: kGlobalHorizontalPadding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          14.verticalSpace,
+          Text(
+            'Select theme mode',
+            style: theme.textTheme.titleLarge,
+          ),
+          if (request.description != null) ...[
+            5.verticalSpace,
+            Text(
+              request.description!,
+              style: theme.textTheme.bodyMedium,
+              maxLines: 3,
+              softWrap: true,
+            ),
+          ],
+          20.verticalSpace,
+          Column(
+            children: children,
+          ),
+          20.verticalSpace,
+        ],
+      ),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.background,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
         ),
       ),
     );

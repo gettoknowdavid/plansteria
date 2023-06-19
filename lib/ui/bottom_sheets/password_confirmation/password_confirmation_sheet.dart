@@ -1,60 +1,95 @@
 import 'package:flutter/material.dart';
-import 'package:plansteria/ui/common/app_colors.dart';
-import 'package:plansteria/ui/common/ui_helpers.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:plansteria/ui/common/app_constants.dart';
+import 'package:plansteria/ui/common/validators.dart';
+import 'package:plansteria/ui/widgets/app_button.dart';
+import 'package:plansteria/ui/widgets/app_textfield.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+import 'password_confirmation_sheet.form.dart';
 import 'password_confirmation_sheet_model.dart';
 
+@FormView(fields: [
+  FormTextField(name: 'password', validator: Validators.validateLoginPassword),
+])
 class PasswordConfirmationSheet
-    extends StackedView<PasswordConfirmationSheetModel> {
+    extends StackedView<PasswordConfirmationSheetModel>
+    with $PasswordConfirmationSheet {
   final Function(SheetResponse response)? completer;
   final SheetRequest request;
-  const PasswordConfirmationSheet({
+  PasswordConfirmationSheet({
     Key? key,
     required this.completer,
     required this.request,
   }) : super(key: key);
 
   @override
-  Widget builder(
-    BuildContext context,
-    PasswordConfirmationSheetModel viewModel,
-    Widget? child,
-  ) {
+  Widget builder(context, viewModel, child) {
+    final theme = Theme.of(context);
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+      height: 0.3.sh,
+      color: theme.scaffoldBackgroundColor,
+      padding: kGlobalHorizontalPadding,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            request.title ?? 'Hello Stacked Sheet!!',
-            style: const TextStyle(fontSize: 25, fontWeight: FontWeight.w900),
-          ),
-          if (request.description != null) ...[
-            verticalSpaceTiny,
-            Text(
-              request.description!,
-              style: const TextStyle(fontSize: 14, color: kcMediumGrey),
-              maxLines: 3,
-              softWrap: true,
+          10.verticalSpace,
+          Center(
+            child: Container(
+              height: 4.r,
+              width: 50.w,
+              decoration: BoxDecoration(
+                color: theme.colorScheme.onBackground.withOpacity(0.3),
+                borderRadius: BorderRadius.all(const Radius.circular(50).r),
+              ),
             ),
-          ],
-          verticalSpaceLarge,
+          ),
+          const Spacer(),
+          Text('Confirm', style: theme.textTheme.titleLarge),
+          Text(
+            'Type in your current password to confirm the password change.',
+            style: theme.textTheme.bodyMedium,
+          ),
+          const Spacer(),
+          AppTextField(
+            hint: 'Current Password',
+            label: 'Current Password',
+            enabled: !viewModel.isBusy,
+            focusNode: passwordFocusNode,
+            controller: passwordController,
+            validator: Validators.validateLoginPassword,
+            isPassword: true,
+          ),
+          const Spacer(),
+          AppButton(
+            title: 'Submit',
+            disabled: passwordController.text.isEmpty || viewModel.isBusy,
+            loading: viewModel.isBusy,
+            onPressed: viewModel.submit,
+          ),
+          const Spacer(),
         ],
-      ),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(10),
-          topRight: Radius.circular(10),
-        ),
       ),
     );
   }
 
   @override
-  PasswordConfirmationSheetModel viewModelBuilder(BuildContext context) =>
-      PasswordConfirmationSheetModel();
+  void onDispose(PasswordConfirmationSheetModel viewModel) {
+    super.onDispose(viewModel);
+    disposeForm();
+  }
+
+  @override
+  void onViewModelReady(PasswordConfirmationSheetModel viewModel) {
+    syncFormWithViewModel(viewModel);
+  }
+
+  @override
+  PasswordConfirmationSheetModel viewModelBuilder(context) {
+    return PasswordConfirmationSheetModel();
+  }
 }

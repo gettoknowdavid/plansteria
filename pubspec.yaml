@@ -41,7 +41,7 @@ dependencies:
   cloud_firestore: ^4.4.5
   firebase_storage: ^11.0.16
   cloud_firestore_odm: ^1.0.0-dev.52
-  google_sign_in: ^6.0.2
+  google_sign_in: ^6.1.0
   objectbox: ^2.0.0
   objectbox_flutter_libs: ^2.0.0
   path_provider: ^2.0.14
@@ -78,7 +78,11 @@ dependencies:
   url_launcher: ^6.1.10
   intl_phone_number_input: ^0.7.3+1
   collection:
+<<<<<<< HEAD
   stacked_themes: ^0.3.11
+=======
+  stacked_themes: ^0.3.10
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 
 dev_dependencies:
   flutter_test:

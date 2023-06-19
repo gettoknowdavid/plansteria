@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:plansteria/ui/common/validators.dart';
 import 'package:plansteria/ui/widgets/auth_redirect_button.dart';
+<<<<<<< HEAD
+=======
+import 'package:plansteria/ui/widgets/google_sign_in_button.dart';
+import 'package:plansteria/ui/widgets/or_divider.dart';
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
@@ -46,6 +51,7 @@ class LoginView extends StackedView<LoginViewModel> {
               onTap: viewModel.navigateToRegisterView,
             ),
             30.verticalSpace,
+<<<<<<< HEAD
             // const OrDivider(),
             // 30.verticalSpace,
             // ButtonBar(
@@ -56,6 +62,11 @@ class LoginView extends StackedView<LoginViewModel> {
             //     ProviderIconButton(onTap: () {}, assetName: kFacebookAsset),
             //   ],
             // ),
+=======
+            const OrDivider(),
+            30.verticalSpace,
+            const GoogleSignInButton(),
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
           ],
         ),
       ),

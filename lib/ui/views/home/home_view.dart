@@ -42,15 +42,24 @@ class HomeView extends StackedView<HomeViewModel> {
             10.verticalSpace,
             if (viewModel.featuredEvent != null) ...[
               const SectionTitle(
-                title: 'Featured Event',
+                'Featured Event',
                 child: FeaturedEvent(),
               ),
               20.verticalSpace,
             ],
+<<<<<<< HEAD
             if (viewModel.upcomingEvents.isNotEmpty) ...[
               const SectionTitle(
                 title: 'Upcoming Events',
                 child: UpcomingEvents(),
+=======
+            if (viewModel.dataReady(upcomingEventsKey) &&
+                !viewModel.isUpcomingEventsEmpty) ...[
+              SectionTitle(
+                'Upcoming Events',
+                onTap: () {},
+                child: const UpcomingEvents(),
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
               ),
               20.verticalSpace,
             ] else ...[

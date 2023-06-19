@@ -1,6 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
-import 'package:plansteria/app/app.bottomsheets.dart';
 import 'package:plansteria/app/app.locator.dart';
 
 import '../helpers/test_helpers.dart';
@@ -18,6 +16,7 @@ void main() {
 
     group('showBottomSheet -', () {
       test('When called, should show custom bottom sheet using notice variant',
+<<<<<<< HEAD
           () {
         final bottomSheetService = getAndRegisterBottomSheetService();
 
@@ -25,6 +24,9 @@ void main() {
           variant: BottomSheetType.notice,
         ));
       });
+=======
+          () {});
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     });
   });
 }

@@ -34,8 +34,7 @@ class ChatTextFormField extends ViewModelWidget<ChatViewModel> {
             controller: controller,
             focusNode: focusNode,
             onFieldSubmitted: (value) {
-              viewModel.sendMessage();
-              controller.clear();
+              viewModel.sendMessage(textController: controller);
             },
             decoration: InputDecoration(
               filled: true,
@@ -47,8 +46,7 @@ class ChatTextFormField extends ViewModelWidget<ChatViewModel> {
               ).r,
               suffixIcon: IconButton(
                 onPressed: () {
-                  viewModel.sendMessage();
-                  controller.clear();
+                  viewModel.sendMessage(textController: controller);
                 },
                 iconSize: 18.sp,
                 color: theme.colorScheme.onBackground,

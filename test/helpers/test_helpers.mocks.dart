@@ -1139,7 +1139,11 @@ class MockAuthService extends _i1.Mock implements _i12.AuthService {
         )),
       ) as _i4.Future<_i2.Either<_i13.AuthError, _i2.Unit>>);
   @override
+<<<<<<< HEAD
   _i4.Future<_i2.Either<_i13.AuthError, _i2.Unit>> updatePassword(
+=======
+  _i4.Future<_i3.Either<_i11.AuthError, _i3.Unit>> updatePassword(
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
           String? newPassword) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1301,6 +1305,7 @@ class MockNetworkService extends _i1.Mock implements _i15.NetworkService {
         returnValueForMissingStub: 0,
       ) as int);
   @override
+<<<<<<< HEAD
   _i4.Future<void> checkConnectivity() => (super.noSuchMethod(
         Invocation.method(
           #checkConnectivity,
@@ -1311,6 +1316,9 @@ class MockNetworkService extends _i1.Mock implements _i15.NetworkService {
       ) as _i4.Future<void>);
   @override
   _i4.StreamSubscription<_i16.InternetConnectionStatus> listenForChange() =>
+=======
+  _i4.StreamSubscription<_i14.InternetConnectionStatus> listenForChange() =>
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
       (super.noSuchMethod(
         Invocation.method(
           #listenForChange,

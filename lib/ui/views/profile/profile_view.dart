@@ -55,6 +55,17 @@ class ProfileView extends StackedView<ProfileViewModel> {
             ),
             10.verticalSpace,
             ProfileItem(
+<<<<<<< HEAD
+=======
+              'Set Theme',
+              showTrailing: false,
+              leadingIcon: viewModel.getIcon(mode),
+              onTap: viewModel.showThemeBottomSheet,
+              subtitle: const _ThemeModeSubtitle(),
+            ),
+            10.verticalSpace,
+            ProfileItem(
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
               'About Plansteria',
               leadingIcon: PhosphorIcons.info,
               onTap: viewModel.navigateToAboutView,

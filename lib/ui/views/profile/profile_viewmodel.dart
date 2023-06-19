@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
+=======
+import 'package:flutter/services.dart';
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:plansteria/app/app.bottomsheets.dart';
 import 'package:plansteria/app/app.locator.dart';
@@ -6,6 +10,7 @@ import 'package:plansteria/app/app.router.dart';
 import 'package:plansteria/models/user.dart';
 import 'package:plansteria/services/auth_service.dart';
 import 'package:plansteria/services/event_service.dart';
+import 'package:plansteria/services/network_service.dart';
 import 'package:plansteria/services/profile_service.dart';
 import 'package:plansteria/ui/views/profile_stats/profile_stats_viewmodel.dart';
 import 'package:stacked/stacked.dart';
@@ -18,7 +23,9 @@ class ProfileViewModel extends ReactiveViewModel with Initialisable {
   final _eventService = locator<EventService>();
   final _navigationService = locator<NavigationService>();
   final _profileService = locator<ProfileService>();
+  final _networkService = locator<NetworkService>();
 
+  NetworkStatus get networkStatus => _networkService.status;
   User get user => _authService.currentUser!;
 
   Future<void> logout() async {
@@ -28,6 +35,10 @@ class ProfileViewModel extends ReactiveViewModel with Initialisable {
   }
 
   Future<void> showEditProfileBottomSheet() async {
+    if (networkStatus == NetworkStatus.disconnected) {
+      return await HapticFeedback.vibrate();
+    }
+
     _bottomSheetService.showCustomSheet(
       variant: BottomSheetType.editProfile,
       isScrollControlled: true,
@@ -72,21 +83,36 @@ class ProfileViewModel extends ReactiveViewModel with Initialisable {
   Stream<int> get following => _profileService.following(user.uid);
 
   Future<void> viewAllFollowers() async {
-    await _navigationService.navigateToNestedProfileStatsViewInLayoutViewRouter(
+    if (networkStatus == NetworkStatus.disconnected) {
+      return await HapticFeedback.vibrate();
+    }
+
+    return await _navigationService
+        .navigateToNestedProfileStatsViewInLayoutViewRouter(
       type: StatsType.followers,
       routerId: 1,
     );
   }
 
   Future<void> viewAllFollowing() async {
-    await _navigationService.navigateToNestedProfileStatsViewInLayoutViewRouter(
+    if (networkStatus == NetworkStatus.disconnected) {
+      return await HapticFeedback.vibrate();
+    }
+
+    return await _navigationService
+        .navigateToNestedProfileStatsViewInLayoutViewRouter(
       type: StatsType.following,
       routerId: 1,
     );
   }
 
   Future<void> viewAllEvents() async {
-    await _navigationService.navigateToNestedEventsViewInLayoutViewRouter(
+    if (networkStatus == NetworkStatus.disconnected) {
+      return await HapticFeedback.vibrate();
+    }
+
+    return await _navigationService
+        .navigateToNestedEventsViewInLayoutViewRouter(
       fromProfileView: true,
       routerId: 1,
     );
@@ -99,13 +125,48 @@ class ProfileViewModel extends ReactiveViewModel with Initialisable {
   }
 
   Future<void> navigateToAboutView() async {
+<<<<<<< HEAD
     await _navigationService.navigateToAboutView();
+=======
+    await _navigationService.navigateToNestedAboutViewInLayoutViewRouter(1);
+  }
+
+  ThemeMode? selectedThemeMode(BuildContext context) {
+    return getThemeManager(context).selectedThemeMode;
+  }
+
+  Future<void> showThemeBottomSheet() async {
+    await _bottomSheetService.showCustomSheet(variant: BottomSheetType.theme);
+  }
+
+  String getThemeModeName(ThemeMode mode) {
+    switch (mode) {
+      case ThemeMode.dark:
+        return 'Dark Mode';
+      case ThemeMode.light:
+        return 'Light Mode';
+      default:
+        return 'System';
+    }
+  }
+
+  IconData getIcon(ThemeMode mode) {
+    switch (mode) {
+      case ThemeMode.dark:
+        return PhosphorIcons.moon;
+      case ThemeMode.light:
+        return PhosphorIcons.sun;
+      default:
+        return PhosphorIcons.nut;
+    }
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
   }
 
   @override
   List<ListenableServiceMixin> get listenableServices => [
         _authService,
         _eventService,
+        _networkService,
       ];
 
   @override

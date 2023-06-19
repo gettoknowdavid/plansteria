@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SectionTitle extends StatelessWidget {
-  const SectionTitle({
+  const SectionTitle(
+    this.title, {
     super.key,
-    required this.title,
+    this.textColor,
     this.onTap,
     this.child,
     this.textColor,
   });
 
   final String title;
+  final Color? textColor;
   final void Function()? onTap;
   final Widget? child;
   final Color? textColor;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+<<<<<<< HEAD
 import 'package:plansteria/ui/bottom_sheets/map_address/map_address_sheet.dart';
 import 'package:plansteria/ui/views/onboarding/onboarding_view.dart';
 import 'package:stacked/stacked_annotations.dart';
@@ -14,6 +15,54 @@ import '../ui/layout/layout.dart';
 import '../ui/views/views.dart';
 import 'app.router.dart';
 import 'package:plansteria/ui/views/about/about_view.dart';
+=======
+import 'package:plansteria/app/app.router.dart';
+import 'package:plansteria/services/auth_service.dart';
+import 'package:plansteria/services/chat_service.dart';
+import 'package:plansteria/services/event_service.dart';
+import 'package:plansteria/services/media_service.dart';
+import 'package:plansteria/services/network_service.dart';
+import 'package:plansteria/services/open_mail_app_service.dart';
+import 'package:plansteria/services/profile_service.dart';
+import 'package:plansteria/services/secure_storage_service.dart';
+import 'package:plansteria/services/shared_preferences_service.dart';
+import 'package:plansteria/ui/bottom_sheets/edit_profile/edit_profile_sheet.dart';
+import 'package:plansteria/ui/bottom_sheets/image_source/image_source_sheet.dart';
+import 'package:plansteria/ui/bottom_sheets/map/map_sheet.dart';
+import 'package:plansteria/ui/bottom_sheets/notice/notice_sheet.dart';
+import 'package:plansteria/ui/bottom_sheets/password_confirmation/password_confirmation_sheet.dart';
+import 'package:plansteria/ui/bottom_sheets/theme/theme_sheet.dart';
+import 'package:plansteria/ui/common/app_theme.dart';
+import 'package:plansteria/ui/dialogs/about_app/about_app_dialog.dart';
+import 'package:plansteria/ui/dialogs/error/error_dialog.dart';
+import 'package:plansteria/ui/dialogs/info_alert/info_alert_dialog.dart';
+import 'package:plansteria/ui/dialogs/mail_app/mail_app_dialog.dart';
+import 'package:plansteria/ui/dialogs/network_error/network_error_dialog.dart';
+import 'package:plansteria/ui/dialogs/no_mail_app/no_mail_app_dialog.dart';
+import 'package:plansteria/ui/layout/layout_view.dart';
+import 'package:plansteria/ui/views/about/about_view.dart';
+import 'package:plansteria/ui/views/account/account_view.dart';
+import 'package:plansteria/ui/views/chat/chat_view.dart';
+import 'package:plansteria/ui/views/confirmation/confirmation_view.dart';
+import 'package:plansteria/ui/views/create_event/create_event_view.dart';
+import 'package:plansteria/ui/views/event_details/event_details_view.dart';
+import 'package:plansteria/ui/views/events/events_view.dart';
+import 'package:plansteria/ui/views/forgot_password/forgot_password_view.dart';
+import 'package:plansteria/ui/views/guests/guests_view.dart';
+import 'package:plansteria/ui/views/home/home_view.dart';
+import 'package:plansteria/ui/views/login/login_view.dart';
+import 'package:plansteria/ui/views/map/map_view.dart';
+import 'package:plansteria/ui/views/onboarding/onboarding_view.dart';
+import 'package:plansteria/ui/views/profile/profile_view.dart';
+import 'package:plansteria/ui/views/profile_stats/profile_stats_view.dart';
+import 'package:plansteria/ui/views/register/register_view.dart';
+import 'package:plansteria/ui/views/startup/startup_view.dart';
+import 'package:plansteria/ui/views/user_profile/user_profile_view.dart';
+import 'package:plansteria/ui/views/verification/verification_view.dart';
+import 'package:stacked/stacked_annotations.dart';
+import 'package:stacked_services/stacked_services.dart';
+import 'package:stacked_themes/stacked_themes.dart';
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 // @stacked-import
 
 @StackedApp(
@@ -35,6 +84,7 @@ import 'package:plansteria/ui/views/about/about_view.dart';
         MaterialRoute(page: EventDetailsView),
         MaterialRoute(page: CreateEventView),
         MaterialRoute(page: ProfileStatsView),
+        MaterialRoute(page: AboutView),
       ],
     ),
     MaterialRoute(page: EventDetailsView),
@@ -44,7 +94,10 @@ import 'package:plansteria/ui/views/about/about_view.dart';
     MaterialRoute(page: MapView),
     MaterialRoute(page: UserProfileView),
     MaterialRoute(page: OnboardingView),
+<<<<<<< HEAD
 MaterialRoute(page: AboutView),
+=======
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 // @stacked-route
   ],
   dependencies: [
@@ -73,9 +126,13 @@ MaterialRoute(page: AboutView),
     StackedBottomsheet(classType: ImageSourceSheet),
     StackedBottomsheet(classType: MapSheet),
     StackedBottomsheet(classType: PasswordConfirmationSheet),
+<<<<<<< HEAD
     StackedBottomsheet(classType: ReAuthSheet),
     StackedBottomsheet(classType: ThemeSheet),
     StackedBottomsheet(classType: MapAddressSheet),
+=======
+    StackedBottomsheet(classType: ThemeSheet),
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 // @stacked-bottom-sheet
   ],
   dialogs: [

@@ -2,7 +2,13 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/app/app.router.dart';
+<<<<<<< HEAD
 import 'package:plansteria/services/services.dart';
+=======
+import 'package:plansteria/services/auth_service.dart';
+import 'package:plansteria/services/chat_service.dart';
+import 'package:plansteria/services/shared_preferences_service.dart';
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -25,7 +31,14 @@ class StartupViewModel extends ReactiveViewModel {
 
     // This is where you can make decisions on where your app should navigate when
     // you have custom startup logic
+    if (_preferences.isInitialStartup) {
+      _navigationService.clearStackAndShow(Routes.onboardingView);
+    } else {
+      if (!isAuthenticated) {
+        _navigationService.clearStackAndShow(Routes.loginView);
+      }
 
+<<<<<<< HEAD
     if (_preferences.isInitialStartup) {
       _navigationService.clearStackAndShow(Routes.onboardingView);
     } else {
@@ -42,6 +55,14 @@ class StartupViewModel extends ReactiveViewModel {
         await Geolocator.checkPermission();
         await _locationService.determinePosition();
 
+=======
+      if (isAuthenticated && isEmailVerified == false) {
+        _navigationService.clearStackAndShow(Routes.verificationView);
+      }
+
+      if (isAuthenticated && isEmailVerified == true) {
+        await _chatService.loadChatHistory();
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
         _navigationService.clearStackAndShow(Routes.layoutView);
       }
     }

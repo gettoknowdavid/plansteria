@@ -3,6 +3,7 @@ import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/app/app.router.dart';
 import 'package:plansteria/app/app.snackbars.dart';
 import 'package:plansteria/services/auth_service.dart';
+import 'package:plansteria/services/chat_service.dart';
 import 'package:plansteria/services/network_service.dart';
 import 'package:plansteria/ui/common/app_strings.dart';
 import 'package:plansteria/ui/views/login/login_view.form.dart';
@@ -11,6 +12,8 @@ import 'package:stacked_services/stacked_services.dart';
 
 class LoginViewModel extends FormViewModel with ListenableServiceMixin {
   final _authService = locator<AuthService>();
+
+  final _chatService = locator<ChatService>();
 
   final _dialogService = locator<DialogService>();
 
@@ -46,7 +49,38 @@ class LoginViewModel extends FormViewModel with ListenableServiceMixin {
             ),
           );
         },
-        (success) => _navigationService.clearStackAndShow(Routes.layoutView),
+        (success) async {
+          await _chatService.loadChatHistory();
+          await _navigationService.clearStackAndShow(Routes.layoutView);
+        },
+      );
+    }
+  }
+
+  Future<void> googleSignIn() async {
+    if (networkStatus == NetworkStatus.disconnected) {
+      _dialogService.showCustomDialog(variant: DialogType.networkError);
+    } else {
+      setBusy(true);
+      final result = await _authService.googleLogin();
+      return result.fold(
+        (failure) {
+          setBusy(false);
+          _snackbarService.showCustomSnackBar(
+            duration: const Duration(seconds: 6),
+            variant: SnackbarType.error,
+            message: failure.maybeMap(
+              orElse: () => '',
+              error: (value) => value.message ?? '',
+              serverError: (_) => kServerErrorMessage,
+              noGoogleAccount: (_) => kNoGoogleAccount,
+            ),
+          );
+        },
+        (success) async {
+          await _chatService.loadChatHistory();
+          await _navigationService.clearStackAndShow(Routes.layoutView);
+        },
       );
     }
   }

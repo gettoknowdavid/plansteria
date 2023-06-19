@@ -8,7 +8,6 @@ import 'package:stacked_services/stacked_services.dart';
 class LayoutViewModel extends IndexTrackingViewModel
     with ListenableServiceMixin {
   final _authService = locator<AuthService>();
-
   final _navigationService = locator<NavigationService>();
 
   String? get firstName => user.name.split(' ')[0];

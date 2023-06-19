@@ -3,7 +3,10 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fb;
+<<<<<<< HEAD
 import 'package:firebase_storage/firebase_storage.dart';
+=======
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:plansteria/app/app.locator.dart';
@@ -17,9 +20,13 @@ import 'package:stacked/stacked.dart';
 
 class AuthService with ListenableServiceMixin {
   final fb.FirebaseAuth _firebaseAuth = fb.FirebaseAuth.instance;
+<<<<<<< HEAD
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
+=======
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
   final _networkService = locator<NetworkService>();
   final _secureStorageService = locator<SecureStorageService>();
 
@@ -85,6 +92,7 @@ class AuthService with ListenableServiceMixin {
   }
 
   Future<Either<AuthError, Unit>> deleteAccount() async {
+<<<<<<< HEAD
     final firebaseUser = _firebaseAuth.currentUser!;
     try {
       await deleteProfileImage();
@@ -112,12 +120,22 @@ class AuthService with ListenableServiceMixin {
         batch.delete(ref.doc(item.uid));
       }
       batch.commit();
+=======
+    final curUser = _firebaseAuth.currentUser!;
+
+    try {
+      await curUser.delete().then((value) async {
+        await userRef.doc(curUser.uid).delete();
+        await _secureStorageService.deleteAll();
+      });
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
       return right(unit);
     } on fb.FirebaseAuthException {
       return left(const AuthError.serverError());
     }
   }
 
+<<<<<<< HEAD
   Future<Either<AuthError, Unit>> deleteProfileImage() async {
     final uid = _firebaseAuth.currentUser?.uid;
     final imageRef = _firebaseStorage.ref().child('images/avatar/$uid');
@@ -130,6 +148,8 @@ class AuthService with ListenableServiceMixin {
     }
   }
 
+=======
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
   Future<Either<AuthError, Unit>> forgotPassword(String email) async {
     try {
       // Send password reset email using Firebase authentication.
@@ -163,17 +183,31 @@ class AuthService with ListenableServiceMixin {
     return snapshot.data!;
   }
 
+<<<<<<< HEAD
 Future<Either<AuthError, Unit>> googleLogin() async {
+=======
+  Future<Either<AuthError, Unit>> googleLogin() async {
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
     if (_networkService.status == NetworkStatus.disconnected) {
       return left(const AuthError.noNetworkConnection());
     }
 
     try {
       // Sign out any existing Google accounts
+<<<<<<< HEAD
       // await _googleSignIn.signOut();
 
       // Sign in to the user's Google account
       final GoogleSignInAccount? gAccount = await _googleSignIn.signIn();
+=======
+      await _googleSignIn.signOut();
+
+      // Sign in to the user's Google account
+      final GoogleSignInAccount? gAccount = await _googleSignIn.signIn();
+      print("====================== G - A C C O U N T ======================");
+      print(gAccount?.toString());
+      print("====================== G - A C C O U N T ======================");
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
 
       // Return an error if no Google account was found
       if (gAccount == null) {
@@ -192,6 +226,13 @@ Future<Either<AuthError, Unit>> googleLogin() async {
           .signInWithCredential(credential)
           .then((credentials) => credentials.user);
 
+<<<<<<< HEAD
+=======
+      print("========================= F - U S E R =========================");
+      print(fUser?.toString());
+      print("========================= F - U S E R =========================");
+
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
       // Create a user object from the Firebase user
       final user = User(
         uid: fUser!.uid,
@@ -201,6 +242,13 @@ Future<Either<AuthError, Unit>> googleLogin() async {
         emailVerified: fUser.emailVerified,
       );
 
+<<<<<<< HEAD
+=======
+      print("=========================== U S E R ===========================");
+      print(fUser.toString());
+      print("=========================== U S E R ===========================");
+
+>>>>>>> ddc3022c4ba3d9ccd545646bfa82bb7d8cbc3b1c
       _currentUser.value = user;
       _isAuthenticated.value = true;
 
