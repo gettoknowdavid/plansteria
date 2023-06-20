@@ -18,6 +18,7 @@ import '../ui/views/views.dart';
 import 'app.router.dart';
 
 import 'package:plansteria/ui/views/more_events/more_events_view.dart';
+import 'package:plansteria/ui/bottom_sheets/info/info_sheet.dart';
 // @stacked-import
 
 @StackedApp(
@@ -84,6 +85,7 @@ MaterialRoute(page: MoreEventsView),
     StackedBottomsheet(classType: ThemeSheet),
     StackedBottomsheet(classType: MapAddressSheet),
 
+StackedBottomsheet(classType: InfoSheet),
 // @stacked-bottom-sheet
   ],
   dialogs: [

@@ -107,6 +107,7 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
                 icon: PhosphorIcons.ticket,
                 title: viewModel.isPaid ? currency.format(event.price) : 'Free',
                 subtitle: 'Gate/Ticket Fee',
+                onTap: viewModel.showPriceInformation,
               ),
               16.verticalSpace,
               StreamBuilder<int>(

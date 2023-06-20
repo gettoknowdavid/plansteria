@@ -9,6 +9,7 @@ import 'package:stacked_services/stacked_services.dart';
 import 'app.locator.dart';
 import '../ui/bottom_sheets/edit_profile/edit_profile_sheet.dart';
 import '../ui/bottom_sheets/image_source/image_source_sheet.dart';
+import '../ui/bottom_sheets/info/info_sheet.dart';
 import '../ui/bottom_sheets/map/map_sheet.dart';
 import '../ui/bottom_sheets/map_address/map_address_sheet.dart';
 import '../ui/bottom_sheets/notice/notice_sheet.dart';
@@ -25,6 +26,7 @@ enum BottomSheetType {
   reAuth,
   theme,
   mapAddress,
+  info,
 }
 
 void setupBottomSheetUi() {
@@ -47,6 +49,8 @@ void setupBottomSheetUi() {
         ThemeSheet(request: request, completer: completer),
     BottomSheetType.mapAddress: (context, request, completer) =>
         MapAddressSheet(request: request, completer: completer),
+    BottomSheetType.info: (context, request, completer) =>
+        InfoSheet(request: request, completer: completer),
   };
 
   bottomsheetService.setCustomSheetBuilders(builders);

@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:intl/intl.dart';
 import 'package:plansteria/app/app.bottomsheets.dart';
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/app/app.router.dart';
@@ -188,5 +191,23 @@ class EventDetailsViewModel extends ReactiveViewModel
         description: '${event?.city}, ${event?.state}',
       );
     }
+  }
+
+  Future<void> showPriceInformation() async {
+    final currency = NumberFormat.currency(
+      locale: Platform.localeName,
+      name: 'NGN',
+      symbol: '₦',
+    );
+
+    await _bottomSheetService.showCustomSheet(
+      variant: BottomSheetType.info,
+      title: 'Price Information',
+      description: isPaid
+          ? 'The price of the event is charged on a per person basis at ${currency.format(event?.price)}. Payment is at event venue.'
+          : "This event is free with no charges.",
+      enableDrag: false,
+      isScrollControlled: false,
+    );
   }
 }
