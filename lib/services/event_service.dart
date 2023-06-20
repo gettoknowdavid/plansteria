@@ -103,6 +103,7 @@ class EventService with ListenableServiceMixin {
 
     try {
       final doc = eventsRef.doc(eventId);
+      await doc.update(guestIdsFieldValue: FieldValue.arrayUnion([guest.uid]));
       await doc.guests.doc(guest.uid).set(guest);
       final numberOfGuests = (await doc.guests.get()).docs.length;
       await doc.update(numberOfGuests: numberOfGuests);
@@ -124,6 +125,7 @@ class EventService with ListenableServiceMixin {
 
     try {
       final doc = eventsRef.doc(eventId);
+      await doc.update(guestIdsFieldValue: FieldValue.arrayRemove([guestId]));
       await doc.guests.doc(guestId).delete();
       final numberOfGuests = (await doc.guests.get()).docs.length;
       await doc.update(numberOfGuests: numberOfGuests);
@@ -244,14 +246,70 @@ class EventService with ListenableServiceMixin {
         .first;
   }
 
-  Future<List<Event?>> getMyEvents(String creatorId) async {
+  Future<List<Event?>> getMyEvents(String creatorId, [int? limit]) async {
     // if (_networkService.status == NetworkStatus.disconnected) {
     //   return left(const EventError.networkError());
     // }
+    late EventQuerySnapshot query;
+    if (limit != null) {
+      query = await eventsRef
+          .whereCreatorId(isEqualTo: creatorId)
+          .limit(limit)
+          .get();
+    } else {
+      query = await eventsRef.whereCreatorId(isEqualTo: creatorId).get();
+    }
 
     try {
-      final query = await eventsRef.whereCreatorId(isEqualTo: creatorId).get();
       final result = query.docs.map((e) => e.data).toList();
+      _events.value = result;
+      return result;
+    } on FirebaseException catch (e) {
+      return throw (EventError.error(e.message));
+    } on Exception {
+      return throw (const EventError.serverError());
+    }
+  }
+
+  Future<List<Event?>> getMyAttendingEvents(String userId, [int? limit]) async {
+    late EventQuerySnapshot query;
+    if (limit != null) {
+      query = await eventsRef
+          .whereGuestIds(arrayContains: userId)
+          .limit(limit)
+          .get();
+    } else {
+      query = await eventsRef.whereGuestIds(arrayContains: userId).get();
+    }
+    try {
+      final result = query.docs
+          .map((e) => e.data)
+          .where((e) => e.date.isAfter(today))
+          .toList();
+      _events.value = result;
+      return result;
+    } on FirebaseException catch (e) {
+      return throw (EventError.error(e.message));
+    } on Exception {
+      return throw (const EventError.serverError());
+    }
+  }
+
+  Future<List<Event?>> getMyAttendedEvents(String userId, [int? limit]) async {
+    late EventQuerySnapshot query;
+    if (limit != null) {
+      query = await eventsRef
+          .whereGuestIds(arrayContains: userId)
+          .limit(limit)
+          .get();
+    } else {
+      query = await eventsRef.whereGuestIds(arrayContains: userId).get();
+    }
+    try {
+      final result = query.docs
+          .map((e) => e.data)
+          .where((e) => e.date.isBefore(today))
+          .toList();
       _events.value = result;
       return result;
     } on FirebaseException catch (e) {

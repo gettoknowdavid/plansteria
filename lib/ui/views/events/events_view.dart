@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:plansteria/models/event.dart';
+import 'package:plansteria/models/events_list_type.dart';
 import 'package:plansteria/ui/common/app_constants.dart';
 import 'package:plansteria/ui/widgets/app_back_button.dart';
 import 'package:plansteria/ui/widgets/empty_state.dart';
@@ -16,14 +18,11 @@ class EventsView extends StackedView<EventsViewModel> {
 
   @override
   Widget builder(context, viewModel, child) {
-    final isReady = viewModel.dataReady;
-    final isNotEmpty = viewModel.data?.isEmpty == false;
-
-    if (!isReady) {
+    if (viewModel.loading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
-    if (fromProfileView && isReady) {
+    if (fromProfileView && viewModel.myEventsReady) {
       return Scaffold(
         appBar: AppBar(
           leadingWidth: 70.r,
@@ -32,7 +31,9 @@ class EventsView extends StackedView<EventsViewModel> {
         ),
         body: Padding(
           padding: const EdgeInsets.all(kGlobalPadding).r,
-          child: isNotEmpty ? _buildList(viewModel) : const EmptyState(),
+          child: viewModel.myEvents.isNotEmpty
+              ? _EventsList(events: viewModel.myEvents)
+              : const EmptyState(),
         ),
       );
     }
@@ -47,32 +48,56 @@ class EventsView extends StackedView<EventsViewModel> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (isReady && isNotEmpty)
+            if (viewModel.myEventsReady && viewModel.myEvents.isNotEmpty)
               SectionTitle(
                 'My Events',
-                child: _buildList(viewModel),
-              )
-            else
-              const EmptyState(),
+                child: _EventsList(events: viewModel.myEvents),
+                onTap: () => viewModel.onSeeMore(EventsListType.myEvents),
+              ),
+            20.verticalSpace,
+            if (viewModel.attendingEventsReady &&
+                viewModel.attendingEvents.isNotEmpty)
+              SectionTitle(
+                "Attending",
+                child: _EventsList(events: viewModel.attendingEvents),
+                onTap: () => viewModel.onSeeMore(EventsListType.attendingEvent),
+              ),
+            20.verticalSpace,
+            if (viewModel.attendedEventsReady &&
+                viewModel.attendedEvents.isNotEmpty)
+              SectionTitle(
+                "Attended",
+                child: _EventsList(events: viewModel.attendedEvents),
+                onTap: () => viewModel.onSeeMore(EventsListType.attendedEvents),
+              ),
             20.verticalSpace,
           ],
         ),
       ),
-       floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         onPressed: viewModel.navigateToCreateEvent,
         child: const Icon(Icons.add),
       ),
     );
   }
 
-  Widget _buildList(EventsViewModel viewModel) {
+  @override
+  EventsViewModel viewModelBuilder(BuildContext context) => EventsViewModel();
+}
+
+class _EventsList extends ViewModelWidget<EventsViewModel> {
+  final List<Event?> events;
+  const _EventsList({required this.events});
+
+  @override
+  Widget build(BuildContext context, EventsViewModel viewModel) {
     return ListView.separated(
       shrinkWrap: true,
       primary: false,
       separatorBuilder: (context, index) => 16.verticalSpace,
-      itemCount: viewModel.data!.length,
+      itemCount: events.length,
       itemBuilder: (context, index) {
-        final event = viewModel.data![index]!;
+        final event = events[index]!;
         return EventCard(
           event: event,
           onTap: () => viewModel.navigateToDetails(event),
@@ -80,7 +105,4 @@ class EventsView extends StackedView<EventsViewModel> {
       },
     );
   }
-
-  @override
-  EventsViewModel viewModelBuilder(BuildContext context) => EventsViewModel();
 }

@@ -174,6 +174,7 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
               10.verticalSpace,
               if (!viewModel.isAuthUser)
                 AppButton(
+                  loading: viewModel.busy(viewModel.isAttendingReactive),
                   onPressed: isAttending
                       ? viewModel.onLeavePressed
                       : viewModel.onAttendPressed,

@@ -62,6 +62,7 @@ class EventDetailsViewModel extends ReactiveViewModel
   List<ListenableServiceMixin> get listenableServices => [_authService];
 
   Future<void> onAttendPressed() async {
+    setBusyForObject(isAttendingReactive, true);
     final result = await _eventService.addGuest(
       event!.uid,
       Guest(
@@ -71,40 +72,43 @@ class EventDetailsViewModel extends ReactiveViewModel
       ),
     );
 
-    result.fold(
-      (failure) {
-        setBusy(false);
-        _snackbarService.showCustomSnackBar(
-          variant: SnackbarType.error,
-          message: failure.maybeMap(
-            orElse: () => '',
-            serverError: (_) => kServerErrorMessage,
-            networkError: (_) => kNoNetworkConnectionError,
-          ),
-        );
-      },
-      (success) => _isAttendingReactive.value = true,
-    );
+    result.fold((failure) {
+      setBusy(false);
+      _snackbarService.showCustomSnackBar(
+        variant: SnackbarType.error,
+        message: failure.maybeMap(
+          orElse: () => '',
+          serverError: (_) => kServerErrorMessage,
+          networkError: (_) => kNoNetworkConnectionError,
+        ),
+      );
+    }, (success) async {
+      setBusyForObject(isAttendingReactive, false);
+      _isAttendingReactive.value = true;
+      await init(event!.uid, true);
+    });
     notifyListeners();
   }
 
   Future<void> onLeavePressed() async {
+    setBusyForObject(isAttendingReactive, true);
     final result =
         await _eventService.removeGuest(event!.uid, currentUser!.uid);
 
-    result.fold(
-      (failure) {
-        _snackbarService.showCustomSnackBar(
-          variant: SnackbarType.error,
-          message: failure.maybeMap(
-            orElse: () => '',
-            serverError: (_) => kServerErrorMessage,
-            networkError: (_) => kNoNetworkConnectionError,
-          ),
-        );
-      },
-      (success) => _isAttendingReactive.value = false,
-    );
+    result.fold((failure) {
+      _snackbarService.showCustomSnackBar(
+        variant: SnackbarType.error,
+        message: failure.maybeMap(
+          orElse: () => '',
+          serverError: (_) => kServerErrorMessage,
+          networkError: (_) => kNoNetworkConnectionError,
+        ),
+      );
+    }, (success) async {
+      setBusyForObject(isAttendingReactive, false);
+      _isAttendingReactive.value = false;
+      await init(event!.uid, true);
+    });
     notifyListeners();
   }
 

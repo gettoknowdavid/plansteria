@@ -1736,11 +1736,51 @@ class MockEventService extends _i1.Mock implements _i18.EventService {
         )),
       ) as _i4.Future<_i5.Event>);
   @override
-  _i4.Future<List<_i5.Event?>> getMyEvents(String? creatorId) =>
+  _i4.Future<List<_i5.Event?>> getMyEvents(
+    String? creatorId, [
+    int? limit,
+  ]) =>
       (super.noSuchMethod(
         Invocation.method(
           #getMyEvents,
-          [creatorId],
+          [
+            creatorId,
+            limit,
+          ],
+        ),
+        returnValue: _i4.Future<List<_i5.Event?>>.value(<_i5.Event?>[]),
+        returnValueForMissingStub:
+            _i4.Future<List<_i5.Event?>>.value(<_i5.Event?>[]),
+      ) as _i4.Future<List<_i5.Event?>>);
+  @override
+  _i4.Future<List<_i5.Event?>> getMyAttendingEvents(
+    String? userId, [
+    int? limit,
+  ]) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getMyAttendingEvents,
+          [
+            userId,
+            limit,
+          ],
+        ),
+        returnValue: _i4.Future<List<_i5.Event?>>.value(<_i5.Event?>[]),
+        returnValueForMissingStub:
+            _i4.Future<List<_i5.Event?>>.value(<_i5.Event?>[]),
+      ) as _i4.Future<List<_i5.Event?>>);
+  @override
+  _i4.Future<List<_i5.Event?>> getMyAttendedEvents(
+    String? userId, [
+    int? limit,
+  ]) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getMyAttendedEvents,
+          [
+            userId,
+            limit,
+          ],
         ),
         returnValue: _i4.Future<List<_i5.Event?>>.value(<_i5.Event?>[]),
         returnValueForMissingStub:

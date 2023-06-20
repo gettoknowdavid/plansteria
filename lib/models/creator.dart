@@ -1,6 +1,7 @@
-// ignore_for_file: constant_identifier_names
+// ignore_for_file: constant_identifier_names, unused_element
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 import 'user.dart';
 
 part 'creator.freezed.dart';

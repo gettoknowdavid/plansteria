@@ -43,6 +43,7 @@ mixin _$Event {
   String get email => throw _privateConstructorUsedError;
   String get phone => throw _privateConstructorUsedError;
   String get creatorId => throw _privateConstructorUsedError;
+  List<String>? get guestIds => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -73,7 +74,8 @@ abstract class $EventCopyWith<$Res> {
       bool? featured,
       String email,
       String phone,
-      String creatorId});
+      String creatorId,
+      List<String>? guestIds});
 }
 
 /// @nodoc
@@ -108,6 +110,7 @@ class _$EventCopyWithImpl<$Res, $Val extends Event>
     Object? email = null,
     Object? phone = null,
     Object? creatorId = null,
+    Object? guestIds = freezed,
   }) {
     return _then(_value.copyWith(
       uid: null == uid
@@ -186,6 +189,10 @@ class _$EventCopyWithImpl<$Res, $Val extends Event>
           ? _value.creatorId
           : creatorId // ignore: cast_nullable_to_non_nullable
               as String,
+      guestIds: freezed == guestIds
+          ? _value.guestIds
+          : guestIds // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ) as $Val);
   }
 }
@@ -215,7 +222,8 @@ abstract class _$$_EventCopyWith<$Res> implements $EventCopyWith<$Res> {
       bool? featured,
       String email,
       String phone,
-      String creatorId});
+      String creatorId,
+      List<String>? guestIds});
 }
 
 /// @nodoc
@@ -246,6 +254,7 @@ class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
     Object? email = null,
     Object? phone = null,
     Object? creatorId = null,
+    Object? guestIds = freezed,
   }) {
     return _then(_$_Event(
       uid: null == uid
@@ -324,6 +333,10 @@ class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
           ? _value.creatorId
           : creatorId // ignore: cast_nullable_to_non_nullable
               as String,
+      guestIds: freezed == guestIds
+          ? _value._guestIds
+          : guestIds // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }
@@ -350,8 +363,10 @@ class _$_Event implements _Event {
       this.featured,
       required this.email,
       required this.phone,
-      required this.creatorId})
-      : _photoUrls = photoUrls;
+      required this.creatorId,
+      final List<String>? guestIds})
+      : _photoUrls = photoUrls,
+        _guestIds = guestIds;
 
   factory _$_Event.fromJson(Map<String, dynamic> json) =>
       _$$_EventFromJson(json);
@@ -404,10 +419,19 @@ class _$_Event implements _Event {
   final String phone;
   @override
   final String creatorId;
+  final List<String>? _guestIds;
+  @override
+  List<String>? get guestIds {
+    final value = _guestIds;
+    if (value == null) return null;
+    if (_guestIds is EqualUnmodifiableListView) return _guestIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'Event(uid: $uid, name: $name, description: $description, address: $address, state: $state, city: $city, numberOfGuests: $numberOfGuests, notes: $notes, price: $price, date: $date, startTime: $startTime, endTime: $endTime, geo: $geo, eventImageUrl: $eventImageUrl, photoUrls: $photoUrls, featured: $featured, email: $email, phone: $phone, creatorId: $creatorId)';
+    return 'Event(uid: $uid, name: $name, description: $description, address: $address, state: $state, city: $city, numberOfGuests: $numberOfGuests, notes: $notes, price: $price, date: $date, startTime: $startTime, endTime: $endTime, geo: $geo, eventImageUrl: $eventImageUrl, photoUrls: $photoUrls, featured: $featured, email: $email, phone: $phone, creatorId: $creatorId, guestIds: $guestIds)';
   }
 
   @override
@@ -440,7 +464,8 @@ class _$_Event implements _Event {
             (identical(other.email, email) || other.email == email) &&
             (identical(other.phone, phone) || other.phone == phone) &&
             (identical(other.creatorId, creatorId) ||
-                other.creatorId == creatorId));
+                other.creatorId == creatorId) &&
+            const DeepCollectionEquality().equals(other._guestIds, _guestIds));
   }
 
   @JsonKey(ignore: true)
@@ -465,7 +490,8 @@ class _$_Event implements _Event {
         featured,
         email,
         phone,
-        creatorId
+        creatorId,
+        const DeepCollectionEquality().hash(_guestIds)
       ]);
 
   @JsonKey(ignore: true)
@@ -502,7 +528,8 @@ abstract class _Event implements Event {
       final bool? featured,
       required final String email,
       required final String phone,
-      required final String creatorId}) = _$_Event;
+      required final String creatorId,
+      final List<String>? guestIds}) = _$_Event;
 
   factory _Event.fromJson(Map<String, dynamic> json) = _$_Event.fromJson;
 
@@ -548,6 +575,8 @@ abstract class _Event implements Event {
   String get phone;
   @override
   String get creatorId;
+  @override
+  List<String>? get guestIds;
   @override
   @JsonKey(ignore: true)
   _$$_EventCopyWith<_$_Event> get copyWith =>

@@ -17,6 +17,7 @@ import '../ui/layout/layout.dart';
 import '../ui/views/views.dart';
 import 'app.router.dart';
 
+import 'package:plansteria/ui/views/more_events/more_events_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -50,6 +51,7 @@ import 'app.router.dart';
     MaterialRoute(page: OnboardingView),
     MaterialRoute(page: AboutView),
 
+MaterialRoute(page: MoreEventsView),
 // @stacked-route
   ],
   dependencies: [
