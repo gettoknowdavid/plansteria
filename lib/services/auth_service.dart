@@ -160,8 +160,12 @@ class AuthService with ListenableServiceMixin {
   }
 
   Future<User> getUserById(String userId) async {
-    final snapshot = await userRef.doc(userId).get();
-    return snapshot.data!;
+    try {
+      final snapshot = await userRef.doc(userId).get();
+      return snapshot.data!;
+    } catch (e) {
+      throw Exception('User not found.');
+    }
   }
 
   Future<Either<AuthError, Unit>> googleLogin() async {
@@ -194,7 +198,6 @@ class AuthService with ListenableServiceMixin {
           .signInWithCredential(credential)
           .then((credentials) => credentials.user);
 
-
       // Create a user object from the Firebase user
       final user = User(
         uid: fUser!.uid,
@@ -203,8 +206,6 @@ class AuthService with ListenableServiceMixin {
         avatar: fUser.photoURL,
         emailVerified: fUser.emailVerified,
       );
-
-
 
       _currentUser.value = user;
       _isAuthenticated.value = true;

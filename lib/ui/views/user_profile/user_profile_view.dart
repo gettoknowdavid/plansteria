@@ -30,6 +30,33 @@ class UserProfileView extends StackedView<UserProfileViewModel> {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
+    if (viewModel.hasError) {
+      return Scaffold(
+        backgroundColor: theme.colorScheme.errorContainer,
+        body: Container(
+          alignment: Alignment.center,
+          padding: kGlobalHorizontalPadding,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Text(
+                  'An error occurred. ${viewModel.modelError}',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              20.verticalSpace,
+              TextButton(
+                onPressed: viewModel.navigateBack,
+                child: const Text('Go back'),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 70.w,

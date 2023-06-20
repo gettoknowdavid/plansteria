@@ -85,7 +85,6 @@ class ChatViewModel extends FormViewModel with ListenableServiceMixin {
 
       final result = await _chatService.sendMessage(message);
 
-
       result.fold(
         (failure) {
           setBusy(false);
@@ -146,7 +145,7 @@ class ChatViewModel extends FormViewModel with ListenableServiceMixin {
   ];
 
   final limitations = <String>[
-    "May occasionally generate incorrect information",
+    // "May occasionally generate incorrect information",
     "Cannot remember what user said earlier in the conversation",
     "Limited knowledge of world and events after 2021",
   ];

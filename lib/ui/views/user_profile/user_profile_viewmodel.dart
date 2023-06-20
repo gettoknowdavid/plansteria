@@ -22,6 +22,13 @@ class UserProfileViewModel extends FutureViewModel<User>
   @override
   Future<User> futureToRun() => _authService.getUserById(userId);
 
+  @override
+  void onError(error) {
+    setError(
+      'Seems like this user does not exist or has been deleted from the database.',
+    );
+  }
+
   void navigateBack() => _navigationService.back(result: event);
 
   Future<void> follow() async => await _profileService.follow(user, data!);

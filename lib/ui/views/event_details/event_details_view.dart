@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:plansteria/models/event.dart';
@@ -39,7 +42,11 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
     final date = DateFormat.yMMMEd().format(data.date);
     final time = eventDetailsTimeFormatter(data.startTime, data.endTime);
 
-    final currency = NumberFormat.currency(locale: 'en_NG', symbol: '₦');
+    final currency = NumberFormat.currency(
+      locale: Platform.localeName,
+      name: 'NGN',
+      symbol: '₦',
+    );
 
     final isAttending = viewModel.isAttending;
 
@@ -98,7 +105,7 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
               16.verticalSpace,
               EventDetailsItem(
                 icon: PhosphorIcons.ticket,
-                title: viewModel.isPaid ? event.price!.toString() : 'Free',
+                title: viewModel.isPaid ? currency.format(event.price) : 'Free',
                 subtitle: 'Gate/Ticket Fee',
               ),
               16.verticalSpace,
@@ -107,7 +114,9 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
                 builder: (context, snapshot) {
                   return EventDetailsItem(
                     icon: PhosphorIcons.usersThree,
-                    title: snapshot.hasData ? '${snapshot.data}' : 'Loading...',
+                    title: snapshot.hasData
+                        ? '${snapshot.data} attending'
+                        : 'Loading...',
                     subtitle: 'Number of guests',
                     onTap: viewModel.isAuthUser
                         ? viewModel.navigateToGuestsList
@@ -167,7 +176,9 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
                 ),
                 Text(
                   '${currency.format(data.price)} per person',
-                  style: textTheme.bodyMedium,
+                  style: textTheme.bodyMedium?.copyWith(
+                    fontFamily: GoogleFonts.roboto().fontFamily,
+                  ),
                 ),
                 10.verticalSpace,
               ],
