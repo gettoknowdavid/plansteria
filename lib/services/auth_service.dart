@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,7 +13,7 @@ import 'package:plansteria/models/event.dart';
 import 'package:plansteria/models/user.dart';
 import 'package:plansteria/services/network_service.dart';
 import 'package:plansteria/services/secure_storage_service.dart';
-import 'package:plansteria/ui/common/app_strings.dart';
+import 'package:plansteria/ui/common/common.dart';
 import 'package:stacked/stacked.dart';
 
 class AuthService with ListenableServiceMixin {
@@ -87,13 +88,15 @@ class AuthService with ListenableServiceMixin {
   Future<Either<AuthError, Unit>> deleteAccount() async {
     final firebaseUser = _firebaseAuth.currentUser!;
     try {
-      await deleteProfileImage();
-      await deleteAccountEvents();
-      await userRef.doc(firebaseUser.uid).delete();
+      await deleteProfileImage().timeout(timeLimit);
+      await deleteAccountEvents().timeout(timeLimit);
+      await userRef.doc(firebaseUser.uid).delete().timeout(timeLimit);
       await _secureStorageService.deleteAll();
       return await firebaseUser.delete().then((value) => right(unit));
     } on fb.FirebaseAuthException {
       return left(const AuthError.serverError());
+    } on TimeoutException {
+      return left(const AuthError.error(kTimeout));
     }
   }
 
@@ -134,7 +137,9 @@ class AuthService with ListenableServiceMixin {
   Future<Either<AuthError, Unit>> forgotPassword(String email) async {
     try {
       // Send password reset email using Firebase authentication.
-      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      await _firebaseAuth
+          .sendPasswordResetEmail(email: email)
+          .timeout(timeLimit);
       return right(unit);
     } on fb.FirebaseAuthException catch (e) {
       // Handle specific Firebase authentication exceptions.
@@ -146,6 +151,8 @@ class AuthService with ListenableServiceMixin {
         default:
           return left(const AuthError.serverError());
       }
+    } on TimeoutException {
+      return left(const AuthError.error(kTimeout));
     }
   }
 
@@ -233,10 +240,9 @@ class AuthService with ListenableServiceMixin {
     required String password,
   }) async {
     try {
-      final result = await _firebaseAuth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      final result = await _firebaseAuth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .timeout(timeLimit);
       final firebaseUser = result.user!;
 
       final snapshot = await userRef.doc(firebaseUser.uid).get();
@@ -262,6 +268,8 @@ class AuthService with ListenableServiceMixin {
         default:
           return left(const AuthError.serverError());
       }
+    } on TimeoutException {
+      return left(const AuthError.error(kTimeout));
     }
   }
 
@@ -284,12 +292,14 @@ class AuthService with ListenableServiceMixin {
 
   Future<Either<AuthError, Unit>> reauthenticate(String password) async {
     try {
-      await _firebaseAuth.currentUser?.reauthenticateWithCredential(
-        fb.EmailAuthProvider.credential(
-          email: _firebaseAuth.currentUser!.email!,
-          password: password,
-        ),
-      );
+      await _firebaseAuth.currentUser
+          ?.reauthenticateWithCredential(
+            fb.EmailAuthProvider.credential(
+              email: _firebaseAuth.currentUser!.email!,
+              password: password,
+            ),
+          )
+          .timeout(timeLimit);
 
       return right(unit);
     } on fb.FirebaseAuthException catch (e) {
@@ -301,6 +311,8 @@ class AuthService with ListenableServiceMixin {
         default:
           return left(AuthError.error(e.message));
       }
+    } on TimeoutException {
+      return left(const AuthError.error(kTimeout));
     }
   }
 
@@ -310,10 +322,12 @@ class AuthService with ListenableServiceMixin {
     required String password,
   }) async {
     try {
-      final result = await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      final result = await _firebaseAuth
+          .createUserWithEmailAndPassword(
+            email: email,
+            password: password,
+          )
+          .timeout(timeLimit);
       final firebaseUser = result.user!;
 
       await _firebaseAuth.currentUser!.updateDisplayName(name);
@@ -325,7 +339,7 @@ class AuthService with ListenableServiceMixin {
         emailVerified: false,
       );
 
-      await userRef.doc(firebaseUser.uid).set(user);
+      await userRef.doc(firebaseUser.uid).set(user).timeout(timeLimit);
 
       await _secureStorageService.write(
         key: kAuthUser,
@@ -344,6 +358,8 @@ class AuthService with ListenableServiceMixin {
       } else {
         return left(const AuthError.serverError());
       }
+    } on TimeoutException {
+      return left(const AuthError.error(kTimeout));
     }
   }
 
@@ -384,8 +400,8 @@ class AuthService with ListenableServiceMixin {
     final curUser = _firebaseAuth.currentUser!;
 
     try {
-      await curUser.updateEmail(newEmail);
-      await userRef.doc(curUser.uid).update(email: newEmail);
+      await curUser.updateEmail(newEmail).timeout(timeLimit);
+      await userRef.doc(curUser.uid).update(email: newEmail).timeout(timeLimit);
       return right(unit);
     } on fb.FirebaseAuthException catch (e) {
       // Handle specific Firebase authentication exceptions.
@@ -396,6 +412,8 @@ class AuthService with ListenableServiceMixin {
       } else {
         return left(AuthError.error(e.message));
       }
+    } on TimeoutException {
+      return left(const AuthError.error(kTimeout));
     }
   }
 
@@ -403,10 +421,12 @@ class AuthService with ListenableServiceMixin {
     final curUser = _firebaseAuth.currentUser!;
 
     try {
-      await curUser.updatePassword(newPassword);
+      await curUser.updatePassword(newPassword).timeout(timeLimit);
       return right(unit);
     } on fb.FirebaseAuthException {
       return left(const AuthError.serverError());
+    } on TimeoutException {
+      return left(const AuthError.error(kTimeout));
     }
   }
 

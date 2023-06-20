@@ -44,3 +44,5 @@ const kAboutApp =
     "At Plansteria, we value security and privacy. Rest assured that your event data is protected with robust encryption and strict privacy protocols. We prioritize the confidentiality of your information and adhere to industry best practices to maintain the utmost security.\n"
     "Our mission is to empower event organizers like you to create unforgettable experiences. Whether you're a seasoned professional or a first-time planner, Plansteria provides you with the tools and resources you need to execute flawless events.\n"
     "Join us today and discover the future of event creation and management. Let Plansteria be your trusted companion on your event planning journey. Start creating exceptional experiences with ease and efficiency.";
+
+const kTimeout = 'Oops! The connection timed out. Try again.';

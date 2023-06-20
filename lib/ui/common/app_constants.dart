@@ -14,3 +14,5 @@ final kEventDetailsHorPadding = const EdgeInsets.symmetric(
 final kGlobalBorderRadius = const BorderRadius.all(Radius.circular(20)).r;
 
 const String kPlaceHolerImageAsset = 'assets/tec-conference.jpg';
+
+const timeLimit = Duration(seconds: 30);
