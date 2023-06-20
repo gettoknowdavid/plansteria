@@ -30,6 +30,7 @@ class EventService with ListenableServiceMixin {
   Stream<List<Event?>> get upcomingEventsStream {
     return eventsRef
         .whereDate(isGreaterThanOrEqualTo: today)
+        .limit(3)
         .snapshots()
         .map((e) => e.docs.map((d) => d.data).toList());
   }
@@ -67,6 +68,12 @@ class EventService with ListenableServiceMixin {
   Stream<List<Guest?>> guestsStream(String eventId) {
     GuestCollectionReference guestsRef = eventsRef.doc(eventId).guests;
     return guestsRef.snapshots().map((e) => e.docs.map((d) => d.data).toList());
+  }
+
+  Future<List<Event?>> getUpcomingEvents() async {
+    final query =
+        await eventsRef.whereDate(isGreaterThanOrEqualTo: today).get();
+    return query.docs.map((e) => e.data).toList();
   }
 
   Future<List<Guest?>> getAllGuests(String eventId) async {

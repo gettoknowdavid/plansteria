@@ -1,1 +1,1 @@
-enum EventsListType { myEvents, attendingEvent, attendedEvents }
+enum EventsListType { myEvents, attendingEvent, attendedEvents, upcomingEvents }

@@ -36,6 +36,9 @@ class MoreEventsViewModel extends FutureViewModel<List<Event?>>
       case EventsListType.attendingEvent:
         _title.value = 'Attending';
         return _eventService.getMyAttendingEvents(userId);
+      case EventsListType.upcomingEvents:
+        _title.value = 'Upcoming Events';
+        return _eventService.getUpcomingEvents();
       default:
         return _eventService.getMyEvents(userId);
     }

@@ -51,7 +51,7 @@ class HomeView extends StackedView<HomeViewModel> {
                 !viewModel.isUpcomingEmpty) ...[
               SectionTitle(
                 'Upcoming Events',
-                onTap: () {},
+                onTap: viewModel.onSeeMoreUpcoming,
                 child: const UpcomingEvents(),
               ),
               20.verticalSpace,
