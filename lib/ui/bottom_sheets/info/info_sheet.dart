@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:plansteria/ui/common/common.dart';
+import 'package:plansteria/ui/bottom_sheets/app_bottom_sheet_wrapper.dart';
+import 'package:plansteria/ui/widgets/app_bottom_sheet_handle.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -20,30 +21,12 @@ class InfoSheet extends StackedView<InfoSheetModel> {
   Widget builder(context, viewModel, child) {
     final theme = Theme.of(context);
 
-    return Container(
-      padding: kGlobalHorizontalPadding,
-      decoration: BoxDecoration(
-        color: theme.bottomSheetTheme.backgroundColor,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(10),
-          topRight: Radius.circular(10),
-        ),
-      ),
+    return AppBottomSheetWrapper(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          18.verticalSpace,
-          Center(
-            child: Container(
-              height: 4.h,
-              width: 40.r,
-              decoration: BoxDecoration(
-                color: theme.colorScheme.onBackground.withOpacity(0.5),
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-          ),
+          const Center(child: AppBottomSheetHandle()),
           18.verticalSpace,
           Text(
             request.title ?? 'Hello Stacked Sheet!!',

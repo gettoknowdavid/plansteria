@@ -51,9 +51,14 @@ class AccountViewModel extends FormViewModel with ListenableServiceMixin {
       return await HapticFeedback.vibrate();
     }
 
-    setBusy(true);
+    final confirmationResponse = await _bottomSheetService.showCustomSheet(
+      variant: BottomSheetType.reAuth,
+      isScrollControlled: true,
+      enableDrag: false,
+    );
 
-    if (hasEmail && isFormValid) {
+    if (hasEmail && isFormValid && confirmationResponse?.confirmed == true) {
+      setBusy(true);
       final result = await _authService.updateEmailAddress(emailValue!);
       return result.fold(
         (failure) {
@@ -73,6 +78,11 @@ class AccountViewModel extends FormViewModel with ListenableServiceMixin {
         },
         (success) async {
           setBusy(false);
+          print('QQWERTYUIOPLJSZXCVBNMASFDHJKLAWSEDTFGHSDTFYGUH');
+          print('QQWERTYUIOPLJSZXBHJKGJKCVBNMASFDHJKLAWSEDTFGHSDTFYGUH');
+          print('QQWERTYUIOPLJSZXCVBNMASHJKFGHKFDHJKLAWSEDTFGHSDTFYGUH');
+          print('QQWERTYUIOPLJSZXCVBNMASFDHJKLAEWERWSREWSEDTFGHSDTFYGUH');
+          print('QQWERTYUIOPLJSZXCVBNMASFDHJKLAWSEDTFGH67856FSDTFYGUH');
           await showConfirmationDialog();
         },
       );
