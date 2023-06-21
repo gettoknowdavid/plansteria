@@ -39,7 +39,6 @@ class HomeView extends StackedView<HomeViewModel> {
         padding: kGlobalHorizontalPadding,
         child: Column(
           children: [
-            10.verticalSpace,
             if (viewModel.featuredEvent != null) ...[
               SectionTitle(
                 'Featured Event',
