@@ -12,8 +12,8 @@ import 'package:stacked/stacked.dart';
 import 'auth_service.dart';
 import 'network_service.dart';
 
-final now = DateTime.now();
-final today = now.copyWith(hour: 0, minute: 0, second: 0);
+final today = DateTime.now();
+// final today = now.copyWith(hour: 0, minute: 0, second: 0);
 
 class EventService with ListenableServiceMixin {
   final _events = ReactiveValue<List<Event?>>([]);
@@ -52,7 +52,7 @@ class EventService with ListenableServiceMixin {
 
   Stream<List<Event?>> get upcomingEventsStream {
     return eventsRef
-        .whereDate(isGreaterThanOrEqualTo: today)
+        .whereEndTime(isGreaterThanOrEqualTo: today)
         .limit(3)
         .snapshots()
         .map((e) => e.docs.map((d) => d.data).toList());

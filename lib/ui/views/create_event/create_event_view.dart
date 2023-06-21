@@ -205,14 +205,17 @@ class CreateEventView extends StackedView<CreateEventViewModel>
               ),
               10.verticalSpace,
               InternationalPhoneNumberInput(
-                onInputChanged: null,
+                onInputChanged: viewModel.setPhoneInput,
                 onInputValidated: viewModel.setPhoneValidity,
                 initialValue: PhoneNumber(
-                  isoCode: viewModel.placemark?.isoCountryCode,
+                  dialCode: viewModel.intlPhoneNumber?.dialCode,
+                  isoCode: viewModel.intlPhoneNumber?.isoCode,
+                  phoneNumber: viewModel.intlPhoneNumber?.phoneNumber,
                 ),
                 selectorConfig: const SelectorConfig(
                   selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
                   setSelectorButtonAsPrefixIcon: true,
+                  useEmoji: true,
                   leadingPadding: 16,
                   trailingSpace: false,
                 ),
@@ -227,10 +230,10 @@ class CreateEventView extends StackedView<CreateEventViewModel>
                 // validator: Validators.validatePhone,
                 focusNode: phoneFocusNode,
                 textFieldController: phoneController,
-                formatInput: true,
+                formatInput: false,
                 keyboardType: const TextInputType.numberWithOptions(
-                  signed: true,
-                  decimal: true,
+                  signed: false,
+                  decimal: false,
                 ),
               ),
               30.verticalSpace,
@@ -269,7 +272,7 @@ class CreateEventView extends StackedView<CreateEventViewModel>
       notesController.text = event?.notes ?? '';
       priceController.text = event?.price?.toString() ?? '';
       emailController.text = event!.email;
-      phoneController.text = event!.phone;
+      phoneController.text = event?.phone ?? '';
     } else {
       final defaultStartDate = DateTime.now();
       final defaultEndDate = defaultStartDate.add(const Duration(hours: 2));

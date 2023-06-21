@@ -53,6 +53,7 @@ class AuthService with ListenableServiceMixin {
         email: firebaseUser.email!,
         emailVerified: firebaseUser.emailVerified,
         avatar: localUser.avatar,
+        phone: firebaseUser.phoneNumber,
       );
       notifyListeners();
     } else {

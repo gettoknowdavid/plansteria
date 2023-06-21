@@ -73,6 +73,10 @@ class MapViewModel extends ReactiveViewModel
 
   @override
   void initialise() async {
+    if (address == null && currentGeo.latitude == 0.000000) {
+      await _locationService.determinePosition();
+    }
+
     await goToMyLocation();
     _isSearchBarVisible.value = false;
     notifyListeners();

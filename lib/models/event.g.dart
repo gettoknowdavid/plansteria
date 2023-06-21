@@ -165,7 +165,7 @@ abstract class EventDocumentReference
     FieldValue featuredFieldValue,
     String email,
     FieldValue emailFieldValue,
-    String phone,
+    String? phone,
     FieldValue phoneFieldValue,
     String creatorId,
     FieldValue creatorIdFieldValue,
@@ -212,7 +212,7 @@ abstract class EventDocumentReference
     FieldValue featuredFieldValue,
     String email,
     FieldValue emailFieldValue,
-    String phone,
+    String? phone,
     FieldValue phoneFieldValue,
     String creatorId,
     FieldValue creatorIdFieldValue,
@@ -426,7 +426,7 @@ class _$EventDocumentReference
         _$$_EventFieldMap['featured']!: featuredFieldValue,
       if (email != _sentinel) _$$_EventFieldMap['email']!: email as String,
       if (emailFieldValue != null) _$$_EventFieldMap['email']!: emailFieldValue,
-      if (phone != _sentinel) _$$_EventFieldMap['phone']!: phone as String,
+      if (phone != _sentinel) _$$_EventFieldMap['phone']!: phone as String?,
       if (phoneFieldValue != null) _$$_EventFieldMap['phone']!: phoneFieldValue,
       if (creatorId != _sentinel)
         _$$_EventFieldMap['creatorId']!: creatorId as String,
@@ -615,7 +615,7 @@ class _$EventDocumentReference
         _$$_EventFieldMap['featured']!: featuredFieldValue,
       if (email != _sentinel) _$$_EventFieldMap['email']!: email as String,
       if (emailFieldValue != null) _$$_EventFieldMap['email']!: emailFieldValue,
-      if (phone != _sentinel) _$$_EventFieldMap['phone']!: phone as String,
+      if (phone != _sentinel) _$$_EventFieldMap['phone']!: phone as String?,
       if (phoneFieldValue != null) _$$_EventFieldMap['phone']!: phoneFieldValue,
       if (creatorId != _sentinel)
         _$$_EventFieldMap['creatorId']!: creatorId as String,
@@ -920,8 +920,8 @@ abstract class EventQuery implements QueryReference<Event, EventQuerySnapshot> {
     String? isGreaterThan,
     String? isGreaterThanOrEqualTo,
     bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<String?>? whereIn,
+    List<String?>? whereNotIn,
   });
   EventQuery whereCreatorId({
     String? isEqualTo,
@@ -1164,10 +1164,10 @@ abstract class EventQuery implements QueryReference<Event, EventQuerySnapshot> {
 
   EventQuery orderByPhone({
     bool descending = false,
-    String startAt,
-    String startAfter,
-    String endAt,
-    String endBefore,
+    String? startAt,
+    String? startAfter,
+    String? endAt,
+    String? endBefore,
     EventDocumentSnapshot? startAtDocument,
     EventDocumentSnapshot? endAtDocument,
     EventDocumentSnapshot? endBeforeDocument,
@@ -1876,8 +1876,8 @@ class _$EventQuery extends QueryReference<Event, EventQuerySnapshot>
     String? isGreaterThan,
     String? isGreaterThanOrEqualTo,
     bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<String?>? whereIn,
+    List<String?>? whereNotIn,
   }) {
     return _$EventQuery(
       _collection,
@@ -4695,7 +4695,7 @@ _$_Event _$$_EventFromJson(Map<String, dynamic> json) => _$_Event(
           .toList(),
       featured: json['featured'] as bool?,
       email: json['email'] as String,
-      phone: json['phone'] as String,
+      phone: json['phone'] as String?,
       creatorId: json['creatorId'] as String,
       guestIds: (json['guestIds'] as List<dynamic>?)
           ?.map((e) => e as String)

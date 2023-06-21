@@ -78,11 +78,6 @@ class AccountViewModel extends FormViewModel with ListenableServiceMixin {
         },
         (success) async {
           setBusy(false);
-          print('QQWERTYUIOPLJSZXCVBNMASFDHJKLAWSEDTFGHSDTFYGUH');
-          print('QQWERTYUIOPLJSZXBHJKGJKCVBNMASFDHJKLAWSEDTFGHSDTFYGUH');
-          print('QQWERTYUIOPLJSZXCVBNMASHJKFGHKFDHJKLAWSEDTFGHSDTFYGUH');
-          print('QQWERTYUIOPLJSZXCVBNMASFDHJKLAEWERWSREWSEDTFGHSDTFYGUH');
-          print('QQWERTYUIOPLJSZXCVBNMASFDHJKLAWSEDTFGH67856FSDTFYGUH');
           await showConfirmationDialog();
         },
       );

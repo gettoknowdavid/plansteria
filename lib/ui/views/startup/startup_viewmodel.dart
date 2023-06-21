@@ -19,6 +19,14 @@ class StartupViewModel extends ReactiveViewModel {
   // Place anything here that needs to happen before we get into the application
   Future runStartupLogic() async {
     await Future.delayed(const Duration(seconds: 3));
+    LocationPermission permission;
+
+    permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    }
+
     await _authService.checkAuthenticated();
     await _authService.checkEmailVerified();
     FlutterNativeSplash.remove();
@@ -38,7 +46,6 @@ class StartupViewModel extends ReactiveViewModel {
 
       if (isAuthenticated && isEmailVerified == true) {
         await _chatService.loadChatHistory();
-        await Geolocator.checkPermission();
         await _locationService.determinePosition();
 
         _navigationService.clearStackAndShow(Routes.layoutView);

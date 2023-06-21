@@ -59,7 +59,7 @@ class Event with _$Event {
     required List<String?> photoUrls,
     bool? featured,
     required String email,
-    required String phone,
+    String? phone,
     required String creatorId,
     List<String>? guestIds,
   }) = _Event;

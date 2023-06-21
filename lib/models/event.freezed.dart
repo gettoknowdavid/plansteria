@@ -41,7 +41,7 @@ mixin _$Event {
   List<String?> get photoUrls => throw _privateConstructorUsedError;
   bool? get featured => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
-  String get phone => throw _privateConstructorUsedError;
+  String? get phone => throw _privateConstructorUsedError;
   String get creatorId => throw _privateConstructorUsedError;
   List<String>? get guestIds => throw _privateConstructorUsedError;
 
@@ -73,7 +73,7 @@ abstract class $EventCopyWith<$Res> {
       List<String?> photoUrls,
       bool? featured,
       String email,
-      String phone,
+      String? phone,
       String creatorId,
       List<String>? guestIds});
 }
@@ -108,7 +108,7 @@ class _$EventCopyWithImpl<$Res, $Val extends Event>
     Object? photoUrls = null,
     Object? featured = freezed,
     Object? email = null,
-    Object? phone = null,
+    Object? phone = freezed,
     Object? creatorId = null,
     Object? guestIds = freezed,
   }) {
@@ -181,10 +181,10 @@ class _$EventCopyWithImpl<$Res, $Val extends Event>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      phone: null == phone
+      phone: freezed == phone
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       creatorId: null == creatorId
           ? _value.creatorId
           : creatorId // ignore: cast_nullable_to_non_nullable
@@ -221,7 +221,7 @@ abstract class _$$_EventCopyWith<$Res> implements $EventCopyWith<$Res> {
       List<String?> photoUrls,
       bool? featured,
       String email,
-      String phone,
+      String? phone,
       String creatorId,
       List<String>? guestIds});
 }
@@ -252,7 +252,7 @@ class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
     Object? photoUrls = null,
     Object? featured = freezed,
     Object? email = null,
-    Object? phone = null,
+    Object? phone = freezed,
     Object? creatorId = null,
     Object? guestIds = freezed,
   }) {
@@ -325,10 +325,10 @@ class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      phone: null == phone
+      phone: freezed == phone
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       creatorId: null == creatorId
           ? _value.creatorId
           : creatorId // ignore: cast_nullable_to_non_nullable
@@ -362,7 +362,7 @@ class _$_Event implements _Event {
       required final List<String?> photoUrls,
       this.featured,
       required this.email,
-      required this.phone,
+      this.phone,
       required this.creatorId,
       final List<String>? guestIds})
       : _photoUrls = photoUrls,
@@ -416,7 +416,7 @@ class _$_Event implements _Event {
   @override
   final String email;
   @override
-  final String phone;
+  final String? phone;
   @override
   final String creatorId;
   final List<String>? _guestIds;
@@ -527,7 +527,7 @@ abstract class _Event implements Event {
       required final List<String?> photoUrls,
       final bool? featured,
       required final String email,
-      required final String phone,
+      final String? phone,
       required final String creatorId,
       final List<String>? guestIds}) = _$_Event;
 
@@ -572,7 +572,7 @@ abstract class _Event implements Event {
   @override
   String get email;
   @override
-  String get phone;
+  String? get phone;
   @override
   String get creatorId;
   @override

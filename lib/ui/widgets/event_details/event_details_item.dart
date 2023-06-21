@@ -6,14 +6,14 @@ import 'package:google_fonts/google_fonts.dart';
 class EventDetailsItem extends StatelessWidget {
   final IconData icon;
   final String title;
-  final String subtitle;
+  final String? subtitle;
   final void Function()? onTap;
 
   const EventDetailsItem({
     super.key,
     required this.icon,
     required this.title,
-    required this.subtitle,
+    this.subtitle,
     this.onTap,
   });
 
@@ -56,7 +56,8 @@ class EventDetailsItem extends StatelessWidget {
                       fontFamily: GoogleFonts.roboto().fontFamily,
                     ),
                   ),
-                  Text(subtitle, style: textTheme.bodySmall),
+                  if (subtitle != null)
+                    Text(subtitle!, style: textTheme.bodySmall),
                 ],
               ),
             ),

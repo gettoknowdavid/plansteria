@@ -18,15 +18,18 @@ class MoreEventsView extends StackedView<MoreEventsViewModel> {
     if (!viewModel.dataReady && viewModel.isBusy) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
-    return Scaffold(
-      appBar: AppBar(
-        leadingWidth: 70.r,
-        leading: const Center(child: AppBackButton()),
-        title: Text(viewModel.title),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(kGlobalPadding).r,
-        child: _EventsList(events: viewModel.data!),
+    return RefreshIndicator.adaptive(
+      onRefresh: viewModel.initialise,
+      child: Scaffold(
+        appBar: AppBar(
+          leadingWidth: 70.r,
+          leading: const Center(child: AppBackButton()),
+          title: Text(viewModel.title),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(kGlobalPadding).r,
+          child: _EventsList(events: viewModel.data!),
+        ),
       ),
     );
   }
@@ -42,6 +45,7 @@ class _EventsList extends ViewModelWidget<MoreEventsViewModel> {
   @override
   Widget build(BuildContext context, MoreEventsViewModel viewModel) {
     return ListView.separated(
+      physics: const AlwaysScrollableScrollPhysics(),
       shrinkWrap: true,
       primary: false,
       separatorBuilder: (context, index) => 16.verticalSpace,

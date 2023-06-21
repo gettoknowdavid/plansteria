@@ -49,166 +49,170 @@ class EventDetailsView extends StackedView<EventDetailsViewModel> {
     );
 
     final isAttending = viewModel.isAttending;
+    final isEventPast = event.endTime?.isBefore(DateTime.now()) == true;
 
-    return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
-      body: NestedScrollView(
-        controller: scrollController,
-        body: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          primary: false,
+    return RefreshIndicator.adaptive(
+      onRefresh: () => viewModel.init(event.uid, isFromLayoutView),
+      child: Scaffold(
+        backgroundColor: theme.scaffoldBackgroundColor,
+        body: NestedScrollView(
           controller: scrollController,
-          padding: kEventDetailsHorPadding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              20.verticalSpace,
-              if (!viewModel.isAuthUser)
-                const CreatorSection()
-              else
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    TextButton.icon(
-                      onPressed: viewModel.onEditPressed,
-                      icon: const Icon(PhosphorIcons.pencil),
-                      label: const Text('Edit'),
+          body: SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            primary: false,
+            controller: scrollController,
+            padding: kEventDetailsHorPadding,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                20.verticalSpace,
+                if (!viewModel.isAuthUser)
+                  const CreatorSection()
+                else
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      TextButton.icon(
+                        onPressed: viewModel.onEditPressed,
+                        icon: const Icon(PhosphorIcons.pencil),
+                        label: const Text('Edit'),
+                      ),
+                      TextButton.icon(
+                        onPressed: () => viewModel.onDeletePressed(event.uid),
+                        icon: const Icon(PhosphorIcons.trash),
+                        style:
+                            TextButton.styleFrom(foregroundColor: Colors.red),
+                        label: const Text('Delete'),
+                      )
+                    ],
+                  ),
+                24.verticalSpace,
+                Text(
+                  data.name,
+                  style: textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                16.verticalSpace,
+                EventDetailsItem(
+                  icon: PhosphorIcons.calendar,
+                  title: isEventPast ? 'This event is closed.' : date,
+                  subtitle: isEventPast ? null : time,
+                ),
+                16.verticalSpace,
+                EventDetailsItem(
+                  icon: PhosphorIcons.mapPin,
+                  title: data.address,
+                  subtitle: 'View on Map',
+                  onTap: viewModel.showMapBottomSheet,
+                ),
+                16.verticalSpace,
+                EventDetailsItem(
+                  icon: PhosphorIcons.ticket,
+                  title:
+                      viewModel.isPaid ? currency.format(event.price) : 'Free',
+                  subtitle: 'Gate/Ticket Fee',
+                  onTap: viewModel.showPriceInformation,
+                ),
+                16.verticalSpace,
+                StreamBuilder<int>(
+                  stream: viewModel.numberOfGuestsStream(data.uid),
+                  builder: (context, snapshot) {
+                    return EventDetailsItem(
+                      icon: PhosphorIcons.usersThree,
+                      title: snapshot.hasData
+                          ? '${snapshot.data} attending'
+                          : 'Loading...',
+                      subtitle: 'Number of guests',
+                      onTap: viewModel.navigateToGuestsList,
+                    );
+                  },
+                ),
+                20.verticalSpace,
+                if (data.description?.isNotEmpty == true) ...[
+                  Text(
+                    'About this event',
+                    style: textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.bold,
                     ),
-                    TextButton.icon(
-                      onPressed: () => viewModel.onDeletePressed(event.uid),
-                      icon: const Icon(PhosphorIcons.trash),
-                      style: TextButton.styleFrom(foregroundColor: Colors.red),
-                      label: const Text('Delete'),
-                    )
-                  ],
-                ),
-              24.verticalSpace,
-              Text(
-                data.name,
-                style: textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              16.verticalSpace,
-              EventDetailsItem(
-                icon: PhosphorIcons.calendar,
-                title: date,
-                subtitle: time,
-              ),
-              16.verticalSpace,
-              EventDetailsItem(
-                icon: PhosphorIcons.mapPin,
-                title: data.address,
-                subtitle: 'View on Map',
-                onTap: viewModel.showMapBottomSheet,
-              ),
-              16.verticalSpace,
-              EventDetailsItem(
-                icon: PhosphorIcons.ticket,
-                title: viewModel.isPaid ? currency.format(event.price) : 'Free',
-                subtitle: 'Gate/Ticket Fee',
-                onTap: viewModel.showPriceInformation,
-              ),
-              16.verticalSpace,
-              StreamBuilder<int>(
-                stream: viewModel.numberOfGuestsStream(data.uid),
-                builder: (context, snapshot) {
-                  return EventDetailsItem(
-                    icon: PhosphorIcons.usersThree,
-                    title: snapshot.hasData
-                        ? '${snapshot.data} attending'
-                        : 'Loading...',
-                    subtitle: 'Number of guests',
-                    onTap: viewModel.isAuthUser
-                        ? viewModel.navigateToGuestsList
-                        : null,
-                  );
-                },
-              ),
-              20.verticalSpace,
-              if (data.description?.isNotEmpty == true) ...[
-                Text(
-                  'About this event',
-                  style: textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.bold,
                   ),
-                ),
-                ReadMoreText(
-                  data.description!,
-                  trimLines: 3,
-                  colorClickableText: Colors.pink,
-                  trimMode: TrimMode.Line,
-                  trimCollapsedText: 'Show more',
-                  trimExpandedText: 'Show less',
-                  style: textTheme.bodySmall,
-                  moreStyle: textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.bold,
+                  ReadMoreText(
+                    data.description!,
+                    trimLines: 3,
+                    colorClickableText: Colors.pink,
+                    trimMode: TrimMode.Line,
+                    trimCollapsedText: 'Show more',
+                    trimExpandedText: 'Show less',
+                    style: textTheme.bodySmall,
+                    moreStyle: textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                10.verticalSpace
-              ],
-              if (data.notes?.isNotEmpty == true) ...[
-                Text(
-                  'Please note',
-                  style: textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.bold,
+                  10.verticalSpace
+                ],
+                if (data.notes?.isNotEmpty == true) ...[
+                  Text(
+                    'Please note',
+                    style: textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                ReadMoreText(
-                  data.notes!,
-                  trimLines: 3,
-                  colorClickableText: Colors.pink,
-                  trimMode: TrimMode.Line,
-                  trimCollapsedText: 'Show more',
-                  trimExpandedText: 'Show less',
-                  style: textTheme.bodySmall,
-                  moreStyle: textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.bold,
+                  ReadMoreText(
+                    data.notes!,
+                    trimLines: 3,
+                    colorClickableText: Colors.pink,
+                    trimMode: TrimMode.Line,
+                    trimCollapsedText: 'Show more',
+                    trimExpandedText: 'Show less',
+                    style: textTheme.bodySmall,
+                    moreStyle: textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
+                  10.verticalSpace,
+                ],
+                if (data.price != null) ...[
+                  Text(
+                    'Ticket Price',
+                    style: textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    '${currency.format(data.price)} per person',
+                    style: textTheme.bodyMedium?.copyWith(
+                      fontFamily: GoogleFonts.roboto().fontFamily,
+                    ),
+                  ),
+                  10.verticalSpace,
+                ],
                 10.verticalSpace,
+                if (!viewModel.isAuthUser && event.date.isAfter(DateTime.now()))
+                  AppButton(
+                    loading: viewModel.busy(viewModel.isAttendingReactive),
+                    onPressed: isAttending
+                        ? viewModel.onLeavePressed
+                        : viewModel.onAttendPressed,
+                    background: isAttending ? Colors.red : null,
+                    foreground: isAttending ? Colors.white : null,
+                    title: isAttending ? 'Leave' : 'Join',
+                  )
               ],
-              if (data.price != null) ...[
-                Text(
-                  'Ticket Price',
-                  style: textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  '${currency.format(data.price)} per person',
-                  style: textTheme.bodyMedium?.copyWith(
-                    fontFamily: GoogleFonts.roboto().fontFamily,
-                  ),
-                ),
-                10.verticalSpace,
-              ],
-              10.verticalSpace,
-              if (!viewModel.isAuthUser && event.date.isAfter(DateTime.now()))
-                AppButton(
-                  loading: viewModel.busy(viewModel.isAttendingReactive),
-                  onPressed: isAttending
-                      ? viewModel.onLeavePressed
-                      : viewModel.onAttendPressed,
-                  background: isAttending ? Colors.red : null,
-                  foreground: isAttending ? Colors.white : null,
-                  title: isAttending ? 'Leave' : 'Join',
-                )
-            ],
+            ),
           ),
+          headerSliverBuilder: (context, innerBoxIsScrolled) => [
+            SliverAppBar(
+              floating: true,
+              leadingWidth: 70.w,
+              expandedHeight: 0.32.sh,
+              forceElevated: innerBoxIsScrolled,
+              flexibleSpace: const EventDetailsHeader(),
+              leading: const Center(child: AppBackButton(addColor: true)),
+              iconTheme: theme.iconTheme.copyWith(color: Colors.white),
+              actionsIconTheme: theme.iconTheme.copyWith(color: Colors.white),
+            ),
+          ],
         ),
-        headerSliverBuilder: (context, innerBoxIsScrolled) => [
-          SliverAppBar(
-            floating: true,
-            leadingWidth: 70.w,
-            expandedHeight: 0.32.sh,
-            forceElevated: innerBoxIsScrolled,
-            flexibleSpace: const EventDetailsHeader(),
-            leading: const Center(child: AppBackButton(addColor: true)),
-            iconTheme: theme.iconTheme.copyWith(color: Colors.white),
-            actionsIconTheme: theme.iconTheme.copyWith(color: Colors.white),
-          ),
-        ],
       ),
     );
   }

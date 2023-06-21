@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:plansteria/ui/bottom_sheets/info/info_sheet.dart';
 import 'package:plansteria/ui/bottom_sheets/map_address/map_address_sheet.dart';
 import 'package:plansteria/ui/common/app_theme.dart';
 import 'package:plansteria/ui/layout/layout_view.dart';
 import 'package:plansteria/ui/views/about/about_view.dart';
+import 'package:plansteria/ui/views/more_events/more_events_view.dart';
 import 'package:plansteria/ui/views/onboarding/onboarding_view.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -16,9 +18,6 @@ import '../ui/dialogs/dialogs.dart';
 import '../ui/layout/layout.dart';
 import '../ui/views/views.dart';
 import 'app.router.dart';
-
-import 'package:plansteria/ui/views/more_events/more_events_view.dart';
-import 'package:plansteria/ui/bottom_sheets/info/info_sheet.dart';
 // @stacked-import
 
 @StackedApp(
@@ -52,7 +51,7 @@ import 'package:plansteria/ui/bottom_sheets/info/info_sheet.dart';
     MaterialRoute(page: OnboardingView),
     MaterialRoute(page: AboutView),
 
-MaterialRoute(page: MoreEventsView),
+    MaterialRoute(page: MoreEventsView),
 // @stacked-route
   ],
   dependencies: [
@@ -85,7 +84,7 @@ MaterialRoute(page: MoreEventsView),
     StackedBottomsheet(classType: ThemeSheet),
     StackedBottomsheet(classType: MapAddressSheet),
 
-StackedBottomsheet(classType: InfoSheet),
+    StackedBottomsheet(classType: InfoSheet),
 // @stacked-bottom-sheet
   ],
   dialogs: [
@@ -122,10 +121,10 @@ class App extends StatelessWidget {
               onGenerateRoute: StackedRouter().onGenerateRoute,
               navigatorKey: StackedService.navigatorKey,
               navigatorObservers: [StackedService.routeObserver],
-              builder: (context, child) => MediaQuery(
-                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-                child: child!,
-              ),
+              // builder: (context, child) => MediaQuery(
+              //   data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              //   child: child!,
+              // ),
             );
           },
         );

@@ -41,9 +41,15 @@ class HomeView extends StackedView<HomeViewModel> {
           children: [
             10.verticalSpace,
             if (viewModel.featuredEvent != null) ...[
-              const SectionTitle(
+              SectionTitle(
                 'Featured Event',
-                child: FeaturedEvent(),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: 0.31.sh,
+                    minHeight: 0.3.sh,
+                  ),
+                  child: const FeaturedEvent(),
+                ),
               ),
               20.verticalSpace,
             ],

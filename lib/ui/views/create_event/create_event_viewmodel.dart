@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:intl/intl.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:plansteria/app/app.locator.dart';
 import 'package:plansteria/app/app.router.dart';
 import 'package:plansteria/app/app.snackbars.dart';
@@ -41,7 +42,7 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
   final _photoUrls = ReactiveValue<List<String?>>([]);
   final _currentIndex = ReactiveValue<int>(0);
   final _isPhoneValid = ReactiveValue<bool>(false);
-
+  final _intlPhoneNumber = ReactiveValue<PhoneNumber?>(null);
   final _selectedPlace = ReactiveValue<Place?>(null);
 
   CreateEventViewModel() {
@@ -54,6 +55,7 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
       _editing,
       _isPhoneValid,
       _selectedPlace,
+      _intlPhoneNumber,
     ]);
   }
 
@@ -63,6 +65,7 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
   User get currentUser => _authService.currentUser!;
   NetworkStatus get networkStatus => _networkService.status;
   Placemark? get placemark => _locationService.placemark;
+  PhoneNumber? get intlPhoneNumber => _intlPhoneNumber.value;
 
   bool get disabled =>
       !hasName ||
@@ -102,6 +105,11 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
 
   void setPhoneValidity(bool value) {
     _isPhoneValid.value = value;
+    notifyListeners();
+  }
+
+  void setPhoneInput(PhoneNumber value) {
+    _intlPhoneNumber.value = value;
     notifyListeners();
   }
 
@@ -209,7 +217,7 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
               ? null
               : int.parse(numberOfGuestsValue!),
       email: emailValue!,
-      phone: phoneValue!,
+      phone: _intlPhoneNumber.value?.phoneNumber,
       photoUrls: _photoUrls.value,
       creatorId: currentUser.uid,
     );
@@ -333,6 +341,10 @@ class CreateEventViewModel extends FormViewModel with ListenableServiceMixin {
     _addressController = addressController;
     _stateController = stateController;
     _cityController = cityController;
+    _intlPhoneNumber.value = PhoneNumber(
+      isoCode: placemark?.isoCountryCode,
+      phoneNumber: currentUser.phone,
+    );
   }
 
   String timeFormatter(List<DateTime>? selectedDate) {
