@@ -59,7 +59,6 @@ class FeaturedEvent extends ViewModelWidget<HomeViewModel> {
                       width: 1.sw,
                       child: const StackedAvatarWidget(),
                     ),
-                    5.verticalSpace,
                   ],
                 ),
               ),

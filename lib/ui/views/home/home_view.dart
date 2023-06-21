@@ -43,11 +43,8 @@ class HomeView extends StackedView<HomeViewModel> {
             if (viewModel.featuredEvent != null) ...[
               SectionTitle(
                 'Featured Event',
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxHeight: 0.31.sh,
-                    minHeight: 0.3.sh,
-                  ),
+                child: LimitedBox(
+                  maxHeight: 0.3.sh,
                   child: const FeaturedEvent(),
                 ),
               ),
